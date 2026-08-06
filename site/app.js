@@ -263,6 +263,8 @@ async function showStatus() {
     </div>
     <div class="detail-section">
       <h4>Most recent source fetches</h4>
+      <p class="cost-note">Showing the ${Object.keys(s.sources_fetched).length} newest of
+        ${(s.sources_fetched_total || 0).toLocaleString()} URLs fetched in the last refresh.</p>
       <table class="status-table"><tbody>${rows}</tbody></table>
     </div>`;
   $("#detail-modal").hidden = false;

@@ -33,8 +33,17 @@ from common import (CURATED, FIXTURES, FIXTURES_MODE, Manifest, OUT,
                     fetch_json, http_get, load_config, normalise_issn,
                     read_json, utcnow, write_json)
 
-OPENALEX_BATCH = 50
+# OpenAlex bills a flat $0.0001 per request regardless of page size, and the
+# free API key allows $1/day (~10,000 requests); anonymous callers get $0.10.
+# So the pipeline is tuned to make few, large requests: 100 ISSNs per OR-filter
+# and the maximum 200 records per page keeps a full refresh under ~800 calls.
+OPENALEX_BATCH = 100
 PER_PAGE = 200
+PUBLISHER_BATCH = 25          # publisher IDs per host_organization_lineage filter
+
+# Running total of OpenAlex spend, reported at the end of the run.
+_openalex_cost = 0.0
+_openalex_calls = 0
 
 
 def openalex_params(cfg: dict, extra: dict) -> dict:
@@ -43,6 +52,15 @@ def openalex_params(cfg: dict, extra: dict) -> dict:
     if key:
         params["api_key"] = key
     return params
+
+
+def openalex_get(cfg, manifest, session, url, key, params) -> dict:
+    """fetch_json plus OpenAlex spend accounting."""
+    global _openalex_cost, _openalex_calls
+    data = fetch_json(url, manifest, key, session, openalex_params(cfg, params))
+    _openalex_calls += 1
+    _openalex_cost += (data.get("meta") or {}).get("cost_usd") or 0.0
+    return data
 
 
 def compact_openalex(src: dict) -> dict:
@@ -78,49 +96,75 @@ def fetch_openalex_by_issns(cfg, manifest, session, issns: list[str]) -> dict:
     issns = sorted(set(issns))
     for i in range(0, len(issns), OPENALEX_BATCH):
         batch = issns[i:i + OPENALEX_BATCH]
-        params = openalex_params(cfg, {
-            "filter": "issn:" + "|".join(batch),
-            "per-page": PER_PAGE,
-        })
-        data = fetch_json(base, manifest, f"openalex_issn_batch_{i}", session, params)
+        data = openalex_get(cfg, manifest, session, base,
+                            f"openalex_issn_batch_{i}",
+                            {"filter": "issn:" + "|".join(batch),
+                             "per-page": PER_PAGE})
         for src in data.get("results", []):
             rec = compact_openalex(src)
             if rec["issn_l"]:
                 out[rec["issn_l"]] = rec
         time.sleep(0.15)
-        if i % 1000 == 0:
-            print(f"  openalex issn batches: {i}/{len(issns)}")
+        if i % (OPENALEX_BATCH * 20) == 0:
+            print(f"  openalex issn batches: {i}/{len(issns)} ({len(out)} sources)")
     return out
 
 
+def resolve_publisher_ids(cfg, manifest, session, names: list[str]) -> dict[str, str]:
+    """Allowlist publisher names → OpenAlex publisher IDs.
+
+    Resolving to IDs first means the journal sweep can filter on
+    host_organization_lineage, which returns exactly the allowlisted
+    publishers' journals (imprints and subsidiaries included, via the lineage)
+    instead of paging through every source that merely mentions the name.
+    """
+    base = cfg["sources"]["openalex_api"] + "/publishers"
+    ids: dict[str, str] = {}
+    for name in names:
+        data = openalex_get(cfg, manifest, session, base,
+                            f"openalex_publisher_{name[:24]}",
+                            {"search": name, "per-page": 25})
+        for p in data.get("results", []):
+            display = p.get("display_name") or ""
+            # Containment, not fuzzy relevance: a search for "IEEE" must not
+            # drag in whatever OpenAlex ranks third for the term.
+            if name.lower() in display.lower():
+                ids[(p.get("id") or "").rsplit("/", 1)[-1]] = display
+        time.sleep(0.15)
+    ids.pop("", None)
+    return ids
+
+
 def fetch_openalex_by_publishers(cfg, manifest, session, patterns: list[str]) -> dict:
-    """All journal sources whose host organization matches the allowlist.
-    Uses OpenAlex search on host_organization name, then regex-filters."""
-    import re
+    """Every journal published by an allowlisted publisher."""
     out: dict[str, dict] = {}
     base = cfg["sources"]["openalex_api"] + "/sources"
-    rx = re.compile("|".join(f"(?:{p})" for p in patterns), re.I)
-    # Page through all journal-type sources with works in the last 5 years is
-    # too broad; instead search per-publisher name.
-    for pat in patterns:
+
+    pub_ids = resolve_publisher_ids(cfg, manifest, session, patterns)
+    print(f"  resolved {len(patterns)} allowlist names to "
+          f"{len(pub_ids)} OpenAlex publishers")
+
+    ordered = sorted(pub_ids)
+    for i in range(0, len(ordered), PUBLISHER_BATCH):
+        batch = ordered[i:i + PUBLISHER_BATCH]
         cursor = "*"
+        page = 0
         while cursor:
-            params = openalex_params(cfg, {
-                "search": pat,
-                "filter": "type:journal",
-                "per-page": PER_PAGE,
-                "cursor": cursor,
-            })
-            data = fetch_json(base, manifest, f"openalex_pub_{pat[:20]}_{cursor[:8]}",
-                              session, params)
+            data = openalex_get(
+                cfg, manifest, session, base,
+                f"openalex_pub_batch_{i}_p{page}",
+                {"filter": ("host_organization_lineage:" + "|".join(batch)
+                            + ",type:journal"),
+                 "per-page": PER_PAGE,
+                 "cursor": cursor})
             for src in data.get("results", []):
-                name = src.get("host_organization_name") or ""
-                if rx.search(name):
-                    rec = compact_openalex(src)
-                    if rec["issn_l"]:
-                        out.setdefault(rec["issn_l"], rec)
+                rec = compact_openalex(src)
+                if rec["issn_l"]:
+                    out.setdefault(rec["issn_l"], rec)
             cursor = (data.get("meta") or {}).get("next_cursor")
+            page += 1
             time.sleep(0.15)
+        print(f"  publisher batch {i // PUBLISHER_BATCH + 1}: {len(out)} journals so far")
     return out
 
 
@@ -230,6 +274,14 @@ def main() -> None:
     write_json(out_path, meta)
     print(f"Done: {len(openalex)} OpenAlex records, {len(doaj)} DOAJ ISSNs, "
           f"{len(withdrawn)} withdrawal entries")
+
+    # The free daily allowance is $1.00 with an API key, $0.10 anonymously.
+    budget = 1.00 if os.environ.get("OPENALEX_API_KEY") else 0.10
+    print(f"OpenAlex spend: ${_openalex_cost:.4f} over {_openalex_calls} calls "
+          f"({_openalex_cost / budget:.0%} of the ${budget:.2f} daily free allowance)")
+    if _openalex_cost > budget * 0.8:
+        print("  WARNING: within 20% of the daily OpenAlex allowance. Set the "
+              "OPENALEX_API_KEY secret, or reduce the publisher allowlist.")
 
 
 if __name__ == "__main__":

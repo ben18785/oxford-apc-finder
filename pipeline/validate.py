@@ -13,8 +13,10 @@ Exit code != 0 blocks deploy; the site keeps serving last week's data.
 """
 from __future__ import annotations
 
+import os
 import random
 import sys
+from datetime import datetime, timezone
 
 from common import (FIXTURES_MODE, OUT, ROOT, http_get, load_config,
                     read_json)
@@ -71,11 +73,23 @@ def check_oracle(data: dict, cfg: dict) -> list[str]:
     if FIXTURES_MODE:
         print("  [fixtures] oracle check skipped (no network)")
         return []
+    if os.environ.get("APC_SKIP_ORACLE") == "1":
+        print("  oracle check skipped (APC_SKIP_ORACLE=1)")
+        return []
     ror = cfg["institution_ror"]
     api = cfg["sources"]["jct_api"]
-    sample = random.sample(data["journals"],
-                           min(cfg["validation"]["oracle_sample_size"],
-                               len(data["journals"])))
+
+    # Seeded on the date so a failing build can be re-run against the same
+    # sample once the data is fixed, while still rotating week to week.
+    rng = random.Random(datetime.now(timezone.utc).strftime("%Y-%m-%d"))
+    n = cfg["validation"]["oracle_sample_size"]
+    covered = [j for j in data["journals"] if j["deal"]["status"] == "covered"]
+    uncovered = [j for j in data["journals"] if j["deal"]["status"] != "covered"]
+    # Stratified: an unstratified sample is almost all uncovered journals, so
+    # it would barely exercise the coverage logic that matters most.
+    sample = (rng.sample(covered, min(n // 2, len(covered)))
+              + rng.sample(uncovered, min(n - n // 2, len(uncovered))))
+
     errors = []
     for j in sample:
         issn = j["issns"][0]

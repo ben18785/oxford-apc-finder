@@ -1,0 +1,135 @@
+name: Refresh data and deploy
+
+# Weekly refresh. To go daily, change the cron to '17 4 * * *' — the pipeline
+# is well inside the free tiers of every source it touches.
+on:
+  schedule:
+    - cron: '17 4 * * 1'          # Mondays 04:17 UTC
+  workflow_dispatch:
+    inputs:
+      skip_oracle:
+        description: 'Skip the live JCT oracle cross-check (use only to unblock a known-good build)'
+        type: boolean
+        default: false
+  push:
+    branches: [main]
+    paths:                        # site/pipeline changes redeploy from existing data
+      - 'site/**'
+      - 'pipeline/**'
+      - 'config.yaml'
+      - 'data/curated/**'
+      - '.github/workflows/refresh-and-deploy.yml'
+
+permissions:
+  contents: write                 # commit refreshed baselines back to main
+  pages: write
+  id-token: write
+  issues: write                   # open the Bodleian needs-review issue
+
+# Never let two refreshes race on the Pages deployment or on the commit.
+concurrency:
+  group: refresh-and-deploy
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # The site's report box links to issues/new?labels=user-report. GitHub
+      # drops labels that don't exist, so create them once, idempotently.
+      - name: Ensure issue labels exist
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create user-report  --color 0E8A16 --description "Reported from the site's report box" --force
+          gh label create data-error   --color D93F0B --description "Something on the site is wrong" --force
+          gh label create needs-review --color FBCA04 --description "A watched source changed" --force
+          gh label create broken-links --color D93F0B --description "Link checker found a dead URL" --force
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: pipeline/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r pipeline/requirements.txt
+
+      # --- Stage 2 runs on its own because a changed Bodleian page is a
+      # "human, come and look" signal, not a build failure. Exit 3 means the
+      # page moved; the curated overlay may need a matching edit.
+      - name: Watch the Bodleian deals page
+        id: bodleian
+        continue-on-error: true
+        run: python pipeline/watch_bodleian.py
+
+      - name: Open a needs-review issue if the Bodleian page changed
+        if: steps.bodleian.outcome == 'failure' && hashFiles('data/cache/bodleian_diff.txt') != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          {
+            echo "The Bodleian publisher-deals page changed since the last refresh."
+            echo
+            echo "Check whether \`data/curated/oxford_overrides.yaml\` needs a matching edit,"
+            echo "then close this issue. The stored snapshot has already been updated to match"
+            echo "the live page, so this will not fire again for the same change."
+            echo
+            echo '<details><summary>Text diff</summary>'
+            echo
+            echo '```diff'
+            head -c 50000 data/cache/bodleian_diff.txt
+            echo
+            echo '```'
+            echo '</details>'
+          } > /tmp/issue-body.md
+          gh issue create \
+            --title "Bodleian deals page changed — review oxford_overrides.yaml ($(date -u +%Y-%m-%d))" \
+            --body-file /tmp/issue-body.md \
+            --label needs-review
+
+      # --- Stages 1, 3, 4, 5, 6. Any failure here aborts before deploy, so the
+      # live site keeps serving the last dataset that passed validation.
+      - name: Run the pipeline
+        env:
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+          APC_SKIP_ORACLE: ${{ inputs.skip_oracle && '1' || '' }}
+        run: python pipeline/run_all.py
+
+      - name: Commit refreshed baselines
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -A data/out/last_counts.json data/curated/bodleian_snapshot.txt \
+                     data/cache/manifest.json
+          if git diff --cached --quiet; then
+            echo "No baseline changes to commit."
+          else
+            git commit -m "chore(data): refresh baselines [skip ci]"
+            git push
+          fi
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deploy
+        uses: actions/deploy-pages@v4
+
+      # Keep the built dataset around for a fortnight so a bad week can be
+      # diagnosed (or rolled back) without re-running every fetch.
+      - name: Archive the dataset
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dataset-${{ github.run_number }}
+          path: |
+            data/out/
+            data/cache/manifest.json
+          retention-days: 14

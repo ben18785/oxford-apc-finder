@@ -37,8 +37,9 @@ The pipeline is six numbered scripts in `pipeline/`:
 | `watch_bodleian.py` | Diffs the Bodleian deals page vs the stored snapshot; on change, exits 3 so CI opens a `needs-review` issue |
 | `fetch_metadata.py` | OpenAlex + DOAJ records for every in-scope ISSN → `data/out/metadata.json` |
 | `merge.py` | Joins everything, applies inclusion policy, computes cost, attaches per-fact provenance → `data/out/journals.json` |
-| `validate.py` | Schema checks, week-on-week drop threshold, and a live cross-check of a random sample against the JCT API |
+| `validate.py` | Schema checks, week-on-week drop threshold, and a live cross-check against the JCT API of a date-seeded sample stratified across covered/uncovered journals |
 | `build_site.py` | Emits the static site + search index into `_site/` |
+| `collect_links.py` | Gathers the URLs the site can show, for the link-check workflow (not part of `run_all.py`) |
 
 Run the whole thing:
 
@@ -68,25 +69,44 @@ GitHub account to click "submit".
 
 ---
 
-## Setup (two manual steps)
+## Setup
 
-1. **Point the site at your repo.** Edit `config.yaml` and set
-   `github_repo: "your-username/your-repo"` (used for the report links).
+1. **Point the site at your repo.** `config.yaml` → `github_repo` (used for the
+   report links). Already set to `ben18785/oxford-apc-finder`.
 
 2. **Enable GitHub Pages.** Repo → Settings → Pages → Build and deployment →
-   Source: **GitHub Actions**. Push to `main`; the
-   `refresh-and-deploy` workflow builds and publishes the site.
+   Source: **GitHub Actions**.
 
-Optional: add an `OPENALEX_API_KEY` repo secret (free from
-<https://openalex.org/settings/api>) to raise the OpenAlex free daily credit.
-The pipeline works without it at this scale.
+3. **Allow Actions to push.** Repo → Settings → Actions → General → Workflow
+   permissions → **Read and write permissions**. The refresh job commits the
+   updated `last_counts.json` / `bodleian_snapshot.txt` baselines back to `main`;
+   without this it fails at that step.
+
+4. **Add the `OPENALEX_API_KEY` secret** (free from
+   <https://openalex.org/settings/api>). OpenAlex bills $0.0001 per request and
+   allows **$1.00/day with a key, $0.10/day anonymously**. A full refresh makes
+   roughly 800 OpenAlex calls (~$0.08), which fits the free key comfortably but
+   sits right on the anonymous ceiling — without a key a refresh may be
+   truncated by rate limiting. `fetch_metadata.py` prints the run's spend and
+   warns at 80% of the allowance.
+
+Then push to `main`, or run the **Refresh data and deploy** workflow manually.
 
 ### Schedule
 
-`refresh-and-deploy.yml` runs weekly (Mon 05:30 UTC). To go daily — also free
-on a public repo — change the cron to `30 5 * * *`. `link-check.yml` runs the
-[lychee](https://github.com/lycheeverse/lychee) link checker over every
-outbound source URL a day later and opens a `dead-links` issue if any rot.
+`refresh-and-deploy.yml` runs weekly (Mon 04:17 UTC). To go daily — also free
+on a public repo, and within the OpenAlex allowance — change the cron to
+`17 4 * * *`. `link-check.yml` runs the
+[lychee](https://github.com/lycheeverse/lychee) link checker the next day
+(Tue 06:43 UTC) and opens a `broken-links` issue if anything rots.
+
+Link checking is split in two (`pipeline/collect_links.py`): every
+*infrastructure* link — the Bodleian pages, JCT agreement CSVs, publisher deal
+pages, API endpoints — is checked every run, because one dead URL there breaks
+the same link for thousands of journals. The tens of thousands of third-party
+journal homepages are checked in a rotating deterministic hash bucket (1/26 per
+run) so the whole set is covered roughly twice a year without hammering
+publishers weekly.
 
 ## Data sources & licenses
 

@@ -2,8 +2,7 @@
 site_title: "Oxford Journal APC Finder"
 site_tagline: "Which journals do Oxford's open-access deals cover — and what will publishing cost?"
 # GitHub repository that hosts this site (used for error-report links).
-# CHANGE THIS after you create your repo:
-github_repo: "YOUR_GITHUB_USERNAME/oxford-apc-finder"
+github_repo: "ben18785/oxford-apc-finder"
 # University of Oxford ROR ID (https://ror.org/052gg0110)
 institution_ror: "052gg0110"
 institution_name: "University of Oxford"

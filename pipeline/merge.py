@@ -154,6 +154,8 @@ def main() -> None:
                         deal_sources.append({"label": f"{e['publisher_label']} details",
                                              "url": e["source_extra"]})
         else:
+            # Journal-or-publisher-specific overlay entries win: they are the
+            # more precise statement about this title.
             for e in other_entries:
                 if match_override(e, rec):
                     kind = e["kind"]
@@ -167,6 +169,27 @@ def main() -> None:
                     deal_sources.append({"label": "Bodleian publisher deals page",
                                          "url": e.get("source_extra") or bodleian_url})
                     break
+
+            # A publisher can be in a hybrid agreement AND offer Oxford a
+            # discount on its fully-gold titles. Those gold journals aren't in
+            # the agreement's journal list, so they fall through to here —
+            # apply the `also_discount` on that publisher's caveat entry.
+            if status == "none" and not deal_sources:
+                for e in caveat_entries:
+                    ad = e.get("also_discount") or {}
+                    rx = ad.get("match_publisher_regex")
+                    if rx and rec.get("publisher") and re.search(rx, rec["publisher"]):
+                        status, discount_pct = "discount", ad["pct"]
+                        caveats.append(
+                            f"{ad['pct']}% Oxford discount on {ad['applies_to']} — "
+                            f"this title is not in the {e['publisher_label']} "
+                            f"read-and-publish agreement.")
+                        deal_sources.append({"label": "Bodleian publisher deals page",
+                                             "url": bodleian_url})
+                        if e.get("source_extra"):
+                            deal_sources.append({"label": f"{e['publisher_label']} details",
+                                                 "url": e["source_extra"]})
+                        break
 
         in_doaj = rec.get("is_in_doaj") or bool(doaj_rec)
 

@@ -1,0 +1,61 @@
+name: Report a data error
+description: Something on the site is wrong, out of date, or has a dead link.
+title: "[data] "
+labels: ["data-error"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. This site is built from public data
+        ([JCT](https://journalcheckertool.org/transformative-agreements/),
+        [OpenAlex](https://openalex.org), [DOAJ](https://doaj.org)) plus a
+        hand-curated overlay of the
+        [Bodleian's publisher-deals page](https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals).
+
+        **For an authoritative answer about your own article, contact the
+        Bodleian's open access team at <oapayments@bodleian.ox.ac.uk>** — this
+        site is a finding aid, not an entitlement decision.
+
+  - type: input
+    id: journal
+    attributes:
+      label: Journal
+      description: Title and/or ISSN, or the page URL you were looking at.
+      placeholder: "Nature Communications (2041-1723)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What's wrong?
+      options:
+        - The deal shown is wrong (says covered when it isn't, or vice versa)
+        - The cost shown is wrong
+        - The scope or subject description is wrong
+        - A link is dead or goes to the wrong place
+        - The journal is missing entirely
+        - The journal shouldn't be listed
+        - Something else
+    validations:
+      required: true
+
+  - type: textarea
+    id: detail
+    attributes:
+      label: What should it say instead?
+      description: If you have a source that shows the correct answer, please link it — that's what makes the fix verifiable.
+    validations:
+      required: true
+
+  - type: input
+    id: source
+    attributes:
+      label: Source for the correct information
+      placeholder: "https://…"
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Page state
+      description: Auto-filled when you use the report box on the site. Leave as-is.

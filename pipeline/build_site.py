@@ -79,12 +79,18 @@ def main() -> None:
     # ---- status page data
     manifest_path = CACHE / "manifest.json"
     manifest = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
+    # A full refresh touches ~1,600 URLs. The status view shows the newest
+    # fetches, so sort by retrieval time rather than by key — an alphabetical
+    # slice would be an arbitrary sample labelled "most recent".
+    recent = sorted(manifest.items(),
+                    key=lambda kv: kv[1].get("retrieved", ""), reverse=True)[:50]
     write_json(datadir / "status.json", {
         "built": utcnow(),
         "dataset_generated": data["generated"],
         "counts": data["counts"],
+        "sources_fetched_total": len(manifest),
         "sources_fetched": {k: {"url": v["url"], "retrieved": v["retrieved"]}
-                            for k, v in sorted(manifest.items())[:400]},
+                            for k, v in recent},
     })
 
     write_json(SITE_OUT / "config.json", {
