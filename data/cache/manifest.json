@@ -95,6 +95,12 @@
   "sha256": "bbd5d390355992475030567f19093c9d093f5b27b7feb7405ab6f1debebdafff",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgvBZfq2CntvNqGVd27BYEjRIlbtjL-lQZnfp8wMNJEaedxOY9Q-SCkd5VEyB6CukR-kjty3o1xA6g/pub?gid=684626521&single=true&output=csv"
  },
+ "jct_ta_acm2026csal": {
+  "bytes": 6432,
+  "retrieved": "2026-08-06T16:08:53Z",
+  "sha256": "ce68eb3f7176a6f730ed8afb3747aa3e9c3e50447b4c8a34c87529212fc932e2",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQjc8t9i4goUV_-LBnBIsHD4Q4HPfST9fqCMZExprX0DK9E4ZReMNDJ0xXF9nnV3DSLNMtN0v0-qyZa/pub?gid=684626521&single=true&output=csv"
+ },
  "jct_ta_acm2026ie": {
   "bytes": 6904,
   "retrieved": "2026-08-06T16:01:22Z",
@@ -311,6 +317,12 @@
   "sha256": "96c88a8ef4960ac4cfbbd43fa758d95ec1168206ff0fac8ed251862fa13742d2",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vR8I73BT69nn1rXggI13YYgtjQDJfP23Ox7b4r94cWHamF9V_p2nlrc2NCfUrrWpeyNkLCmbl5YHoQK/pub?gid=684626521&single=true&output=csv"
  },
+ "jct_ta_aip2026jisc2": {
+  "bytes": 3925,
+  "retrieved": "2026-08-06T16:09:07Z",
+  "sha256": "43b2852dc3e48b946785de60dd69ded3fdd27ab0308c2dd0c1addf76af71ac5b",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQwLCN2GCk_u8_y8uEmiTg1MoX2lOLajzbWaZkXHETN8WMx3b8nQ-ieuDkPgnY-5OtOHY5bssOgfMgJ/pub?gid=684626521&single=true&output=csv"
+ },
  "jct_ta_aip2026kaust": {
   "bytes": 2050,
   "retrieved": "2026-08-06T16:06:35Z",
@@ -334,6 +346,12 @@
   "retrieved": "2026-08-06T16:06:06Z",
   "sha256": "001ffcf2c33370584f02fcf5dcc4547ff70c7eb893a42654ef1f1880a275fcaa",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSXw7Nt-X8-9Uewm1OrBBT_TXYCnL0kPBaUQZ2eIciKhCR5-jxXlWkubWizr9XQAP8PUUhu-I_2yNEI/pub?gid=684626521&single=true&output=csv"
+ },
+ "jct_ta_apa2024jisc": {
+  "bytes": 8507,
+  "retrieved": "2026-08-06T16:08:38Z",
+  "sha256": "40f5c082adc1740e070d9163515e9535f30579cdc8896b29d1ba42b70ab7c718",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmiLx4mepMEMUxDung8m9RL3cIFpDM_yY1iODrGoE9NfrI0VBVER0qH_s4Gj4m5JBnEeCyAfabta4u/pub?gid=684626521&single=true&output=csv"
  },
  "jct_ta_aps2023bibsam": {
   "bytes": 1267,
@@ -545,6 +563,12 @@
   "sha256": "c47088eeeea1416b5ae292f7d4a4f7552f8170de0df5570882025b8a85c1bfb4",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vREtF9nsKuAx8tfGCBdmjK4YW9Ap6IJsaW5-tDopgYko60uSAs7qL00XqF1NiMmzbFpdqWBEi_Vbpf5/pub?gid=684626521&single=true&output=csv"
  },
+ "jct_ta_cam2023lyrasis": {
+  "bytes": 30755,
+  "retrieved": "2026-08-06T16:09:09Z",
+  "sha256": "c4025b5feff573272685feb1f728259ea23d32cdf7a120338943dae2d9764ac0",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTrXerqukuNQIKYOIKUYVPFxM5HHr-8CiBYNecZUhPXdO1UJPJg1uTiY8gb_aaXuJLoyWUilJYcKxuC/pub?gid=684626521&single=true&output=csv"
+ },
  "jct_ta_cam2024csal": {
   "bytes": 29719,
   "retrieved": "2026-08-06T15:58:49Z",
@@ -658,6 +682,12 @@
   "retrieved": "2026-08-06T16:02:56Z",
   "sha256": "18f425afd4f2e5a3d6d55bde42ccd0c5a094cf2cbac39826ff45f84e743c2390",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIqkqQ3UWCS61JwpblEBXyVIcG8dVHULCDbdElG3HfddT_6AM8I16QLiVKpVkPyF2zxY0ta9zacxCD/pub?gid=684626521&single=true&output=csv"
+ },
+ "jct_ta_cam2026tubitak": {
+  "bytes": 41131,
+  "retrieved": "2026-08-06T16:09:10Z",
+  "sha256": "3fb7ffdd46c9fde2ff5d828ad1de9b0a234ab6ea88400f232745f3e4e50643b9",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTYHNMGTwtSo2iOGw_GXXIHN0vUu72PWUlQUHqBClxgBWGhkEIkqyIT79ep6vJj68rjYR_y3BzKKtaW/pub?gid=684626521&single=true&output=csv"
  },
  "jct_ta_cam2026uji": {
   "bytes": 27463,
@@ -773,6 +803,18 @@
   "sha256": "333e53bd08c7f5d228592965fe382a7d32ac9b90df4b533b0e1abaf0904466b6",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTFGvH8CPPNadX14-JLigBwWyL4aNrCrVGwteJrYGVWhJdejdL7m429lHjznslvg9RupmtHTomiSX7o/pub?gid=684626521&single=true&output=csv"
  },
+ "jct_ta_compbio2026caul": {
+  "bytes": 2010,
+  "retrieved": "2026-08-06T16:09:12Z",
+  "sha256": "e8e29c26a0283517234703041c7a2462f15cc01cd1b46be73dde46a0ce99d121",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSwEF3-DM5c5LaYfQtrbAK9UFZTrVaV_i6LIfPXpaxNZMG3lYI8AmaO43H6QM2ybViKqVofeMzdTn_F/pub?gid=684626521&single=true&output=csv"
+ },
+ "jct_ta_compbio2026malmad": {
+  "bytes": 886,
+  "retrieved": "2026-08-06T16:08:40Z",
+  "sha256": "085bc12299bcf88779e5c12ed64f6c205f47b647bc1cd4693aaa5540a1c7d3bd",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vROlUR_in9yihJNAifc85sm-Sdpq_VDcwPHzoZUKMmfkrH6Sv1PQ38DSB8qWD_C6j-BcJ72i4dv0fSz/pub?gid=684626521&single=true&output=csv"
+ },
  "jct_ta_compbio2026uva": {
   "bytes": 488,
   "retrieved": "2026-08-06T16:06:43Z",
@@ -850,6 +892,18 @@
   "retrieved": "2026-08-06T16:03:02Z",
   "sha256": "063993dcca74f5c60b70dece40cc3ffb755bba0081769fbffdd8993cf70a0d49",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQNdGwHL7xfxWGJiYH3eYLKENlMekP-njTGUb5esdy4asVcgsaR4x9HEASdtCcckwi8Mv_nkEQViGwz/pub?gid=684626521&single=true&output=csv"
+ },
+ "jct_ta_dgb2026malmad": {
+  "bytes": 25683,
+  "retrieved": "2026-08-06T16:08:42Z",
+  "sha256": "d7bbbef501f655f651a48ce531395ca89519bfcf249fda2444fbc250add6dd0f",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRE468RkV0XvOamPXKylumv_tsDdLusLmq-G3xnvkbm3Z6jfPzme6f4YgRDf6CrRKguioFtJnjrgg8a/pub?gid=684626521&single=true&output=csv"
+ },
+ "jct_ta_dgb2026malmad2": {
+  "bytes": 15023,
+  "retrieved": "2026-08-06T16:08:43Z",
+  "sha256": "0c023a3da3e168688ac39652382bcaf4bcca1ef585df617a26b619dbc09e4552",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQFTbQnBODDQRFoUuJ8okXv3Oh5i2yY8ZE6NaVH63nfkxThpZhod7CqsUftwzoEwlEa1sPkbMDRkLnf/pub?gid=684626521&single=true&output=csv"
  },
  "jct_ta_edp2022coup": {
   "bytes": 7294,
@@ -1036,6 +1090,12 @@
   "retrieved": "2026-08-06T16:08:13Z",
   "sha256": "f503e2dbe08aa9bf76c1df8a13c7979a595055aca9fbb6d747ae13985254b751",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSGcrvikJndPd6pJbWRKvcS5KaF1JkjKwDl2h2cNKD4jttMRySNaaW-oS5oSLcOSXuOvIP2Wj8UV1A8/pub?gid=684626521&single=true&output=csv"
+ },
+ "jct_ta_eme2026kemoe": {
+  "bytes": 39996,
+  "retrieved": "2026-08-06T16:08:45Z",
+  "sha256": "1de5a450c9380f5360e804640b18b1e878d1092a8ac805ba83ad50006846dcee",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTP02YEshtPkC-g8hNf9ed1CRt1s0gujS7apKUpoJiSqbd-2ZqRC3iTHk7eI3941D2kgOldyHv8ZmJ6/pub?gid=684626521&single=true&output=csv"
  },
  "jct_ta_gsl2025csic": {
   "bytes": 13536,
@@ -1247,11 +1307,23 @@
   "sha256": "253c49efd67b564019d85de2fce353f6afe1799bc3266da5cb12bf91d55dcc54",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSrU5DQhYimjaLWI8z-vf7ez0cS3Wzjcau5_2SD7d4elU0qH9oGrrHM3R52GBsjv-8rmslMdAYXHqda/pub?gid=684626521&single=true&output=csv"
  },
+ "jct_ta_iwa2024eifl": {
+  "bytes": 12606,
+  "retrieved": "2026-08-06T16:08:34Z",
+  "sha256": "8bd942992b1637f28ebd8a634419d709db01086beeb6380e7a4fd4cdbe4d567c",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkr6nMe26W-07hbWGWAjVjtKZ9Tdmt6DmqFbuzSX-4Bgn1govLUWgYL4aSOuAP1Bar0s36-s7t4IVs/pub?gid=684626521&single=true&output=csv"
+ },
  "jct_ta_iwa2026caul": {
   "bytes": 1742,
   "retrieved": "2026-08-06T16:06:25Z",
   "sha256": "773073d8dbe19805cedaa93611fdf99331078d304b7257acee741318afaeb0ea",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vT3BuTS9JmEL1vz7lziuXmKZ_VJBo-1AcOhtccc7EOsTKGoXUG-M4__70GziMVxmjaazG4kN6zKcJ9V/pub?gid=684626521&single=true&output=csv"
+ },
+ "jct_ta_jbp2025hub": {
+  "bytes": 5875,
+  "retrieved": "2026-08-06T16:08:46Z",
+  "sha256": "6ed5a731e7b059ce2cdad9d86e0da77fa6c9b5a7d13c7c205ccae5e473037e92",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSc21WNk11KPaT9m2PA7Me8c70K1nzZcAXFomq7H17SI0aD-5TDQg9oBfMmvJ9RzgsxhOsoNJKdARTu/pub?gid=684626521&single=true&output=csv"
  },
  "jct_ta_jbp2025jisc": {
   "bytes": 7862,
@@ -1535,6 +1607,12 @@
   "sha256": "691ea652aabb75972de11800f6c86bbb26efe19ed6339596084616fc160b615d",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSahSOY4Xho2eKztHbVL3EFeey1K1VW5Iwlm2CTNIwX6i___nLr0006JPEjGG9xjwnL8BU5M8K_41l4/pub?gid=684626521&single=true&output=csv"
  },
+ "jct_ta_oxf2025greifswald": {
+  "bytes": 22534,
+  "retrieved": "2026-08-06T16:08:48Z",
+  "sha256": "78d55cb79b986738c8ab3e4845373cf374a7ac2045c37fa79875de9f5a3ca009",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRWDALYjwr-L69CqMKO9bI0On8jTHoRXXMg3sLvXdwEJgjVvCajnk1SnYScocdPRYgnimuwAg6JzzI-/pub?gid=684626521&single=true&output=csv"
+ },
  "jct_ta_oxf2025lyrasis": {
   "bytes": 35849,
   "retrieved": "2026-08-06T15:59:10Z",
@@ -1570,6 +1648,12 @@
   "retrieved": "2026-08-06T16:08:21Z",
   "sha256": "c72020007cbe418aad197cb38993be82f50ea2fb15d7318ab0557a15b2c70791",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRtYY_1eFppC6ChKPEt60QjUW7lcQqOKIntB-3OquGYKnVT1b8WBmEynh6YTa-j_EL2BlFcK3INBBJJ/pub?gid=684626521&single=true&output=csv"
+ },
+ "jct_ta_oxf2026eisz": {
+  "bytes": 23409,
+  "retrieved": "2026-08-06T16:08:49Z",
+  "sha256": "d751ac2e203cdcea57dd45f95c47356774f4a89862936f86783fa3f3add3a353",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQkpoNOwGNz0wskHkWtWnG_wDO-Zsf0ydAv5LrulBzxm7SRMLjTQLLpez3hbeVzWZGFBxGGoMfPsfVM/pub?gid=684626521&single=true&output=csv"
  },
  "jct_ta_oxf2026jisc": {
   "bytes": 37763,
@@ -1636,6 +1720,12 @@
   "retrieved": "2026-08-06T16:05:55Z",
   "sha256": "a81e9d3de8fa8bfbd6389c02bb30b3b25af4da6aa845cf72cc32c5079c78b7be",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8vJxF4mVq_DZTqF75Wsf714fHkVF2jAc2UylnG1r7_bvJXBCtgnVzTR-xEiFT5bSkMWcqoyaF9DFa/pub?gid=684626521&single=true&output=csv"
+ },
+ "jct_ta_portpress2026malmad": {
+  "bytes": 861,
+  "retrieved": "2026-08-06T16:08:54Z",
+  "sha256": "f6a68da448415ba7d29cdb4501aa7bdc8f92169f84bbd183304f3a9f66446a8d",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRYKoyJ3DwSQo6AOSe2vHe8rsHWpIgPU4AO5CA6pwp7FPDdSWjpiaWXwMzo9kdUczTapqZ_vCAjX_VK/pub?gid=684626521&single=true&output=csv"
  },
  "jct_ta_portpress2026mpdl": {
   "bytes": 504,
@@ -1733,11 +1823,23 @@
   "sha256": "cd6de315bcd65ca109a65c7b86193ab7460a6169d543699817d77531c2e180d1",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQNNNXkHXeqNdalNQ1pNfWp0fh3goHuWZ8JcwM_v1w1Ylxx4UlXtShWKpG-MmDuFMQaO14uw_jl01H4/pub?gid=684626521&single=true&output=csv"
  },
+ "jct_ta_rsc2026malmad": {
+  "bytes": 2437,
+  "retrieved": "2026-08-06T16:08:55Z",
+  "sha256": "4113cd2c6e095b3c239836ec50d613708e5c4201eb7d1d29113b0a5c7288249f",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfgCxtv52zhCn3a1K1jcRbJ_t0aEManq53w-I4pOYbPhyKDdm_V9Ka5ZN4Sp3OI_X_QSjnh4nEZsBI/pub?gid=684626521&single=true&output=csv"
+ },
  "jct_ta_rsc2026slov": {
   "bytes": 3557,
   "retrieved": "2026-08-06T15:58:36Z",
   "sha256": "b9a3233ce3567f7f6220a5018a79dfc5ef1b595a462707686f1aaea59b759433",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQZGwsDjVYorvsf6_nc-4ts4wFn5g_peNAbbf18XMep26gb31qwoPOVYqowD4foh3SGka4GYf9Jg7d/pub?gid=684626521&single=true&output=csv"
+ },
+ "jct_ta_rsc2026tubitak": {
+  "bytes": 19351,
+  "retrieved": "2026-08-06T16:08:35Z",
+  "sha256": "8315cfe464791323849a87d2d45b37476f0cc5f735d511551423aa57c89faf8a",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQQA37BLPL6mwSVinn-MSPSLVAcLMuHAD24__wCm-wSmCAqnAu87lzIZj3GgN62HsnTujSO0QJtgTi0/pub?gid=684626521&single=true&output=csv"
  },
  "jct_ta_rsna2026utu": {
   "bytes": 425,
@@ -1812,16 +1914,16 @@
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTJp0Cg4ZaZ-9M9dAmybS2fQjR4ku6hmMp-0p0uE4ZIp7juA-9caOvZFUPm98ok8WaMf3UzYbSvHl9o/pub?gid=684626521&single=true&output=csv"
  },
  "jct_ta_sage2026czelib": {
-  "bytes": 54179,
-  "retrieved": "2026-08-06T16:08:29Z",
-  "sha256": "b4fd6d394d22aa2dc61a6549e4faac7c69e440797577d1e8351d8ad25c2aad44",
-  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRCI0op841k1LmCHGo9D7z37h6S8iHubDUwT0Q_gvenLGqka7Lvpe6ts6h1O2jeU-K9R3OZ8jTMCdbr/pub?gid=684626521&single=true&output=csv"
+  "bytes": 14968,
+  "retrieved": "2026-08-06T16:08:31Z",
+  "sha256": "5eaa7a22b8a8c748fe352d61fb58c95e9cb654979239a5324e8b1bd699ea2e1f",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQdtDocgic4nh4xXw4rAe5JGQVN8BEJuhmrTk8JE1pahkzYcVDAMRLrMi_PHsqWycOZ2d8y9t73piUB/pub?gid=684626521&single=true&output=csv"
  },
  "jct_ta_sage2026gac": {
-  "bytes": 15533,
-  "retrieved": "2026-08-06T16:01:46Z",
-  "sha256": "ca888d15fc836a1cd7fd40f96e2d34b2ecea7bd9dcc41572763af9dc5e1d1362",
-  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS44vZJ1QqgYtZS3_gadB-ihkhQs1OWexPd5XIcxvSR9mBQBkLdKlR5NYTrSGRzjklU_Yr_M8ZLsXiX/pub?gid=684626521&single=true&output=csv"
+  "bytes": 84649,
+  "retrieved": "2026-08-06T16:08:37Z",
+  "sha256": "ebd47f8d891ba2c46b847f0bd15af0e8d538a6fdfce054e43e39b48338920c29",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ2GXa84DKrfF9yMtRXens3OEqHNX-Axuq-t0rkr7abgU1Pmm6UUNe3KI8H0opbJV0CQfBfTHewr4w4/pub?gid=684626521&single=true&output=csv"
  },
  "jct_ta_sage2026jisc": {
   "bytes": 78615,
@@ -1973,6 +2075,18 @@
   "sha256": "41087e7dcab0fcf46cf5761c53151ca63ed56d77ef78cd7e0749f85d147aec8f",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vR29kUYtSRvemK7ZlNJCBcFOQQp5vMbmJCbjiAtGPcNmzofBT_2647cSD8_yQDBtRxt0EcbUrmZV4jl/pub?gid=684626521&single=true&output=csv"
  },
+ "jct_ta_sn2026czelib": {
+  "bytes": 128226,
+  "retrieved": "2026-08-06T16:08:33Z",
+  "sha256": "51fc099837f515588d4b9ae59bb883921af07c183c4f6e7a7bb9017c2cff6303",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQugugxIh5oasyi88JSJsNF9BC_N5Y465p-pBK02WNIvpF4bhlAvU-A0ZyyhZS5thY3HQ8MI8aQAacL/pub?gid=684626521&single=true&output=csv"
+ },
+ "jct_ta_sn2026eisz": {
+  "bytes": 156065,
+  "retrieved": "2026-08-06T16:08:50Z",
+  "sha256": "36295b9788506673ba536ad33edab5e246e4360c9e7b3d6523a153a2eae5b2fd",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQOjlSU4TJ8cRofww5p09V7YK5Pqal4m85ZFKxFBIZl68hZtA0tRKDyd_8yU_B58HG2LNR7Nx9b2qHY/pub?gid=684626521&single=true&output=csv"
+ },
  "jct_ta_sn2026jisc": {
   "bytes": 129079,
   "retrieved": "2026-08-06T16:03:37Z",
@@ -1984,6 +2098,12 @@
   "retrieved": "2026-08-06T15:58:55Z",
   "sha256": "5c4915e07e9796c7d67ee88b96e9a88fe1e9b2a1fa87a6fe516af0abd233a8cd",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQORLAMj8QOXQ6upQwgBAaSgpR_xXad93bgwzujXU5MHNRKY3sKEtvik99vOxeZA_us2ggq_VdyNb6Y/pub?gid=684626521&single=true&output=csv"
+ },
+ "jct_ta_sn2026slov": {
+  "bytes": 122086,
+  "retrieved": "2026-08-06T16:08:57Z",
+  "sha256": "939f4520f23d4c65f7dc1c1400bb6e202f87d1df3ada8dc83aec8a7c429ad952",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTFAj75sjkpHgQN6M6mhHhBc5UJqULr-KIT7dFoYCTFQZ5LLj8P4_ON055xAEieUWnx1bD7bwfNFsg0/pub?gid=684626521&single=true&output=csv"
  },
  "jct_ta_spie2024delft": {
   "bytes": 1163,
@@ -2003,11 +2123,23 @@
   "sha256": "16f03f746a29d10df0d693113c770c10e18505f8fb72002f5d49d7b346441bc4",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRjjEauvNtC2LMu3QNetcd42zrPeyV3Jo8mRPeBPuo0RqinAoUaZJ5dVB7XSxtPmMvsAAsfxDBmgdoj/pub?gid=684626521&single=true&output=csv"
  },
+ "jct_ta_spie2024tib": {
+  "bytes": 3440,
+  "retrieved": "2026-08-06T16:08:39Z",
+  "sha256": "d517d1ab76a115ddd25649216d9c7e2b7a93c805ed700f195ab95a0bb7be2a10",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTlvLIPWDV5jgZ7UiYypRHuuOtfGeHxR4Wd7gXdANrTbnj0xcbM18mbSYu2-Dci31BoiWR9pkkKFFOp/pub?gid=684626521&single=true&output=csv"
+ },
  "jct_ta_spie2024vanderbilt": {
   "bytes": 1176,
   "retrieved": "2026-08-06T15:55:58Z",
   "sha256": "db98b8896a6cb925bae7b95383dbd2e7b64c02f22a7fcb8c56fc0cb1224604f2",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRl0pcXDJKv3v0-gXcAzVJgtizk1XszMZpnui7QX7Da4Y_rHvPVD4h1RqKad_AXMpIso_DrIAmy5eSB/pub?gid=684626521&single=true&output=csv"
+ },
+ "jct_ta_spie2026uva": {
+  "bytes": 1178,
+  "retrieved": "2026-08-06T16:08:58Z",
+  "sha256": "80bb806410909bc6f397d6dcf8a6bf1f20722aaf97c4871e9a5e0d2a0eb7bd44",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRW_idZXqT9D87t4wUQeqQIRlrCSenSEWwvFH9m7_Fd8Ch4zK-j8OR7k3azxht23oKPXp429_sreSj5/pub?gid=684626521&single=true&output=csv"
  },
  "jct_ta_spie2026vtt": {
   "bytes": 1186,
@@ -2093,6 +2225,18 @@
   "sha256": "d78b8619058c80f4e5d3a29a479f0d351b4b44fd8bcc9d331ed654b0fa347c86",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSFt6vQTrmUi20gx75wQ0PRNCb4aiMKZygu08IPH2FRM4XFuQsV4Q2K0yRrPPPJhE0I1Akn1aL7jqMy/pub?gid=684626521&single=true&output=csv"
  },
+ "jct_ta_tf2026czelib": {
+  "bytes": 167008,
+  "retrieved": "2026-08-06T16:09:00Z",
+  "sha256": "47cf74194c81eae760c470688c7c59ce9469f8e670fefc6a30379844f5bd1cb2",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQR98LZbiamrMTY1lzEqAbvfR-PfLOwtlmX3a9vU9ged7xsg9AyxOVCaax2g-7R9EINyMbj8qNjyaKd/pub?gid=684626521&single=true&output=csv"
+ },
+ "jct_ta_tf2026malmad": {
+  "bytes": 164227,
+  "retrieved": "2026-08-06T16:08:51Z",
+  "sha256": "55e98494795050ad6501483e441243956dc968d9c33cb0f258b65e5c820393a2",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vT-12HM0T3njEau8JQEmw9COIwyV6GA1AHH_3niTH_ysM3OIqoRO9f6Q0HwURHY2Cc-Vx53B3O718Ab/pub?gid=684626521&single=true&output=csv"
+ },
  "jct_ta_tf2026oase": {
   "bytes": 164114,
   "retrieved": "2026-08-06T15:58:57Z",
@@ -2135,11 +2279,29 @@
   "sha256": "3a15df62b19a9fd8356a689846b9bdbf98cf7f96a3f190ff5058d25af19ff33c",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgI6rAVG-mABS4u-DfNuk9-nbt2K030xHh8PexauxSXdRLS707PBDOiW1tXHPIz-9Td7qdGQNaWl1d/pub?gid=684626521&single=true&output=csv"
  },
+ "jct_ta_trs2025malmad": {
+  "bytes": 946,
+  "retrieved": "2026-08-06T16:09:02Z",
+  "sha256": "0f41d76e78415a6d6fc6cbd13b519b85546f3b859780c3146f6fab6d63ed0274",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRxbddZUHZhdk3SrWOGVKo81i_bRkhWyadqNSfuqhZVOi0PByZAkdpPab3PD6e_SG0LpKfs_mlcowXO/pub?gid=684626521&single=true&output=csv"
+ },
  "jct_ta_trs2025sbg": {
   "bytes": 865,
   "retrieved": "2026-08-06T16:00:51Z",
   "sha256": "b05aecd58a75d18203ae0428ec00d4032f2d1e78271b2cf575691d37aad593e0",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRkx1jCtbAGjW8eW3FSYYKebVMMP5aNGREu73eTpcBHsRcVWrOHcSIpTIUUIx8-Uda-gIzItEYvAFpp/pub?gid=684626521&single=true&output=csv"
+ },
+ "jct_ta_trs2026caul": {
+  "bytes": 2320,
+  "retrieved": "2026-08-06T16:09:03Z",
+  "sha256": "b61647ff058b7d7d5f6d98249f26376f5773952366a51387057b56a8ec3e0042",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxUblQkTXCRQImj_RvyveajHvfDNA-lfpe43Ri26SSNl0urv7jlTYGzzsAZ90HmUcHiqxVcjbEq8FU/pub?gid=684626521&single=true&output=csv"
+ },
+ "jct_ta_trs2026kaust": {
+  "bytes": 810,
+  "retrieved": "2026-08-06T16:09:04Z",
+  "sha256": "67be5ebb0cb9c9320dc2f2c8a1a2b75e00d7a0d589f062062a06a1c86e502a59",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ5YxDFY0TmUO3a5iPjfJZj00QacxfSHAFc8bFbVxLv81kmlDGEgOaWwmIceCKtw0V1bMeUnRwdUZ5J/pub?gid=684626521&single=true&output=csv"
  },
  "jct_ta_trs2026tib": {
   "bytes": 656,
@@ -2272,6 +2434,12 @@
   "retrieved": "2026-08-06T15:58:45Z",
   "sha256": "232e3401e569232925e57005224bcfc818922728cc366c0ddfbc688e54998e46",
   "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTE4c8SnQ9B6-xSc9FThMrOlcGe0nRpgV91Nl-pJSQkpLF80MQmtdgLeG9BYligXfouWoZgeYkDsqXX/pub?gid=684626521&single=true&output=csv"
+ },
+ "jct_ta_wiley2026caul": {
+  "bytes": 111376,
+  "retrieved": "2026-08-06T16:09:06Z",
+  "sha256": "51ed8d506e30abc68941a38399713784af555c45ee49fd1e89693e89ba4805b0",
+  "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS_wARHo6xrCvaM2tbj76e2BuBEXSSt9UV_XbV0FmoyeJjZM1fAtWUOVb29oS2xCNQJDQntQodltyFI/pub?gid=684626521&single=true&output=csv"
  },
  "jct_ta_wiley2026coup": {
   "bytes": 84134,
