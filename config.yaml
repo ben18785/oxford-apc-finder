@@ -1,0 +1,29 @@
+# Site + pipeline configuration
+site_title: "Oxford Journal APC Finder"
+site_tagline: "Which journals do Oxford's open-access deals cover — and what will publishing cost?"
+# GitHub repository that hosts this site (used for error-report links).
+# CHANGE THIS after you create your repo:
+github_repo: "YOUR_GITHUB_USERNAME/oxford-apc-finder"
+# University of Oxford ROR ID (https://ror.org/052gg0110)
+institution_ror: "052gg0110"
+institution_name: "University of Oxford"
+
+# Data sources (documented; scripts read these)
+sources:
+  jct_ta_index_csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vStezELi7qnKcyE8OiO2OYx2kqQDOnNsDX1JfAsK487n2uB_Dve5iDTwhUFfJ7eFPDhEjkfhXhqVTGw/pub?gid=1130349201&single=true&output=csv"
+  jct_ta_docs: "https://journalcheckertool.org/transformative-agreements/"
+  jct_api: "https://api.journalcheckertool.org"
+  bodleian_deals: "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+  bodleian_apc: "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/apc"
+  bodleian_block_grants: "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/block-grants"
+  openalex_api: "https://api.openalex.org"
+  doaj_api: "https://doaj.org/api"
+  doaj_journal_csv: "https://doaj.org/csv"
+  doaj_withdrawn_sheet_csv: "https://docs.google.com/spreadsheets/d/1Kv3MbgFSgtSDnEGkA2JacrSjunRu0umHeZCtcMeqO5E/gviz/tq?tqx=out:csv&sheet=Withdrawn"
+
+# Optional OpenAlex API key (free at https://openalex.org/settings/api).
+# Set as env var OPENALEX_API_KEY in CI; raises the free daily credit to $1/day.
+# Validation thresholds
+validation:
+  max_weekly_drop_pct: 10        # fail build if deal-journal count drops more than this
+  oracle_sample_size: 25         # random journals cross-checked against live JCT API

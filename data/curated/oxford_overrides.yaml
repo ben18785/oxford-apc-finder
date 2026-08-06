@@ -1,0 +1,178 @@
+# Hand-curated overlay: Oxford-specific deal facts NOT carried by the JCT
+# transformative-agreement data. Curated from the Bodleian publisher-deals page:
+#   https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals
+# (retrieved 2026-08-06). watch_bodleian.py diffs that page weekly and opens a
+# needs-review issue when it changes, so edits to this file happen in a PR with
+# the page diff as evidence.
+#
+# Entry kinds:
+#   caveat      — annotate a JCT-covered agreement (matched by esac_id prefix)
+#   discount    — % off list APC for Oxford authors (matched by publisher regex
+#                 against OpenAlex host_organization_name, or explicit ISSNs)
+#   diamond     — free-to-publish arrangements Oxford supports
+#   green       — no-fee self-archiving arrangement worth surfacing
+#   note        — informational only
+#
+# `source` defaults to the Bodleian deals page; override per entry if a more
+# specific URL exists.
+
+meta:
+  source: "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+  curated_date: "2026-08-06"
+  contact: "oapayments@bodleian.ox.ac.uk"
+
+entries:
+  # ---- caveats on JCT-covered agreements -------------------------------
+  - kind: caveat
+    match_esac_prefix: "aip"
+    publisher_label: "American Institute of Physics"
+    caveats:
+      - "Covers an agreed number of articles per year in hybrid titles; the allowance can run out before year end."
+      - "AIP's fully open access journals are excluded."
+
+  - kind: caveat
+    match_esac_prefix: "bmj"
+    publisher_label: "BMJ"
+    caveats:
+      - "Only for research funded by specific funders (UKRI, Wellcome, British Heart Foundation and others) — check the Bodleian page."
+    funders_only: ["UKRI", "Wellcome", "British Heart Foundation", "other listed funders"]
+
+  - kind: caveat
+    match_esac_prefix: "els"
+    publisher_label: "Elsevier"
+    caveats:
+      - "Covers most hybrid journals (see participating list); 15% discount on Elsevier fully gold OA journals instead."
+    also_discount:
+      pct: 15
+      applies_to: "Elsevier fully gold open access journals"
+    source_extra: "https://agreements.journals.elsevier.com/jisc"
+
+  - kind: caveat
+    match_esac_prefix: "sage"
+    publisher_label: "SAGE"
+    caveats:
+      - "Most hybrid (SAGE Choice) journals covered; 20% discount on SAGE fully gold OA journals instead."
+    also_discount:
+      pct: 20
+      applies_to: "SAGE fully gold open access journals"
+    source_extra: "https://uk.sagepub.com/en-gb/eur/uk-jisc-agreement"
+
+  - kind: caveat
+    match_esac_prefix: "sn"
+    publisher_label: "Springer Nature"
+    caveats:
+      - "Most hybrid and Palgrave journals covered; 15% discount on fully gold OA journals instead."
+    also_discount:
+      pct: 15
+      applies_to: "Springer Nature fully gold open access journals"
+
+  - kind: caveat
+    match_esac_prefix: "rsc"
+    publisher_label: "Royal Society of Chemistry"
+    caveats:
+      - "Hybrid journals covered; 15% discount on RSC fully gold OA journals instead."
+    source_extra: "https://www.rsc.org/journals-books-databases/open-access/read-and-publish/"
+
+  - kind: caveat
+    match_esac_prefix: "cob"
+    publisher_label: "Company of Biologists"
+    caveats:
+      - "Covers the three hybrid subscription journals only — Disease Models & Mechanisms and Biology Open are NOT covered."
+
+  - kind: caveat
+    match_esac_prefix: "wolterskluwer"
+    publisher_label: "Wolters Kluwer Health"
+    caveats:
+      - "Selected hybrid journals; Wolters Kluwer Law journals are excluded."
+
+  # ---- discount schemes (not transformative agreements, not in JCT) ----
+  - kind: discount
+    publisher_label: "MDPI"
+    match_publisher_regex: "(?i)^MDPI"
+    pct: 20
+    caveats:
+      - "20% APC discount for Oxford corresponding authors on all accepted articles."
+
+  - kind: discount
+    publisher_label: "Frontiers"
+    match_publisher_regex: "(?i)^Frontiers"
+    pct: 10
+    caveats:
+      - "10% APC discount; full APC coverage for UKRI, Wellcome, CRUK or BHF funded authors."
+    funders_covered_full: ["UKRI", "Wellcome", "Cancer Research UK", "British Heart Foundation"]
+
+  - kind: discount
+    publisher_label: "AAAS — Science Advances"
+    match_issns: ["2375-2548"]
+    pct: 10
+    caveats:
+      - "10% discount, applied via the author charge section on submission."
+    source_extra: "https://www.science.org/journal/sciadv"
+
+  - kind: discount
+    publisher_label: "Hogrefe (open access journals)"
+    match_publisher_regex: "(?i)^Hogrefe"
+    pct: 25
+    caveats:
+      - "25% discount on Hogrefe fully OA journals; 15 hybrid titles are covered by the APA/Hogrefe deal."
+
+  # ---- diamond / free-to-publish arrangements --------------------------
+  - kind: diamond
+    publisher_label: "SciPost"
+    match_publisher_regex: "(?i)SciPost"
+    caveats:
+      - "Oxford is a SciPost supporter: publishing is free for authors (diamond OA)."
+    source_extra: "https://scipost.org/about"
+
+  - kind: diamond
+    publisher_label: "Peer Community Journal"
+    match_issns: ["2804-3871"]
+    caveats:
+      - "Diamond OA — free to publish across multiple fields."
+    source_extra: "https://peercommunityjournal.org/page/about/"
+
+  - kind: diamond
+    publisher_label: "SCOAP3 (high-energy physics)"
+    match_scoap3: true
+    caveats:
+      - "Articles in participating high-energy physics journals are published OA at no cost to authors via SCOAP3."
+    source_extra: "https://scoap3.org/phase2-journals/"
+    # SCOAP3 participating journals (phase 3 list; stable, verified on the
+    # SCOAP3 site). ISSNs listed explicitly for deterministic matching:
+    match_issns: ["1029-8479", "1126-6708", "0370-2693", "0550-3213",
+                  "1748-0221", "2470-0010", "2470-0029", "1434-6044",
+                  "1434-6052", "2050-3911", "0001-7701", "1361-6382"]
+
+  - kind: diamond
+    publisher_label: "White Rose University Press"
+    match_publisher_regex: "(?i)White Rose University Press"
+    caveats:
+      - "Diamond OA — free to publish."
+    source_extra: "https://universitypress.whiterose.ac.uk/"
+
+  - kind: diamond
+    publisher_label: "KOALA consortium journals (maths/CS)"
+    match_publisher_regex: "(?i)KOALA"
+    caveats:
+      - "Six mathematics/computer science journals, free to publish via the KOALA consortium."
+    source_extra: "https://projects.tib.eu/koala"
+
+  # ---- green / other ----------------------------------------------------
+  - kind: green
+    publisher_label: "IEEE"
+    match_publisher_regex: "(?i)^(IEEE|Institute of Electrical)"
+    caveats:
+      - "'Read and green' deal: no APC coverage, but accepted manuscripts can be self-archived in ORA with no embargo."
+
+  - kind: green
+    publisher_label: "Edinburgh University Press"
+    match_publisher_regex: "(?i)^Edinburgh University Press"
+    caveats:
+      - "Green OA: accepted manuscripts can be deposited in ORA with no embargo."
+    source_extra: "https://www.euppublishing.com/customer-services/authors/open-access-archiving"
+
+  - kind: note
+    publisher_label: "PNAS"
+    match_issns: ["0027-8424", "1091-6490"]
+    caveats:
+      - "PNAS is not part of a Jisc agreement. UKRI-funded authors can request a waiver: pnaswaiverrequests@nas.edu."

@@ -1,0 +1,635 @@
+{
+ "generated": "2026-08-06T15:37:34Z",
+ "sample_data": true,
+ "institution": "University of Oxford",
+ "counts": {
+  "total": 10,
+  "covered": 5,
+  "discount": 2,
+  "diamond": 1,
+  "in_doaj": 5,
+  "excluded_misconduct": 0
+ },
+ "journals": [
+  {
+   "id": "1521-4095",
+   "title": "Advanced Materials",
+   "alt_titles": [],
+   "issns": [
+    "0935-9648",
+    "1521-4095"
+   ],
+   "publisher": "Wiley",
+   "homepage": "https://onlinelibrary.wiley.com/journal/15214095",
+   "in_doaj": false,
+   "doaj_withdrawn": null,
+   "deal": {
+    "status": "covered",
+    "esac_id": "wiley2026jisc",
+    "discount_pct": null,
+    "caveats": [
+     "Corresponding author must be Oxford-affiliated.",
+     "Agreement runs to 2028-12-31."
+    ]
+   },
+   "cost": {
+    "kind": "covered",
+    "note": "APC covered by the Oxford agreement (subject to the caveats shown)."
+   },
+   "scope": {
+    "sentence": "Publishes primarily in Conducting polymers and applications, Perovskite solar cells (field: Materials Science). 61,230 articles indexed in OpenAlex.",
+    "topics": [
+     "Conducting polymers and applications",
+     "Perovskite solar cells"
+    ],
+    "subfields": [
+     "Electronic Materials",
+     "Materials Chemistry"
+    ],
+    "keywords": [],
+    "aims_url": "https://onlinelibrary.wiley.com/journal/15214095"
+   },
+   "waiver": false,
+   "provenance": {
+    "metadata": {
+     "label": "OpenAlex (CC0)",
+     "url": "https://api.openalex.org/sources/issn:1521-4095",
+     "retrieved": "2026-08-06T12:00:00Z"
+    },
+    "deal": [
+     {
+      "label": "JCT agreement data (CC BY 4.0)",
+      "url": "https://journalcheckertool.org/transformative-agreements/"
+     }
+    ],
+    "oxford": {
+     "label": "Bodleian publisher deals page",
+     "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+    }
+   }
+  },
+  {
+   "id": "1521-3773",
+   "title": "Angewandte Chemie International Edition",
+   "alt_titles": [],
+   "issns": [
+    "1433-7851",
+    "1521-3773"
+   ],
+   "publisher": "Wiley",
+   "homepage": "https://onlinelibrary.wiley.com/journal/15213773",
+   "in_doaj": false,
+   "doaj_withdrawn": null,
+   "deal": {
+    "status": "covered",
+    "esac_id": "wiley2026jisc",
+    "discount_pct": null,
+    "caveats": [
+     "Corresponding author must be Oxford-affiliated.",
+     "Agreement runs to 2028-12-31."
+    ]
+   },
+   "cost": {
+    "kind": "covered",
+    "note": "APC covered by the Oxford agreement (subject to the caveats shown)."
+   },
+   "scope": {
+    "sentence": "Publishes primarily in Catalysis and organic synthesis (field: Chemistry). 78,000 articles indexed in OpenAlex.",
+    "topics": [
+     "Catalysis and organic synthesis"
+    ],
+    "subfields": [
+     "Organic Chemistry"
+    ],
+    "keywords": [],
+    "aims_url": "https://onlinelibrary.wiley.com/journal/15213773"
+   },
+   "waiver": false,
+   "provenance": {
+    "metadata": {
+     "label": "OpenAlex (CC0)",
+     "url": "https://api.openalex.org/sources/issn:1521-3773",
+     "retrieved": "2026-08-06T12:00:00Z"
+    },
+    "deal": [
+     {
+      "label": "JCT agreement data (CC BY 4.0)",
+      "url": "https://journalcheckertool.org/transformative-agreements/"
+     }
+    ],
+    "oxford": {
+     "label": "Bodleian publisher deals page",
+     "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+    }
+   }
+  },
+  {
+   "id": "2211-1247",
+   "title": "Cell Reports",
+   "alt_titles": [],
+   "issns": [
+    "2211-1247"
+   ],
+   "publisher": "Elsevier",
+   "homepage": "https://www.cell.com/cell-reports/home",
+   "in_doaj": true,
+   "doaj_withdrawn": null,
+   "deal": {
+    "status": "covered",
+    "esac_id": "els2026jisc",
+    "discount_pct": null,
+    "caveats": [
+     "Corresponding author must be Oxford-affiliated.",
+     "Agreement runs to 2028-12-31.",
+     "Covers most hybrid journals (see participating list); 15% discount on Elsevier fully gold OA journals instead."
+    ]
+   },
+   "cost": {
+    "kind": "covered",
+    "note": "APC covered by the Oxford agreement (subject to the caveats shown)."
+   },
+   "scope": {
+    "sentence": "Publishes primarily in Cellular signalling pathways (field: Biochemistry, Genetics and Molecular Biology). 22,000 articles indexed in OpenAlex.",
+    "topics": [
+     "Cellular signalling pathways"
+    ],
+    "subfields": [
+     "Cell Biology"
+    ],
+    "keywords": [
+     "cell biology",
+     "molecular biology"
+    ],
+    "aims_url": "https://www.cell.com/cell-reports/aims"
+   },
+   "waiver": true,
+   "provenance": {
+    "metadata": {
+     "label": "OpenAlex (CC0)",
+     "url": "https://api.openalex.org/sources/issn:2211-1247",
+     "retrieved": "2026-08-06T12:00:00Z"
+    },
+    "doaj": {
+     "label": "DOAJ (metadata CC0)",
+     "url": "https://doaj.org/toc/2211-1247",
+     "retrieved": "2026-08-06T12:00:00Z"
+    },
+    "deal": [
+     {
+      "label": "JCT agreement data (CC BY 4.0)",
+      "url": "https://journalcheckertool.org/transformative-agreements/"
+     },
+     {
+      "label": "Elsevier details",
+      "url": "https://agreements.journals.elsevier.com/jisc"
+     }
+    ],
+    "oxford": {
+     "label": "Bodleian publisher deals page",
+     "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+    }
+   }
+  },
+  {
+   "id": "2050-084X",
+   "title": "eLife",
+   "alt_titles": [],
+   "issns": [
+    "2050-084X"
+   ],
+   "publisher": "eLife Sciences Publications Ltd",
+   "homepage": "https://elifesciences.org",
+   "in_doaj": true,
+   "doaj_withdrawn": null,
+   "deal": {
+    "status": "none",
+    "esac_id": null,
+    "discount_pct": null,
+    "caveats": []
+   },
+   "cost": {
+    "kind": "list_price",
+    "list": {
+     "price": 3000,
+     "currency": "USD"
+    },
+    "note": "List price — no Oxford deal applies."
+   },
+   "scope": {
+    "sentence": "Publishes primarily in Cell biology mechanisms, Neural circuits and behaviour (fields: Biochemistry, Genetics and Molecular Biology, Neuroscience). 15,000 articles indexed in OpenAlex.",
+    "topics": [
+     "Cell biology mechanisms",
+     "Neural circuits and behaviour"
+    ],
+    "subfields": [
+     "Cell Biology",
+     "Neuroscience"
+    ],
+    "keywords": [
+     "biomedicine",
+     "life sciences"
+    ],
+    "aims_url": "https://elifesciences.org/about/aims-scope"
+   },
+   "waiver": true,
+   "provenance": {
+    "metadata": {
+     "label": "OpenAlex (CC0)",
+     "url": "https://api.openalex.org/sources/issn:2050-084X",
+     "retrieved": "2026-08-06T12:00:00Z"
+    },
+    "doaj": {
+     "label": "DOAJ (metadata CC0)",
+     "url": "https://doaj.org/toc/2050-084X",
+     "retrieved": "2026-08-06T12:00:00Z"
+    },
+    "oxford": {
+     "label": "Bodleian publisher deals page",
+     "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+    }
+   }
+  },
+  {
+   "id": "1573-7284",
+   "title": "European Journal of Epidemiology",
+   "alt_titles": [],
+   "issns": [
+    "0393-2990",
+    "1573-7284"
+   ],
+   "publisher": "Springer Nature",
+   "homepage": "https://www.springer.com/journal/10654",
+   "in_doaj": false,
+   "doaj_withdrawn": null,
+   "deal": {
+    "status": "covered",
+    "esac_id": "sn2026jisc",
+    "discount_pct": null,
+    "caveats": [
+     "Corresponding author must be Oxford-affiliated.",
+     "Agreement runs to 2027-12-31.",
+     "Most hybrid and Palgrave journals covered; 15% discount on fully gold OA journals instead."
+    ]
+   },
+   "cost": {
+    "kind": "covered",
+    "note": "APC covered by the Oxford agreement (subject to the caveats shown)."
+   },
+   "scope": {
+    "sentence": "Publishes primarily in Epidemiological methods and cohorts (field: Medicine). 4,200 articles indexed in OpenAlex.",
+    "topics": [
+     "Epidemiological methods and cohorts"
+    ],
+    "subfields": [
+     "Epidemiology"
+    ],
+    "keywords": [],
+    "aims_url": "https://www.springer.com/journal/10654"
+   },
+   "waiver": false,
+   "provenance": {
+    "metadata": {
+     "label": "OpenAlex (CC0)",
+     "url": "https://api.openalex.org/sources/issn:1573-7284",
+     "retrieved": "2026-08-06T12:00:00Z"
+    },
+    "deal": [
+     {
+      "label": "JCT agreement data (CC BY 4.0)",
+      "url": "https://journalcheckertool.org/transformative-agreements/"
+     }
+    ],
+    "oxford": {
+     "label": "Bodleian publisher deals page",
+     "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+    }
+   }
+  },
+  {
+   "id": "1664-1078",
+   "title": "Frontiers in Psychology",
+   "alt_titles": [],
+   "issns": [
+    "1664-1078"
+   ],
+   "publisher": "Frontiers Media",
+   "homepage": "https://www.frontiersin.org/journals/psychology",
+   "in_doaj": true,
+   "doaj_withdrawn": null,
+   "deal": {
+    "status": "discount",
+    "esac_id": null,
+    "discount_pct": 10,
+    "caveats": [
+     "10% APC discount; full APC coverage for UKRI, Wellcome, CRUK or BHF funded authors."
+    ]
+   },
+   "cost": {
+    "kind": "discount",
+    "pct": 10,
+    "list": {
+     "price": 3150,
+     "currency": "CHF"
+    },
+    "estimated": {
+     "price": 2835,
+     "currency": "CHF"
+    },
+    "note": "10% Oxford discount applied to list price."
+   },
+   "scope": {
+    "sentence": "Publishes primarily in Cognitive and educational psychology (field: Psychology). 78,000 articles indexed in OpenAlex.",
+    "topics": [
+     "Cognitive and educational psychology"
+    ],
+    "subfields": [
+     "Developmental and Educational Psychology"
+    ],
+    "keywords": [
+     "clinical/health psychology",
+     "environmental psychology",
+     "educational psychology",
+     "social/cultural psychology",
+     "cognitive psychology"
+    ],
+    "aims_url": "https://www.frontiersin.org/journals/psychology/about#about-scope"
+   },
+   "waiver": true,
+   "provenance": {
+    "metadata": {
+     "label": "OpenAlex (CC0)",
+     "url": "https://api.openalex.org/sources/issn:1664-1078",
+     "retrieved": "2026-08-06T12:00:00Z"
+    },
+    "doaj": {
+     "label": "DOAJ (metadata CC0)",
+     "url": "https://doaj.org/toc/1664-1078",
+     "retrieved": "2026-08-06T12:00:00Z"
+    },
+    "deal": [
+     {
+      "label": "Bodleian publisher deals page",
+      "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+     }
+    ],
+    "oxford": {
+     "label": "Bodleian publisher deals page",
+     "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+    }
+   }
+  },
+  {
+   "id": "0022-2836",
+   "title": "Journal of Molecular Biology",
+   "alt_titles": [
+    "JMB"
+   ],
+   "issns": [
+    "0022-2836",
+    "1089-8638"
+   ],
+   "publisher": "Elsevier",
+   "homepage": "https://www.sciencedirect.com/journal/journal-of-molecular-biology",
+   "in_doaj": false,
+   "doaj_withdrawn": null,
+   "deal": {
+    "status": "covered",
+    "esac_id": "els2026jisc",
+    "discount_pct": null,
+    "caveats": [
+     "Corresponding author must be Oxford-affiliated.",
+     "Agreement runs to 2028-12-31.",
+     "Covers most hybrid journals (see participating list); 15% discount on Elsevier fully gold OA journals instead."
+    ]
+   },
+   "cost": {
+    "kind": "covered",
+    "note": "APC covered by the Oxford agreement (subject to the caveats shown)."
+   },
+   "scope": {
+    "sentence": "Publishes primarily in Protein structure and folding (field: Biochemistry, Genetics and Molecular Biology). 49,000 articles indexed in OpenAlex.",
+    "topics": [
+     "Protein structure and folding"
+    ],
+    "subfields": [
+     "Biochemistry"
+    ],
+    "keywords": [],
+    "aims_url": "https://www.sciencedirect.com/journal/journal-of-molecular-biology"
+   },
+   "waiver": false,
+   "provenance": {
+    "metadata": {
+     "label": "OpenAlex (CC0)",
+     "url": "https://api.openalex.org/sources/issn:0022-2836",
+     "retrieved": "2026-08-06T12:00:00Z"
+    },
+    "deal": [
+     {
+      "label": "JCT agreement data (CC BY 4.0)",
+      "url": "https://journalcheckertool.org/transformative-agreements/"
+     },
+     {
+      "label": "Elsevier details",
+      "url": "https://agreements.journals.elsevier.com/jisc"
+     }
+    ],
+    "oxford": {
+     "label": "Bodleian publisher deals page",
+     "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+    }
+   }
+  },
+  {
+   "id": "0027-8424",
+   "title": "Proceedings of the National Academy of Sciences",
+   "alt_titles": [
+    "PNAS"
+   ],
+   "issns": [
+    "0027-8424",
+    "1091-6490"
+   ],
+   "publisher": "National Academy of Sciences",
+   "homepage": "https://www.pnas.org",
+   "in_doaj": false,
+   "doaj_withdrawn": null,
+   "deal": {
+    "status": "none",
+    "esac_id": null,
+    "discount_pct": null,
+    "caveats": [
+     "PNAS is not part of a Jisc agreement. UKRI-funded authors can request a waiver: pnaswaiverrequests@nas.edu."
+    ]
+   },
+   "cost": {
+    "kind": "list_price",
+    "list": {
+     "price": 5380,
+     "currency": "USD"
+    },
+    "note": "List price — no Oxford deal applies."
+   },
+   "scope": {
+    "sentence": "Publishes primarily in Multidisciplinary sciences (field: Multidisciplinary). 210,000 articles indexed in OpenAlex.",
+    "topics": [
+     "Multidisciplinary sciences"
+    ],
+    "subfields": [
+     "Multidisciplinary"
+    ],
+    "keywords": [],
+    "aims_url": "https://www.pnas.org"
+   },
+   "waiver": false,
+   "provenance": {
+    "metadata": {
+     "label": "OpenAlex (CC0)",
+     "url": "https://api.openalex.org/sources/issn:0027-8424",
+     "retrieved": "2026-08-06T12:00:00Z"
+    },
+    "deal": [
+     {
+      "label": "Bodleian publisher deals page",
+      "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+     }
+    ],
+    "oxford": {
+     "label": "Bodleian publisher deals page",
+     "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+    }
+   }
+  },
+  {
+   "id": "2542-4653",
+   "title": "SciPost Physics",
+   "alt_titles": [],
+   "issns": [
+    "2542-4653"
+   ],
+   "publisher": "SciPost",
+   "homepage": "https://scipost.org/journals/scipost_physics",
+   "in_doaj": true,
+   "doaj_withdrawn": null,
+   "deal": {
+    "status": "diamond",
+    "esac_id": null,
+    "discount_pct": null,
+    "caveats": [
+     "Oxford is a SciPost supporter: publishing is free for authors (diamond OA)."
+    ]
+   },
+   "cost": {
+    "kind": "diamond",
+    "note": "Free to publish (diamond OA)."
+   },
+   "scope": {
+    "sentence": "Publishes primarily in Quantum many-body systems (field: Physics and Astronomy). 2,100 articles indexed in OpenAlex.",
+    "topics": [
+     "Quantum many-body systems"
+    ],
+    "subfields": [
+     "Condensed Matter Physics"
+    ],
+    "keywords": [
+     "physics"
+    ],
+    "aims_url": "https://scipost.org/journals/scipost_physics/about"
+   },
+   "waiver": false,
+   "provenance": {
+    "metadata": {
+     "label": "OpenAlex (CC0)",
+     "url": "https://api.openalex.org/sources/issn:2542-4653",
+     "retrieved": "2026-08-06T12:00:00Z"
+    },
+    "doaj": {
+     "label": "DOAJ (metadata CC0)",
+     "url": "https://doaj.org/toc/2542-4653",
+     "retrieved": "2026-08-06T12:00:00Z"
+    },
+    "deal": [
+     {
+      "label": "Bodleian publisher deals page",
+      "url": "https://scipost.org/about"
+     }
+    ],
+    "oxford": {
+     "label": "Bodleian publisher deals page",
+     "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+    }
+   }
+  },
+  {
+   "id": "1424-8220",
+   "title": "Sensors",
+   "alt_titles": [],
+   "issns": [
+    "1424-8220"
+   ],
+   "publisher": "MDPI",
+   "homepage": "https://www.mdpi.com/journal/sensors",
+   "in_doaj": true,
+   "doaj_withdrawn": null,
+   "deal": {
+    "status": "discount",
+    "esac_id": null,
+    "discount_pct": 20,
+    "caveats": [
+     "20% APC discount for Oxford corresponding authors on all accepted articles."
+    ]
+   },
+   "cost": {
+    "kind": "discount",
+    "pct": 20,
+    "list": {
+     "price": 2600,
+     "currency": "CHF"
+    },
+    "estimated": {
+     "price": 2080,
+     "currency": "CHF"
+    },
+    "note": "20% Oxford discount applied to list price."
+   },
+   "scope": {
+    "sentence": "Publishes primarily in Wireless sensor networks (field: Engineering). 90,000 articles indexed in OpenAlex.",
+    "topics": [
+     "Wireless sensor networks"
+    ],
+    "subfields": [
+     "Electrical and Electronic Engineering"
+    ],
+    "keywords": [
+     "sensors",
+     "instrumentation",
+     "internet of things"
+    ],
+    "aims_url": "https://www.mdpi.com/journal/sensors/about"
+   },
+   "waiver": false,
+   "provenance": {
+    "metadata": {
+     "label": "OpenAlex (CC0)",
+     "url": "https://api.openalex.org/sources/issn:1424-8220",
+     "retrieved": "2026-08-06T12:00:00Z"
+    },
+    "doaj": {
+     "label": "DOAJ (metadata CC0)",
+     "url": "https://doaj.org/toc/1424-8220",
+     "retrieved": "2026-08-06T12:00:00Z"
+    },
+    "deal": [
+     {
+      "label": "Bodleian publisher deals page",
+      "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+     }
+    ],
+    "oxford": {
+     "label": "Bodleian publisher deals page",
+     "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+    }
+   }
+  }
+ ]
+}

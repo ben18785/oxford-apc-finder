@@ -1,0 +1,124 @@
+{
+ "0022-2836": {
+  "id": "0022-2836",
+  "title": "Journal of Molecular Biology",
+  "alt_titles": [
+   "JMB"
+  ],
+  "issns": [
+   "0022-2836",
+   "1089-8638"
+  ],
+  "publisher": "Elsevier",
+  "homepage": "https://www.sciencedirect.com/journal/journal-of-molecular-biology",
+  "in_doaj": false,
+  "doaj_withdrawn": null,
+  "deal": {
+   "status": "covered",
+   "esac_id": "els2026jisc",
+   "discount_pct": null,
+   "caveats": [
+    "Corresponding author must be Oxford-affiliated.",
+    "Agreement runs to 2028-12-31.",
+    "Covers most hybrid journals (see participating list); 15% discount on Elsevier fully gold OA journals instead."
+   ]
+  },
+  "cost": {
+   "kind": "covered",
+   "note": "APC covered by the Oxford agreement (subject to the caveats shown)."
+  },
+  "scope": {
+   "sentence": "Publishes primarily in Protein structure and folding (field: Biochemistry, Genetics and Molecular Biology). 49,000 articles indexed in OpenAlex.",
+   "topics": [
+    "Protein structure and folding"
+   ],
+   "subfields": [
+    "Biochemistry"
+   ],
+   "keywords": [],
+   "aims_url": "https://www.sciencedirect.com/journal/journal-of-molecular-biology"
+  },
+  "waiver": false,
+  "provenance": {
+   "metadata": {
+    "label": "OpenAlex (CC0)",
+    "url": "https://api.openalex.org/sources/issn:0022-2836",
+    "retrieved": "2026-08-06T12:00:00Z"
+   },
+   "deal": [
+    {
+     "label": "JCT agreement data (CC BY 4.0)",
+     "url": "https://journalcheckertool.org/transformative-agreements/"
+    },
+    {
+     "label": "Elsevier details",
+     "url": "https://agreements.journals.elsevier.com/jisc"
+    }
+   ],
+   "oxford": {
+    "label": "Bodleian publisher deals page",
+    "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+   }
+  }
+ },
+ "0027-8424": {
+  "id": "0027-8424",
+  "title": "Proceedings of the National Academy of Sciences",
+  "alt_titles": [
+   "PNAS"
+  ],
+  "issns": [
+   "0027-8424",
+   "1091-6490"
+  ],
+  "publisher": "National Academy of Sciences",
+  "homepage": "https://www.pnas.org",
+  "in_doaj": false,
+  "doaj_withdrawn": null,
+  "deal": {
+   "status": "none",
+   "esac_id": null,
+   "discount_pct": null,
+   "caveats": [
+    "PNAS is not part of a Jisc agreement. UKRI-funded authors can request a waiver: pnaswaiverrequests@nas.edu."
+   ]
+  },
+  "cost": {
+   "kind": "list_price",
+   "list": {
+    "price": 5380,
+    "currency": "USD"
+   },
+   "note": "List price — no Oxford deal applies."
+  },
+  "scope": {
+   "sentence": "Publishes primarily in Multidisciplinary sciences (field: Multidisciplinary). 210,000 articles indexed in OpenAlex.",
+   "topics": [
+    "Multidisciplinary sciences"
+   ],
+   "subfields": [
+    "Multidisciplinary"
+   ],
+   "keywords": [],
+   "aims_url": "https://www.pnas.org"
+  },
+  "waiver": false,
+  "provenance": {
+   "metadata": {
+    "label": "OpenAlex (CC0)",
+    "url": "https://api.openalex.org/sources/issn:0027-8424",
+    "retrieved": "2026-08-06T12:00:00Z"
+   },
+   "deal": [
+    {
+     "label": "Bodleian publisher deals page",
+     "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+    }
+   ],
+   "oxford": {
+    "label": "Bodleian publisher deals page",
+    "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+   }
+  }
+ }
+}

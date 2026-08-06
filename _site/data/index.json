@@ -1,0 +1,153 @@
+{
+ "generated": "2026-08-06T15:37:34Z",
+ "sample_data": true,
+ "counts": {
+  "total": 10,
+  "covered": 5,
+  "discount": 2,
+  "diamond": 1,
+  "in_doaj": 5,
+  "excluded_misconduct": 0
+ },
+ "journals": [
+  {
+   "id": "1521-4095",
+   "t": "Advanced Materials",
+   "a": [],
+   "p": "Wiley",
+   "i": [
+    "0935-9648",
+    "1521-4095"
+   ],
+   "s": "covered",
+   "d": false,
+   "c": "£0 — covered by Oxford deal",
+   "k": "conducting polymers and applications perovskite solar cells electronic materials materials chemistry"
+  },
+  {
+   "id": "1521-3773",
+   "t": "Angewandte Chemie International Edition",
+   "a": [],
+   "p": "Wiley",
+   "i": [
+    "1433-7851",
+    "1521-3773"
+   ],
+   "s": "covered",
+   "d": false,
+   "c": "£0 — covered by Oxford deal",
+   "k": "catalysis and organic synthesis organic chemistry"
+  },
+  {
+   "id": "2211-1247",
+   "t": "Cell Reports",
+   "a": [],
+   "p": "Elsevier",
+   "i": [
+    "2211-1247"
+   ],
+   "s": "covered",
+   "d": true,
+   "c": "£0 — covered by Oxford deal",
+   "k": "cellular signalling pathways cell biology cell biology molecular biology"
+  },
+  {
+   "id": "2050-084X",
+   "t": "eLife",
+   "a": [],
+   "p": "eLife Sciences Publications Ltd",
+   "i": [
+    "2050-084X"
+   ],
+   "s": "none",
+   "d": true,
+   "c": "3,000 USD (no deal)",
+   "k": "cell biology mechanisms neural circuits and behaviour cell biology neuroscience biomedicine life sciences"
+  },
+  {
+   "id": "1573-7284",
+   "t": "European Journal of Epidemiology",
+   "a": [],
+   "p": "Springer Nature",
+   "i": [
+    "0393-2990",
+    "1573-7284"
+   ],
+   "s": "covered",
+   "d": false,
+   "c": "£0 — covered by Oxford deal",
+   "k": "epidemiological methods and cohorts epidemiology"
+  },
+  {
+   "id": "1664-1078",
+   "t": "Frontiers in Psychology",
+   "a": [],
+   "p": "Frontiers Media",
+   "i": [
+    "1664-1078"
+   ],
+   "s": "discount",
+   "d": true,
+   "c": "~2,835 CHF after 10% Oxford discount",
+   "k": "cognitive and educational psychology developmental and educational psychology clinical/health psychology environmental psychology educational psychology social/cultural psychology cognitive psychology"
+  },
+  {
+   "id": "0022-2836",
+   "t": "Journal of Molecular Biology",
+   "a": [
+    "JMB"
+   ],
+   "p": "Elsevier",
+   "i": [
+    "0022-2836",
+    "1089-8638"
+   ],
+   "s": "covered",
+   "d": false,
+   "c": "£0 — covered by Oxford deal",
+   "k": "protein structure and folding biochemistry"
+  },
+  {
+   "id": "0027-8424",
+   "t": "Proceedings of the National Academy of Sciences",
+   "a": [
+    "PNAS"
+   ],
+   "p": "National Academy of Sciences",
+   "i": [
+    "0027-8424",
+    "1091-6490"
+   ],
+   "s": "none",
+   "d": false,
+   "c": "5,380 USD (no deal)",
+   "k": "multidisciplinary sciences multidisciplinary"
+  },
+  {
+   "id": "2542-4653",
+   "t": "SciPost Physics",
+   "a": [],
+   "p": "SciPost",
+   "i": [
+    "2542-4653"
+   ],
+   "s": "diamond",
+   "d": true,
+   "c": "£0 — diamond OA",
+   "k": "quantum many-body systems condensed matter physics physics"
+  },
+  {
+   "id": "1424-8220",
+   "t": "Sensors",
+   "a": [],
+   "p": "MDPI",
+   "i": [
+    "1424-8220"
+   ],
+   "s": "discount",
+   "d": true,
+   "c": "~2,080 CHF after 20% Oxford discount",
+   "k": "wireless sensor networks electrical and electronic engineering sensors instrumentation internet of things"
+  }
+ ]
+}

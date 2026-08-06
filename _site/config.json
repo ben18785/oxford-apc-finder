@@ -1,0 +1,9 @@
+{
+ "title": "Oxford Journal APC Finder",
+ "tagline": "Which journals do Oxford's open-access deals cover — and what will publishing cost?",
+ "github_repo": "YOUR_GITHUB_USERNAME/oxford-apc-finder",
+ "bodleian_apc": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/apc",
+ "bodleian_deals": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals",
+ "bodleian_block_grants": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/block-grants",
+ "contact": "oapayments@bodleian.ox.ac.uk"
+}

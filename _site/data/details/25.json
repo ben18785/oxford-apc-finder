@@ -1,0 +1,62 @@
+{
+ "2542-4653": {
+  "id": "2542-4653",
+  "title": "SciPost Physics",
+  "alt_titles": [],
+  "issns": [
+   "2542-4653"
+  ],
+  "publisher": "SciPost",
+  "homepage": "https://scipost.org/journals/scipost_physics",
+  "in_doaj": true,
+  "doaj_withdrawn": null,
+  "deal": {
+   "status": "diamond",
+   "esac_id": null,
+   "discount_pct": null,
+   "caveats": [
+    "Oxford is a SciPost supporter: publishing is free for authors (diamond OA)."
+   ]
+  },
+  "cost": {
+   "kind": "diamond",
+   "note": "Free to publish (diamond OA)."
+  },
+  "scope": {
+   "sentence": "Publishes primarily in Quantum many-body systems (field: Physics and Astronomy). 2,100 articles indexed in OpenAlex.",
+   "topics": [
+    "Quantum many-body systems"
+   ],
+   "subfields": [
+    "Condensed Matter Physics"
+   ],
+   "keywords": [
+    "physics"
+   ],
+   "aims_url": "https://scipost.org/journals/scipost_physics/about"
+  },
+  "waiver": false,
+  "provenance": {
+   "metadata": {
+    "label": "OpenAlex (CC0)",
+    "url": "https://api.openalex.org/sources/issn:2542-4653",
+    "retrieved": "2026-08-06T12:00:00Z"
+   },
+   "doaj": {
+    "label": "DOAJ (metadata CC0)",
+    "url": "https://doaj.org/toc/2542-4653",
+    "retrieved": "2026-08-06T12:00:00Z"
+   },
+   "deal": [
+    {
+     "label": "Bodleian publisher deals page",
+     "url": "https://scipost.org/about"
+    }
+   ],
+   "oxford": {
+    "label": "Bodleian publisher deals page",
+    "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+   }
+  }
+ }
+}

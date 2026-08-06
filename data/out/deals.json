@@ -1,0 +1,76 @@
+{
+ "generated": "2026-08-06T12:00:00Z",
+ "sample_data": true,
+ "institution_ror": "052gg0110",
+ "source": {
+  "index_csv": "https://journalcheckertool.org/transformative-agreements/",
+  "documentation": "https://journalcheckertool.org/transformative-agreements/",
+  "license": "CC BY 4.0"
+ },
+ "agreements": [
+  {
+   "esac_id": "wiley2026jisc",
+   "end_date": "2028-12-31",
+   "corresponding_author_only": true,
+   "last_reviewed": "2026-07-01",
+   "data_url": "https://journalcheckertool.org/transformative-agreements/",
+   "journal_count": 2,
+   "journals": [
+    {
+     "name": "Advanced Materials",
+     "issns": [
+      "0935-9648",
+      "1521-4095"
+     ]
+    },
+    {
+     "name": "Angewandte Chemie International Edition",
+     "issns": [
+      "1433-7851",
+      "1521-3773"
+     ]
+    }
+   ]
+  },
+  {
+   "esac_id": "els2026jisc",
+   "end_date": "2028-12-31",
+   "corresponding_author_only": true,
+   "last_reviewed": "2026-07-01",
+   "data_url": "https://journalcheckertool.org/transformative-agreements/",
+   "journal_count": 2,
+   "journals": [
+    {
+     "name": "Journal of Molecular Biology",
+     "issns": [
+      "0022-2836",
+      "1089-8638"
+     ]
+    },
+    {
+     "name": "Cell Reports",
+     "issns": [
+      "2211-1247"
+     ]
+    }
+   ]
+  },
+  {
+   "esac_id": "sn2026jisc",
+   "end_date": "2027-12-31",
+   "corresponding_author_only": true,
+   "last_reviewed": "2026-07-01",
+   "data_url": "https://journalcheckertool.org/transformative-agreements/",
+   "journal_count": 1,
+   "journals": [
+    {
+     "name": "European Journal of Epidemiology",
+     "issns": [
+      "0393-2990",
+      "1573-7284"
+     ]
+    }
+   ]
+  }
+ ]
+}

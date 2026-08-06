@@ -1,0 +1,13 @@
+{
+ "built": "2026-08-06T15:37:34Z",
+ "dataset_generated": "2026-08-06T15:37:34Z",
+ "counts": {
+  "total": 10,
+  "covered": 5,
+  "discount": 2,
+  "diamond": 1,
+  "in_doaj": 5,
+  "excluded_misconduct": 0
+ },
+ "sources_fetched": {}
+}

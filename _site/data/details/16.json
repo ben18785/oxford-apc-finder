@@ -1,0 +1,75 @@
+{
+ "1664-1078": {
+  "id": "1664-1078",
+  "title": "Frontiers in Psychology",
+  "alt_titles": [],
+  "issns": [
+   "1664-1078"
+  ],
+  "publisher": "Frontiers Media",
+  "homepage": "https://www.frontiersin.org/journals/psychology",
+  "in_doaj": true,
+  "doaj_withdrawn": null,
+  "deal": {
+   "status": "discount",
+   "esac_id": null,
+   "discount_pct": 10,
+   "caveats": [
+    "10% APC discount; full APC coverage for UKRI, Wellcome, CRUK or BHF funded authors."
+   ]
+  },
+  "cost": {
+   "kind": "discount",
+   "pct": 10,
+   "list": {
+    "price": 3150,
+    "currency": "CHF"
+   },
+   "estimated": {
+    "price": 2835,
+    "currency": "CHF"
+   },
+   "note": "10% Oxford discount applied to list price."
+  },
+  "scope": {
+   "sentence": "Publishes primarily in Cognitive and educational psychology (field: Psychology). 78,000 articles indexed in OpenAlex.",
+   "topics": [
+    "Cognitive and educational psychology"
+   ],
+   "subfields": [
+    "Developmental and Educational Psychology"
+   ],
+   "keywords": [
+    "clinical/health psychology",
+    "environmental psychology",
+    "educational psychology",
+    "social/cultural psychology",
+    "cognitive psychology"
+   ],
+   "aims_url": "https://www.frontiersin.org/journals/psychology/about#about-scope"
+  },
+  "waiver": true,
+  "provenance": {
+   "metadata": {
+    "label": "OpenAlex (CC0)",
+    "url": "https://api.openalex.org/sources/issn:1664-1078",
+    "retrieved": "2026-08-06T12:00:00Z"
+   },
+   "doaj": {
+    "label": "DOAJ (metadata CC0)",
+    "url": "https://doaj.org/toc/1664-1078",
+    "retrieved": "2026-08-06T12:00:00Z"
+   },
+   "deal": [
+    {
+     "label": "Bodleian publisher deals page",
+     "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+    }
+   ],
+   "oxford": {
+    "label": "Bodleian publisher deals page",
+    "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+   }
+  }
+ }
+}

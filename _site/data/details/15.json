@@ -1,0 +1,170 @@
+{
+ "1521-4095": {
+  "id": "1521-4095",
+  "title": "Advanced Materials",
+  "alt_titles": [],
+  "issns": [
+   "0935-9648",
+   "1521-4095"
+  ],
+  "publisher": "Wiley",
+  "homepage": "https://onlinelibrary.wiley.com/journal/15214095",
+  "in_doaj": false,
+  "doaj_withdrawn": null,
+  "deal": {
+   "status": "covered",
+   "esac_id": "wiley2026jisc",
+   "discount_pct": null,
+   "caveats": [
+    "Corresponding author must be Oxford-affiliated.",
+    "Agreement runs to 2028-12-31."
+   ]
+  },
+  "cost": {
+   "kind": "covered",
+   "note": "APC covered by the Oxford agreement (subject to the caveats shown)."
+  },
+  "scope": {
+   "sentence": "Publishes primarily in Conducting polymers and applications, Perovskite solar cells (field: Materials Science). 61,230 articles indexed in OpenAlex.",
+   "topics": [
+    "Conducting polymers and applications",
+    "Perovskite solar cells"
+   ],
+   "subfields": [
+    "Electronic Materials",
+    "Materials Chemistry"
+   ],
+   "keywords": [],
+   "aims_url": "https://onlinelibrary.wiley.com/journal/15214095"
+  },
+  "waiver": false,
+  "provenance": {
+   "metadata": {
+    "label": "OpenAlex (CC0)",
+    "url": "https://api.openalex.org/sources/issn:1521-4095",
+    "retrieved": "2026-08-06T12:00:00Z"
+   },
+   "deal": [
+    {
+     "label": "JCT agreement data (CC BY 4.0)",
+     "url": "https://journalcheckertool.org/transformative-agreements/"
+    }
+   ],
+   "oxford": {
+    "label": "Bodleian publisher deals page",
+    "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+   }
+  }
+ },
+ "1521-3773": {
+  "id": "1521-3773",
+  "title": "Angewandte Chemie International Edition",
+  "alt_titles": [],
+  "issns": [
+   "1433-7851",
+   "1521-3773"
+  ],
+  "publisher": "Wiley",
+  "homepage": "https://onlinelibrary.wiley.com/journal/15213773",
+  "in_doaj": false,
+  "doaj_withdrawn": null,
+  "deal": {
+   "status": "covered",
+   "esac_id": "wiley2026jisc",
+   "discount_pct": null,
+   "caveats": [
+    "Corresponding author must be Oxford-affiliated.",
+    "Agreement runs to 2028-12-31."
+   ]
+  },
+  "cost": {
+   "kind": "covered",
+   "note": "APC covered by the Oxford agreement (subject to the caveats shown)."
+  },
+  "scope": {
+   "sentence": "Publishes primarily in Catalysis and organic synthesis (field: Chemistry). 78,000 articles indexed in OpenAlex.",
+   "topics": [
+    "Catalysis and organic synthesis"
+   ],
+   "subfields": [
+    "Organic Chemistry"
+   ],
+   "keywords": [],
+   "aims_url": "https://onlinelibrary.wiley.com/journal/15213773"
+  },
+  "waiver": false,
+  "provenance": {
+   "metadata": {
+    "label": "OpenAlex (CC0)",
+    "url": "https://api.openalex.org/sources/issn:1521-3773",
+    "retrieved": "2026-08-06T12:00:00Z"
+   },
+   "deal": [
+    {
+     "label": "JCT agreement data (CC BY 4.0)",
+     "url": "https://journalcheckertool.org/transformative-agreements/"
+    }
+   ],
+   "oxford": {
+    "label": "Bodleian publisher deals page",
+    "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+   }
+  }
+ },
+ "1573-7284": {
+  "id": "1573-7284",
+  "title": "European Journal of Epidemiology",
+  "alt_titles": [],
+  "issns": [
+   "0393-2990",
+   "1573-7284"
+  ],
+  "publisher": "Springer Nature",
+  "homepage": "https://www.springer.com/journal/10654",
+  "in_doaj": false,
+  "doaj_withdrawn": null,
+  "deal": {
+   "status": "covered",
+   "esac_id": "sn2026jisc",
+   "discount_pct": null,
+   "caveats": [
+    "Corresponding author must be Oxford-affiliated.",
+    "Agreement runs to 2027-12-31.",
+    "Most hybrid and Palgrave journals covered; 15% discount on fully gold OA journals instead."
+   ]
+  },
+  "cost": {
+   "kind": "covered",
+   "note": "APC covered by the Oxford agreement (subject to the caveats shown)."
+  },
+  "scope": {
+   "sentence": "Publishes primarily in Epidemiological methods and cohorts (field: Medicine). 4,200 articles indexed in OpenAlex.",
+   "topics": [
+    "Epidemiological methods and cohorts"
+   ],
+   "subfields": [
+    "Epidemiology"
+   ],
+   "keywords": [],
+   "aims_url": "https://www.springer.com/journal/10654"
+  },
+  "waiver": false,
+  "provenance": {
+   "metadata": {
+    "label": "OpenAlex (CC0)",
+    "url": "https://api.openalex.org/sources/issn:1573-7284",
+    "retrieved": "2026-08-06T12:00:00Z"
+   },
+   "deal": [
+    {
+     "label": "JCT agreement data (CC BY 4.0)",
+     "url": "https://journalcheckertool.org/transformative-agreements/"
+    }
+   ],
+   "oxford": {
+    "label": "Bodleian publisher deals page",
+    "url": "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+   }
+  }
+ }
+}
