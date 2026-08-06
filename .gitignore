@@ -12,3 +12,10 @@ _site/
 data/cache/*
 !data/cache/.gitkeep
 !data/cache/manifest.json
+
+# Pipeline output is regenerated from scratch every run and is large
+# (metadata.json runs to hundreds of MB). Only last_counts.json is committed —
+# validate.py reads it back as the week-on-week baseline.
+data/out/*
+!data/out/.gitkeep
+!data/out/last_counts.json

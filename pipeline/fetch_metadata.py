@@ -22,8 +22,8 @@ from __future__ import annotations
 
 import csv
 import io
-import itertools
 import os
+import re
 import time
 
 import requests
@@ -168,47 +168,84 @@ def fetch_openalex_by_publishers(cfg, manifest, session, patterns: list[str]) ->
     return out
 
 
-def fetch_doaj(cfg, manifest, session) -> dict:
-    """All DOAJ journals via paged API → {issn: doaj record} (keyed on both
-    print and electronic ISSN)."""
+# "40 USD; 450000 IDR" — DOAJ lists one amount per accepted currency.
+APC_AMOUNT_RX = re.compile(r"(\d+)\s*([A-Z]{3})")
+# Which one to show an Oxford author, in order of usefulness to them.
+CURRENCY_PREFERENCE = ("GBP", "EUR", "USD")
+
+
+def parse_apc_amount(raw: str | None) -> dict | None:
+    """'40 USD; 450000 IDR' -> {'price': 40, 'currency': 'USD'}"""
+    options = [{"price": int(m.group(1)), "currency": m.group(2)}
+               for m in APC_AMOUNT_RX.finditer(raw or "")]
+    if not options:
+        return None
+    for currency in CURRENCY_PREFERENCE:
+        for option in options:
+            if option["currency"] == currency:
+                return option
+    return options[0]
+
+
+def fetch_doaj(cfg, manifest, session) -> tuple[dict, list[str]]:
+    """All DOAJ journals, from the bulk CSV export.
+
+    The paged search API cannot be used for this: DOAJ caps pagination at 1,000
+    records (page 11 at pageSize=100 returns HTTP 400), so it can only ever
+    reach a fraction of the ~23,000 journals. The bulk CSV returns all of them
+    in a single request.
+
+    Returns ({issn: record} keyed on BOTH print and electronic ISSN, so merge
+    can look a journal up by either) and a list of ONE preferred ISSN per
+    journal. OpenAlex resolves either ISSN of a journal to the same source, so
+    querying both would double the request count — and OpenAlex bills per
+    request — for no extra coverage.
+    """
     out: dict[str, dict] = {}
-    base = cfg["sources"]["doaj_api"] + "/search/journals/%2A"
-    page = 1
-    while True:
-        params = {"page": page, "pageSize": 100}
-        data = fetch_json(base, manifest, f"doaj_page_{page}", session, params)
-        results = data.get("results", [])
-        if not results:
-            break
-        for r in results:
-            bib = r.get("bibjson", {})
-            apc = bib.get("apc") or {}
-            apc_max = (apc.get("max") or [{}])[0] if apc.get("has_apc") else {}
-            rec = {
-                "doaj_id": r.get("id"),
-                "title": bib.get("title"),
-                "publisher": (bib.get("publisher") or {}).get("name"),
-                "apc": {"has_apc": bool(apc.get("has_apc")),
-                        "price": apc_max.get("price"),
-                        "currency": apc_max.get("currency")},
-                "waiver": bool((bib.get("waiver") or {}).get("has_waiver")),
-                "keywords": bib.get("keywords") or [],
-                "subjects": [s.get("term") for s in (bib.get("subject") or [])],
-                "license": [l.get("type") for l in (bib.get("license") or [])],
-                "aims_scope_url": (bib.get("ref") or {}).get("aims_scope"),
-                "journal_url": (bib.get("ref") or {}).get("journal"),
-            }
-            for k in ("pissn", "eissn"):
-                issn = normalise_issn(bib.get(k))
-                if issn:
-                    out[issn] = rec
-        total = data.get("total", 0)
-        print(f"  doaj page {page} ({len(out)} issns; total journals {total})")
-        if page * 100 >= total:
-            break
-        page += 1
-        time.sleep(0.2)
-    return out
+    primary: list[str] = []
+    url = cfg["sources"]["doaj_journal_csv"]
+
+    resp = http_get(url, session=session, timeout=180)
+    resp.raise_for_status()
+    manifest.record("doaj_csv", url, resp.content)
+    reader = csv.DictReader(io.StringIO(resp.content.decode("utf-8-sig")))
+
+    for row in reader:
+        has_apc = row.get("APC", "").strip().lower() == "yes"
+        amount = parse_apc_amount(row.get("APC amount")) if has_apc else None
+        rec = {
+            # The DOAJ ID, taken from the canonical DOAJ URL for the journal.
+            "doaj_id": (row.get("URL in DOAJ") or "").rstrip("/").rsplit("/", 1)[-1],
+            "doaj_url": (row.get("URL in DOAJ") or "").strip() or None,
+            "title": (row.get("Journal title") or "").strip(),
+            "publisher": (row.get("Publisher") or "").strip(),
+            "apc": {"has_apc": has_apc,
+                    "price": (amount or {}).get("price"),
+                    "currency": (amount or {}).get("currency")},
+            "apc_url": (row.get("APC information URL") or "").strip() or None,
+            "waiver": row.get(
+                "Journal waiver policy (for developing country authors etc)",
+                "").strip().lower() == "yes",
+            "keywords": [k.strip() for k in (row.get("Keywords") or "").split(",")
+                         if k.strip()],
+            # "Language and Literature: English language | Law: Law in general"
+            "subjects": [s.strip() for s in (row.get("Subjects") or "").split("|")
+                         if s.strip()],
+            "license": [l.strip() for l in (row.get("Journal license") or "").split(",")
+                        if l.strip()],
+            "aims_scope_url": (row.get("URL for journal's aims & scope") or "").strip() or None,
+            "journal_url": (row.get("Journal URL") or "").strip() or None,
+        }
+        issns = [normalise_issn(row.get(k)) for k in
+                 ("Journal EISSN (online version)", "Journal ISSN (print version)")]
+        issns = [i for i in issns if i]
+        for issn in issns:
+            out[issn] = rec
+        if issns:
+            primary.append(issns[0])   # electronic ISSN when there is one
+
+    print(f"  doaj: {len(primary)} journals, {len(out)} issns (bulk CSV)")
+    return out, primary
 
 
 def fetch_doaj_withdrawn(cfg, manifest, session) -> dict:
@@ -247,13 +284,13 @@ def main() -> None:
     allow = yaml.safe_load((CURATED / "publisher_allowlist.yaml").read_text())["publishers"]
 
     print("Fetching DOAJ journals …")
-    doaj = fetch_doaj(cfg, manifest, session)
+    doaj, doaj_primary = fetch_doaj(cfg, manifest, session)
     print("Fetching DOAJ withdrawal changelog …")
     withdrawn = fetch_doaj_withdrawn(cfg, manifest, session)
 
     print("Fetching OpenAlex records for deal + DOAJ ISSNs …")
     openalex = fetch_openalex_by_issns(cfg, manifest, session,
-                                       deal_issns + list(doaj.keys()))
+                                       deal_issns + doaj_primary)
     print("Fetching OpenAlex records for allowlisted publishers …")
     pub_recs = fetch_openalex_by_publishers(cfg, manifest, session, allow)
     for k, v in pub_recs.items():

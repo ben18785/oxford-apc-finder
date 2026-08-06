@@ -207,8 +207,11 @@ def main() -> None:
                          "retrieved": retrieved},
         }
         if doaj_rec:
+            # DOAJ's own canonical URL for the journal, straight from the bulk
+            # export — /toc/<issn> guesses are not always resolvable.
             provenance["doaj"] = {"label": "DOAJ (metadata CC0)",
-                                  "url": f"https://doaj.org/toc/{sorted(issns)[0]}",
+                                  "url": doaj_rec.get("doaj_url")
+                                         or f"https://doaj.org/toc/{sorted(issns)[0]}",
                                   "retrieved": retrieved}
         if deal_sources:
             provenance["deal"] = deal_sources
