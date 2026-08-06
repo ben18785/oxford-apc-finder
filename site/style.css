@@ -25,6 +25,32 @@ body {
 .site-header { background: var(--oxford); color: #fff; padding: 26px 0 20px; }
 .site-header h1 { margin: 0; font-size: 1.5rem; letter-spacing: .2px; }
 .tagline { margin: 6px 0 0; color: #c9d6e5; font-size: .98rem; }
+
+.header-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.gh-link {
+  display: inline-flex; align-items: center; gap: 7px; flex-shrink: 0;
+  color: #fff; text-decoration: none; font-size: .9rem; font-weight: 500;
+  padding: 7px 12px; border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.35); background: rgba(255,255,255,.06);
+}
+.gh-link:hover { background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.6); }
+.gh-link:focus-visible { outline: 3px solid #9cc3e6; outline-offset: 2px; }
+/* On narrow screens the icon alone carries the link; aria-label names it. */
+@media (max-width: 560px) { .gh-link span { display: none; } }
+/* Always visible, never dismissible: the whole point is that nobody reaches a
+   cost figure without having seen it. */
+.disclaimer-bar {
+  margin: 16px 0 0; padding: 10px 14px; border-radius: 8px;
+  background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.28);
+  color: #e8eef6; font-size: .88rem; line-height: 1.5;
+}
+.disclaimer-bar strong { color: #fff; }
+.disclaimer-bar a { color: #fff; text-decoration: underline; white-space: nowrap; }
+
+.disclaimer-body h4 { margin: 18px 0 6px; font-size: .95rem; color: var(--text);
+  text-transform: none; letter-spacing: 0; }
+.disclaimer-body p, .disclaimer-body li { font-size: .92rem; }
+
 .sample-banner {
   margin: 14px 0 0; background: #fff4d6; color: #6a4c00; border: 1px solid #f0d68a;
   padding: 8px 12px; border-radius: 8px; font-size: .9rem;
@@ -62,7 +88,8 @@ body {
 .badge.discount { background: #fbeeda; color: var(--discount); }
 .badge.diamond { background: #efe7f8; color: var(--diamond); }
 .badge.none { background: #eef1f4; color: var(--muted); }
-.badge.doaj { background: #e8f0fb; color: #24578f; }
+.badge.doaj { background: #e8f0fb; color: var(--oxford); }
+.badge.disputed { background: #fdecea; color: #86271b; border: 1px solid #f5c6c0; }
 .badge-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
 
 .empty { color: var(--muted); text-align: center; padding: 30px; }
@@ -90,9 +117,17 @@ body {
 .caveats li { margin: 3px 0; font-size: .92rem; }
 .chip { display: inline-block; background: #eef1f4; border-radius: 6px; padding: 2px 8px; margin: 2px 3px 2px 0; font-size: .82rem; }
 .src { font-size: .84rem; }
-.src a { color: #24578f; }
+.src a { color: var(--oxford); }
 .derived-note { font-size: .8rem; color: var(--muted); font-style: italic; margin-top: 6px; }
 .warn { background: #fdecea; border: 1px solid #f5c6c0; color: #86271b; padding: 10px 12px; border-radius: 8px; font-size: .9rem; }
+
+/* Sources disagree about this deal. Deliberately loud, and placed above the
+   cost figure so it cannot be read as a footnote to it. */
+.dispute { background: #fdecea; border: 1px solid #f5c6c0; border-left: 4px solid #c0392b;
+  color: #6b2018; padding: 12px 14px; border-radius: 8px; margin: 16px 0; font-size: .92rem; }
+.dispute h4 { margin: 0 0 8px; color: #86271b; font-size: .95rem; }
+.dispute p { margin: 6px 0; }
+.dispute .cost-note { color: #86271b; opacity: .85; }
 
 .report-box textarea { width: 100%; min-height: 90px; padding: 10px; border: 1px solid var(--line); border-radius: 8px; font: inherit; }
 .report-box .btn { margin-top: 10px; }
@@ -103,7 +138,7 @@ body {
 
 .site-footer { border-top: 1px solid var(--line); background: #fff; padding: 22px 0 40px; margin-top: 20px; }
 .site-footer p { margin: 6px 0; font-size: .87rem; color: var(--muted); }
-.foot-links a { color: #24578f; cursor: pointer; }
+.foot-links a { color: var(--oxford); cursor: pointer; }
 
 .status-table { width: 100%; border-collapse: collapse; font-size: .85rem; margin-top: 10px; }
 .status-table td { padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }

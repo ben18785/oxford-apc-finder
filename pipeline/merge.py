@@ -14,14 +14,29 @@ Output: data/out/journals.json
 """
 from __future__ import annotations
 
+import html
 import re
 
 import yaml
 
-from common import CURATED, OUT, load_config, read_json, utcnow, write_json
+from common import (CURATED, OUT, load_config, normalise_issn, read_json,
+                    utcnow, write_json)
 
 MISCONDUCT_PAT = re.compile(
     r"misconduct|best practice|not adhering", re.I)
+
+
+def clean_text(s: str | None) -> str | None:
+    """Undo HTML encoding in upstream text.
+
+    A handful of OpenAlex titles store the encoded form ("ACS ES&amp;T Water",
+    "Nature Clinical Practice Endocrinology &#38; Metabolism"). The site escapes
+    for display, so without this the entity is escaped a second time and the
+    user sees the raw '&amp;'.
+    """
+    if not s:
+        return s
+    return html.unescape(s).strip()
 
 
 def build_deal_lookup(deals: dict) -> dict[str, dict]:
@@ -114,8 +129,11 @@ def main() -> None:
     doaj: dict = meta["doaj"]
     withdrawn: dict = meta["doaj_withdrawn"]
 
+    universal_criteria = overrides.get("universal_criteria") or []
     caveat_entries = [e for e in overrides["entries"] if e["kind"] == "caveat"]
-    other_entries = [e for e in overrides["entries"] if e["kind"] != "caveat"]
+    conflict_entries = [e for e in overrides["entries"] if e["kind"] == "conflict"]
+    other_entries = [e for e in overrides["entries"]
+                     if e["kind"] not in ("caveat", "conflict")]
     bodleian_url = overrides["meta"]["source"]
 
     journals = []
@@ -125,7 +143,12 @@ def main() -> None:
     for issn_l, rec in openalex.items():
         if rec.get("type") not in (None, "journal"):
             continue
-        issns = set(rec.get("issns") or [issn_l])
+        # OpenAlex's issn array is not always clean — some records carry
+        # strings like "ISSN-L: 2992-7862". Normalise and drop anything that
+        # isn't ISSN-shaped, keeping issn_l (the key) regardless.
+        issns = {i for i in (normalise_issn(x) for x in (rec.get("issns") or []))
+                 if i}
+        issns.add(issn_l)
         doaj_rec = next((doaj[i] for i in issns if i in doaj), None)
 
         # --- exclusion: misconduct-type DOAJ withdrawal
@@ -141,6 +164,8 @@ def main() -> None:
         if deal:
             status = "covered"
             esac_id = deal["esac_id"]
+            # Conditions the Bodleian page attaches to every deal.
+            caveats.extend(universal_criteria)
             deal_sources.append({"label": "JCT agreement data (CC BY 4.0)",
                                  "url": deal["data_url"]})
             if deal["corresponding_author_only"]:
@@ -191,6 +216,23 @@ def main() -> None:
                                                  "url": e["source_extra"]})
                         break
 
+        # --- source conflicts: our sources disagree about this journal, so
+        # say so rather than silently presenting one of them as fact.
+        disputed = None
+        for e in conflict_entries:
+            by_esac = (esac_id and e.get("match_esac_prefix")
+                       and esac_id.startswith(e["match_esac_prefix"]))
+            if by_esac or match_override(e, rec):
+                disputed = {
+                    "publisher": e.get("publisher_label"),
+                    "note": (e.get("note") or "").strip(),
+                    "jct_says": e.get("jct_says"),
+                    "bodleian_says": e.get("bodleian_says"),
+                }
+                deal_sources.append({"label": "Bodleian publisher deals page",
+                                     "url": e.get("source_extra") or bodleian_url})
+                break
+
         in_doaj = rec.get("is_in_doaj") or bool(doaj_rec)
 
         # --- inclusion policy
@@ -220,15 +262,16 @@ def main() -> None:
 
         journals.append({
             "id": issn_l,
-            "title": rec.get("title"),
-            "alt_titles": rec.get("alternate_titles") or [],
+            "title": clean_text(rec.get("title")),
+            "alt_titles": [clean_text(t) for t in (rec.get("alternate_titles") or [])],
             "issns": sorted(issns),
-            "publisher": rec.get("publisher"),
+            "publisher": clean_text(rec.get("publisher")),
             "homepage": rec.get("homepage"),
             "in_doaj": in_doaj,
             "doaj_withdrawn": wd,
             "deal": {"status": status, "esac_id": esac_id,
-                     "discount_pct": discount_pct, "caveats": caveats},
+                     "discount_pct": discount_pct, "caveats": caveats,
+                     "disputed": disputed},
             "cost": cost,
             "scope": {
                 "sentence": scope_sentence(rec),
@@ -253,6 +296,7 @@ def main() -> None:
             "discount": sum(1 for j in journals if j["deal"]["status"] == "discount"),
             "diamond": sum(1 for j in journals if j["deal"]["status"] == "diamond"),
             "in_doaj": sum(1 for j in journals if j["in_doaj"]),
+            "disputed": sum(1 for j in journals if j["deal"].get("disputed")),
             "excluded_misconduct": excluded_misconduct,
         },
         "journals": journals,

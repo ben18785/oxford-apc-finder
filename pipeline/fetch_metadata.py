@@ -248,19 +248,73 @@ def fetch_doaj(cfg, manifest, session) -> tuple[dict, list[str]]:
     return out, primary
 
 
+def _find_column(header: list[str], *needles: str) -> int | None:
+    """Index of the first column whose header contains any needle.
+
+    The withdrawal sheet's header row is not made of tidy field names — the
+    cells hold whole explanatory paragraphs, and the tidy ones carry trailing
+    spaces ('ISSN '). Matching on substrings survives that, and survives DOAJ
+    rewording the blurb.
+    """
+    cells = [(c or "").strip().lower() for c in header]
+
+    # Exact match first. The blurb in column 0 contains the words "reason" and
+    # "issn", so a substring search alone picks the journal-title column.
+    for needle in needles:
+        for i, cell in enumerate(cells):
+            if cell == needle.lower():
+                return i
+
+    # Otherwise fall back to substring, preferring the tersest header — the
+    # date column's header really is a whole licence paragraph.
+    best = None
+    for needle in needles:
+        for i, cell in enumerate(cells):
+            if needle.lower() in cell and (best is None or len(cell) < len(cells[best])):
+                best = i
+    return best
+
+
 def fetch_doaj_withdrawn(cfg, manifest, session) -> dict:
-    """DOAJ withdrawal changelog → {issn: {date, reason}}"""
+    """DOAJ withdrawal changelog → {issn: {date, reason}}
+
+    This feeds the misconduct exclusion in merge.py, so a silent parse failure
+    would quietly disable the site's main quality filter. It therefore raises
+    rather than returning an empty dict.
+    """
     url = cfg["sources"]["doaj_withdrawn_sheet_csv"]
     resp = http_get(url, session=session)
     resp.raise_for_status()
     manifest.record("doaj_withdrawn", url, resp.content)
+
+    rows = list(csv.reader(io.StringIO(resp.content.decode("utf-8-sig"))))
+    if not rows:
+        raise RuntimeError(f"DOAJ withdrawal changelog is empty: {url}")
+
+    header = rows[0]
+    issn_col = _find_column(header, "issn")
+    reason_col = _find_column(header, "reason")
+    date_col = _find_column(header, "date removed")
+    if issn_col is None or reason_col is None:
+        raise RuntimeError(
+            f"Cannot find ISSN/Reason columns in the DOAJ withdrawal changelog "
+            f"({url}). Header was: {header[:6]}")
+
     out = {}
-    reader = csv.DictReader(io.StringIO(resp.content.decode("utf-8-sig")))
-    for row in reader:
-        issn = normalise_issn(row.get("ISSN"))
-        if issn:
-            out[issn] = {"date": (row.get("Date Removed") or "").strip(),
-                         "reason": (row.get("Reason") or "").strip()}
+    for row in rows[1:]:
+        if issn_col >= len(row):
+            continue
+        issn = normalise_issn(row[issn_col])
+        if not issn:
+            continue
+        out[issn] = {
+            "date": row[date_col].strip() if date_col is not None and date_col < len(row) else "",
+            "reason": row[reason_col].strip() if reason_col < len(row) else "",
+        }
+    if not out:
+        raise RuntimeError(
+            f"DOAJ withdrawal changelog parsed to zero entries ({url}) — the "
+            "misconduct exclusion would silently do nothing.")
     return out
 
 

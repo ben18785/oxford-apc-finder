@@ -11,6 +11,7 @@ Emits into _site/:
 from __future__ import annotations
 
 import json
+import re
 import shutil
 from collections import defaultdict
 from pathlib import Path
@@ -19,6 +20,19 @@ from common import CACHE, OUT, ROOT, load_config, read_json, utcnow, write_json
 
 SITE_SRC = ROOT / "site"
 SITE_OUT = ROOT / "_site"
+
+WORD_RX = re.compile(r"[a-z0-9]+")
+STOPWORDS = {"and", "of", "the", "in", "for", "to", "a", "on", "with", "by",
+             "its", "or", "an", "at", "from", "as", "is"}
+
+
+def shard_key(issn_l: str) -> str:
+    """Detail records are sharded on the ISSN-L prefix, and the browser fetches
+    a whole shard to open one journal — so the shards have to stay small.
+    Two characters gives 32 shards with the largest at ~9MB (ISSNs are not
+    uniformly distributed); four gives ~2,500 shards with a median of a dozen
+    records, which is the difference between a 9MB click and a 60KB one."""
+    return issn_l[:4]
 
 
 def cost_summary(j: dict) -> str:
@@ -49,11 +63,19 @@ def main() -> None:
     shutil.copytree(SITE_SRC, SITE_OUT)
 
     # ---- compact search index
+    #
+    # Keywords are split into their own file. They are ~75% of the index by
+    # size (43k journals x ~30 subject terms), and holding them back keeps the
+    # eager load at ~1.7MB gzipped instead of ~5.3MB. The site loads them in
+    # the background straight after first paint, so title/publisher/ISSN search
+    # works immediately and field search lights up a moment later.
     index = []
+    keyword_ids: list[list[int]] = []
+    vocab: dict[str, int] = {}
     shards: dict[str, dict] = defaultdict(dict)
+
     for j in data["journals"]:
-        shard_key = j["id"][:2]
-        shards[shard_key][j["id"]] = j
+        shards[shard_key(j["id"])][j["id"]] = j
         index.append({
             "id": j["id"],
             "t": j["title"],
@@ -62,17 +84,28 @@ def main() -> None:
             "i": j["issns"],
             "s": j["deal"]["status"],
             "d": j["in_doaj"],
+            "x": bool(j["deal"].get("disputed")),   # sources disagree
             "c": cost_summary(j),
-            "k": " ".join((j["scope"]["topics"] or []) +
-                           (j["scope"]["subfields"] or []) +
-                           (j["scope"]["keywords"] or [])).lower(),
         })
+        terms = " ".join((j["scope"]["topics"] or []) +
+                         (j["scope"]["subfields"] or []) +
+                         (j["scope"]["keywords"] or []))
+        # Words already in the title or publisher are scored from those fields
+        # anyway, so storing them again buys nothing.
+        already = set(WORD_RX.findall(((j["title"] or "") + " " +
+                                       (j["publisher"] or "")).lower()))
+        words = sorted({w for w in WORD_RX.findall(terms.lower())
+                        if len(w) > 2 and w not in STOPWORDS and w not in already})
+        keyword_ids.append(sorted(vocab.setdefault(w, len(vocab)) for w in words))
 
     datadir = SITE_OUT / "data"
     write_json(datadir / "index.json", {"generated": data["generated"],
                                         "sample_data": bool(data.get("sample_data")),
                                         "counts": data["counts"],
                                         "journals": index})
+    # Parallel to index.json's journal order.
+    write_json(datadir / "keywords.json", {"vocab": list(vocab),
+                                           "ids": keyword_ids})
     for key, records in shards.items():
         write_json(datadir / "details" / f"{key}.json", records)
 
@@ -92,6 +125,10 @@ def main() -> None:
         "sources_fetched": {k: {"url": v["url"], "retrieved": v["retrieved"]}
                             for k, v in recent},
     })
+
+    changes_path = OUT / "changes.json"
+    if changes_path.exists():
+        write_json(datadir / "changes.json", read_json(changes_path))
 
     write_json(SITE_OUT / "config.json", {
         "title": cfg["site_title"],

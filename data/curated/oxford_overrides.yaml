@@ -19,7 +19,18 @@
 meta:
   source: "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
   curated_date: "2026-08-06"
+  page_last_amended: "2026-01-12"      # stated on the Bodleian deals page
   contact: "oapayments@bodleian.ox.ac.uk"
+
+# The Bodleian page states these under "Criteria" as conditions on ANY deal.
+# merge.py attaches them to every journal covered by a deal, because a
+# researcher reading one journal's page has no other way to learn them.
+universal_criteria:
+  - "You must be the corresponding author of the accepted article."
+  - "You must be publishing a journal article — these deals cannot be used for other research outputs."
+  - "You must submit using your Oxford email address (@ox.ac.uk) so the publisher can identify you as Oxford-affiliated."
+  - "You must select a CC BY licence when prompted."
+  - "Most deals do not cover extras such as page or colour charges."
 
 entries:
   # ---- caveats on JCT-covered agreements -------------------------------
@@ -34,8 +45,11 @@ entries:
     match_esac_prefix: "bmj"
     publisher_label: "BMJ"
     caveats:
-      - "Only for research funded by specific funders (UKRI, Wellcome, British Heart Foundation and others) — check the Bodleian page."
-    funders_only: ["UKRI", "Wellcome", "British Heart Foundation", "other listed funders"]
+      - "Only covers eligible FUNDED original research articles in BMJ's Standard Collection of subscription journals."
+      - "Eligible funders: UKRI, Wellcome Trust, British Heart Foundation, Blood Cancer UK, Cancer Research UK, Parkinson's UK, Versus Arthritis."
+    funders_only: ["UKRI", "Wellcome Trust", "British Heart Foundation",
+                   "Blood Cancer UK", "Cancer Research UK", "Parkinson's UK",
+                   "Versus Arthritis"]
 
   - kind: caveat
     match_esac_prefix: "els"
@@ -73,20 +87,87 @@ entries:
     match_esac_prefix: "rsc"
     publisher_label: "Royal Society of Chemistry"
     caveats:
-      - "Hybrid journals covered; 15% discount on RSC fully gold OA journals instead."
+      - "Hybrid (subscription) journals covered, up to an annual cap."
+      - "15% discount applies to articles above the cap, and to RSC's fully open access journals."
     source_extra: "https://www.rsc.org/journals-books-databases/open-access/read-and-publish/"
 
   - kind: caveat
-    match_esac_prefix: "cob"
+    match_esac_prefix: "compbio"
     publisher_label: "Company of Biologists"
     caveats:
       - "Covers the three hybrid subscription journals only — Disease Models & Mechanisms and Biology Open are NOT covered."
 
   - kind: caveat
-    match_esac_prefix: "wolterskluwer"
+    match_esac_prefix: "aps"
+    publisher_label: "American Physical Society"
+    caveats:
+      - "Hybrid APS journals only — all original research and review outputs are covered."
+      - "APS gold / pure open access journals are NOT included."
+
+  - kind: caveat
+    match_esac_prefix: "thie"
+    publisher_label: "Thieme"
+    caveats:
+      - "Selected hybrid journals only; Thieme's pure open access journals are not included."
+
+  - kind: caveat
+    match_esac_prefix: "cam"
+    publisher_label: "Cambridge University Press"
+    caveats:
+      - "Covers research, review articles and rapid communications, plus brief and case reports."
+      - "Not covered: abstracts, commentaries, book reviews, editorials, letters, corrections, corrigenda, errata, retractions, obituaries and similar non-research types."
+    source_extra: "https://www.cambridge.org/core/services/open-access-policies/read-and-publish-agreements"
+
+  - kind: caveat
+    match_esac_prefix: "iop"
+    publisher_label: "IOP Publishing"
+    caveats:
+      - "Covers 44 of IOP's hybrid (subscription) journals and selected open access journals — not the full IOP list."
+
+  - kind: caveat
+    match_esac_prefix: "biosci"
+    publisher_label: "Bioscientifica"
+    caveats:
+      - "Hybrid journals only. For Bioscientifica's fully open access journals, apply for support via the usual route."
+
+  - kind: caveat
+    match_esac_prefix: "cshl"
+    publisher_label: "Cold Spring Harbor Laboratory Press"
+    caveats:
+      - "Hybrid journals only. For fully open access titles, apply for support via the usual route."
+
+  - kind: caveat
+    match_esac_prefix: "gsl"
+    publisher_label: "Geological Society of London"
+    caveats:
+      - "Hybrid journals only. For fully open access titles, apply for support via the usual route."
+
+  - kind: caveat
+    match_esac_prefix: "lww"
     publisher_label: "Wolters Kluwer Health"
     caveats:
       - "Selected hybrid journals; Wolters Kluwer Law journals are excluded."
+
+  # ---- source conflicts -------------------------------------------------
+  # Where the JCT agreement data and the Bodleian page disagree, the site
+  # shows BOTH claims and a health warning rather than silently picking one.
+  # The computed cost still follows JCT (the machine-readable source), but the
+  # user is told the claim is contested and pointed at both sources.
+  #
+  # Add an entry here whenever a refresh surfaces a disagreement; remove it
+  # once the Bodleian confirms which source is right.
+  - kind: conflict
+    match_esac_prefix: "mdpi"
+    publisher_label: "MDPI"
+    jct_says: "Covered by an Oxford transformative agreement (mdpi2026jisc), running to 2027-12-31, across 516 journals."
+    bodleian_says: "Listed only under 'Other publisher deals' as a 20% discount on APCs — not as a read-and-publish deal."
+    note: >-
+      Oxford's own page and the Journal Checker Tool disagree about MDPI. The
+      Bodleian's discount table was last updated 1 September 2025, before the
+      2026 agreement JCT records, so the page may simply be out of date — but
+      this has not been confirmed. Check with the open access team before
+      relying on either figure.
+    source_extra: "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
 
   # ---- discount schemes (not transformative agreements, not in JCT) ----
   - kind: discount
@@ -146,18 +227,33 @@ entries:
                   "1748-0221", "2470-0010", "2470-0029", "1434-6044",
                   "1434-6052", "2050-3911", "0001-7701", "1361-6382"]
 
+  # The Bodleian page names exactly three WRUP titles. Matching on the
+  # publisher name would wrongly cover every other WRUP journal too.
   - kind: diamond
     publisher_label: "White Rose University Press"
-    match_publisher_regex: "(?i)White Rose University Press"
+    match_issns:
+      - "2398-5992"   # The Undergraduate Journal of Politics and International Relations
+      - "2513-8243"   # The Journal of African Cultural Heritage Studies
+      - "2633-8815"   # Writing Chinese: A Journal of Contemporary Sinophone Literature
     caveats:
-      - "Diamond OA — free to publish."
+      - "Diamond OA — free to publish. The Oxford arrangement covers these three White Rose University Press titles."
     source_extra: "https://universitypress.whiterose.ac.uk/"
 
+  # Matched by ISSN, not publisher: the six KOALA journals have six different
+  # publishers (Centre Mersenne, University of Szeged, University of
+  # Queensland, TheoretiCS Foundation, …). No publisher is called "KOALA", so
+  # a publisher-name match would never fire.
   - kind: diamond
     publisher_label: "KOALA consortium journals (maths/CS)"
-    match_publisher_regex: "(?i)KOALA"
+    match_issns:
+      - "1417-3875"   # Electronic Journal of Qualitative Theory of Differential Equations
+      - "2426-8399"   # The SMAI Journal of Computational Mathematics
+      - "1860-5974"   # Logical Methods in Computer Science
+      - "2202-3518"   # The Australasian Journal of Combinatorics
+      - "2751-4838"   # TheoretiCS
+      - "2491-6765"   # Épijournal de Géométrie Algébrique (EPIGA)
     caveats:
-      - "Six mathematics/computer science journals, free to publish via the KOALA consortium."
+      - "Six mathematics/computer science journals, free to publish via the KOALA consortium, which Oxford supports."
     source_extra: "https://projects.tib.eu/koala"
 
   # ---- green / other ----------------------------------------------------

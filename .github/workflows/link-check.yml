@@ -23,24 +23,28 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-          cache: pip
-          cache-dependency-path: pipeline/requirements.txt
-
-      - run: pip install -r pipeline/requirements.txt
-
-      # Build from the committed dataset rather than re-fetching: this job is
-      # about link health, and a source outage shouldn't make it fail.
-      - name: Build the site from existing data
-        run: python pipeline/build_site.py
-
-      - name: Extract every URL the site would show
-        run: python pipeline/collect_links.py --out links.txt
+      # The dataset isn't committed, so take the URL list produced by the last
+      # successful refresh. That also means this job checks exactly the links
+      # the live site is currently serving, and never re-fetches the sources.
+      - name: Fetch the link list from the last successful refresh
+        id: links
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          run_id=$(gh run list --workflow=refresh-and-deploy.yml --status=success \
+                     --limit=1 --json databaseId --jq '.[0].databaseId')
+          if [ -z "$run_id" ]; then
+            echo "No successful refresh run yet — nothing to check."
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          gh run download "$run_id" --name links --dir .
+          echo "found=true" >> "$GITHUB_OUTPUT"
+          wc -l links.txt
 
       - name: Check the links
         id: lychee
+        if: steps.links.outputs.found == 'true'
         uses: lycheeverse/lychee-action@v2
         with:
           args: >-
@@ -55,6 +59,7 @@ jobs:
           fail: false
 
       - uses: actions/upload-artifact@v4
+        if: steps.links.outputs.found == 'true'
         with:
           name: lychee-report
           path: lychee-report.md

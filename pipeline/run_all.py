@@ -8,8 +8,10 @@ import subprocess
 import sys
 from pathlib import Path
 
+# changelog.py runs after validate (so a rejected build never rewrites the
+# baseline) and before build_site (which ships changes.json to the site).
 STAGES = ["fetch_jct.py", "fetch_metadata.py", "merge.py",
-          "validate.py", "build_site.py"]
+          "validate.py", "changelog.py", "build_site.py"]
 HERE = Path(__file__).resolve().parent
 
 

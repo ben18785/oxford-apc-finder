@@ -19,6 +19,28 @@ import requests
 import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
+
+
+def _load_dotenv() -> None:
+    """Read KEY=value lines from .env into the environment.
+
+    Lets a local run pick up OPENALEX_API_KEY the same way CI picks it up from
+    repo secrets, without exporting anything by hand. Real environment
+    variables always win, so CI is unaffected. .env is gitignored.
+    """
+    path = ROOT / ".env"
+    if not path.exists():
+        return
+    for line in path.read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+
+
+_load_dotenv()
+
 DATA = ROOT / "data"
 CACHE = DATA / "cache"
 CURATED = DATA / "curated"

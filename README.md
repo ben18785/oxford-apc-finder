@@ -38,6 +38,7 @@ The pipeline is six numbered scripts in `pipeline/`:
 | `fetch_metadata.py` | OpenAlex + DOAJ records for every in-scope ISSN → `data/out/metadata.json` |
 | `merge.py` | Joins everything, applies inclusion policy, computes cost, attaches per-fact provenance → `data/out/journals.json` |
 | `validate.py` | Schema checks, week-on-week drop threshold, and a live cross-check against the JCT API of a date-seeded sample stratified across covered/uncovered journals |
+| `changelog.py` | Diffs this build against the last, writes `CHANGELOG-data.md` + `changes.json`, updates the committed baseline |
 | `build_site.py` | Emits the static site + search index into `_site/` |
 | `collect_links.py` | Gathers the URLs the site can show, for the link-check workflow (not part of `run_all.py`) |
 
@@ -107,6 +108,36 @@ the same link for thousands of journals. The tens of thousands of third-party
 journal homepages are checked in a rotating deterministic hash bucket (1/26 per
 run) so the whole set is covered roughly twice a year without hammering
 publishers weekly.
+
+## Tracking what changed, and when
+
+Deals start, change, hit annual caps and end; sources also just get things
+wrong and later fix them. Three mechanisms record that, so "what did the site
+say in March?" has an answer:
+
+| Mechanism | Catches | Where it surfaces |
+|---|---|---|
+| `data/state/journal_state.tsv` | Per-journal deal status, cost, price, currency, disputed flag | Committed every refresh — `git log -p` on this file is the full history |
+| `CHANGELOG-data.md` + `changes.json` | Journals added/removed, deal status moves, price moves | "What changed recently" on the site; the dated file in the repo |
+| `watch_bodleian.py` | Any edit to the Bodleian deals page | Opens a `needs-review` issue with a text diff |
+
+The state file is one sorted line per journal, so git stores small deltas and
+`git log` is readable. `changelog.py` runs **after** `validate.py`, so a build
+that fails validation never rewrites the baseline — the next successful run
+still diffs against the last *good* dataset.
+
+A sharp jump in the changelog usually means a source problem rather than a real
+event: thousands of journals changing status at once is what a truncated fetch
+looks like. `validate.py`'s drop threshold catches the worst of it, and the
+changelog is how you see the rest.
+
+## Disclaimer
+
+The site carries a permanent disclaimer bar in the header (not dismissible) and
+a fuller **Disclaimer** view: unofficial tool, no warranty, costs are estimates
+not quotes, eligibility depends on facts the site cannot see, and the Bodleian
+is the authoritative source. Journals where the sources contradict each other
+carry a per-journal "sources disagree" warning shown *above* the cost figure.
 
 ## Data sources & licenses
 

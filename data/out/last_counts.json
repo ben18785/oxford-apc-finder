@@ -1,8 +1,9 @@
 {
- "total": 10,
- "covered": 5,
- "discount": 2,
- "diamond": 1,
- "in_doaj": 5,
- "excluded_misconduct": 0
+ "total": 42927,
+ "covered": 12535,
+ "discount": 5721,
+ "diamond": 18,
+ "in_doaj": 22191,
+ "disputed": 494,
+ "excluded_misconduct": 170
 }

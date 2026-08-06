@@ -90,16 +90,34 @@ def check_oracle(data: dict, cfg: dict) -> list[str]:
     sample = (rng.sample(covered, min(n // 2, len(covered)))
               + rng.sample(uncovered, min(n - n // 2, len(uncovered))))
 
+    def jct_covers(issn: str) -> bool:
+        resp = http_get(f"{api}/ta", params={"issn": issn, "ror": ror}, retries=2)
+        # "No agreement" is returned as HTTP 200 with a bare `404` integer as
+        # the body, not as a list and not as an HTTP error — so check the shape
+        # rather than trusting the status code.
+        payload = resp.json() if resp.status_code == 200 else None
+        results = payload if isinstance(payload, list) else []
+        return any((r.get("result") or {}).get("compliant") == "yes"
+                   for r in results if isinstance(r, dict))
+
     errors = []
     for j in sample:
-        issn = j["issns"][0]
         ours = j["deal"]["status"] == "covered"
-        resp = http_get(f"{api}/ta", params={"issn": issn, "ror": ror}, retries=2)
-        theirs = resp.status_code == 200 and any(
-            r.get("result", {}).get("compliant") == "yes" for r in resp.json())
+        # JCT indexes an agreement's journals under the specific ISSN the
+        # agreement lists — often the online one. Querying only the first ISSN
+        # reports a false mismatch for any journal listed under another. Ask
+        # about the rest only when the first answer disagrees with ours, so the
+        # normal case still costs one request per sampled journal.
+        theirs = jct_covers(j["issns"][0])
+        if theirs != ours:
+            for issn in j["issns"][1:]:
+                if jct_covers(issn):
+                    theirs = True
+                    break
+
         if ours != theirs:
             errors.append(f"{j['id']} {j['title']}: we say covered={ours}, "
-                          f"JCT API says {theirs}")
+                          f"JCT API says {theirs} (checked {', '.join(j['issns'])})")
     print(f"  oracle: {len(sample)} sampled, {len(errors)} mismatches")
     return errors
 
