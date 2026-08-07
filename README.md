@@ -17,14 +17,14 @@ answer you can rely on.
 Coverage comes from the [Journal Checker Tool](https://journalcheckertool.org/transformative-agreements/)'s
 public transformative-agreement data, filtered to Oxford's ROR identifier. A
 journal is reported as covered when Oxford appears as a current participant in
-an agreement *and* that agreement's own title list contains the journal — both
+an agreement *and* that agreement's own title list contains the journal; both
 facts read straight from the agreement data, and both shown on the page so
 either can be challenged. Journal metadata and list prices come from
 [OpenAlex](https://openalex.org) and [DOAJ](https://doaj.org); subject
 descriptions are generated from OpenAlex's own topic classification rather than
 publisher marketing copy. A hand-maintained overlay adds the things the
-agreement data does not carry — percentage discounts, diamond schemes, funder
-restrictions, annual caps — each taken from the Bodleian's deals page and
+agreement data does not carry, e.g. percentage discounts, diamond schemes, funder
+restrictions, annual caps, each taken from the Bodleian's deals page and
 recorded with a link back to it.
 
 Costs are worked out by simple arithmetic on published prices, never guessed: a
@@ -32,13 +32,11 @@ covered journal shows £0, a percentage discount is subtracted from the list
 price the sources publish, and where no price is held the site says so rather
 than estimating one. Journals enter the dataset only if
 they are covered by a deal, listed in DOAJ, or published by a vetted publisher,
-and those withdrawn from DOAJ for misconduct-type reasons are excluded outright
-— the site shows positive verification instead of ever labelling a journal
-"predatory". Where sources contradict each other, or where an agreement's stated
+and those withdrawn from DOAJ for misconduct-type reasons are excluded outright. Where sources contradict each other, or where an agreement's stated
 end date has passed, the journal carries a visible warning showing both claims
-rather than quietly picking one.
+rather than picking one.
 
-**Every one of these decisions is made by hard-coded rules — no language model
+**Every one of these decisions is made by hard-coded rules and no language model
 is involved anywhere in producing the data.** The pipeline is a set of Python
 scripts applying explicit conditions to the sources above: string matching on
 ISSNs, date comparisons, a curated YAML file of Oxford-specific facts, and
