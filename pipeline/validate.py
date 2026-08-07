@@ -217,7 +217,19 @@ def check_oracle(data: dict, cfg: dict) -> list[str]:
         return any((r.get("result") or {}).get("compliant") == "yes"
                    for r in results if isinstance(r, dict))
 
-    errors = []
+    # The two directions of disagreement carry very different risk, so they are
+    # judged differently:
+    #
+    #   we say covered, JCT says not  — we would tell someone publishing is free
+    #                                   when it is not. Never acceptable.
+    #   we say not, JCT says covered  — we under-claim. Unhelpful, but nobody is
+    #                                   billed by surprise, and it is what a
+    #                                   renamed journal produces: OpenAlex keeps
+    #                                   the former title as its own source, the
+    #                                   agreement lists only the current one,
+    #                                   and JCT's API resolves the old ISSN to
+    #                                   the new journal.
+    over_claims, under_claims = [], []
     for j in sample:
         ours = j["deal"]["status"] == "covered"
         # JCT indexes an agreement's journals under the specific ISSN the
@@ -232,10 +244,26 @@ def check_oracle(data: dict, cfg: dict) -> list[str]:
                     theirs = True
                     break
 
-        if ours != theirs:
-            errors.append(f"{j['id']} {j['title']}: we say covered={ours}, "
-                          f"JCT API says {theirs} (checked {', '.join(j['issns'])})")
-    print(f"  oracle: {len(sample)} sampled, {len(errors)} mismatches")
+        if ours == theirs:
+            continue
+        note = (f"{j['id']} {j['title']}: we say covered={ours}, "
+                f"JCT API says {theirs} (checked {', '.join(j['issns'])})")
+        (over_claims if ours else under_claims).append(note)
+
+    print(f"  oracle: {len(sample)} sampled, {len(over_claims)} over-claim(s), "
+          f"{len(under_claims)} under-claim(s)")
+    for note in under_claims:
+        print(f"    under-claim: {note}")
+
+    errors = list(over_claims)
+    allowed = cfg["validation"]["max_oracle_under_claims"]
+    if len(under_claims) > allowed:
+        errors.append(
+            f"{len(under_claims)} of {len(sample)} sampled journals are covered "
+            f"according to the live JCT API but not in our data (limit "
+            f"{allowed}). One or two are usually renamed journals; this many "
+            "suggests the agreement data is not being read correctly: "
+            + "; ".join(under_claims[:3]))
     return errors
 
 

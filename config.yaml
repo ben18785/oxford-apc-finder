@@ -46,6 +46,13 @@ inclusion:
 validation:
   max_weekly_drop_pct: 10        # fail build if deal-journal count drops more than this
   oracle_sample_size: 25         # random journals cross-checked against live JCT API
+  # Over-claims (we say covered, JCT says not) always fail: nobody should be
+  # told publishing is free when it is not. Under-claims are tolerated in small
+  # numbers because a renamed journal reliably produces one — OpenAlex keeps the
+  # former title as its own source while the agreement lists only the current
+  # one — and no one is billed by surprise. Several at once means the agreement
+  # data is genuinely not being read properly.
+  max_oracle_under_claims: 2
   max_dataset_age_days: 10       # site warns readers past this age (weekly refresh + slack)
   # Floors per source. A partially-fetched source can hide inside a
   # whole-dataset percentage threshold; these catch it directly. Set well below
