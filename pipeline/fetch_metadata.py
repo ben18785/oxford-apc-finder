@@ -310,7 +310,13 @@ def fetch_doaj(cfg, manifest, session) -> tuple[dict, list[str]]:
     reader = csv.DictReader(io.StringIO(resp.content.decode("utf-8-sig")))
 
     for row in reader:
-        has_apc = row.get("APC", "").strip().lower() == "yes"
+        # Tri-state, not boolean. `== "yes"` would turn a blank or any future
+        # third value into "No APC (per DOAJ)" — asserting a journal is free on
+        # the strength of a field we did not understand. Every row is currently
+        # Yes or No, so this changes nothing today and prevents a false claim of
+        # free if that ever stops being true.
+        raw_apc = (row.get("APC") or "").strip().lower()
+        has_apc = True if raw_apc == "yes" else False if raw_apc == "no" else None
         amount = parse_apc_amount(row.get("APC amount")) if has_apc else None
         rec = {
             # The DOAJ ID, taken from the canonical DOAJ URL for the journal.

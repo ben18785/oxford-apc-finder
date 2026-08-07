@@ -58,6 +58,34 @@ def clean_text(s: str | None) -> str | None:
     return html.unescape(s).strip()
 
 
+def pick_doaj_record(issns: set[str], doaj: dict, title: str | None) -> dict | None:
+    """Choose between DOAJ records when a journal's ISSNs reach more than one.
+
+    A renamed journal keeps its old ISSNs, so OpenAlex's ISSN set can span both
+    the predecessor and successor DOAJ records — which disagree about the APC.
+    Revista Brasileira de Reumatologia is held as free, while its successor
+    Advances in Rheumatology charges 1,890, and taking whichever ISSN sorted
+    first showed a charge for a journal DOAJ also records as free.
+
+    Resolved on title similarity, which picks the record actually describing
+    this journal rather than an arbitrary one.
+    """
+    candidates = [doaj[i] for i in sorted(issns) if i in doaj]
+    if len(candidates) < 2:
+        return candidates[0] if candidates else None
+
+    wanted = set(re.findall(r"[a-z0-9]+", (title or "").lower()))
+    if not wanted:
+        return candidates[0]
+
+    def overlap(rec: dict) -> tuple[int, int]:
+        words = set(re.findall(r"[a-z0-9]+", (rec.get("title") or "").lower()))
+        # Prefer the most-matching title; break ties deterministically.
+        return (len(wanted & words), -len(words))
+
+    return max(candidates, key=overlap)
+
+
 def resolve_publisher(rec: dict, doaj_rec: dict | None) -> str | None:
     """Best available publisher name, preferring OpenAlex and falling back to DOAJ.
 
@@ -225,7 +253,9 @@ def effective_cost(deal_status: str, discount_pct, rec: dict, doaj_rec) -> dict:
     """Deterministic cost summary. Never invents a number."""
     list_prices = rec.get("apc_prices") or []
     doaj_price = None
-    if doaj_rec and doaj_rec["apc"]["has_apc"] and doaj_rec["apc"]["price"]:
+    # `is not None`, not truthiness: a genuine zero is a price, not a missing one.
+    if (doaj_rec and doaj_rec["apc"]["has_apc"]
+            and doaj_rec["apc"]["price"] is not None):
         doaj_price = {"price": doaj_rec["apc"]["price"],
                       "currency": doaj_rec["apc"]["currency"]}
     if deal_status == "covered":
@@ -233,7 +263,9 @@ def effective_cost(deal_status: str, discount_pct, rec: dict, doaj_rec) -> dict:
                 "note": "APC covered by the Oxford agreement (subject to the caveats shown)."}
     if deal_status == "diamond":
         return {"kind": "diamond", "note": "Free to publish (diamond OA)."}
-    if doaj_rec and not doaj_rec["apc"]["has_apc"]:
+    # Explicitly False only. None means DOAJ did not say, which is not the same
+    # as saying there is no charge.
+    if doaj_rec and doaj_rec["apc"]["has_apc"] is False:
         return {"kind": "no_apc", "note": "No APC (per DOAJ)."}
     base = doaj_price or (
         {"price": list_prices[0]["price"], "currency": list_prices[0]["currency"]}
@@ -295,7 +327,7 @@ def main() -> None:
         issns = {i for i in (normalise_issn(x) for x in (rec.get("issns") or []))
                  if i}
         issns.add(issn_l)
-        doaj_rec = next((doaj[i] for i in issns if i in doaj), None)
+        doaj_rec = pick_doaj_record(issns, doaj, rec.get("title"))
 
         # Resolve the publisher once, and shadow it onto the record so every
         # downstream decision — overlay matching, the allowlist, the displayed

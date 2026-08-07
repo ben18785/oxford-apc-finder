@@ -618,3 +618,98 @@ def test_regression_any_fetch_failure_is_tolerated_not_just_runtimeerror():
         # that the caller collects every failure kind and reaches this point.
         assert unfetchable_verdict(["some2025consortium"], OXFORD_AGREEMENTS,
                                    have_baseline=True) is None
+
+
+# ------------------------------------ superseded predecessor records
+from merge import superseded as _superseded  # noqa: E402
+
+TODAY_2026 = _dt.date(2026, 8, 7)
+
+
+def test_regression_predecessor_records_are_flagged_superseded():
+    """OpenAlex keeps the old journal as its own source after a rename or a
+    change of publisher, so the site lists both. Real last-active years, checked
+    against OpenAlex on 2026-08-07:
+
+      0035-9238  JRSS Series A (General, Wiley)        1987
+      0035-9246  JRSS Series B (Methodological, Wiley) 2018
+      1054-9714  Journal of Phase Equilibria           2003
+
+    The current titles are correctly covered; these are the records that read as
+    "a journal with no Oxford deal" when they are journals you cannot submit to.
+    """
+    for year in (1987, 2003, 2018):
+        got = _superseded({"last_active_year": year}, TODAY_2026)
+        assert got and got["last_active_year"] == year
+
+
+def test_currently_publishing_journals_are_not_flagged():
+    assert _superseded({"last_active_year": 2026}, TODAY_2026) is None
+    assert _superseded({"last_active_year": 2024}, TODAY_2026) is None
+
+
+def test_unknown_activity_is_never_called_superseded():
+    """Absence of evidence is not evidence of absence: a missing counts_by_year
+    must not brand a live journal defunct."""
+    assert _superseded({}, TODAY_2026) is None
+    assert _superseded({"last_active_year": None}, TODAY_2026) is None
+
+
+def test_supersede_threshold_boundary():
+    assert _superseded({"last_active_year": 2022}, TODAY_2026) is None
+    assert _superseded({"last_active_year": 2021}, TODAY_2026) is not None
+
+
+# ------------------------------------------- DOAJ APC edge cases
+from merge import pick_doaj_record  # noqa: E402
+
+
+def _apc(has, price=None):
+    return {"apc": {"has_apc": has, "price": price, "currency": "GBP"}}
+
+
+def test_doaj_saying_no_apc_is_free_not_unknown():
+    """DOAJ records "no APC" as a flag, not as an amount of zero. Reading only
+    the amount would turn every diamond journal into "price unknown"."""
+    c = effective_cost("none", None, _oa(), _apc(False))
+    assert c["kind"] == "no_apc"
+
+
+def test_regression_unknown_apc_flag_is_not_treated_as_free():
+    """`== "yes"` made anything unrecognised mean False, so a blank or a future
+    third value would have asserted a journal is free on the strength of a field
+    we did not understand."""
+    c = effective_cost("none", None, _oa(), _apc(None))
+    assert c["kind"] != "no_apc"
+
+
+def test_regression_a_zero_price_is_a_price_not_a_missing_one():
+    """`if price:` treats a genuine zero as absent."""
+    c = effective_cost("none", None, _oa(), _apc(True, 0))
+    assert c["kind"] == "list_price" and c["list"]["price"] == 0
+
+
+def test_deal_status_still_wins_over_the_doaj_flag():
+    assert effective_cost("covered", None, _oa(), _apc(False))["kind"] == "covered"
+    assert effective_cost("diamond", None, _oa(), _apc(False))["kind"] == "diamond"
+
+
+def test_regression_conflicting_doaj_records_resolve_by_title():
+    """A renamed journal keeps its old ISSNs, so one OpenAlex record can reach
+    two DOAJ records that disagree. Revista Brasileira de Reumatologia is held
+    as free while its successor Advances in Rheumatology charges 1,890; taking
+    whichever ISSN sorted first showed a charge for a journal DOAJ calls free."""
+    doaj = {
+        "0482-5004": {"title": "Revista Brasileira de Reumatologia", **_apc(False)},
+        "2523-3106": {"title": "Advances in Rheumatology", **_apc(True, 1890)},
+    }
+    got = pick_doaj_record({"0482-5004", "2523-3106"}, doaj,
+                           "Revista Brasileira de Reumatologia")
+    assert got["title"] == "Revista Brasileira de Reumatologia"
+    assert got["apc"]["has_apc"] is False
+
+
+def test_single_doaj_record_is_used_unchanged():
+    doaj = {"1234-5678": {"title": "Some Journal", **_apc(True, 100)}}
+    assert pick_doaj_record({"1234-5678"}, doaj, "Anything")["apc"]["price"] == 100
+    assert pick_doaj_record({"9999-9999"}, doaj, "Anything") is None
