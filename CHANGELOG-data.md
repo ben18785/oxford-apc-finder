@@ -5,6 +5,26 @@ What the site said, and when it changed. Generated automatically by
 
 ## 2026-08-07
 
+- **0** journals added, **0** removed, **10** changed.
+
+### Deal status changes (1)
+
+- 癌症：英文版 (1000-467X): `none` → `discount`
+
+### Price changes (9)
+
+- Dance Articulated (0800-2452): 4000 → 5000
+- Journal of Yeungnam Medical Science (1225-7737): 200000 → —
+- Urology Research and Practice (1300-5804): 900 → —
+- Harmonia Journal of Arts Research and Education (1411-5115): 7000000 → 200 USD
+- Jurnal Ilmiah Manajemen dan Bisnis (1693-7619): — → 300000 IDR
+- Sovremennye issledovaniya sotsialnykh problem (2077-1770): 80 → 8000 RUB
+- Journal of watershed management research (2251-6174): 3000000 → 4000000
+- مجلة أسيوط لعلوم وفنون التربية الرياضية (2314-7091): 2450 → 55 USD
+- Alfred Nobel University Journal of Philoligy (2523-4463): 200 → 100 USD
+
+## 2026-08-07
+
 - **3379** journals added, **0** removed, **126** changed.
 
 ### Deal status changes (114)

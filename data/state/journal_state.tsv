@@ -10828,7 +10828,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0799-0537	Small Axe A Caribbean Journal of Criticism	none	unknown			
 0800-0395	Polar Research	none	list_price	790	EUR	
 0800-1669	Barn – forskning om barn og barndom i Norden	none	list_price	2000	NOK	
-0800-2452	Dance Articulated	none	list_price	4000	NOK	
+0800-2452	Dance Articulated	none	list_price	5000	NOK	
 0800-2789	European Paediatric Haematology and Oncology	none	unknown			
 0800-3076	Norsk lingvistisk tidsskrift	none	no_apc			
 0800-3106	Norsk arkivforum	none	no_apc			
@@ -13654,7 +13654,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1000-4432	眼科学报	none	no_apc			
 1000-4548	Chinese Journal of Geotechnical Engineering	none	list_price	8000	CNY	
 1000-4556	Bopuxue zazhi	none	list_price	1000	CNY	
-1000-467X	癌症：英文版	none	list_price	2100	GBP	
+1000-467X	癌症：英文版	discount	no_apc			
 1000-4726	Jianzhu jishu	none	unknown			
 1000-484X	Zhongguo mianyixue zazhi	none	list_price	19600	CNY	
 1000-4963	Linchuang pifuke zazhi	discount	discount_unknown_base			
@@ -16900,7 +16900,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1225-665X	Korean Journal of Stress Research	none	list_price	300000	KRW	
 1225-6773	Han-guk hyeonmigyeong hakoeji/Applied microscopy	discount	discount	1692	GBP	
 1225-6870	Journal of rhinology	none	no_apc			
-1225-7737	Journal of Yeungnam Medical Science	none	list_price	200000	KRW	
+1225-7737	Journal of Yeungnam Medical Science	none	no_apc			
 1225-8067	Korean journal of medical education	none	list_price	400	USD	
 1225-8245	Journal of Korean Neurosurgical Society	none	list_price	300	USD	
 1225-8563	Korean Journal for Food Science of Animal Resources	none	unknown			
@@ -17180,7 +17180,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1300-4360	Diagnostic and Interventional Radiology	none	list_price	1250	USD	
 1300-4751	Gynecology Obstetrics and Reproductive Medicine	none	no_apc			
 1300-4948	The Turkish Journal of Gastroenterology	none	list_price	1800	USD	
-1300-5804	Urology Research and Practice	none	list_price	900	USD	
+1300-5804	Urology Research and Practice	none	no_apc			
 1300-6045	Kafkas Universitesi Veteriner Fakultesi Dergisi	none	no_apc			
 1300-6320	Turkish Journal of Parasitology	none	no_apc			
 1300-6525	kulak burun boğaz ve baş boyun cerrahisi dergisi	none	list_price	250	USD	
@@ -18786,7 +18786,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1411-4801	The Indonesian Journal of Gastroenterology Hepatology and Digestive Endoscopy	none	no_apc			
 1411-4917	Jurnal Wacana Kinerja Kajian Praktis-Akademis Kinerja dan Administrasi Pelayanan Publik	none	no_apc			
 1411-4976	Substantia/Substantia : Jurnal Ilmu-ilmu Ushuluddin	none	list_price	500000	IDR	
-1411-5115	Harmonia Journal of Arts Research and Education	none	list_price	7000000	IDR	
+1411-5115	Harmonia Journal of Arts Research and Education	none	list_price	200	USD	
 1411-5131	Jurnal Teknologi Pertanian	none	no_apc			
 1411-514X	TRIKONOMIKA	none	list_price	1500000	IDR	
 1411-5190	Jurnal Penelitian Humaniora	none	no_apc			
@@ -23453,7 +23453,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1693-7309	MEDISAINS	none	list_price	350000	IDR	
 1693-749X	Sintesis	none	no_apc			
 1693-7562	Jurnal Ilmiah Al-Mu ashirah	none	list_price	400000	IDR	
-1693-7619	Jurnal Ilmiah Manajemen dan Bisnis	none	no_apc			
+1693-7619	Jurnal Ilmiah Manajemen dan Bisnis	none	list_price	300000	IDR	
 1693-7740	Berkala Ilmu Perpustakaan dan Informasi	none	list_price	750000	IDR	
 1693-7864	JEMA Jurnal Ilmiah Bidang Akuntansi dan Manajemen	none	list_price	300000	IDR	
 1693-8046	Dharma Raflesia Jurnal Ilmiah Pengembangan dan Penerapan IPTEKS	none	list_price	500000	IDR	
@@ -29924,7 +29924,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2077-1312	Journal of Marine Science and Engineering	covered	covered			1
 2077-1444	Religions	covered	covered			1
 2077-172X	UCV - SCIENTIA	none	no_apc			
-2077-1770	Sovremennye issledovaniya sotsialnykh problem	none	list_price	80	USD	
+2077-1770	Sovremennye issledovaniya sotsialnykh problem	none	list_price	8000	RUB	
 2077-1886	Journal of Economics Finance and Administrative Science	none	no_apc			
 2077-2815	Inkanyiso	none	list_price	14260	ZAR	
 2077-2955	Transformación	none	no_apc			
@@ -33197,7 +33197,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2251-6107	International Journal of Information & Communication Technology Research	none	no_apc			
 2251-6131	پژوهشنامه خراسان بزرگ	none	list_price	3500000	IRR	
 2251-614X	Majallah-i Huqūqī-i Biyn/al-milalī-i	none	no_apc			
-2251-6174	Journal of watershed management research	none	list_price	3000000	IRR	
+2251-6174	Journal of watershed management research	none	list_price	4000000	IRR	
 2251-6344	پژوهشهای نظری و کاربردی در علم اطلاعات و دانش شناسی (پژوهشنامه کتابداری و اطلاع رسانی پیشین)	none	list_price	6000000	IRR	
 2251-6360	Pizhūhish/nāmah-i Mabānī-i Ta̒līm va Tarbiyat.	none	no_apc			
 2251-6506	توسعه آموزش جندی‌شاپور	none	no_apc			
@@ -34297,7 +34297,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2314-5765	International Journal of Food Science	covered	covered			
 2314-6745	Journal of Diabetes Research	covered	covered			
 2314-7024	المجلة العلمیة لکلیة السیاحة و الفنادق جامعة الأسکندریة	none	list_price	200	USD	
-2314-7091	مجلة أسيوط لعلوم وفنون التربية الرياضية	none	list_price	2450	EGP	
+2314-7091	مجلة أسيوط لعلوم وفنون التربية الرياضية	none	list_price	55	USD	
 2314-7156	Journal of Immunology Research	covered	covered			
 2314-7172	Journal of Electrical Systems and Information Technology	discount	no_apc			
 2314-7180	Future Dental Journal	discount	discount_unknown_base			
@@ -37994,7 +37994,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2523-4161	Sports games	none	list_price	500	UAH	
 2523-4196	Єдиноборства	none	list_price	500	UAH	
 2523-4447	Microsystems Electronics and Acoustics	none	list_price	400	UAH	
-2523-4463	Alfred Nobel University Journal of Philoligy	none	list_price	200	UAH	
+2523-4463	Alfred Nobel University Journal of Philoligy	none	list_price	100	USD	
 2523-4544	The Scientific Journal Grain Crops	none	no_apc			
 2523-4552	Вісник Пенітенціарної асоціації України	none	list_price	1200	UAH	
 2523-4684	ARTS ACADEMY	none	no_apc			
