@@ -25,4 +25,5 @@ data/out/*
 
 # Fixture-mode changelog artefacts — never the real baseline.
 data/state/journal_state.fixtures.tsv
+data/state/known_journals.fixtures.tsv
 CHANGELOG-data.fixtures.md

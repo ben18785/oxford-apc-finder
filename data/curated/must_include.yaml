@@ -1,0 +1,53 @@
+# Journals that must always appear on the site.
+#
+# The inclusion rules are automatic (Oxford deal, DOAJ, allowlisted publisher,
+# any transformative agreement worldwide, most-cited). Automatic rules have
+# blind spots: the publisher allowlist omitted the Institute of Mathematical
+# Statistics, so all four Annals titles were absent entirely — not "no deal",
+# but no entry, which reads as a broken tool rather than a coverage limit.
+#
+# validate.py fails the build if any of these is missing. It is a tripwire, not
+# an inclusion rule: adding a journal here does not pull it in, it only asserts
+# that the automatic rules already did. If one starts failing, the rules need
+# widening — that is the signal this file exists to give.
+#
+# Matched on ISSN-L, verified against OpenAlex on 2026-08-07.
+
+journals:
+  # --- general science
+  - { issn: "0028-0836", title: "Nature" }
+  - { issn: "0036-8075", title: "Science" }
+  - { issn: "0027-8424", title: "PNAS" }
+  - { issn: "0092-8674", title: "Cell" }
+
+  # --- medicine
+  - { issn: "0099-5355", title: "The Lancet" }
+  - { issn: "0028-4793", title: "New England Journal of Medicine" }
+  - { issn: "0002-9955", title: "JAMA" }
+
+  # --- statistics and probability (the gap that prompted this file)
+  - { issn: "0090-5364", title: "The Annals of Statistics" }
+  - { issn: "1932-6157", title: "The Annals of Applied Statistics" }
+  - { issn: "0091-1798", title: "The Annals of Probability" }
+  - { issn: "1050-5164", title: "The Annals of Applied Probability" }
+  - { issn: "0006-3444", title: "Biometrika" }
+  - { issn: "0964-1998", title: "Journal of the Royal Statistical Society Series A" }
+
+  # --- physical sciences
+  - { issn: "0031-9007", title: "Physical Review Letters" }
+  - { issn: "0002-7863", title: "Journal of the American Chemical Society" }
+  - { issn: "0004-6361", title: "Astronomy and Astrophysics" }
+  - { issn: "0035-8711", title: "Monthly Notices of the Royal Astronomical Society" }
+  - { issn: "0080-4630", title: "Proceedings of the Royal Society A" }
+  - { issn: "0080-4649", title: "Proceedings of the Royal Society B" }
+
+  # --- social sciences and humanities, where citation counts run lower and the
+  #     automatic rules are therefore least reliable
+  - { issn: "0012-9682", title: "Econometrica" }
+  - { issn: "0033-5533", title: "The Quarterly Journal of Economics" }
+  - { issn: "0022-1082", title: "The Journal of Finance" }
+  - { issn: "0304-3878", title: "Journal of Development Economics" }
+  - { issn: "0022-3514", title: "Journal of Personality and Social Psychology" }
+  - { issn: "0033-295X", title: "Psychological Review" }
+  - { issn: "0001-8392", title: "Administrative Science Quarterly" }
+  - { issn: "0022-2380", title: "Journal of Management Studies" }

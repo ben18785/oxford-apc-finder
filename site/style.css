@@ -203,7 +203,14 @@ body {
 .pop p { margin: 0; }
 .pop p + p { margin-top: 8px; }
 
-.empty { color: var(--muted); text-align: center; padding: 30px; }
+.empty {
+  color: var(--muted); padding: 26px 24px; max-width: 46rem; margin: 0 auto;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  display: grid; gap: 10px; font-size: .93rem;
+}
+.empty-lead { font-size: 1.1rem; font-weight: 600; color: var(--text); }
+.empty-actions { font-family: var(--ui); font-size: .88rem; }
+.empty-actions a { color: var(--oxford); }
 
 .modal { position: fixed; inset: 0; background: rgba(10,22,38,.55); display: flex;
   align-items: flex-start; justify-content: center; padding: 40px 16px; overflow-y: auto; z-index: 30; }

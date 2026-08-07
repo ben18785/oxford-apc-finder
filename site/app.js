@@ -847,6 +847,22 @@ function wireUI() {
   $("#foot-about").addEventListener("click", e => { e.preventDefault(); showAbout(); });
   $("#disclaimer-link").addEventListener("click", e => { e.preventDefault(); showDisclaimer(); });
   $("#search-tips").addEventListener("click", e => { e.preventDefault(); showSearchTips(); });
+  $("#empty-clear-filter").addEventListener("click", e => {
+    e.preventDefault(); $("#deal-only").checked = false; runSearch();
+  });
+  // A journal absent from the dataset is a coverage gap we want reported, not
+  // a dead end. Pre-fill the report with what was actually searched for.
+  $("#empty-report").addEventListener("click", () => {
+    const q = $("#q").value.trim();
+    const body = encodeURIComponent(
+      `**Journal I searched for:** ${q}\n\n**Why I expected it to be listed:**\n\n\n` +
+      `---\n_Reported from the empty-results message; the journal appears to be ` +
+      `outside the site's inclusion rules._`);
+    $("#empty-report").href =
+      `https://github.com/${STATE.config.github_repo}/issues/new` +
+      `?title=${encodeURIComponent("Missing journal: " + q)}` +
+      `&labels=user-report&body=${body}`;
+  });
   $("#foot-disclaimer").addEventListener("click", e => { e.preventDefault(); showDisclaimer(); });
   $("#foot-changes").addEventListener("click", e => { e.preventDefault(); showChanges(); });
 }

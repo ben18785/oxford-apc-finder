@@ -20,8 +20,8 @@ import re
 
 import yaml
 
-from common import (CURATED, OUT, load_config, normalise_issn, read_json,
-                    utcnow, write_json)
+from common import (CURATED, OUT, known_journal_issns, load_config,
+                    normalise_issn, read_json, utcnow, write_json)
 
 MISCONDUCT_PAT = re.compile(
     r"misconduct|best practice|not adhering", re.I)
@@ -56,6 +56,18 @@ def clean_text(s: str | None) -> str | None:
     if not s:
         return s
     return html.unescape(s).strip()
+
+
+def resolve_publisher(rec: dict, doaj_rec: dict | None) -> str | None:
+    """Best available publisher name, preferring OpenAlex and falling back to DOAJ.
+
+    OpenAlex leaves host_organization_name empty for ~9,000 journals, including
+    one of the four Lancet Regional Health titles. Because the overlay matches
+    discounts on publisher name, that gap silently turned "15% Oxford discount"
+    into "no Oxford deal" for a journal sitting beside three identical siblings.
+    DOAJ knows the publisher for the great majority of them.
+    """
+    return clean_text(rec.get("publisher")) or clean_text((doaj_rec or {}).get("publisher"))
 
 
 def build_deal_lookup(deals: dict) -> dict[str, dict]:
@@ -220,6 +232,13 @@ def main() -> None:
     allow_rx = re.compile("|".join(f"(?:{re.escape(p)})" for p in allow), re.I)
 
     deal_lookup = build_deal_lookup(deals)
+    # Inclusion route 4: in a transformative agreement somewhere in the world.
+    ta_worldwide = set(deals.get("agreement_issns_worldwide") or [])
+    # Inclusion route 5: among the most-cited journals in the world.
+    top_cited = set(meta.get("top_cited") or [])
+    # Inclusion route 6: it was on the site before. Makes coverage monotonic —
+    # the misconduct exclusion still overrides, since that runs first.
+    remembered = known_journal_issns()
     openalex: dict = meta["openalex"]
     doaj: dict = meta["doaj"]
     withdrawn: dict = meta["doaj_withdrawn"]
@@ -246,6 +265,11 @@ def main() -> None:
                  if i}
         issns.add(issn_l)
         doaj_rec = next((doaj[i] for i in issns if i in doaj), None)
+
+        # Resolve the publisher once, and shadow it onto the record so every
+        # downstream decision — overlay matching, the allowlist, the displayed
+        # name — sees the same answer rather than only OpenAlex's view.
+        rec = {**rec, "publisher": resolve_publisher(rec, doaj_rec)}
 
         # --- exclusion: misconduct-type DOAJ withdrawal
         wd = next((withdrawn[i] for i in issns if i in withdrawn), None)
@@ -358,7 +382,8 @@ def main() -> None:
         in_doaj = rec.get("is_in_doaj") or bool(doaj_rec)
 
         # --- inclusion policy
-        included = (status != "none") or in_doaj or (
+        included = (status != "none") or in_doaj or issn_l in top_cited \
+            or issn_l in remembered or bool(issns & ta_worldwide) or (
             rec.get("publisher") and allow_rx.search(rec["publisher"]))
         if not included:
             continue
@@ -387,7 +412,7 @@ def main() -> None:
             "title": clean_text(rec.get("title")),
             "alt_titles": [clean_text(t) for t in (rec.get("alternate_titles") or [])],
             "issns": sorted(issns),
-            "publisher": clean_text(rec.get("publisher")),
+            "publisher": rec.get("publisher"),
             "homepage": rec.get("homepage"),
             "in_doaj": in_doaj,
             "doaj_withdrawn": wd,

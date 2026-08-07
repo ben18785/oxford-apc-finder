@@ -153,6 +153,39 @@ def check_overlay_is_live(data: dict, overrides: dict | None = None) -> list[str
     return errors
 
 
+def check_must_include(data: dict, must: dict | None = None) -> list[str]:
+    """Named journals that have to be present, whatever the automatic rules do.
+
+    The rules are automatic and therefore have blind spots. The publisher
+    allowlist omitted the Institute of Mathematical Statistics, so all four
+    Annals titles were missing from the site entirely — a researcher searching
+    for them saw nothing at all, which reads as a broken tool rather than a
+    coverage limit. This is the tripwire for that class of gap.
+    """
+    if must is None:
+        if FIXTURES_MODE:
+            # The fixture set is a dozen journals; it cannot contain Nature.
+            print("  [fixtures] must-include check skipped")
+            return []
+        import yaml
+        from common import CURATED
+        must = yaml.safe_load((CURATED / "must_include.yaml").read_text())
+
+    present = set()
+    for j in data["journals"]:
+        present.add(j["id"])
+        present.update(j.get("issns") or [])
+
+    missing = [f"{e['title']} ({e['issn']})" for e in must["journals"]
+               if e["issn"] not in present]
+    if not missing:
+        return []
+    return [f"{len(missing)} journal(s) that must always be listed are absent: "
+            + "; ".join(missing[:8])
+            + ". The inclusion rules need widening — see "
+              "data/curated/must_include.yaml."]
+
+
 def check_oracle(data: dict, cfg: dict) -> list[str]:
     if FIXTURES_MODE:
         print("  [fixtures] oracle check skipped (no network)")
@@ -213,6 +246,7 @@ def main() -> None:
                 + check_thresholds(data, cfg)
                 + check_source_minimums(data, cfg)
                 + check_overlay_is_live(data)
+                + check_must_include(data)
                 + check_oracle(data, cfg))
     if failures:
         print("VALIDATION FAILED:", file=sys.stderr)

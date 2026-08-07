@@ -27,6 +27,22 @@ sources:
 # Optional OpenAlex API key (free at https://openalex.org/settings/api).
 # Set as env var OPENALEX_API_KEY in CI; raises the free daily credit to $1/day.
 # Validation thresholds
+# What gets into the dataset at all.
+inclusion:
+  # The most-cited journals worldwide are always included, whoever publishes
+  # them. This is the backstop for the hand-written publisher allowlist, which
+  # will always be missing someone — it once omitted the Institute of
+  # Mathematical Statistics, and with it all four Annals titles.
+  # 15,000 is chosen empirically, not by feel: The Annals of Applied Statistics
+  # (66,491 citations) ranks about 5,650th, so a top-5,000 cut would have missed
+  # one of the four journals that exposed this gap. 15,000 reaches journals with
+  # roughly 15,000 citations and gives ~3x headroom. Costs 75 requests (~$0.008).
+  top_journals_by_citations: 15000
+  # Journals the site has listed before stay in scope for this long, even if no
+  # other rule still selects them. Makes coverage monotonic against a source
+  # having a bad day, while bounding the accumulation of genuinely dead titles.
+  remember_journals_days: 365
+
 validation:
   max_weekly_drop_pct: 10        # fail build if deal-journal count drops more than this
   oracle_sample_size: 25         # random journals cross-checked against live JCT API

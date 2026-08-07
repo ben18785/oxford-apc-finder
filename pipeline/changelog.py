@@ -25,7 +25,10 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from common import DATA, FIXTURES_MODE, OUT, ROOT, read_json, utcnow, write_json
+import datetime
+
+from common import (DATA, FIXTURES_MODE, OUT, ROOT, load_config, read_json,
+                    utcnow, write_json)
 
 STATE_DIR = DATA / "state"
 
@@ -37,6 +40,14 @@ STATE_FILE = STATE_DIR / ("journal_state.fixtures.tsv" if FIXTURES_MODE
                           else "journal_state.tsv")
 CHANGELOG = ROOT / ("CHANGELOG-data.fixtures.md" if FIXTURES_MODE
                     else "CHANGELOG-data.md")
+
+# Every journal the site has ever listed. fetch_metadata always re-looks-up this
+# set, and merge treats membership as an inclusion route, so a journal cannot
+# vanish just because a source had a bad day — while every fact about it is
+# still freshly fetched. Accumulate scope, never accumulate facts.
+KNOWN = STATE_DIR / ("known_journals.fixtures.tsv" if FIXTURES_MODE
+                     else "known_journals.tsv")
+KNOWN_COLUMNS = ["issn_l", "first_seen", "last_seen"]
 
 # Only fields a user would act on. Scope text and topic lists churn constantly
 # as OpenAlex reclassifies, and tracking them would bury the real changes.
@@ -82,6 +93,44 @@ def describe_cost(rec: dict) -> str:
     return rec["cost_kind"] or "unknown"
 
 
+def update_known(journals: list[dict], today: str, retain_days: int) -> tuple[int, int]:
+    """Remember every journal listed today; keep ones that have dropped out.
+
+    Returns (total remembered, number dropped for age). Entries are retired
+    after retain_days so genuinely dead journals do not accumulate for ever —
+    bounded, and visible in the changelog when it happens.
+    """
+    previous: dict[str, dict] = {}
+    if KNOWN.exists():
+        for line in KNOWN.read_text().splitlines()[1:]:
+            parts = line.split("\t")
+            if len(parts) == len(KNOWN_COLUMNS):
+                previous[parts[0]] = dict(zip(KNOWN_COLUMNS, parts))
+
+    cutoff = (datetime.date.fromisoformat(today)
+              - datetime.timedelta(days=retain_days)).isoformat()
+    current_ids = {j["id"] for j in journals}
+    rows, retired = {}, 0
+    for issn, rec in previous.items():
+        # Only journals genuinely absent today can be retired. Ageing out one
+        # that is in this very build would report a retirement that did not
+        # happen, since it is re-added immediately below.
+        if issn not in current_ids and rec["last_seen"] < cutoff:
+            retired += 1
+            continue
+        rows[issn] = rec
+    for j in journals:
+        issn = j["id"]
+        first = rows.get(issn, {}).get("first_seen", today)
+        rows[issn] = {"issn_l": issn, "first_seen": first, "last_seen": today}
+
+    KNOWN.parent.mkdir(parents=True, exist_ok=True)
+    body = "\n".join("\t".join(rows[k][c] for c in KNOWN_COLUMNS)
+                     for k in sorted(rows))
+    KNOWN.write_text("\t".join(KNOWN_COLUMNS) + "\n" + body + "\n")
+    return len(rows), retired
+
+
 def main() -> None:
     data = read_json(OUT / "journals.json")
     journals = data["journals"]
@@ -89,6 +138,8 @@ def main() -> None:
 
     if not previous:
         write_state(STATE_FILE, journals)
+        update_known(journals, utcnow()[:10],
+                     load_config()["inclusion"]["remember_journals_days"])
         write_json(OUT / "changes.json", {
             "generated": utcnow(), "baseline": True,
             "summary": {"added": len(journals), "removed": 0, "changed": 0},
@@ -169,8 +220,12 @@ def main() -> None:
     CHANGELOG.write_text(header + entry + "\n" + body)
 
     write_state(STATE_FILE, journals)
+    remembered, retired = update_known(
+        journals, date, load_config()["inclusion"]["remember_journals_days"])
     print(f"Changelog: +{len(added)} / -{len(removed)} / ~{len(changed)} "
-          f"({len(status_moves)} deal-status changes)")
+          f"({len(status_moves)} deal-status changes); "
+          f"{remembered:,} journals remembered"
+          + (f", {retired} retired for age" if retired else ""))
 
 
 if __name__ == "__main__":

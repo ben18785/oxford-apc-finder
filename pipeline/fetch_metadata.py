@@ -30,8 +30,8 @@ import requests
 import yaml
 
 from common import (CURATED, FIXTURES, FIXTURES_MODE, Manifest, OUT,
-                    fetch_json, http_get, load_config, normalise_issn,
-                    read_json, utcnow, write_json)
+                    fetch_json, http_get, known_journal_issns, load_config,
+                    normalise_issn, read_json, utcnow, write_json)
 
 # OpenAlex bills a flat $0.0001 per request regardless of page size, and the
 # free API key allows $1/day (~10,000 requests); anonymous callers get $0.10.
@@ -107,6 +107,36 @@ def fetch_openalex_by_issns(cfg, manifest, session, issns: list[str]) -> dict:
         time.sleep(0.15)
         if i % (OPENALEX_BATCH * 20) == 0:
             print(f"  openalex issn batches: {i}/{len(issns)} ({len(out)} sources)")
+    return out
+
+
+def fetch_openalex_top_journals(cfg, manifest, session, limit: int) -> dict:
+    """The most-cited journals in the world, whatever their publisher.
+
+    The allowlist is hand-written, so it will always be missing someone: the
+    Institute of Mathematical Statistics was absent, which removed all four
+    Annals titles from the site entirely — not "no deal", but no entry at all,
+    which reads as a broken tool. Ranking by citations is objective and
+    self-maintaining, and at 200 records per request it costs ~$0.003 to take
+    several thousand. The Annals of Statistics sits at 637,000 citations, far
+    inside any sensible cut.
+    """
+    out: dict[str, dict] = {}
+    base = cfg["sources"]["openalex_api"] + "/sources"
+    cursor, page = "*", 0
+    while cursor and len(out) < limit:
+        data = openalex_get(cfg, manifest, session, base, f"openalex_top_{page}",
+                            {"filter": "type:journal",
+                             "sort": "cited_by_count:desc",
+                             "per-page": PER_PAGE, "cursor": cursor})
+        for src in data.get("results", []):
+            rec = compact_openalex(src)
+            if rec["issn_l"]:
+                out.setdefault(rec["issn_l"], rec)
+        cursor = (data.get("meta") or {}).get("next_cursor")
+        page += 1
+        time.sleep(0.15)
+    print(f"  top-cited journals: {len(out)} fetched over {page} pages")
     return out
 
 
@@ -333,7 +363,11 @@ def main() -> None:
 
     deals = read_json(OUT / "deals.json")
     deal_issns = [i for a in deals["agreements"] for j in a["journals"] for i in j["issns"]]
-    print(f"{len(set(deal_issns))} distinct deal ISSNs")
+    worldwide = deals.get("agreement_issns_worldwide") or []
+    remembered = known_journal_issns()
+    print(f"{len(set(deal_issns))} distinct Oxford deal ISSNs; "
+          f"{len(worldwide)} in agreements worldwide; "
+          f"{len(remembered)} journals remembered from previous runs")
 
     allow = yaml.safe_load((CURATED / "publisher_allowlist.yaml").read_text())["publishers"]
 
@@ -343,11 +377,18 @@ def main() -> None:
     withdrawn = fetch_doaj_withdrawn(cfg, manifest, session)
 
     print("Fetching OpenAlex records for deal + DOAJ ISSNs …")
-    openalex = fetch_openalex_by_issns(cfg, manifest, session,
-                                       deal_issns + doaj_primary)
+    openalex = fetch_openalex_by_issns(
+        cfg, manifest, session,
+        deal_issns + doaj_primary + worldwide + sorted(remembered))
     print("Fetching OpenAlex records for allowlisted publishers …")
     pub_recs = fetch_openalex_by_publishers(cfg, manifest, session, allow)
     for k, v in pub_recs.items():
+        openalex.setdefault(k, v)
+
+    print("Fetching the most-cited journals worldwide …")
+    top = fetch_openalex_top_journals(
+        cfg, manifest, session, cfg["inclusion"]["top_journals_by_citations"])
+    for k, v in top.items():
         openalex.setdefault(k, v)
 
     meta = {
@@ -367,6 +408,9 @@ def main() -> None:
             "doaj_issns": len(doaj),
             "withdrawn": len(withdrawn),
         },
+        # Inclusion route: present because it is among the most-cited journals,
+        # regardless of publisher, DOAJ status or any agreement.
+        "top_cited": sorted(top),
         "openalex": openalex,
         "doaj": doaj,
         "doaj_withdrawn": withdrawn,

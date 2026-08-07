@@ -15,6 +15,76 @@
   }
  },
  "openalex": {
+  "0570-1783": {
+   "openalex_id": "https://openalex.org/S2764619822",
+   "issn_l": "0570-1783",
+   "issns": [
+    "0570-1783",
+    "2090-8377"
+   ],
+   "title": "Annals of Agricultural Science Cairo",
+   "alternate_titles": [
+    "Annals of Agricultural Sciences"
+   ],
+   "publisher": null,
+   "homepage": null,
+   "is_in_doaj": true,
+   "is_oa": true,
+   "type": "journal",
+   "works_count": 1061,
+   "apc_usd": null,
+   "apc_prices": [],
+   "topics": [
+    {
+     "name": "Crop Yield and Soil Fertility",
+     "subfield": "Agronomy and Crop Science",
+     "field": "Agricultural and Biological Sciences",
+     "count": 74
+    },
+    {
+     "name": "Agricultural pest management studies",
+     "subfield": "Plant Science",
+     "field": "Agricultural and Biological Sciences",
+     "count": 66
+    },
+    {
+     "name": "Agricultural Science and Fertilization",
+     "subfield": "Soil Science",
+     "field": "Agricultural and Biological Sciences",
+     "count": 63
+    },
+    {
+     "name": "Insect Pest Control Strategies",
+     "subfield": "Plant Science",
+     "field": "Agricultural and Biological Sciences",
+     "count": 61
+    },
+    {
+     "name": "Agronomic Practices and Intercropping Systems",
+     "subfield": "Agronomy and Crop Science",
+     "field": "Agricultural and Biological Sciences",
+     "count": 60
+    },
+    {
+     "name": "Plant Physiology and Cultivation Studies",
+     "subfield": "Plant Science",
+     "field": "Agricultural and Biological Sciences",
+     "count": 58
+    },
+    {
+     "name": "Plant tissue culture and regeneration",
+     "subfield": "Molecular Biology",
+     "field": "Biochemistry, Genetics and Molecular Biology",
+     "count": 51
+    },
+    {
+     "name": "Food composition and properties",
+     "subfield": "Nutrition and Dietetics",
+     "field": "Nursing",
+     "count": 37
+    }
+   ]
+  },
   "0001-1541": {
    "openalex_id": "https://openalex.org/S147177414",
    "issn_l": "0001-1541",
@@ -988,6 +1058,35 @@
    ],
    "aims_scope_url": "https://www.sciencedirect.com/journal/physics-letters-b/about/aims-and-scope",
    "journal_url": "https://www.sciencedirect.com/journal/physics-letters-b"
+  },
+  "0570-1783": {
+   "doaj_id": "d82562699a1245c8ad0217cb3c98de28",
+   "doaj_url": "https://doaj.org/toc/d82562699a1245c8ad0217cb3c98de28",
+   "title": "Annals of Agricultural Sciences",
+   "publisher": "Elsevier",
+   "apc": {
+    "has_apc": true,
+    "price": 1000,
+    "currency": "USD"
+   },
+   "apc_url": "https://www.sciencedirect.com/science/journal/05701783/publish/open-access-options",
+   "waiver": true,
+   "keywords": [
+    "agricultural science",
+    "organic fertilizers",
+    "soil solarization",
+    "seed morphology",
+    "vermicompost"
+   ],
+   "subjects": [
+    "Agriculture: Agriculture (General)"
+   ],
+   "license": [
+    "CC BY",
+    "CC BY-NC-ND"
+   ],
+   "aims_scope_url": "https://www.sciencedirect.com/journal/annals-of-agricultural-sciences/about/aims-and-scope",
+   "journal_url": "https://www.sciencedirect.com/journal/annals-of-agricultural-sciences"
   },
   "1873-6297": {
    "doaj_id": "ccbace2c4ad943b791c7d48123ddf931",

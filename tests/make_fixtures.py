@@ -37,6 +37,14 @@ WANTED = {
     "waiver": lambda j: j.get("waiver"),
 }
 
+# Needs the raw OpenAlex record, so it is selected separately from WANTED.
+def _publisher_only_from_doaj(journal, meta):
+    """A journal OpenAlex has no publisher for, but DOAJ does — and which only
+    gets its discount because of the fallback. This exact gap turned one of the
+    four Lancet Regional Health titles into "no Oxford deal"."""
+    rec = meta["openalex"].get(journal["id"]) or {}
+    return not rec.get("publisher") and bool(journal.get("publisher"))
+
 
 def main() -> None:
     journals = read_json(OUT / "journals.json")["journals"]
@@ -44,6 +52,14 @@ def main() -> None:
     meta = read_json(OUT / "metadata.json")
 
     picked: dict[str, dict] = {}
+
+    match = next((j for j in sorted(journals, key=lambda x: x["id"])
+                  if _publisher_only_from_doaj(j, meta)
+                  and j["deal"]["status"] == "discount"), None)
+    if match:
+        picked[match["id"]] = match
+        print(f"  {'publisher_via_doaj':22} -> {match['id']}  {match['title'][:44]}")
+
     for label, test in WANTED.items():
         # Sorted by id, first match: stable across runs.
         match = next((j for j in sorted(journals, key=lambda x: x["id"])

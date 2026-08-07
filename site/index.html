@@ -59,7 +59,18 @@
 
   <section id="results" aria-live="polite"></section>
 
-  <p id="empty" class="empty" hidden>No matching journals. Try switching off “Only show journals with an Oxford deal”, or search a broader keyword.</p>
+  <div id="empty" class="empty" hidden>
+    <p class="empty-lead">No journals match that search.</p>
+    <p>If you searched a journal title you would expect to find, it may sit outside
+      what this site covers rather than being missing by mistake. A journal is
+      included if it has an Oxford deal, is listed in DOAJ, appears in a
+      transformative agreement anywhere in the world, comes from a vetted
+      publisher, or is among the most-cited journals in its field.</p>
+    <p class="empty-actions">
+      <a href="#" id="empty-clear-filter">Search journals without a deal too</a> ·
+      <a href="#" id="empty-report" target="_blank" rel="noopener">Tell us it is missing</a>
+    </p>
+  </div>
 </main>
 
 <div id="detail-modal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="detail-title">

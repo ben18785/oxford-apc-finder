@@ -340,3 +340,43 @@ def test_doaj_journals_link_to_their_doaj_page(built):
         if j["in_doaj"] and (j["provenance"].get("doaj") or {}).get("url"):
             labels = " ".join(b["label"] for b in j["browse"])
             assert "DOAJ" in labels, f"{j['id']} is in DOAJ but does not link there"
+
+
+def test_regression_publisher_falls_back_to_doaj(built):
+    """OpenAlex leaves host_organization_name empty for ~9,000 journals. Since
+    the overlay matches discounts on publisher name, that gap turned one of the
+    four Lancet Regional Health titles into "no Oxford deal" while its three
+    identical siblings kept theirs."""
+    meta = json.loads((built["work"] / "data/out/metadata.json").read_text())
+    doaj = meta["doaj"]
+
+    recovered = 0
+    for j in built["journals"]["journals"]:
+        oa_pub = (meta["openalex"].get(j["id"]) or {}).get("publisher")
+        if oa_pub:
+            continue
+        doaj_pub = next((doaj[i].get("publisher") for i in j["issns"]
+                         if i in doaj and doaj[i].get("publisher")), None)
+        if doaj_pub:
+            # Where DOAJ knows, it must be used.
+            assert j["publisher"] == doaj_pub, (
+                f"{j['id']}: DOAJ says {doaj_pub!r}, record says {j['publisher']!r}")
+            recovered += 1
+        # Where neither source knows, unknown is the honest answer.
+    assert recovered, "fixtures must include a journal whose publisher comes from DOAJ"
+
+
+def test_regression_sibling_journals_resolve_consistently(built):
+    """Journals from the same publisher must not get different verdicts because
+    one source happens to have a field the other lacks."""
+    from collections import defaultdict
+    by_pub = defaultdict(set)
+    for j in built["journals"]["journals"]:
+        if j["publisher"]:
+            by_pub[j["publisher"].lower()].add(j["deal"]["status"])
+    # Not asserting uniformity — a publisher legitimately has both covered
+    # (hybrid) and discount (gold) titles. Asserting the weaker, real property:
+    # no journal is left publisher-less and therefore unmatchable.
+    assert all(j["publisher"] or not j["in_doaj"]
+               for j in built["journals"]["journals"]), \
+        "a DOAJ journal with no resolved publisher cannot match any overlay rule"

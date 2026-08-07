@@ -11,6 +11,7 @@ import hashlib
 import io
 import json
 import os
+import random
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -103,7 +104,10 @@ def http_get(url: str, *, session: requests.Session | None = None,
             return resp
         except Exception as exc:  # noqa: BLE001 — retry any transport error
             last_exc = exc
-            sleep = 2 ** attempt
+            # Jitter: without it every retry lands at the same offset after the
+            # event that caused the first failure, which is exactly when the
+            # server is least likely to answer.
+            sleep = 2 ** attempt + random.uniform(0, 1.5)
             print(f"  retry {attempt + 1}/{retries} for {url} in {sleep}s ({exc})")
             time.sleep(sleep)
     raise RuntimeError(f"Failed to fetch {url}") from last_exc
@@ -134,6 +138,25 @@ def write_json(path: Path, obj) -> None:
 
 def read_json(path: Path):
     return json.loads(path.read_text())
+
+
+def known_journal_issns() -> set[str]:
+    """Every journal the site has ever listed (data/state/known_journals.tsv).
+
+    Read by fetch_metadata to keep them in scope, and by merge as an inclusion
+    route, so coverage is monotonic: a journal cannot disappear because a source
+    had a bad day. The facts about it are still fetched fresh every run — this
+    remembers only *which* journals to look up, never what was true of them.
+
+    Written by changelog.py, which runs after validation, so a rejected build
+    never grows the set.
+    """
+    path = DATA / "state" / ("known_journals.fixtures.tsv" if FIXTURES_MODE
+                             else "known_journals.tsv")
+    if not path.exists():
+        return set()
+    return {line.split("\t")[0] for line in path.read_text().splitlines()[1:]
+            if line.strip()}
 
 
 def normalise_issn(raw: str | None) -> str | None:

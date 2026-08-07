@@ -418,3 +418,170 @@ def test_match_reason_distinguishes_issn_from_publisher_matching():
     assert "MDPI AG" in override_match_reason(
         pub_entry, {"issns": [], "publisher": "MDPI AG"})
     assert override_match_reason(pub_entry, {"issns": [], "publisher": "Elsevier"}) is None
+
+
+# ------------------------------------------- publisher resolution
+from merge import resolve_publisher  # noqa: E402
+
+
+def test_publisher_prefers_openalex():
+    assert resolve_publisher({"publisher": "Elsevier BV"},
+                             {"publisher": "Elsevier"}) == "Elsevier BV"
+
+
+def test_regression_publisher_falls_back_to_doaj():
+    """OpenAlex has no publisher for ~9,000 journals; the overlay matches
+    discounts on publisher name, so the gap silently removed deals."""
+    assert resolve_publisher({"publisher": None},
+                             {"publisher": "Elsevier"}) == "Elsevier"
+    assert resolve_publisher({}, {"publisher": "  Wiley  "}) == "Wiley"
+
+
+def test_publisher_none_when_neither_source_knows():
+    assert resolve_publisher({"publisher": None}, None) is None
+    assert resolve_publisher({"publisher": ""}, {"publisher": ""}) in (None, "")
+
+
+# --------------------------------------------- must-include tripwire
+from validate import check_must_include  # noqa: E402
+
+MUST = {"journals": [{"issn": "0090-5364", "title": "The Annals of Statistics"},
+                     {"issn": "0028-0836", "title": "Nature"}]}
+
+
+def _j(issn_l, *others):
+    return {"id": issn_l, "issns": [issn_l, *others]}
+
+
+def test_must_include_passes_when_all_present():
+    data = {"journals": [_j("0090-5364"), _j("0028-0836", "1476-4687")]}
+    assert check_must_include(data, MUST) == []
+
+
+def test_regression_must_include_catches_a_missing_flagship():
+    """The Institute of Mathematical Statistics was absent from the publisher
+    allowlist, so all four Annals titles were missing from the site entirely —
+    not shown as 'no deal', but absent, which reads as a broken tool."""
+    data = {"journals": [_j("0028-0836")]}
+    errors = check_must_include(data, MUST)
+    assert len(errors) == 1
+    assert "The Annals of Statistics" in errors[0]
+    assert "inclusion rules need widening" in errors[0]
+
+
+def test_must_include_matches_on_any_issn_of_the_journal():
+    """A journal listed under its alternate ISSN still counts as present."""
+    data = {"journals": [_j("9999-9999", "0090-5364"), _j("0028-0836")]}
+    assert check_must_include(data, MUST) == []
+
+
+# ------------------------------------ tolerating flaky agreement fetches
+from fetch_jct import unfetchable_verdict  # noqa: E402
+
+OXFORD_AGREEMENTS = {"els2026jisc", "wiley2026jisc", "aps2026jisc"}
+
+
+def test_no_failures_is_fine():
+    assert unfetchable_verdict([], OXFORD_AGREEMENTS) is None
+
+
+def test_regression_one_flaky_non_oxford_fetch_does_not_abort_the_run():
+    """A single Google Docs timeout aborted a 50-minute build. Over 606
+    sequential fetches at least one transient failure is close to inevitable,
+    and 564 of those agreements only feed an additive inclusion net."""
+    assert unfetchable_verdict(["some2025consortium"], OXFORD_AGREEMENTS) is None
+
+
+def test_losing_an_oxford_agreement_always_aborts():
+    """Dropping one silently removes coverage from real journals."""
+    problem = unfetchable_verdict(["els2026jisc"], OXFORD_AGREEMENTS)
+    assert problem and "els2026jisc" in problem and "silently drop" in problem
+
+
+def test_oxford_agreement_aborts_even_among_tolerable_others():
+    problem = unfetchable_verdict(["a2025x", "wiley2026jisc", "b2025y"],
+                                  OXFORD_AGREEMENTS)
+    assert problem and "wiley2026jisc" in problem
+
+
+def test_many_failures_abort_even_when_none_are_oxfords():
+    """Widespread failure is a sick source, not flakiness."""
+    problem = unfetchable_verdict([f"x{i}" for i in range(20)], OXFORD_AGREEMENTS)
+    assert problem and "systemic" in problem
+
+
+def test_regression_no_baseline_means_no_guessing():
+    """Membership is only inside the agreement CSV, so a failed fetch cannot be
+    classified from the index. The first failure observed in practice was
+    Oxford's Thieme agreement — tolerating it would have silently dropped that
+    publisher's journals."""
+    problem = unfetchable_verdict(["thie2025jisc"], set(), have_baseline=False)
+    assert problem and "Refusing to guess" in problem
+
+
+def test_baseline_present_allows_tolerating_a_stranger():
+    assert unfetchable_verdict(["some2025consortium"], OXFORD_AGREEMENTS,
+                               have_baseline=True) is None
+
+
+def test_tolerance_boundary_is_respected():
+    assert unfetchable_verdict([f"x{i}" for i in range(15)], set(), 15) is None
+    assert unfetchable_verdict([f"x{i}" for i in range(16)], set(), 15) is not None
+
+
+# ------------------------------------------- remembered journal scope
+import datetime as _dt  # noqa: E402
+
+import changelog as _changelog  # noqa: E402
+
+
+def _known(tmp_path, monkeypatch):
+    path = tmp_path / "known_journals.tsv"
+    monkeypatch.setattr(_changelog, "KNOWN", path)
+    return path
+
+
+def _mk(*issns):
+    return [{"id": i} for i in issns]
+
+
+def test_known_set_records_first_and_last_seen(tmp_path, monkeypatch):
+    path = _known(tmp_path, monkeypatch)
+    _changelog.update_known(_mk("0028-0836"), "2026-08-07", 365)
+    rows = path.read_text().splitlines()
+    assert rows[0].split("\t") == _changelog.KNOWN_COLUMNS
+    assert rows[1] == "0028-0836\t2026-08-07\t2026-08-07"
+
+
+def test_regression_a_journal_missing_this_run_is_still_remembered(tmp_path, monkeypatch):
+    """The whole point: a source having a bad day must not silently shrink the
+    site. Coverage is monotonic; the facts are still refetched every run."""
+    _known(tmp_path, monkeypatch)
+    _changelog.update_known(_mk("0028-0836", "0036-8075"), "2026-08-01", 365)
+    total, retired = _changelog.update_known(_mk("0028-0836"), "2026-08-08", 365)
+    assert total == 2 and retired == 0
+
+
+def test_first_seen_is_preserved_across_runs(tmp_path, monkeypatch):
+    path = _known(tmp_path, monkeypatch)
+    _changelog.update_known(_mk("0028-0836"), "2026-01-01", 365)
+    _changelog.update_known(_mk("0028-0836"), "2026-08-07", 365)
+    row = path.read_text().splitlines()[1].split("\t")
+    assert row[1] == "2026-01-01" and row[2] == "2026-08-07"
+
+
+def test_long_absent_journals_are_eventually_retired(tmp_path, monkeypatch):
+    """Bounded, so genuinely dead titles do not accumulate for ever."""
+    _known(tmp_path, monkeypatch)
+    _changelog.update_known(_mk("0028-0836", "9999-9999"), "2025-01-01", 365)
+    total, retired = _changelog.update_known(_mk("0028-0836"), "2026-08-07", 365)
+    assert total == 1 and retired == 1
+
+
+def test_retention_boundary(tmp_path, monkeypatch):
+    _known(tmp_path, monkeypatch)
+    _changelog.update_known(_mk("1111-1111"), "2026-08-01", 30)
+    kept, _ = _changelog.update_known([], "2026-08-30", 30)
+    assert kept == 1, "exactly at the retention limit it is kept"
+    gone, retired = _changelog.update_known([], "2026-09-02", 30)
+    assert gone == 0 and retired == 1
