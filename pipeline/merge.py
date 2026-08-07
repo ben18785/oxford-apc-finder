@@ -175,6 +175,35 @@ def browse_links(rec: dict, doaj_rec: dict | None) -> list[dict]:
     return links
 
 
+def oa_status(rec: dict, doaj_rec: dict | None, in_doaj: bool) -> str:
+    """How you publish here, which decides what a price even means.
+
+    Every APC figure the site holds is the cost of publishing *open access*,
+    never the cost of publishing at all. In a fully open access journal those
+    are the same thing. In a hybrid journal publishing is free behind the
+    paywall and the APC buys openness — so showing the number unqualified
+    reads as "it costs £8,490 to publish in Nature", which is wrong.
+    """
+    if in_doaj or rec.get("is_oa"):
+        return "gold"
+    if rec.get("apc_prices") or (doaj_rec or {}).get("apc", {}).get("price"):
+        return "hybrid"
+    return "subscription"
+
+
+def superseded(rec: dict, today: datetime.date, quiet_years: int = 4) -> dict | None:
+    """Has this record stopped publishing?
+
+    OpenAlex keeps the predecessor as its own source when a journal is renamed
+    or changes publisher, so the site lists both. The old one is not "a journal
+    with no Oxford deal" — it is a journal you cannot submit to.
+    """
+    last = rec.get("last_active_year")
+    if not last or last >= today.year - quiet_years:
+        return None
+    return {"last_active_year": last, "quiet_years": today.year - last}
+
+
 def scope_sentence(rec: dict) -> str | None:
     topics = rec.get("topics") or []
     if not topics:
@@ -415,6 +444,8 @@ def main() -> None:
             continue
 
         cost = effective_cost(status, discount_pct, rec, doaj_rec)
+        access = oa_status(rec, doaj_rec, in_doaj)
+        dormant = superseded(rec, today)
 
         provenance = {
             "metadata": {"label": "OpenAlex (CC0)",
@@ -441,6 +472,8 @@ def main() -> None:
             "publisher": rec.get("publisher"),
             "homepage": rec.get("homepage"),
             "in_doaj": in_doaj,
+            "oa_status": access,
+            "superseded": dormant,
             "doaj_withdrawn": wd,
             "deal": {"status": status, "esac_id": esac_id,
                      "discount_pct": discount_pct, "caveats": caveats,

@@ -41,6 +41,27 @@ def shard_key(issn_l: str) -> str:
     return issn_l[:SHARD_KEY_LENGTH]
 
 
+# "series" and single letters are kept deliberately: in "…Society Series A" the
+# A is the whole point, and dropping it collapses JRSSA and JRSSB together.
+SKIP_IN_ACRONYM = {"of", "the", "and", "for", "in", "on", "an", "de", "la",
+                   "des", "du", "der", "und", "et", "zur", "fur"}
+
+
+def acronym(title: str | None) -> str:
+    """JRSSA from "Journal of the Royal Statistical Society Series A".
+
+    People search journals by the initials they use in conversation, and those
+    initials appear nowhere in the metadata. Built from the significant words,
+    so short function words do not swallow the letters that identify it.
+    """
+    if not title:
+        return ""
+    words = [w for w in WORD_RX.findall(title.lower()) if w not in SKIP_IN_ACRONYM]
+    if len(words) < 2:
+        return ""
+    return "".join(w[0] for w in words)[:12]
+
+
 def cost_summary(j: dict) -> str:
     c = j["cost"]
     kind = c["kind"]
@@ -93,6 +114,11 @@ def main() -> None:
             "x": bool(j["deal"].get("disputed")),   # sources disagree
             "e": bool(j["deal"].get("expired")),     # agreement end date passed
             "c": cost_summary(j),
+            "o": j.get("oa_status", "gold"),
+            # Initialism plus any abbreviations the publisher registered, so
+            # "jrsssa" and "J. R. Stat. Soc." both find the journal.
+            "y": " ".join(filter(None, [acronym(j["title"])]
+                                 + [acronym(t) for t in (j["alt_titles"] or [])[:2]])),
         })
         terms = " ".join((j["scope"]["topics"] or []) +
                          (j["scope"]["subfields"] or []) +

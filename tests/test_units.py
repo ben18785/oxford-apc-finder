@@ -603,3 +603,18 @@ def test_regression_gold_discount_requires_the_journal_to_be_open_access():
     eligible = lambda r: bool(r.get("is_oa") or r.get("is_in_doaj"))  # noqa: E731
     assert not eligible(subscription)
     assert eligible(gold) and eligible(in_doaj)
+
+
+def test_regression_any_fetch_failure_is_tolerated_not_just_runtimeerror():
+    """A 400 from the googleusercontent host these Google Docs links redirect
+    to is not retried by http_get (a 4xx is normally permanent) and surfaces as
+    requests.HTTPError. Catching only RuntimeError let it escape and abort an
+    hour-long run. This pins the classifier's behaviour once such a failure is
+    collected, whatever its type."""
+    import requests
+    for exc in (RuntimeError("timeout"), requests.HTTPError("400"),
+                requests.ConnectionError("reset")):
+        # The verdict works on esac ids, not exception types — what matters is
+        # that the caller collects every failure kind and reaches this point.
+        assert unfetchable_verdict(["some2025consortium"], OXFORD_AGREEMENTS,
+                                   have_baseline=True) is None

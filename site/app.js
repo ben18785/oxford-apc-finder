@@ -197,7 +197,7 @@ function vocabIdsFor(value, phrase) {
  * subject and a dozen by name; merging those into one list makes the name
  * matches unfindable. */
 function clauseScore(rec, clause, parts) {
-  const { title, alt, pub, issns, ids } = parts;
+  const { title, alt, pub, issns, acro, ids } = parts;
   const v = clause.value;
   const hit = (hay) => clause.phrase ? hay.includes(v) : wordStart(hay, v);
   const f = clause.field;
@@ -214,6 +214,18 @@ function clauseScore(rec, clause, parts) {
   if (!f || f === "issn") {
     if (issns.includes(v)) { score += 5; byName = true; }
   }
+  // An initialism is how people refer to a journal out loud, so an exact hit
+  // is a strong signal — "jrsssa" should find one journal, not a topic list.
+  if (!f || f === "title") {
+    // An exact initialism is decisive; a prefix is only a hint. Without that
+    // split, "pnas" ranked PNAS Nexus above PNAS itself — a title beginning
+    // with the letters beat the journal the letters actually denote.
+    const acros = acro ? acro.split(" ") : [];
+    if (acros.includes(v)) { score += 800; byName = true; }
+    else if (acros.some(a => a.length > 2 && a.startsWith(v))) {
+      score += 150; byName = true;
+    }
+  }
   if (!f || f === "subject") {
     if (ids && clause.ids.size && ids.some((id) => clause.ids.has(id))) score += 8;
   }
@@ -226,6 +238,7 @@ function scoreRecord(rec, groups, rawQuery) {
     alt: (rec.a || []).join(" ").toLowerCase(),
     pub: (rec.p || "").toLowerCase(),
     issns: (rec.i || []).join(" "),
+    acro: (rec.y || "").toLowerCase(),
     ids: STATE.kwReady ? (STATE.kwIds[rec.n] || []) : null,
   };
   let score = 0, nominal = true;
@@ -383,6 +396,20 @@ function disputeBlock(d) {
  * the ledger shows only the figure, since the status column says the rest. */
 function costFigure(rec) {
   const c = rec.c || "";
+  // Every price the site holds is the cost of publishing OPEN ACCESS. In a
+  // hybrid journal publishing is free behind the paywall, so showing the
+  // number unqualified reads as the price of publishing there at all.
+  const showHybrid = $("#show-hybrid") && $("#show-hybrid").checked;
+  // Only hide a charge the reader would actually pay. When a deal covers the
+  // journal the answer is £0, and that is exactly the useful fact — the deal's
+  // whole value is buying open access at no cost.
+  const payable = rec.s === "none" || rec.s === "discount";
+  if (rec.o === "hybrid" && payable && !showHybrid && /\d/.test(c)) {
+    return { text: "free, or pay for OA", cls: "none" };
+  }
+  if (rec.o === "subscription" && /^APC unknown/.test(c)) {
+    return { text: "subscription", cls: "none" };
+  }
   if (/^£0/.test(c)) return { text: "£0", cls: "free" };
   const m = c.match(/^~?([\d,]+\s+[A-Z]{3})/);
   if (m) return { text: (c.startsWith("~") ? "≈ " : "") + m[1], cls: "" };
@@ -445,7 +472,7 @@ function renderResults(list, total, nominalCount, hidden) {
     }).join("");
 
     html += `<table class="ledger">
-      <thead><tr><th>Journal</th><th>Oxford deal</th><th class="num">Cost to you</th></tr></thead>
+      <thead><tr><th>Journal</th><th>Oxford deal</th><th class="num">Open access cost</th></tr></thead>
       <tbody>${rows}</tbody></table>`;
   }
 
@@ -828,6 +855,7 @@ function wireUI() {
   $("#q").addEventListener("input", () => { clearTimeout(debounce); debounce = setTimeout(runSearch, 120); });
   $("#search-form").addEventListener("submit", e => { e.preventDefault(); runSearch(); });
   $("#deal-only").addEventListener("change", runSearch);
+  $("#show-hybrid").addEventListener("change", runSearch);
   $("#modal-close").addEventListener("click", closeModal);
   $("#detail-modal").addEventListener("click", e => { if (e.target.id === "detail-modal") closeModal(); });
   document.addEventListener("keydown", e => {

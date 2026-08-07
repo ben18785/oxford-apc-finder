@@ -77,6 +77,13 @@ def compact_openalex(src: dict) -> dict:
         "is_oa": bool(src.get("is_oa")),
         "type": src.get("type"),
         "works_count": src.get("works_count"),
+        # Last year with any output. Free — it is already on the record — and
+        # it is the only way to tell a live journal from the predecessor record
+        # OpenAlex keeps after a rename or a change of publisher. JRSS Series A
+        # appears twice: the current OUP title and the old Wiley one.
+        "last_active_year": max(
+            (c.get("year") for c in (src.get("counts_by_year") or [])
+             if (c.get("works_count") or 0) > 0), default=None),
         "apc_usd": src.get("apc_usd"),
         "apc_prices": src.get("apc_prices") or [],
         "topics": [

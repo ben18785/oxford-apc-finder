@@ -145,10 +145,12 @@ def main() -> None:
             continue
         try:
             rows = fetch_csv(data_url, manifest, f"jct_ta_{esac_id}", session)
-        except RuntimeError:
-            # Google Docs times out occasionally; over 606 sequential fetches
-            # at least one failure is close to inevitable. Collect and retry
-            # them once at the end rather than abandoning the run.
+        except Exception:  # noqa: BLE001
+            # Any failure at all: a read timeout, or a 400 from the
+            # googleusercontent host these links redirect to, which http_get
+            # does not retry because a 4xx is normally permanent. Here it is
+            # not — the same URL succeeds moments later. Catching only
+            # RuntimeError let that 400 escape and kill an hour-long run.
             failed.append((esac_id, data_url))
             continue
 
@@ -178,7 +180,7 @@ def main() -> None:
         for esac_id, data_url in failed:
             try:
                 rows = fetch_csv(data_url, manifest, f"jct_ta_{esac_id}", session)
-            except RuntimeError as exc:
+            except Exception as exc:  # noqa: BLE001
                 still_failing.append((esac_id, exc))
                 continue
             for journal in agreement_journals(rows):

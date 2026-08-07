@@ -170,8 +170,10 @@ chain.then(function () {
   var resultsHtml = el("#results").innerHTML;
   check("results render as a ledger table",
     resultsHtml.indexOf("<table class=\"ledger\"") !== -1);
-  check("the ledger has a cost column",
-    resultsHtml.indexOf("cost-cell") !== -1 && resultsHtml.indexOf("Cost to you") !== -1);
+  check("the ledger has a cost column, labelled as an OPEN ACCESS charge",
+    resultsHtml.indexOf("cost-cell") !== -1
+    && resultsHtml.indexOf("Open access cost") !== -1,
+    "every price on the site is an OA charge, and the column must say so");
   check("each row exposes its journal id for opening the detail",
     /<tr data-id="\d{4}-\d{3}[\dX]"/.test(resultsHtml));
   check("status labels carry a ? explainer",
@@ -299,6 +301,53 @@ chain.then(function () {
   check("filter-hidden name matches are tracked",
     (STATE.hiddenByFilter || []).length > 0,
     "searching 'science' with the deal filter on hides journals incl. Science");
+
+  /* ------------------------------------- acronyms and OA costs -------- */
+  var pnas = STATE.index.filter(function (r) {
+    return (r.y || "").split(" ").indexOf("pnas") !== -1
+        && /proceedings of the national academy/i.test(r.t || ""); })[0];
+  if (pnas) {
+    check("an acronym finds the journal it denotes", search("pnas")[0].id === pnas.id,
+      "top was " + (search("pnas")[0] || {}).t);
+    check("an exact acronym outranks a title merely starting with it",
+      search("pnas")[0].id === pnas.id,
+      "PNAS Nexus must not outrank PNAS");
+  }
+
+  var withAcro = STATE.index.filter(function (r) { return (r.y || "").length > 3; })[0];
+  if (withAcro) {
+    var a = withAcro.y.split(" ")[0];
+    check("acronym search returns the journal it was derived from",
+      search(a).some(function (r) { return r.id === withAcro.id; }), a);
+  }
+
+  /* Every price the site holds is an OPEN ACCESS charge. In a hybrid journal
+   * publishing is free behind the paywall, so the figure must not read as the
+   * price of publishing there at all. */
+  var hybridPayable = STATE.index.filter(function (r) {
+    return r.o === "hybrid" && r.s === "none" && /\d/.test(r.c || ""); })[0];
+  if (hybridPayable) {
+    el("#show-hybrid").checked = false;
+    check("hybrid OA charges are hidden by default",
+      costFigure(hybridPayable).text.indexOf("free") !== -1,
+      costFigure(hybridPayable).text);
+    el("#show-hybrid").checked = true;
+    check("the toggle reveals the hybrid OA charge",
+      /\d/.test(costFigure(hybridPayable).text),
+      costFigure(hybridPayable).text);
+    el("#show-hybrid").checked = false;
+  }
+
+  var hybridCovered = STATE.index.filter(function (r) {
+    return r.o === "hybrid" && r.s === "covered"; })[0];
+  if (hybridCovered) {
+    check("a covered hybrid still shows £0, which is the useful fact",
+      costFigure(hybridCovered).text.indexOf("0") !== -1,
+      costFigure(hybridCovered).text);
+  }
+
+  check("the cost column says what the figure is",
+    el("#results").innerHTML.indexOf("Open access cost") !== -1);
 
   /* ----------------------------------------- opening a journal -------
    * Regression: build_site sharded details on 4 characters while loadShard
