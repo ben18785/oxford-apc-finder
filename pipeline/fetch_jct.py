@@ -25,6 +25,37 @@ from common import (FIXTURES, FIXTURES_MODE, Manifest, OUT, fetch_csv,
                     load_config, read_json, utcnow, write_json, normalise_issn)
 
 
+def institution_is_current(rows: list[dict], ror: str) -> bool:
+    """Is this institution a *current* participant in the agreement?
+
+    An agreement CSV interleaves journal rows and institution rows. An
+    institution counts only if its ROR appears with no "Institution Last Seen"
+    date — a date there means it has left the agreement.
+    """
+    return any(
+        (r.get("ROR ID") or "").strip().endswith(ror)
+        and not (r.get("Institution Last Seen") or "").strip()
+        for r in rows
+    )
+
+
+def agreement_journals(rows: list[dict]) -> list[dict]:
+    """Journals currently in the agreement (a "Journal Last Seen" date means
+    the journal has been dropped from it)."""
+    journals = []
+    for r in rows:
+        name = (r.get("Journal Name") or "").strip()
+        p_issn = normalise_issn(r.get("ISSN (Print)"))
+        e_issn = normalise_issn(r.get("ISSN (Online)"))
+        if not name and not (p_issn or e_issn):
+            continue  # institution-only row
+        if (r.get("Journal Last Seen") or "").strip():
+            continue  # journal no longer in the agreement
+        journals.append({"name": name,
+                         "issns": [i for i in (p_issn, e_issn) if i]})
+    return journals
+
+
 def main() -> None:
     cfg = load_config()
     out_path = OUT / "deals.json"
@@ -56,27 +87,10 @@ def main() -> None:
             print(f"  WARN: agreement {esac_id} unfetchable: {exc}", file=sys.stderr)
             raise  # fail loudly — a silently missing agreement is wrong data
 
-        # Institution block: is Oxford a current participant?
-        oxford_current = any(
-            (r.get("ROR ID") or "").strip().endswith(ror)
-            and not (r.get("Institution Last Seen") or "").strip()
-            for r in rows
-        )
-        if not oxford_current:
+        if not institution_is_current(rows, ror):
             continue
 
-        journals = []
-        for r in rows:
-            name = (r.get("Journal Name") or "").strip()
-            p_issn = normalise_issn(r.get("ISSN (Print)"))
-            e_issn = normalise_issn(r.get("ISSN (Online)"))
-            last_seen = (r.get("Journal Last Seen") or "").strip()
-            if not name and not (p_issn or e_issn):
-                continue  # institution-only row
-            if last_seen:
-                continue  # journal no longer in the agreement
-            journals.append({"name": name,
-                             "issns": [i for i in (p_issn, e_issn) if i]})
+        journals = agreement_journals(rows)
         agreements.append({
             "esac_id": esac_id,
             "end_date": (row.get("End Date") or "").strip(),

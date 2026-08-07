@@ -1,30 +1,1117 @@
 {
- "generated": "2026-08-06T12:00:00Z",
+ "generated": "2026-08-06T17:09:30Z",
  "sources": {
-  "openalex": {"url": "https://api.openalex.org", "license": "CC0"},
-  "doaj": {"url": "https://doaj.org/api", "license": "CC0 (metadata)"},
-  "doaj_withdrawn": {"url": "https://docs.google.com/spreadsheets/d/1Kv3MbgFSgtSDnEGkA2JacrSjunRu0umHeZCtcMeqO5E", "license": "CC BY-SA 4.0"}
+  "openalex": {
+   "url": "https://api.openalex.org",
+   "license": "CC0"
+  },
+  "doaj": {
+   "url": "https://doaj.org/api",
+   "license": "CC0 (metadata)"
+  },
+  "doaj_withdrawn": {
+   "url": "https://docs.google.com/spreadsheets/d/1Kv3MbgFSgtSDnEGkA2JacrSjunRu0umHeZCtcMeqO5E/gviz/tq?tqx=out:csv&sheet=Withdrawn",
+   "license": "CC BY-SA 4.0"
+  }
  },
  "openalex": {
-  "1521-4095": {"openalex_id": "https://openalex.org/S12730173", "issn_l": "1521-4095", "issns": ["0935-9648", "1521-4095"], "title": "Advanced Materials", "alternate_titles": [], "publisher": "Wiley", "homepage": "https://onlinelibrary.wiley.com/journal/15214095", "is_in_doaj": false, "is_oa": false, "type": "journal", "works_count": 61230, "apc_usd": 5900, "apc_prices": [{"price": 5900, "currency": "USD"}, {"price": 5300, "currency": "EUR"}, {"price": 4600, "currency": "GBP"}], "topics": [{"name": "Conducting polymers and applications", "subfield": "Materials Chemistry", "field": "Materials Science", "count": 900}, {"name": "Perovskite solar cells", "subfield": "Electronic Materials", "field": "Materials Science", "count": 850}]},
-  "1521-3773": {"openalex_id": "https://openalex.org/S67637156", "issn_l": "1521-3773", "issns": ["1433-7851", "1521-3773"], "title": "Angewandte Chemie International Edition", "alternate_titles": [], "publisher": "Wiley", "homepage": "https://onlinelibrary.wiley.com/journal/15213773", "is_in_doaj": false, "is_oa": false, "type": "journal", "works_count": 78000, "apc_usd": 5900, "apc_prices": [{"price": 5900, "currency": "USD"}, {"price": 4600, "currency": "GBP"}], "topics": [{"name": "Catalysis and organic synthesis", "subfield": "Organic Chemistry", "field": "Chemistry", "count": 1200}]},
-  "0022-2836": {"openalex_id": "https://openalex.org/S140251998", "issn_l": "0022-2836", "issns": ["0022-2836", "1089-8638"], "title": "Journal of Molecular Biology", "alternate_titles": ["JMB"], "publisher": "Elsevier", "homepage": "https://www.sciencedirect.com/journal/journal-of-molecular-biology", "is_in_doaj": false, "is_oa": false, "type": "journal", "works_count": 49000, "apc_usd": 4160, "apc_prices": [{"price": 4160, "currency": "USD"}, {"price": 3400, "currency": "GBP"}], "topics": [{"name": "Protein structure and folding", "subfield": "Biochemistry", "field": "Biochemistry, Genetics and Molecular Biology", "count": 1100}]},
-  "2211-1247": {"openalex_id": "https://openalex.org/S2477765730", "issn_l": "2211-1247", "issns": ["2211-1247"], "title": "Cell Reports", "alternate_titles": [], "publisher": "Elsevier", "homepage": "https://www.cell.com/cell-reports/home", "is_in_doaj": true, "is_oa": true, "type": "journal", "works_count": 22000, "apc_usd": 5560, "apc_prices": [{"price": 5560, "currency": "USD"}], "topics": [{"name": "Cellular signalling pathways", "subfield": "Cell Biology", "field": "Biochemistry, Genetics and Molecular Biology", "count": 800}]},
-  "1573-7284": {"openalex_id": "https://openalex.org/S49861241", "issn_l": "1573-7284", "issns": ["0393-2990", "1573-7284"], "title": "European Journal of Epidemiology", "alternate_titles": [], "publisher": "Springer Nature", "homepage": "https://www.springer.com/journal/10654", "is_in_doaj": false, "is_oa": false, "type": "journal", "works_count": 4200, "apc_usd": 3490, "apc_prices": [{"price": 3490, "currency": "USD"}, {"price": 2790, "currency": "GBP"}], "topics": [{"name": "Epidemiological methods and cohorts", "subfield": "Epidemiology", "field": "Medicine", "count": 400}]},
-  "2050-084X": {"openalex_id": "https://openalex.org/S4210192858", "issn_l": "2050-084X", "issns": ["2050-084X"], "title": "eLife", "alternate_titles": [], "publisher": "eLife Sciences Publications Ltd", "homepage": "https://elifesciences.org", "is_in_doaj": true, "is_oa": true, "type": "journal", "works_count": 15000, "apc_usd": 3000, "apc_prices": [{"price": 3000, "currency": "USD"}], "topics": [{"name": "Cell biology mechanisms", "subfield": "Cell Biology", "field": "Biochemistry, Genetics and Molecular Biology", "count": 700}, {"name": "Neural circuits and behaviour", "subfield": "Neuroscience", "field": "Neuroscience", "count": 650}]},
-  "1664-1078": {"openalex_id": "https://openalex.org/S2764541345", "issn_l": "1664-1078", "issns": ["1664-1078"], "title": "Frontiers in Psychology", "alternate_titles": [], "publisher": "Frontiers Media", "homepage": "https://www.frontiersin.org/journals/psychology", "is_in_doaj": true, "is_oa": true, "type": "journal", "works_count": 78000, "apc_usd": 3400, "apc_prices": [{"price": 3150, "currency": "CHF"}, {"price": 3400, "currency": "USD"}], "topics": [{"name": "Cognitive and educational psychology", "subfield": "Developmental and Educational Psychology", "field": "Psychology", "count": 2000}]},
-  "2542-4653": {"openalex_id": "https://openalex.org/S4210201858", "issn_l": "2542-4653", "issns": ["2542-4653"], "title": "SciPost Physics", "alternate_titles": [], "publisher": "SciPost", "homepage": "https://scipost.org/journals/scipost_physics", "is_in_doaj": true, "is_oa": true, "type": "journal", "works_count": 2100, "apc_usd": 0, "apc_prices": [], "topics": [{"name": "Quantum many-body systems", "subfield": "Condensed Matter Physics", "field": "Physics and Astronomy", "count": 500}]},
-  "1424-8220": {"openalex_id": "https://openalex.org/S15948wq", "issn_l": "1424-8220", "issns": ["1424-8220"], "title": "Sensors", "alternate_titles": [], "publisher": "MDPI", "homepage": "https://www.mdpi.com/journal/sensors", "is_in_doaj": true, "is_oa": true, "type": "journal", "works_count": 90000, "apc_usd": 2600, "apc_prices": [{"price": 2600, "currency": "CHF"}], "topics": [{"name": "Wireless sensor networks", "subfield": "Electrical and Electronic Engineering", "field": "Engineering", "count": 3000}]},
-  "0027-8424": {"openalex_id": "https://openalex.org/S125754415", "issn_l": "0027-8424", "issns": ["0027-8424", "1091-6490"], "title": "Proceedings of the National Academy of Sciences", "alternate_titles": ["PNAS"], "publisher": "National Academy of Sciences", "homepage": "https://www.pnas.org", "is_in_doaj": false, "is_oa": false, "type": "journal", "works_count": 210000, "apc_usd": 5380, "apc_prices": [{"price": 5380, "currency": "USD"}], "topics": [{"name": "Multidisciplinary sciences", "subfield": "Multidisciplinary", "field": "Multidisciplinary", "count": 5000}]}
+  "0001-1541": {
+   "openalex_id": "https://openalex.org/S147177414",
+   "issn_l": "0001-1541",
+   "issns": [
+    "0001-1541",
+    "1547-5905"
+   ],
+   "title": "AIChE Journal",
+   "alternate_titles": [
+    "American Institute of Chemical Engineers journal",
+    "AIChE Journal (American Institute of Chemical Engineers)"
+   ],
+   "publisher": "Wiley",
+   "homepage": "https://aiche.onlinelibrary.wiley.com/journal/15475905",
+   "is_in_doaj": false,
+   "is_oa": false,
+   "type": "journal",
+   "works_count": 20880,
+   "apc_usd": 4940,
+   "apc_prices": [
+    {
+     "price": 4940,
+     "currency": "USD"
+    },
+    {
+     "price": 4120,
+     "currency": "EUR"
+    },
+    {
+     "price": 3290,
+     "currency": "GBP"
+    }
+   ],
+   "topics": [
+    {
+     "name": "Process Optimization and Integration",
+     "subfield": "Control and Systems Engineering",
+     "field": "Engineering",
+     "count": 1757
+    },
+    {
+     "name": "Phase Equilibria and Thermodynamics",
+     "subfield": "Biomedical Engineering",
+     "field": "Engineering",
+     "count": 1632
+    },
+    {
+     "name": "Advanced Control Systems Optimization",
+     "subfield": "Control and Systems Engineering",
+     "field": "Engineering",
+     "count": 1621
+    },
+    {
+     "name": "Fluid Dynamics and Mixing",
+     "subfield": "Biomedical Engineering",
+     "field": "Engineering",
+     "count": 1461
+    },
+    {
+     "name": "Granular flow and fluidized beds",
+     "subfield": "Computational Mechanics",
+     "field": "Engineering",
+     "count": 1327
+    },
+    {
+     "name": "Catalytic Processes in Materials Science",
+     "subfield": "Materials Chemistry",
+     "field": "Materials Science",
+     "count": 1078
+    },
+    {
+     "name": "Innovative Microfluidic and Catalytic Techniques Innovation",
+     "subfield": "Biomedical Engineering",
+     "field": "Engineering",
+     "count": 1026
+    },
+    {
+     "name": "Rheology and Fluid Dynamics Studies",
+     "subfield": "Fluid Flow and Transfer Processes",
+     "field": "Chemical Engineering",
+     "count": 888
+    }
+   ]
+  },
+  "0001-5555": {
+   "openalex_id": "https://openalex.org/S4210210846",
+   "issn_l": "0001-5555",
+   "issns": [
+    "0001-5555",
+    "1651-2057"
+   ],
+   "title": "Acta Dermato Venereologica",
+   "alternate_titles": [
+    "Acta dermato-venereologica"
+   ],
+   "publisher": "Soc for Publication of Acta Dermato-Venereologica",
+   "homepage": "https://medicaljournalssweden.se/actadv",
+   "is_in_doaj": true,
+   "is_oa": true,
+   "type": "journal",
+   "works_count": 10333,
+   "apc_usd": 1725,
+   "apc_prices": [
+    {
+     "price": 1600,
+     "currency": "EUR"
+    }
+   ],
+   "topics": [
+    {
+     "name": "Dermatology and Skin Diseases",
+     "subfield": "Dermatology",
+     "field": "Medicine",
+     "count": 1630
+    },
+    {
+     "name": "Autoimmune Bullous Skin Diseases",
+     "subfield": "Pathology and Forensic Medicine",
+     "field": "Medicine",
+     "count": 1062
+    },
+    {
+     "name": "Urticaria and Related Conditions",
+     "subfield": "Rheumatology",
+     "field": "Medicine",
+     "count": 831
+    },
+    {
+     "name": "Psoriasis: Treatment and Pathogenesis",
+     "subfield": "Immunology",
+     "field": "Immunology and Microbiology",
+     "count": 764
+    },
+    {
+     "name": "Nail Diseases and Treatments",
+     "subfield": "Epidemiology",
+     "field": "Medicine",
+     "count": 760
+    },
+    {
+     "name": "Cutaneous lymphoproliferative disorders research",
+     "subfield": "Dermatology",
+     "field": "Medicine",
+     "count": 749
+    },
+    {
+     "name": "Contact Dermatitis and Allergies",
+     "subfield": "Dermatology",
+     "field": "Medicine",
+     "count": 696
+    },
+    {
+     "name": "Allergic Rhinitis and Sensitization",
+     "subfield": "Immunology and Allergy",
+     "field": "Medicine",
+     "count": 683
+    }
+   ]
+  },
+  "0001-3765": {
+   "openalex_id": "https://openalex.org/S111086706",
+   "issn_l": "0001-3765",
+   "issns": [
+    "0001-3765",
+    "1678-2690"
+   ],
+   "title": "Anais da Academia Brasileira de Ciências",
+   "alternate_titles": [
+    "Annals of the Brazilian Academy of Sciences",
+    "Annaes da Academia Brasileira de Sciências",
+    "Annaes da Academia Brasileira de Sciencias"
+   ],
+   "publisher": "Brazilian Academy of Sciences",
+   "homepage": "http://www.scielo.br/scielo.php?script=sci_serial&pid=0001-3765&lng=en&nrm=iso",
+   "is_in_doaj": true,
+   "is_oa": true,
+   "type": "journal",
+   "works_count": 6190,
+   "apc_usd": null,
+   "apc_prices": [],
+   "topics": [
+    {
+     "name": "Fish biology, ecology, and behavior",
+     "subfield": "Nature and Landscape Conservation",
+     "field": "Environmental Science",
+     "count": 334
+    },
+    {
+     "name": "Plant and animal studies",
+     "subfield": "Ecology, Evolution, Behavior and Systematics",
+     "field": "Agricultural and Biological Sciences",
+     "count": 280
+    },
+    {
+     "name": "Geography and Environmental Studies",
+     "subfield": "Water Science and Technology",
+     "field": "Environmental Science",
+     "count": 183
+    },
+    {
+     "name": "Paleontology and Evolutionary Biology",
+     "subfield": "Paleontology",
+     "field": "Earth and Planetary Sciences",
+     "count": 178
+    },
+    {
+     "name": "Geochemistry and Geologic Mapping",
+     "subfield": "Artificial Intelligence",
+     "field": "Computer Science",
+     "count": 178
+    },
+    {
+     "name": "Amphibian and Reptile Biology",
+     "subfield": "Global and Planetary Change",
+     "field": "Environmental Science",
+     "count": 175
+    },
+    {
+     "name": "Ichthyology and Marine Biology",
+     "subfield": "Nature and Landscape Conservation",
+     "field": "Environmental Science",
+     "count": 162
+    },
+    {
+     "name": "Essential Oils and Antimicrobial Activity",
+     "subfield": "Food Science",
+     "field": "Agricultural and Biological Sciences",
+     "count": 158
+    }
+   ]
+  },
+  "0001-527X": {
+   "openalex_id": "https://openalex.org/S166203837",
+   "issn_l": "0001-527X",
+   "issns": [
+    "0001-527X",
+    "1734-154X"
+   ],
+   "title": "Acta Biochimica Polonica",
+   "alternate_titles": [],
+   "publisher": "Polish Biochemical Society",
+   "homepage": "https://ojs.ptbioch.edu.pl/index.php/abp",
+   "is_in_doaj": true,
+   "is_oa": true,
+   "type": "journal",
+   "works_count": 3872,
+   "apc_usd": 2588,
+   "apc_prices": [
+    {
+     "price": 8000,
+     "currency": "PLN"
+    },
+    {
+     "price": 2400,
+     "currency": "EUR"
+    }
+   ],
+   "topics": [
+    {
+     "name": "RNA and protein synthesis mechanisms",
+     "subfield": "Molecular Biology",
+     "field": "Biochemistry, Genetics and Molecular Biology",
+     "count": 187
+    },
+    {
+     "name": "Glycosylation and Glycoproteins Research",
+     "subfield": "Molecular Biology",
+     "field": "Biochemistry, Genetics and Molecular Biology",
+     "count": 134
+    },
+    {
+     "name": "Mitochondrial Function and Pathology",
+     "subfield": "Molecular Biology",
+     "field": "Biochemistry, Genetics and Molecular Biology",
+     "count": 130
+    },
+    {
+     "name": "RNA modifications and cancer",
+     "subfield": "Molecular Biology",
+     "field": "Biochemistry, Genetics and Molecular Biology",
+     "count": 107
+    },
+    {
+     "name": "Bacterial Genetics and Biotechnology",
+     "subfield": "Genetics",
+     "field": "Biochemistry, Genetics and Molecular Biology",
+     "count": 97
+    },
+    {
+     "name": "DNA Repair Mechanisms",
+     "subfield": "Molecular Biology",
+     "field": "Biochemistry, Genetics and Molecular Biology",
+     "count": 96
+    },
+    {
+     "name": "DNA and Nucleic Acid Chemistry",
+     "subfield": "Molecular Biology",
+     "field": "Biochemistry, Genetics and Molecular Biology",
+     "count": 89
+    },
+    {
+     "name": "Enzyme Structure and Function",
+     "subfield": "Materials Chemistry",
+     "field": "Materials Science",
+     "count": 88
+    }
+   ]
+  },
+  "0370-2693": {
+   "openalex_id": "https://openalex.org/S173952182",
+   "issn_l": "0370-2693",
+   "issns": [
+    "0370-2693",
+    "1873-2445"
+   ],
+   "title": "Physics Letters B",
+   "alternate_titles": [
+    "Nuclear physics"
+   ],
+   "publisher": "Elsevier BV",
+   "homepage": "https://www.journals.elsevier.com/physics-letters-b",
+   "is_in_doaj": true,
+   "is_oa": true,
+   "type": "journal",
+   "works_count": 67775,
+   "apc_usd": null,
+   "apc_prices": [],
+   "topics": [
+    {
+     "name": "Particle physics theoretical and experimental studies",
+     "subfield": "Nuclear and High Energy Physics",
+     "field": "Physics and Astronomy",
+     "count": 31876
+    },
+    {
+     "name": "Quantum Chromodynamics and Particle Interactions",
+     "subfield": "Nuclear and High Energy Physics",
+     "field": "Physics and Astronomy",
+     "count": 28673
+    },
+    {
+     "name": "Black Holes and Theoretical Physics",
+     "subfield": "Nuclear and High Energy Physics",
+     "field": "Physics and Astronomy",
+     "count": 19446
+    },
+    {
+     "name": "High-Energy Particle Collisions Research",
+     "subfield": "Nuclear and High Energy Physics",
+     "field": "Physics and Astronomy",
+     "count": 16912
+    },
+    {
+     "name": "Cosmology and Gravitation Theories",
+     "subfield": "Astronomy and Astrophysics",
+     "field": "Physics and Astronomy",
+     "count": 12652
+    },
+    {
+     "name": "Nuclear physics research studies",
+     "subfield": "Nuclear and High Energy Physics",
+     "field": "Physics and Astronomy",
+     "count": 9981
+    },
+    {
+     "name": "Dark Matter and Cosmic Phenomena",
+     "subfield": "Nuclear and High Energy Physics",
+     "field": "Physics and Astronomy",
+     "count": 5355
+    },
+    {
+     "name": "Noncommutative and Quantum Gravity Theories",
+     "subfield": "Statistical and Nonlinear Physics",
+     "field": "Physics and Astronomy",
+     "count": 5245
+    }
+   ]
+  },
+  "0001-6918": {
+   "openalex_id": "https://openalex.org/S180067919",
+   "issn_l": "0001-6918",
+   "issns": [
+    "0001-6918",
+    "1873-6297"
+   ],
+   "title": "Acta Psychologica",
+   "alternate_titles": [],
+   "publisher": "Elsevier BV",
+   "homepage": "https://www.journals.elsevier.com/acta-psychologica",
+   "is_in_doaj": true,
+   "is_oa": true,
+   "type": "journal",
+   "works_count": 10207,
+   "apc_usd": 1650,
+   "apc_prices": [
+    {
+     "price": 1650,
+     "currency": "USD"
+    },
+    {
+     "price": 1500,
+     "currency": "EUR"
+    },
+    {
+     "price": 1320,
+     "currency": "GBP"
+    },
+    {
+     "price": 185390,
+     "currency": "JPY"
+    }
+   ],
+   "topics": [
+    {
+     "name": "Neural and Behavioral Psychology Studies",
+     "subfield": "Cognitive Neuroscience",
+     "field": "Neuroscience",
+     "count": 1299
+    },
+    {
+     "name": "Visual perception and processing mechanisms",
+     "subfield": "Cognitive Neuroscience",
+     "field": "Neuroscience",
+     "count": 919
+    },
+    {
+     "name": "Motor Control and Adaptation",
+     "subfield": "Cognitive Neuroscience",
+     "field": "Neuroscience",
+     "count": 557
+    },
+    {
+     "name": "Action Observation and Synchronization",
+     "subfield": "Social Psychology",
+     "field": "Psychology",
+     "count": 547
+    },
+    {
+     "name": "Multisensory perception and integration",
+     "subfield": "Experimental and Cognitive Psychology",
+     "field": "Psychology",
+     "count": 529
+    },
+    {
+     "name": "Decision-Making and Behavioral Economics",
+     "subfield": "General Decision Sciences",
+     "field": "Decision Sciences",
+     "count": 474
+    },
+    {
+     "name": "Human auditory perception and evaluation",
+     "subfield": "Aerospace Engineering",
+     "field": "Engineering",
+     "count": 419
+    },
+    {
+     "name": "Child and Animal Learning Development",
+     "subfield": "Developmental and Educational Psychology",
+     "field": "Psychology",
+     "count": 407
+    }
+   ]
+  },
+  "0001-2092": {
+   "openalex_id": "https://openalex.org/S5303612",
+   "issn_l": "0001-2092",
+   "issns": [
+    "0001-2092",
+    "1878-0369"
+   ],
+   "title": "AORN Journal",
+   "alternate_titles": [
+    "AORN J",
+    "Association of Operating Room Nurses journal"
+   ],
+   "publisher": "Wiley",
+   "homepage": "https://aornjournal.onlinelibrary.wiley.com/",
+   "is_in_doaj": false,
+   "is_oa": false,
+   "type": "journal",
+   "works_count": 21971,
+   "apc_usd": 3050,
+   "apc_prices": [
+    {
+     "price": 3050,
+     "currency": "USD"
+    },
+    {
+     "price": 2550,
+     "currency": "EUR"
+    },
+    {
+     "price": 2050,
+     "currency": "GBP"
+    }
+   ],
+   "topics": [
+    {
+     "name": "Nursing Education, Practice, and Leadership",
+     "subfield": "Issues, ethics and legal aspects",
+     "field": "Nursing",
+     "count": 2633
+    },
+    {
+     "name": "Cardiac, Anesthesia and Surgical Outcomes",
+     "subfield": "Cardiology and Cardiovascular Medicine",
+     "field": "Medicine",
+     "count": 1799
+    },
+    {
+     "name": "Human auditory perception and evaluation",
+     "subfield": "Aerospace Engineering",
+     "field": "Engineering",
+     "count": 1161
+    },
+    {
+     "name": "Vascular Anomalies and Treatments",
+     "subfield": "Genetics",
+     "field": "Medicine",
+     "count": 1070
+    },
+    {
+     "name": "Diverse Scientific and Economic Studies",
+     "subfield": "Economics and Econometrics",
+     "field": "Economics, Econometrics and Finance",
+     "count": 967
+    },
+    {
+     "name": "Medical Malpractice and Liability Issues",
+     "subfield": "Pharmacy",
+     "field": "Health Professions",
+     "count": 814
+    },
+    {
+     "name": "Nursing Diagnosis and Documentation",
+     "subfield": "Issues, ethics and legal aspects",
+     "field": "Nursing",
+     "count": 780
+    },
+    {
+     "name": "Educational Robotics and Engineering",
+     "subfield": "Artificial Intelligence",
+     "field": "Computer Science",
+     "count": 730
+    }
+   ]
+  },
+  "0017-0305": {
+   "openalex_id": "https://openalex.org/S4210225822",
+   "issn_l": "0017-0305",
+   "issns": [
+    "0017-0305",
+    "2499-6564"
+   ],
+   "title": "Journal of Gerontology and Geriatrics",
+   "alternate_titles": [
+    "Giornale di gerontologia"
+   ],
+   "publisher": null,
+   "homepage": "http://www.jgerontology-geriatrics.com/",
+   "is_in_doaj": false,
+   "is_oa": false,
+   "type": "journal",
+   "works_count": 293,
+   "apc_usd": null,
+   "apc_prices": [],
+   "topics": [
+    {
+     "name": "Frailty in Older Adults",
+     "subfield": "Geriatrics and Gerontology",
+     "field": "Medicine",
+     "count": 43
+    },
+    {
+     "name": "Nutrition and Health in Aging",
+     "subfield": "Physiology",
+     "field": "Medicine",
+     "count": 32
+    },
+    {
+     "name": "Dementia and Cognitive Impairment Research",
+     "subfield": "Psychiatry and Mental health",
+     "field": "Medicine",
+     "count": 22
+    },
+    {
+     "name": "Balance, Gait, and Falls Prevention",
+     "subfield": "Physical Therapy, Sports Therapy and Rehabilitation",
+     "field": "Health Professions",
+     "count": 21
+    },
+    {
+     "name": "Intensive Care Unit Cognitive Disorders",
+     "subfield": "Critical Care and Intensive Care Medicine",
+     "field": "Medicine",
+     "count": 21
+    },
+    {
+     "name": "Geriatric Care and Nursing Homes",
+     "subfield": "General Health Professions",
+     "field": "Health Professions",
+     "count": 16
+    },
+    {
+     "name": "Long-Term Effects of COVID-19",
+     "subfield": "Neurology",
+     "field": "Medicine",
+     "count": 15
+    },
+    {
+     "name": "Health Systems, Economic Evaluations, Quality of Life",
+     "subfield": "Economics and Econometrics",
+     "field": "Economics, Econometrics and Finance",
+     "count": 12
+    }
+   ]
+  },
+  "0001-2947": {
+   "openalex_id": "https://openalex.org/S4393911168",
+   "issn_l": "0001-2947",
+   "issns": [
+    "0001-2947",
+    "2750-7882"
+   ],
+   "title": "AWR bulletin",
+   "alternate_titles": [
+    "Quarterly on Refugee Problems - AWR Bulletin"
+   ],
+   "publisher": null,
+   "homepage": null,
+   "is_in_doaj": true,
+   "is_oa": true,
+   "type": "journal",
+   "works_count": 0,
+   "apc_usd": null,
+   "apc_prices": [],
+   "topics": []
+  },
+  "0001-0782": {
+   "openalex_id": "https://openalex.org/S103482838",
+   "issn_l": "0001-0782",
+   "issns": [
+    "0001-0782",
+    "1557-7317"
+   ],
+   "title": "Communications of the ACM",
+   "alternate_titles": [
+    "Communications of the A.C.M.",
+    "Communications of the Association for Computing Machinery"
+   ],
+   "publisher": "Association for Computing Machinery",
+   "homepage": "http://cacm.acm.org",
+   "is_in_doaj": false,
+   "is_oa": false,
+   "type": "journal",
+   "works_count": 16139,
+   "apc_usd": null,
+   "apc_prices": [],
+   "topics": [
+    {
+     "name": "Parallel Computing and Optimization Techniques",
+     "subfield": "Hardware and Architecture",
+     "field": "Computer Science",
+     "count": 762
+    },
+    {
+     "name": "Algorithms and Data Compression",
+     "subfield": "Artificial Intelligence",
+     "field": "Computer Science",
+     "count": 658
+    },
+    {
+     "name": "Information Systems Education and Curriculum Development",
+     "subfield": "Information Systems",
+     "field": "Computer Science",
+     "count": 600
+    },
+    {
+     "name": "Distributed and Parallel Computing Systems",
+     "subfield": "Computer Networks and Communications",
+     "field": "Computer Science",
+     "count": 599
+    },
+    {
+     "name": "Logic, programming, and type systems",
+     "subfield": "Artificial Intelligence",
+     "field": "Computer Science",
+     "count": 543
+    },
+    {
+     "name": "Software Engineering Research",
+     "subfield": "Information Systems",
+     "field": "Computer Science",
+     "count": 540
+    },
+    {
+     "name": "Big Data and Business Intelligence",
+     "subfield": "Management Information Systems",
+     "field": "Business, Management and Accounting",
+     "count": 524
+    },
+    {
+     "name": "Advanced Database Systems and Queries",
+     "subfield": "Computer Networks and Communications",
+     "field": "Computer Science",
+     "count": 500
+    }
+   ]
+  },
+  "0001-0383": {
+   "openalex_id": "https://openalex.org/S4210223324",
+   "issn_l": "0001-0383",
+   "issns": [
+    "0001-0383"
+   ],
+   "title": "ABCA Bulletin",
+   "alternate_titles": [
+    "American Business Communication Association bulletin"
+   ],
+   "publisher": "SAGE Publishing",
+   "homepage": null,
+   "is_in_doaj": false,
+   "is_oa": false,
+   "type": "journal",
+   "works_count": 715,
+   "apc_usd": null,
+   "apc_prices": [],
+   "topics": [
+    {
+     "name": "Management and Marketing Education",
+     "subfield": "Management of Technology and Innovation",
+     "field": "Business, Management and Accounting",
+     "count": 99
+    },
+    {
+     "name": "Educational Leadership and Practices",
+     "subfield": "Education",
+     "field": "Social Sciences",
+     "count": 46
+    },
+    {
+     "name": "Diverse Scientific and Economic Studies",
+     "subfield": "Economics and Econometrics",
+     "field": "Economics, Econometrics and Finance",
+     "count": 45
+    },
+    {
+     "name": "Discourse Analysis in Language Studies",
+     "subfield": "Literature and Literary Theory",
+     "field": "Arts and Humanities",
+     "count": 43
+    },
+    {
+     "name": "Communication in Education and Healthcare",
+     "subfield": "Social Psychology",
+     "field": "Psychology",
+     "count": 36
+    },
+    {
+     "name": "Public Relations and Crisis Communication",
+     "subfield": "Communication",
+     "field": "Social Sciences",
+     "count": 32
+    },
+    {
+     "name": "Reflective Practices in Education",
+     "subfield": "Education",
+     "field": "Social Sciences",
+     "count": 31
+    },
+    {
+     "name": "Leadership and Management in Organizations",
+     "subfield": "Strategy and Management",
+     "field": "Business, Management and Accounting",
+     "count": 29
+    }
+   ]
+  },
+  "0008-7386": {
+   "openalex_id": "https://openalex.org/S000000000",
+   "issn_l": "0008-7386",
+   "issns": [
+    "0008-7386"
+   ],
+   "title": "Fixture Journal Withdrawn For Misconduct",
+   "alternate_titles": [],
+   "publisher": "Elsevier",
+   "homepage": "https://example.invalid/withdrawn",
+   "is_in_doaj": false,
+   "is_oa": true,
+   "type": "journal",
+   "works_count": 10,
+   "apc_usd": 1000,
+   "apc_prices": [
+    {
+     "price": 1000,
+     "currency": "USD"
+    }
+   ],
+   "topics": []
+  }
  },
  "doaj": {
-  "2050-084X": {"doaj_id": "bfafe68df1ed44d08a7a9df796bf6c85", "title": "eLife", "publisher": "eLife Sciences Publications Ltd", "apc": {"has_apc": true, "price": 3000, "currency": "USD"}, "waiver": true, "keywords": ["biomedicine", "life sciences"], "subjects": ["Biology", "Medicine"], "license": ["CC BY"], "aims_scope_url": "https://elifesciences.org/about/aims-scope", "journal_url": "https://elifesciences.org"},
-  "1664-1078": {"doaj_id": "c96ae8c547e840d9acc80f7151a28617", "title": "Frontiers in Psychology", "publisher": "Frontiers Media S.A.", "apc": {"has_apc": true, "price": 3150, "currency": "CHF"}, "waiver": true, "keywords": ["clinical/health psychology", "environmental psychology", "educational psychology", "social/cultural psychology", "cognitive psychology"], "subjects": ["Psychology"], "license": ["CC BY"], "aims_scope_url": "https://www.frontiersin.org/journals/psychology/about#about-scope", "journal_url": "https://www.frontiersin.org/journals/psychology"},
-  "2542-4653": {"doaj_id": "bd93f82aa7ee4354a00dbac12339a6cc", "title": "SciPost Physics", "publisher": "SciPost", "apc": {"has_apc": false, "price": null, "currency": null}, "waiver": false, "keywords": ["physics"], "subjects": ["Physics"], "license": ["CC BY"], "aims_scope_url": "https://scipost.org/journals/scipost_physics/about", "journal_url": "https://scipost.org/journals/scipost_physics"},
-  "1424-8220": {"doaj_id": "d1f2e3a4b5c6", "title": "Sensors", "publisher": "MDPI AG", "apc": {"has_apc": true, "price": 2600, "currency": "CHF"}, "waiver": false, "keywords": ["sensors", "instrumentation", "internet of things"], "subjects": ["Chemical technology"], "license": ["CC BY"], "aims_scope_url": "https://www.mdpi.com/journal/sensors/about", "journal_url": "https://www.mdpi.com/journal/sensors"},
-  "2211-1247": {"doaj_id": "e5f6a7b8c9d0", "title": "Cell Reports", "publisher": "Elsevier", "apc": {"has_apc": true, "price": 5560, "currency": "USD"}, "waiver": true, "keywords": ["cell biology", "molecular biology"], "subjects": ["Biology"], "license": ["CC BY"], "aims_scope_url": "https://www.cell.com/cell-reports/aims", "journal_url": "https://www.cell.com/cell-reports/home"}
+  "2750-7882": {
+   "doaj_id": "ac14993e18164da8b809b92ab912dea3",
+   "doaj_url": "https://doaj.org/toc/ac14993e18164da8b809b92ab912dea3",
+   "title": "Quarterly on Refugee Problems - AWR Bulletin",
+   "publisher": "Association for the Study of the World Refugee Problem (AWR)",
+   "apc": {
+    "has_apc": false,
+    "price": null,
+    "currency": null
+   },
+   "apc_url": "https://ejournals.bibliothek.thws.de/qrp/about",
+   "waiver": false,
+   "keywords": [
+    "migration",
+    "refugees",
+    "refugee",
+    "forced migration"
+   ],
+   "subjects": [
+    "Social Sciences: Communities. Classes. Races: Urban groups. The city. Urban sociology: City population. Including children in cities, immigration",
+    "Political science"
+   ],
+   "license": [
+    "CC BY-NC-ND"
+   ],
+   "aims_scope_url": "https://ejournals.bibliothek.thws.de/qrp/about",
+   "journal_url": "https://ejournals.bibliothek.thws.de/qrp/"
+  },
+  "1651-2057": {
+   "doaj_id": "ffde9666ab1d46f1a8c688ce64e59262",
+   "doaj_url": "https://doaj.org/toc/ffde9666ab1d46f1a8c688ce64e59262",
+   "title": "Acta Dermato-Venereologica",
+   "publisher": "Medical Journals Sweden",
+   "apc": {
+    "has_apc": true,
+    "price": 1600,
+    "currency": "EUR"
+   },
+   "apc_url": "https://medicaljournalssweden.se/actadv/publicationfees",
+   "waiver": true,
+   "keywords": [
+    "sexually transmitted infections",
+    "psoriasis",
+    "psychodermatology",
+    "skin immunology",
+    "skin cancer"
+   ],
+   "subjects": [
+    "Medicine: Dermatology"
+   ],
+   "license": [
+    "CC BY",
+    "CC BY-NC"
+   ],
+   "aims_scope_url": "https://medicaljournalssweden.se/actadv/about",
+   "journal_url": "https://medicaljournalssweden.se/actadv"
+  },
+  "0001-5555": {
+   "doaj_id": "ffde9666ab1d46f1a8c688ce64e59262",
+   "doaj_url": "https://doaj.org/toc/ffde9666ab1d46f1a8c688ce64e59262",
+   "title": "Acta Dermato-Venereologica",
+   "publisher": "Medical Journals Sweden",
+   "apc": {
+    "has_apc": true,
+    "price": 1600,
+    "currency": "EUR"
+   },
+   "apc_url": "https://medicaljournalssweden.se/actadv/publicationfees",
+   "waiver": true,
+   "keywords": [
+    "sexually transmitted infections",
+    "psoriasis",
+    "psychodermatology",
+    "skin immunology",
+    "skin cancer"
+   ],
+   "subjects": [
+    "Medicine: Dermatology"
+   ],
+   "license": [
+    "CC BY",
+    "CC BY-NC"
+   ],
+   "aims_scope_url": "https://medicaljournalssweden.se/actadv/about",
+   "journal_url": "https://medicaljournalssweden.se/actadv"
+  },
+  "1734-154X": {
+   "doaj_id": "b24b3b3a575b4b6fad103306f8bf8790",
+   "doaj_url": "https://doaj.org/toc/b24b3b3a575b4b6fad103306f8bf8790",
+   "title": "Acta Biochimica Polonica",
+   "publisher": "Frontiers Media S.A.",
+   "apc": {
+    "has_apc": true,
+    "price": 1750,
+    "currency": "USD"
+   },
+   "apc_url": "https://www.frontierspartnerships.org/journals/acta-biochimica-polonica/for-authors/publishing-fees",
+   "waiver": true,
+   "keywords": [
+    "biochemistry",
+    "biological sciences",
+    "cell biology",
+    "molecular biology",
+    "medicine",
+    "chemistry"
+   ],
+   "subjects": [
+    "Science: Chemistry: Organic chemistry: Biochemistry"
+   ],
+   "license": [
+    "CC BY"
+   ],
+   "aims_scope_url": "https://www.frontierspartnerships.org/journals/acta-biochimica-polonica/about#about-scope",
+   "journal_url": "https://www.frontierspartnerships.org/journals/acta-biochimica-polonica"
+  },
+  "1873-2445": {
+   "doaj_id": "e17980871dd5421fbdeaa958fa2bdb3d",
+   "doaj_url": "https://doaj.org/toc/e17980871dd5421fbdeaa958fa2bdb3d",
+   "title": "Physics Letters B",
+   "publisher": "Elsevier",
+   "apc": {
+    "has_apc": false,
+    "price": null,
+    "currency": null
+   },
+   "apc_url": "https://www.sciencedirect.com/science/journal/03702693/publish/open-access-options",
+   "waiver": false,
+   "keywords": [
+    "particle physics",
+    "nuclear physics",
+    "cosmology",
+    "astrophysics",
+    "astroparticle physics"
+   ],
+   "subjects": [
+    "Science: Physics"
+   ],
+   "license": [
+    "CC BY"
+   ],
+   "aims_scope_url": "https://www.sciencedirect.com/journal/physics-letters-b/about/aims-and-scope",
+   "journal_url": "https://www.sciencedirect.com/journal/physics-letters-b"
+  },
+  "0370-2693": {
+   "doaj_id": "e17980871dd5421fbdeaa958fa2bdb3d",
+   "doaj_url": "https://doaj.org/toc/e17980871dd5421fbdeaa958fa2bdb3d",
+   "title": "Physics Letters B",
+   "publisher": "Elsevier",
+   "apc": {
+    "has_apc": false,
+    "price": null,
+    "currency": null
+   },
+   "apc_url": "https://www.sciencedirect.com/science/journal/03702693/publish/open-access-options",
+   "waiver": false,
+   "keywords": [
+    "particle physics",
+    "nuclear physics",
+    "cosmology",
+    "astrophysics",
+    "astroparticle physics"
+   ],
+   "subjects": [
+    "Science: Physics"
+   ],
+   "license": [
+    "CC BY"
+   ],
+   "aims_scope_url": "https://www.sciencedirect.com/journal/physics-letters-b/about/aims-and-scope",
+   "journal_url": "https://www.sciencedirect.com/journal/physics-letters-b"
+  },
+  "1873-6297": {
+   "doaj_id": "ccbace2c4ad943b791c7d48123ddf931",
+   "doaj_url": "https://doaj.org/toc/ccbace2c4ad943b791c7d48123ddf931",
+   "title": "Acta Psychologica",
+   "publisher": "Elsevier",
+   "apc": {
+    "has_apc": true,
+    "price": 2650,
+    "currency": "USD"
+   },
+   "apc_url": "https://www.sciencedirect.com/science/journal/00016918/publish/open-access-options",
+   "waiver": true,
+   "keywords": [
+    "clinical psychology",
+    "health psychology",
+    "cognition",
+    "language"
+   ],
+   "subjects": [
+    "Philosophy. Psychology. Religion: Psychology"
+   ],
+   "license": [
+    "CC BY",
+    "CC BY-NC",
+    "CC BY-NC-ND"
+   ],
+   "aims_scope_url": "https://www.sciencedirect.com/journal/acta-psychologica/about/aims-and-scope",
+   "journal_url": "https://www.sciencedirect.com/journal/acta-psychologica"
+  },
+  "0001-6918": {
+   "doaj_id": "ccbace2c4ad943b791c7d48123ddf931",
+   "doaj_url": "https://doaj.org/toc/ccbace2c4ad943b791c7d48123ddf931",
+   "title": "Acta Psychologica",
+   "publisher": "Elsevier",
+   "apc": {
+    "has_apc": true,
+    "price": 2650,
+    "currency": "USD"
+   },
+   "apc_url": "https://www.sciencedirect.com/science/journal/00016918/publish/open-access-options",
+   "waiver": true,
+   "keywords": [
+    "clinical psychology",
+    "health psychology",
+    "cognition",
+    "language"
+   ],
+   "subjects": [
+    "Philosophy. Psychology. Religion: Psychology"
+   ],
+   "license": [
+    "CC BY",
+    "CC BY-NC",
+    "CC BY-NC-ND"
+   ],
+   "aims_scope_url": "https://www.sciencedirect.com/journal/acta-psychologica/about/aims-and-scope",
+   "journal_url": "https://www.sciencedirect.com/journal/acta-psychologica"
+  },
+  "1678-2690": {
+   "doaj_id": "ed09859a464f4461b1af34279d17f7a8",
+   "doaj_url": "https://doaj.org/toc/ed09859a464f4461b1af34279d17f7a8",
+   "title": "Anais da Academia Brasileira de Ciências",
+   "publisher": "Academia Brasileira de Ciências",
+   "apc": {
+    "has_apc": false,
+    "price": null,
+    "currency": null
+   },
+   "apc_url": "https://www.scielo.br/journal/aabc/about/#about",
+   "waiver": false,
+   "keywords": [
+    "biological sciences",
+    "exact and earth sciences",
+    "health sciences"
+   ],
+   "subjects": [
+    "Science"
+   ],
+   "license": [
+    "CC BY"
+   ],
+   "aims_scope_url": "https://www.scielo.br/journal/aabc/about/#about",
+   "journal_url": "https://www.scielo.br/j/aabc/"
+  },
+  "0001-3765": {
+   "doaj_id": "ed09859a464f4461b1af34279d17f7a8",
+   "doaj_url": "https://doaj.org/toc/ed09859a464f4461b1af34279d17f7a8",
+   "title": "Anais da Academia Brasileira de Ciências",
+   "publisher": "Academia Brasileira de Ciências",
+   "apc": {
+    "has_apc": false,
+    "price": null,
+    "currency": null
+   },
+   "apc_url": "https://www.scielo.br/journal/aabc/about/#about",
+   "waiver": false,
+   "keywords": [
+    "biological sciences",
+    "exact and earth sciences",
+    "health sciences"
+   ],
+   "subjects": [
+    "Science"
+   ],
+   "license": [
+    "CC BY"
+   ],
+   "aims_scope_url": "https://www.scielo.br/journal/aabc/about/#about",
+   "journal_url": "https://www.scielo.br/j/aabc/"
+  }
  },
  "doaj_withdrawn": {
-  "0000-0000": {"date": "2026-03-01", "reason": "Suspected editorial misconduct by publisher"}
+  "0008-7386": {
+   "date": "16-June-2025",
+   "reason": "Journal not adhering to Best Practice"
+  },
+  "0034-7140": {
+   "date": "7-February-2024",
+   "reason": "Journal not adhering to Best practice"
+  },
+  "0037-8712": {
+   "date": "9-August-2025",
+   "reason": "Journal not adhering to Best Practice"
+  }
  }
 }

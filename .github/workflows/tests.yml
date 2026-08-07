@@ -1,0 +1,106 @@
+name: Tests
+
+# Three tiers, split by what they can catch and what they cost:
+#
+#   unit + integration  — offline, seconds. Runs on every push and PR.
+#   frontend            — offline, runs app.js headlessly against a real build.
+#   contracts           — hits live sources. Scheduled, because it answers
+#                         "have the upstream formats changed?", which is the
+#                         only class of bug that has ever broken this project.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '05 5 * * *'        # daily contract check, before the Monday refresh
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ---------------------------------------------------------------- offline
+  python:
+    name: Unit and integration tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: pipeline/requirements.txt
+      - run: pip install -r pipeline/requirements.txt pytest
+      - name: Run the offline suite
+        run: pytest -q
+
+  frontend:
+    name: Frontend search tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: pipeline/requirements.txt
+      - run: pip install -r pipeline/requirements.txt
+
+      # Build a real site from fixtures, then drive app.js over it.
+      - name: Build the site from fixtures
+        env:
+          APC_FIXTURES: '1'
+        run: python pipeline/run_all.py
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Run the search tests
+        run: node tests/frontend/search.test.js
+
+  # ------------------------------------------------------- live source shapes
+  contracts:
+    name: Upstream source contracts
+    # PRs from forks have no secrets and shouldn't hammer third-party APIs.
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: pipeline/requirements.txt
+      - run: pip install -r pipeline/requirements.txt pytest
+
+      - name: Check the sources still match our parsers
+        id: contracts
+        env:
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+        run: pytest -m network -q --tb=short | tee contract-report.txt
+
+      # A source changing shape breaks the next refresh, so say so loudly
+      # rather than waiting for the weekly build to fail.
+      - name: Open an issue if a source changed shape
+        if: failure() && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create source-drift --color B60205 \
+            --description "An upstream data source changed shape" --force
+          existing=$(gh issue list --label source-drift --state open \
+                       --json number --jq '.[0].number')
+          body=$(printf 'A scheduled contract test failed: an upstream source no longer matches what the pipeline expects.\n\nThe next data refresh is likely to fail, or to produce silently incomplete data.\n\nRun: %s\n\n```\n%s\n```\n' \
+                   "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
+                   "$(tail -c 4000 contract-report.txt)")
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "$body"
+          else
+            gh issue create --title "Upstream source shape changed" \
+              --body "$body" --label source-drift
+          fi

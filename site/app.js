@@ -98,7 +98,14 @@ function scoreRecord(rec, terms, rawQuery, termVocab) {
     if (alt.includes(t)) { score += 15; hit = true; }
     if (pub.includes(t)) { score += 10; hit = true; }
     if (inKeywords) { score += 8; hit = true; }
-    if (!hit) score -= 100;   // require every term to match somewhere
+    // Tokenising splits an ISSN on its hyphen ("0001-0383" -> "0001","0383"),
+    // and those digits appear in no title — so ISSNs must be a match source in
+    // their own right or the AND rule below discards an exact ISSN lookup.
+    if (issns.includes(t)) { score += 5; hit = true; }
+    // Every term must match somewhere. Returning 0 (runSearch drops anything
+    // <= 0) rather than applying a penalty: a penalty is outweighed by a
+    // strong title match, so "immunology zzzz" would still return Immunology.
+    if (!hit) return 0;
   }
   return score;
 }
