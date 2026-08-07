@@ -100,6 +100,25 @@ body {
 .badge.disputed { background: #fdecea; color: #86271b; border: 1px solid #f5c6c0; }
 .badge-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
 
+.search-help { font-size: .82rem; color: var(--muted); }
+.search-help code { background: #eef1f4; border-radius: 4px; padding: 1px 5px; font-size: .95em; }
+.search-help a { color: var(--oxford); }
+.tips-table { width: 100%; border-collapse: collapse; font-size: .88rem; margin-top: 10px; }
+.tips-table td { padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.tips-table td:first-child { white-space: nowrap; }
+.tips-table code { background: #eef1f4; border-radius: 4px; padding: 1px 6px; }
+
+.result-divider {
+  margin: 22px 2px 4px; padding-top: 14px; border-top: 1px solid var(--line);
+  font-size: .86rem; color: var(--muted);
+}
+.result-divider strong { color: var(--text); }
+.filter-note {
+  margin: 0 0 14px; padding: 10px 12px; border-radius: 8px; font-size: .9rem;
+  background: #fff4d6; color: #6a4c00; border: 1px solid #f0d68a;
+}
+.filter-note a { color: #6a4c00; }
+
 .empty { color: var(--muted); text-align: center; padding: 30px; }
 
 .modal { position: fixed; inset: 0; background: rgba(10,22,38,.55); display: flex;

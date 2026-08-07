@@ -320,3 +320,23 @@ def test_undealt_journals_say_they_were_checked(built):
     for j in built["journals"]["journals"]:
         if j["deal"]["status"] == "none":
             assert "Checked against" in j["deal"]["basis"] or "arrangement with" in j["deal"]["basis"]
+
+
+def test_every_journal_offers_a_way_to_browse_its_articles(built):
+    """Every journal has an OpenAlex source id, so every journal gets at least
+    one route to its own output — no API calls needed to provide it."""
+    for j in built["journals"]["journals"]:
+        browse = j.get("browse") or []
+        assert browse, f"{j['id']}: nothing to browse"
+        for link in browse:
+            assert link["url"].startswith("http"), f"{j['id']}: {link['url']}"
+            assert link["label"]
+
+
+def test_doaj_journals_link_to_their_doaj_page(built):
+    """DOAJ's journal page lists recent articles, which is the closest thing to
+    'a recent issue' that costs nothing to provide."""
+    for j in built["journals"]["journals"]:
+        if j["in_doaj"] and (j["provenance"].get("doaj") or {}).get("url"):
+            labels = " ".join(b["label"] for b in j["browse"])
+            assert "DOAJ" in labels, f"{j['id']} is in DOAJ but does not link there"

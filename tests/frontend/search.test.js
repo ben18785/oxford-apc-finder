@@ -151,6 +151,79 @@ chain.then(function () {
   check("index is pre-sorted by title (the app relies on this)",
     JSON.stringify(titles) === JSON.stringify(sorted));
 
+  /* --------------------------------------------- query language -------
+   * Regression: quoting a query left the quote marks in the string used for
+   * the exact-title bonus, so `"science"` dropped the journal Science from
+   * 1st to 48th — quoting made precision worse. Field scoping had the same
+   * fault (`title:science` ranked it 375th). */
+  var exact = STATE.index.filter(function (r) {
+    return (r.t || "").toLowerCase() === "science"; })[0];
+  if (exact) {
+    check("unquoted exact title ranks first",
+      search("science")[0].id === exact.id);
+    check("QUOTED exact title still ranks first",
+      search('"science"')[0].id === exact.id, "quoting must not break ranking");
+    check("field-scoped exact title still ranks first",
+      search("title:science")[0].id === exact.id);
+  }
+
+  check("title: scope excludes subject-only matches",
+    search("title:science").every(function (r) {
+      return (r.t || "").toLowerCase().indexOf("science") !== -1
+          || (r.a || []).join(" ").toLowerCase().indexOf("science") !== -1; }),
+    "a title-scoped search returned something with no such title");
+
+  check("title: scope returns far fewer than an unscoped search",
+    search("title:science").length < search("science").length / 5);
+
+  check("negation removes matches",
+    search("science -neuroscience").length < search("science").length);
+
+  check("OR widens the result set",
+    search("cell OR cellular").length >= search("cell").length);
+
+  check("lowercase 'or' is a word, not an operator",
+    search("cell or cellular").length <= search("cell OR cellular").length);
+
+  check("publisher: scope matches on publisher",
+    search("publisher:elsevier").every(function (r) {
+      return (r.p || "").toLowerCase().indexOf("elsevier") !== -1; }));
+
+  check("issn: scope finds exactly one journal",
+    search("issn:" + first.i[0]).filter(function (r) {
+      return r.id === first.id; }).length === 1);
+
+  check("quoted phrase requires the words adjacent",
+    search('title:"cell biology"').length < search("title:cell title:biology").length);
+
+  /* Word-start matching: "ear" must not match Research/Year/Learning. */
+  var earTitles = search("title:ear").filter(function (r) {
+    return /\bear/.test((r.t || "").toLowerCase()); });
+  check("word-start matching drops mid-word hits",
+    earTitles.length > 0 && search("title:ear").length < 400,
+    "title:ear returned " + search("title:ear").length);
+
+  check("word-start still matches plurals and prefixes",
+    search("title:science").some(function (r) {
+      return /sciences/.test((r.t || "").toLowerCase()); }),
+    "'science' should still find 'Sciences'");
+
+  /* Name matches must all precede subject-only matches. */
+  var res = search("science");
+  var nm = STATE.nominalCount;
+  check("name matches are reported separately", nm > 0 && nm < res.length);
+  check("name matches sort before subject matches",
+    res.slice(0, nm).every(function (r) {
+      var hay = ((r.t || "") + " " + (r.a || []).join(" ") + " " + (r.p || "")).toLowerCase();
+      return /\bscience/.test(hay); }),
+    "a subject-only match appeared above the divider");
+
+  /* The deal filter hiding a strong name match must be surfaced. */
+  search("science", true);
+  check("filter-hidden name matches are tracked",
+    (STATE.hiddenByFilter || []).length > 0,
+    "searching 'science' with the deal filter on hides journals incl. Science");
+
   /* ----------------------------------------- opening a journal -------
    * Regression: build_site sharded details on 4 characters while loadShard
    * still asked for 2, so every click 404'd and did nothing at all. Search
@@ -173,6 +246,9 @@ chain.then(function () {
       body.indexOf("Sources for the information above") !== -1);
     check("detail modal offers the report box",
       body.indexOf("report-text") !== -1);
+    check("detail modal offers a way to browse the journal's articles",
+      body.indexOf("Browse recent articles") !== -1
+      && body.indexOf("openalex.org/works") !== -1);
 
     /* A shard that does not exist must say so rather than dying silently. */
     return openDetail("9999-9999").then(function () {

@@ -70,6 +70,9 @@ def infrastructure_links(cfg: dict, data: dict) -> set[str]:
 def journal_links(data: dict) -> set[str]:
     urls: set[str] = set()
     for journal in data["journals"]:
+        for link in (journal.get("browse") or []):
+            if link.get("url", "").startswith("http"):
+                urls.add(link["url"])
         for url in (journal.get("homepage"),
                     (journal.get("scope") or {}).get("aims_url")):
             if url and url.startswith("http"):

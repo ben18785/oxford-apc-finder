@@ -137,6 +137,32 @@ def coverage_basis(status: str, *, esac_id: str | None = None,
             "routes may still apply.")
 
 
+def browse_links(rec: dict, doaj_rec: dict | None) -> list[dict]:
+    """Where to go and read what this journal actually publishes.
+
+    Deliberately links out rather than fetching article titles: listing three
+    real titles per journal would cost one OpenAlex request each (~$4.29 for a
+    full pass, against a $1/day free allowance), and these routes are already
+    paid for by data we hold.
+    """
+    links = []
+    if doaj_rec and doaj_rec.get("doaj_url"):
+        links.append({"label": "Recent articles, in DOAJ",
+                      "url": doaj_rec["doaj_url"]})
+    # Every journal has an OpenAlex source id, so every journal gets at least
+    # one route to its own output.
+    source_id = (rec.get("openalex_id") or "").rsplit("/", 1)[-1]
+    if source_id.startswith("S"):
+        links.append({
+            "label": "All articles indexed in OpenAlex",
+            "url": ("https://openalex.org/works?filter=primary_location."
+                    f"source.id:{source_id}")})
+    homepage = rec.get("homepage")
+    if homepage and homepage != (doaj_rec or {}).get("aims_scope_url"):
+        links.append({"label": "The journal's own site", "url": homepage})
+    return links
+
+
 def scope_sentence(rec: dict) -> str | None:
     topics = rec.get("topics") or []
     if not topics:
@@ -378,6 +404,7 @@ def main() -> None:
                 "keywords": (doaj_rec or {}).get("keywords", []),
                 "aims_url": (doaj_rec or {}).get("aims_scope_url") or rec.get("homepage"),
             },
+            "browse": browse_links(rec, doaj_rec),
             "waiver": bool(doaj_rec and doaj_rec.get("waiver")),
             "provenance": provenance,
         })

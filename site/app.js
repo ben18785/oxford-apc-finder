@@ -99,64 +99,192 @@ async function loadShard(id) {
   return data;
 }
 
-/* ---------------- search ---------------- */
-function tokenize(s) { return s.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean); }
+/* ---------------- search ----------------
+ *
+ * Query language, deliberately the conventions people already know from GitHub
+ * and Gmail rather than full boolean algebra:
+ *
+ *   cell biology        both terms (AND is the default)
+ *   "cell biology"      that exact phrase
+ *   cell OR cellular    either
+ *   -neuroscience       exclude
+ *   title:science       restrict to one field (title, publisher, issn, subject)
+ *
+ * Everything is in memory, so this is a parsing problem rather than a search
+ * infrastructure one. Terms match at the START of a word: plain substring
+ * matching made "ear" hit 2,977 titles (Research, Year, Learning), while
+ * word-start still finds plurals and prefixes — "science" finds "Sciences",
+ * "immuno" finds "Immunology".
+ */
+const FIELDS = { title: 1, publisher: 1, issn: 1, subject: 1 };
+const escapeRx = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const wordStart = (hay, term) => new RegExp("\\b" + escapeRx(term)).test(hay);
 
-function scoreRecord(rec, terms, rawQuery, termVocab) {
-  const title = (rec.t || "").toLowerCase();
-  const alt = (rec.a || []).join(" ").toLowerCase();
-  const pub = (rec.p || "").toLowerCase();
-  const issns = (rec.i || []).join(" ");
-  const ids = STATE.kwReady ? (STATE.kwIds[rec.n] || []) : null;
-  let score = 0;
-  if (rawQuery && title === rawQuery) score += 1000;
-  if (rawQuery && title.startsWith(rawQuery)) score += 200;
-  if (rawQuery && issns.includes(rawQuery.replace(/\s/g, ""))) score += 500;
-  for (let ti = 0; ti < terms.length; ti++) {
-    const t = terms[ti];
-    const inKeywords = ids !== null && ids.some(id => termVocab[ti].has(id));
-    let hit = false;
-    if (title.includes(t)) { score += 40; hit = true; }
-    if (title.split(/\s+/).includes(t)) score += 25;
-    if (alt.includes(t)) { score += 15; hit = true; }
-    if (pub.includes(t)) { score += 10; hit = true; }
-    if (inKeywords) { score += 8; hit = true; }
-    // Tokenising splits an ISSN on its hyphen ("0001-0383" -> "0001","0383"),
-    // and those digits appear in no title — so ISSNs must be a match source in
-    // their own right or the AND rule below discards an exact ISSN lookup.
-    if (issns.includes(t)) { score += 5; hit = true; }
-    // Every term must match somewhere. Returning 0 (runSearch drops anything
-    // <= 0) rather than applying a penalty: a penalty is outweighed by a
-    // strong title match, so "immunology zzzz" would still return Immunology.
-    if (!hit) return 0;
+/* Split on whitespace but keep quoted phrases whole, including when they are
+ * scoped or negated (-"foo bar", title:"foo bar"). */
+function tokenizeQuery(raw) {
+  return raw.match(/-?(?:[a-zA-Z]+:)?"[^"]*"|\S+/g) || [];
+}
+
+function parseClause(token) {
+  let negate = false, field = null, phrase = false;
+  if (token.startsWith("-") && token.length > 1) { negate = true; token = token.slice(1); }
+  const scoped = token.match(/^([a-zA-Z]+):([\s\S]*)$/);
+  if (scoped && FIELDS[scoped[1].toLowerCase()]) {
+    field = scoped[1].toLowerCase();
+    token = scoped[2];
   }
-  return score;
+  if (token.length > 1 && token.startsWith('"') && token.endsWith('"')) {
+    phrase = true;
+    token = token.slice(1, -1);
+  }
+  const value = token.toLowerCase().trim();
+  return value ? { field, value, phrase, negate } : null;
+}
+
+/* AND-ed groups of OR-ed alternatives. `OR` must be uppercase so a journal
+ * legitimately titled "... or ..." still searches as a word. */
+function parseQuery(raw) {
+  const groups = [];
+  let joinNext = false;
+  for (const token of tokenizeQuery(raw)) {
+    if (token === "OR") { joinNext = groups.length > 0; continue; }
+    const clause = parseClause(token);
+    if (!clause) continue;
+    // Subject ids are resolved once per clause, not once per record.
+    clause.ids = vocabIdsFor(clause.value, clause.phrase);
+    if (joinNext) groups[groups.length - 1].push(clause);
+    else groups.push([clause]);
+    joinNext = false;
+  }
+  return groups;
+}
+
+function vocabIdsFor(value, phrase) {
+  const hits = new Set();
+  if (!STATE.kwReady) return hits;
+  for (let i = 0; i < STATE.vocab.length; i++) {
+    const w = STATE.vocab[i];
+    if (phrase ? w.includes(value) : w.startsWith(value)) hits.add(i);
+  }
+  return hits;
+}
+
+/* Returns {score, byName}: byName is true when the clause matched the
+ * journal's identity (title, alternate title, publisher, ISSN) rather than
+ * only its subject keywords. Searching "science" matches ~28,000 journals by
+ * subject and a dozen by name; merging those into one list makes the name
+ * matches unfindable. */
+function clauseScore(rec, clause, parts) {
+  const { title, alt, pub, issns, ids } = parts;
+  const v = clause.value;
+  const hit = (hay) => clause.phrase ? hay.includes(v) : wordStart(hay, v);
+  const f = clause.field;
+  let score = 0, byName = false;
+
+  if (!f || f === "title") {
+    if (hit(title)) { score += clause.phrase ? 60 : 40; byName = true; }
+    if (!clause.phrase && title.split(/\s+/).includes(v)) score += 25;
+    if (hit(alt)) { score += 15; byName = true; }
+  }
+  if (!f || f === "publisher") {
+    if (hit(pub)) { score += 10; byName = true; }
+  }
+  if (!f || f === "issn") {
+    if (issns.includes(v)) { score += 5; byName = true; }
+  }
+  if (!f || f === "subject") {
+    if (ids && clause.ids.size && ids.some((id) => clause.ids.has(id))) score += 8;
+  }
+  return { score, byName };
+}
+
+function scoreRecord(rec, groups, rawQuery) {
+  const parts = {
+    title: (rec.t || "").toLowerCase(),
+    alt: (rec.a || []).join(" ").toLowerCase(),
+    pub: (rec.p || "").toLowerCase(),
+    issns: (rec.i || []).join(" "),
+    ids: STATE.kwReady ? (STATE.kwIds[rec.n] || []) : null,
+  };
+  let score = 0, nominal = true;
+
+  // Whole-query bonuses use the cleaned query, so quoting or punctuation can
+  // never suppress them — quoting "science" used to drop the journal Science
+  // from 1st to 48th because the raw string still carried its quote marks.
+  if (rawQuery) {
+    if (parts.title === rawQuery) score += 1000;
+    else if (parts.title.startsWith(rawQuery)) score += 200;
+    if (parts.issns.includes(rawQuery.replace(/\s/g, ""))) score += 500;
+  }
+
+  for (const group of groups) {
+    let groupHit = false, groupByName = false, groupScore = 0;
+    for (const clause of group) {
+      const { score: s, byName } = clauseScore(rec, clause, parts);
+      const matched = s > 0;
+      if (clause.negate ? !matched : matched) {
+        groupHit = true;
+        groupScore = Math.max(groupScore, s);
+        if (byName || clause.negate) groupByName = true;
+      }
+    }
+    if (!groupHit) return { sc: 0, nominal: false };   // every group must match
+    score += groupScore;
+    if (!groupByName) nominal = false;
+  }
+  return { sc: score, nominal };
 }
 
 function runSearch() {
   if (!STATE.loaded) return;
-  const raw = $("#q").value.trim().toLowerCase();
+  const raw = $("#q").value.trim();
   const dealOnly = $("#deal-only").checked;
-  const terms = tokenize(raw);
-  let pool = STATE.index;
-  if (dealOnly) pool = pool.filter(r => r.s !== "none");
 
-  let matches;
   if (!raw) {
     // merge.py already emits journals sorted by title, so the index arrives in
-    // display order — re-sorting 43k records with localeCompare on every empty
-    // search costs hundreds of milliseconds and changes nothing.
-    matches = pool;
-  } else {
-    const termVocab = terms.map(vocabMatches);
-    matches = pool
-      .map(r => ({ r, sc: scoreRecord(r, terms, raw, termVocab) }))
-      .filter(x => x.sc > 0)
-      .sort((a, b) => b.sc - a.sc)
-      .map(x => x.r);
+    // display order — re-sorting 43k records on every empty search changes
+    // nothing and costs hundreds of milliseconds.
+    const pool = dealOnly ? STATE.index.filter((r) => r.s !== "none") : STATE.index;
+    STATE.results = pool;
+    STATE.nominalCount = pool.length;
+    STATE.hiddenByFilter = [];
+    return renderResults(pool.slice(0, 200), pool.length, pool.length, []);
   }
+
+  const groups = parseQuery(raw);
+  if (!groups.length) return renderResults([], 0, 0, []);
+
+  // The text the user is actually looking for, rebuilt from the parsed
+  // clauses. Taking it from the raw string meant quotes and field prefixes
+  // leaked into the exact-title comparison: `"science"` dropped the journal
+  // Science from 1st to 48th, and `title:science` to 375th.
+  const cleaned = groups
+    .map((g) => g.filter((c) => !c.negate).map((c) => c.value).join(" "))
+    .filter(Boolean).join(" ").trim();
+
+  // Score the whole index, then apply the deal filter — so we can tell the
+  // user when their best name match was hidden by the filter rather than
+  // simply absent.
+  const byName = [], bySubject = [], hidden = [];
+  for (const r of STATE.index) {
+    const { sc, nominal } = scoreRecord(r, groups, cleaned);
+    if (sc <= 0) continue;
+    if (dealOnly && r.s === "none") {
+      if (nominal) hidden.push({ r, sc });
+      continue;
+    }
+    (nominal ? byName : bySubject).push({ r, sc });
+  }
+  const rank = (a, b) => b.sc - a.sc;
+  byName.sort(rank); bySubject.sort(rank); hidden.sort(rank);
+
+  const matches = byName.concat(bySubject).map((x) => x.r);
   STATE.results = matches;
-  renderResults(matches.slice(0, 200), matches.length);
+  STATE.nominalCount = byName.length;
+  STATE.hiddenByFilter = hidden.map((x) => x.r);
+  renderResults(matches.slice(0, 200), matches.length, byName.length,
+                STATE.hiddenByFilter);
 }
 
 /* ---------------- rendering ---------------- */
@@ -199,21 +327,59 @@ function disputeBlock(d) {
   </div>`;
 }
 
-function renderResults(list, total) {
+function renderResults(list, total, nominalCount, hidden) {
   const box = $("#results");
-  $("#empty").hidden = total > 0;
-  $("#result-count").textContent = total
-    ? `${total.toLocaleString()} journal${total === 1 ? "" : "s"}${total > list.length ? ` (showing ${list.length})` : ""}`
-    : "";
-  box.innerHTML = list.map(r => `
-    <button class="jcard" data-id="${esc(r.id)}">
-      <div class="jcard-top">
-        <h3>${esc(r.t)}</h3>
-      </div>
-      <p class="pub">${esc(r.p || "Publisher unknown")}</p>
-      <div class="cost">${esc(r.c)}</div>
-      <div class="badge-row">${badge(r.s, r.d, r.x, r.e)}</div>
-    </button>`).join("");
+  $("#empty").hidden = total > 0 || (hidden && hidden.length > 0);
+
+  // Report the two kinds separately. "28,010 journals" for a search on
+  // "science" is true and completely useless.
+  const subject = total - nominalCount;
+  const n = (x) => x.toLocaleString();
+  $("#result-count").textContent = !total ? ""
+    : (subject > 0 && nominalCount !== total
+        ? `${n(nominalCount)} by name · ${n(subject)} more by subject`
+        : `${n(total)} journal${total === 1 ? "" : "s"}`)
+      + (total > list.length ? ` (showing ${n(list.length)})` : "");
+
+  let html = "";
+
+  // A strong name match removed by the deal filter looks identical to one the
+  // tool has never heard of. Searching "science" with the filter on hides the
+  // journal Science, which has no Oxford deal — say so rather than leave the
+  // user to conclude it is missing.
+  if (hidden && hidden.length) {
+    const names = hidden.slice(0, 3).map((r) => `<strong>${esc(r.t)}</strong>`).join(", ");
+    html += `<p class="filter-note">${names}${hidden.length > 3
+      ? ` and ${hidden.length - 3} more` : ""} match your search but have
+      <strong>no Oxford deal</strong>, so the filter above is hiding
+      ${hidden.length === 1 ? "it" : "them"}.
+      <a href="#" id="show-all">Show journals without a deal</a></p>`;
+  }
+
+  list.forEach((r, i) => {
+    // Divider where name matches end and subject matches begin, so a long tail
+    // of "journals about this topic" cannot be mistaken for "journals called
+    // this".
+    if (i === nominalCount && nominalCount > 0) {
+      html += `<p class="result-divider">Journals whose <strong>subject</strong>
+        matches, but not their name</p>`;
+    }
+    html += `
+      <button class="jcard" data-id="${esc(r.id)}">
+        <div class="jcard-top"><h3>${esc(r.t)}</h3></div>
+        <p class="pub">${esc(r.p || "Publisher unknown")}</p>
+        <div class="cost">${esc(r.c)}</div>
+        <div class="badge-row">${badge(r.s, r.d, r.x, r.e)}</div>
+      </button>`;
+  });
+  box.innerHTML = html;
+
+  const showAll = $("#show-all");
+  if (showAll) showAll.addEventListener("click", (e) => {
+    e.preventDefault();
+    $("#deal-only").checked = false;
+    runSearch();
+  });
   box.querySelectorAll(".jcard").forEach(el =>
     el.addEventListener("click", () => openDetail(el.dataset.id)));
 }
@@ -327,6 +493,14 @@ async function openDetail(id) {
       ${(scope.keywords && scope.keywords.length) ? `<div>${scope.keywords.slice(0,10).map(k => `<span class="chip">${esc(k)}</span>`).join("")}</div>` : ""}
       ${scope.aims_url ? `<p class="src" style="margin-top:8px"><a href="${esc(scope.aims_url)}" target="_blank" rel="noopener">Aims &amp; scope on the journal's own site ↗</a></p>` : ""}
     </div>
+
+    ${(j.browse && j.browse.length) ? `<div class="detail-section">
+      <h4>Browse recent articles</h4>
+      <p class="cost-note">See what this journal actually publishes — these open
+        on the publisher's or index's own site.</p>
+      ${j.browse.map(b => `<div class="src"><a href="${esc(b.url)}"
+        target="_blank" rel="noopener">${esc(b.label)} \u2197</a></div>`).join("")}
+    </div>` : ""}
 
     <div class="detail-section">
       <h4>Sources for the information above</h4>
@@ -458,6 +632,39 @@ async function showChanges() {
   $("#modal-close").focus();
 }
 
+function showSearchTips() {
+  const row = (syntax, means, example) =>
+    `<tr><td><code>${esc(syntax)}</code></td><td>${means}</td>
+     <td class="cost-note">${esc(example)}</td></tr>`;
+  showModal(`
+    <h2 id="detail-title">Search tips</h2>
+    <p class="cost-note">Typing several words requires all of them, which is
+      usually what you want. These let you be more precise.</p>
+    <table class="tips-table"><tbody>
+      ${row("cell biology", "Both words (AND is the default)", "matches Cell Biology International")}
+      ${row('"cell biology"', "That exact phrase", "excludes Cell and Biology separately")}
+      ${row("cell OR cellular", "Either word. OR must be capitals", "catches spelling variants")}
+      ${row("-neuroscience", "Exclude", "science -neuroscience")}
+      ${row("title:science", "Only the journal title", "the sharpest way to cut out subject matches")}
+      ${row("publisher:elsevier", "Only the publisher", "publisher:wiley title:physics")}
+      ${row("issn:0036-8075", "Look up an ISSN", "also works without the prefix")}
+      ${row("subject:epidemiology", "Only subject keywords", "browse a field")}
+    </tbody></table>
+    <div class="detail-section">
+      <h4>Why a search can return thousands</h4>
+      <p>Results are split into journals matching <strong>by name</strong> and
+        those matching only <strong>by subject</strong>, with a divider between
+        them. A word like “science” appears in the subject keywords of tens of
+        thousands of journals, so the subject list is long by nature —
+        <code>title:science</code> removes it entirely.</p>
+      <h4>How results are ordered</h4>
+      <p>An exact title match ranks first, then titles starting with what you
+        typed, then ISSN matches, then matches elsewhere in the title,
+        alternate titles, publisher and finally subject keywords. Ties keep
+        alphabetical order.</p>
+    </div>`);
+}
+
 function showDisclaimer() {
   const c = STATE.config;
   $("#detail-body").innerHTML = `
@@ -544,6 +751,7 @@ function wireUI() {
   $("#foot-status").addEventListener("click", e => { e.preventDefault(); showStatus(); });
   $("#foot-about").addEventListener("click", e => { e.preventDefault(); showAbout(); });
   $("#disclaimer-link").addEventListener("click", e => { e.preventDefault(); showDisclaimer(); });
+  $("#search-tips").addEventListener("click", e => { e.preventDefault(); showSearchTips(); });
   $("#foot-disclaimer").addEventListener("click", e => { e.preventDefault(); showDisclaimer(); });
   $("#foot-changes").addEventListener("click", e => { e.preventDefault(); showChanges(); });
 }
