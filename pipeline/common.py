@@ -87,6 +87,10 @@ class Manifest:
         self.path.write_text(json.dumps(self.entries, indent=1, sort_keys=True))
 
 
+class DailyQuotaExhausted(RuntimeError):
+    """The API's daily allowance is gone. Retrying inside a run cannot help."""
+
+
 def http_get(url: str, *, session: requests.Session | None = None,
              retries: int = 4, timeout: int = 60, params: dict | None = None) -> requests.Response:
     """GET with retry/backoff. Raises on final failure — the pipeline must
@@ -99,9 +103,26 @@ def http_get(url: str, *, session: requests.Session | None = None,
         try:
             resp = sess.get(url, headers=headers, timeout=timeout, params=params,
                             allow_redirects=True)
-            if resp.status_code in (429, 500, 502, 503, 504):
+            if resp.status_code == 429:
+                # Distinguish "slow down" from "you are out of budget for
+                # today". Backing off 1, 2, 4, 8 seconds against a quota that
+                # resets in hours just burns the run and reports a stack trace.
+                remaining = resp.headers.get("x-ratelimit-remaining")
+                reset = resp.headers.get("x-ratelimit-reset")
+                if remaining is not None and remaining.strip().isdigit() \
+                        and int(remaining) <= 0:
+                    hours = (int(reset) / 3600) if (reset or "").isdigit() else None
+                    raise DailyQuotaExhausted(
+                        f"{url.split('?')[0]}: daily request allowance exhausted"
+                        + (f"; resets in about {hours:.1f} hours" if hours else "")
+                        + ". Re-run after the reset, or reduce the amount of "
+                          "data the refresh pulls (see config.yaml inclusion:).")
+                raise requests.HTTPError("HTTP 429", response=resp)
+            if resp.status_code in (500, 502, 503, 504):
                 raise requests.HTTPError(f"HTTP {resp.status_code}", response=resp)
             return resp
+        except DailyQuotaExhausted:
+            raise                     # pointless to retry; surface it clearly
         except Exception as exc:  # noqa: BLE001 — retry any transport error
             last_exc = exc
             # Jitter: without it every retry lands at the same offset after the

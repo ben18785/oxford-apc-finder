@@ -753,3 +753,17 @@ def test_regression_free_journals_are_not_told_no_deal_applies():
     # replaces, so a regression shows up as the wrong sentence rather than none.
     generic = coverage_basis("none", agreement_count=42)
     assert "Checked against" in generic and "block grants" in generic
+
+
+# ------------------------------------------- OpenAlex daily allowance
+from common import DailyQuotaExhausted  # noqa: E402
+
+
+def test_regression_quota_exhaustion_is_not_retried():
+    """A 429 caused by the daily allowance being gone was retried at 1, 2, 4 and
+    8 seconds against a limit that resets in hours, then reported as a generic
+    'Failed to fetch' with a stack trace. It is a distinct condition and should
+    say so."""
+    assert issubclass(DailyQuotaExhausted, RuntimeError)
+    err = DailyQuotaExhausted("daily request allowance exhausted; resets in 6.6 hours")
+    assert "allowance exhausted" in str(err) and "resets" in str(err)

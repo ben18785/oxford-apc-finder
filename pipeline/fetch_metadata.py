@@ -29,9 +29,9 @@ import time
 import requests
 import yaml
 
-from common import (CURATED, FIXTURES, FIXTURES_MODE, Manifest, OUT,
-                    fetch_json, http_get, known_journal_issns, load_config,
-                    normalise_issn, read_json, utcnow, write_json)
+from common import (CURATED, DailyQuotaExhausted, FIXTURES, FIXTURES_MODE,
+                    Manifest, OUT, fetch_json, http_get, known_journal_issns,
+                    load_config, normalise_issn, read_json, utcnow, write_json)
 
 # OpenAlex bills a flat $0.0001 per request regardless of page size, and the
 # free API key allows $1/day (~10,000 requests); anonymous callers get $0.10.
@@ -52,6 +52,35 @@ def openalex_params(cfg: dict, extra: dict) -> dict:
     if key:
         params["api_key"] = key
     return params
+
+
+def check_openalex_budget(cfg, session, needed: int) -> None:
+    """Refuse to start a refresh the daily allowance cannot finish.
+
+    A partly-fetched run is worse than no run: it burns the rest of the budget,
+    fails at an arbitrary point, and leaves the failure looking like a bug in
+    whichever stage happened to be running. One request tells us instead.
+    """
+    resp = http_get(cfg["sources"]["openalex_api"] + "/sources",
+                    session=session, retries=2,
+                    params=openalex_params(cfg, {"filter": "issn:0028-0836",
+                                                 "per-page": 1}))
+    remaining = resp.headers.get("x-ratelimit-remaining")
+    reset = resp.headers.get("x-ratelimit-reset")
+    if remaining is None or not remaining.strip().isdigit():
+        return                                   # no header: proceed and hope
+    remaining = int(remaining)
+    hours = (int(reset) / 3600) if (reset or "").isdigit() else None
+    print(f"  OpenAlex allowance: {remaining:,} requests left"
+          + (f", resets in {hours:.1f}h" if hours else ""))
+    if remaining < needed:
+        raise DailyQuotaExhausted(
+            f"This refresh needs about {needed:,} OpenAlex requests but only "
+            f"{remaining:,} remain today"
+            + (f" (resets in about {hours:.1f} hours)" if hours else "")
+            + ". Stopping before spending any of it: a half-fetched run wastes "
+              "the remainder and fails somewhere arbitrary. Re-run after the "
+              "reset, or lower inclusion.top_journals_* in config.yaml.")
 
 
 def openalex_get(cfg, manifest, session, url, key, params) -> dict:
@@ -451,10 +480,23 @@ def main() -> None:
     print("Fetching DOAJ withdrawal changelog …")
     withdrawn = fetch_doaj_withdrawn(cfg, manifest, session)
 
+    # A rough forecast is enough to catch "nowhere near enough left today".
+    estimated = (len(set(deal_issns + doaj_primary + worldwide)) // OPENALEX_BATCH
+                 + len(allow) + 40                       # publisher sweep
+                 + cfg["inclusion"]["top_journals_by_citations"] // PER_PAGE
+                 + (300 if cfg["inclusion"]["top_journals_per_subfield"] else 0)
+                 + 60)                                   # headroom
+    check_openalex_budget(cfg, session, estimated)
+
+    # Order matters for cost. The sweeps below return whole publisher and
+    # ranking lists in ~200-record pages, and most remembered journals arrived
+    # that way originally — so looking them up individually first meant paying
+    # for 31,220 ISSNs a second time. Sweep first, then fetch only what is
+    # genuinely still missing.
     print("Fetching OpenAlex records for deal + DOAJ ISSNs …")
-    openalex = fetch_openalex_by_issns(
-        cfg, manifest, session,
-        deal_issns + doaj_primary + worldwide + sorted(remembered))
+    openalex = fetch_openalex_by_issns(cfg, manifest, session,
+                                       deal_issns + doaj_primary + worldwide)
+
     print("Fetching OpenAlex records for allowlisted publishers …")
     pub_recs = fetch_openalex_by_publishers(cfg, manifest, session, allow)
     for k, v in pub_recs.items():
@@ -471,6 +513,17 @@ def main() -> None:
         cfg, manifest, session, cfg["inclusion"]["top_journals_by_citations"])
     for k, v in top.items():
         openalex.setdefault(k, v)
+
+    # Whatever the sweeps did not already return. This is the guarantee that a
+    # journal cannot vanish because a source had a bad day; taking it last
+    # makes it cheap.
+    still_missing = sorted(remembered - set(openalex))
+    print(f"Re-checking {len(still_missing)} remembered journals the sweeps "
+          f"did not return (of {len(remembered)} remembered) …")
+    if still_missing:
+        for k, v in fetch_openalex_by_issns(cfg, manifest, session,
+                                            still_missing).items():
+            openalex.setdefault(k, v)
 
     meta = {
         "generated": utcnow(),
