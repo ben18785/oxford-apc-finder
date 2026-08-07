@@ -5,6 +5,20 @@ What the site said, and when it changed. Generated automatically by
 
 ## 2026-08-07
 
+- **0** journals added, **0** removed, **7** changed.
+
+### Price changes (7)
+
+- Juntendō Igaku/Juntendo igaku (0022-6769): 110961 → 240000
+- Dance Articulated (0800-2452): 4000 → 5000
+- Utrecht Journal of International and European Law (0927-460X): 450 → 483
+- Jurnal Ilmiah Manajemen dan Bisnis (1693-7619): 300000 → —
+- Sovremennye issledovaniya sotsialnykh problem (2077-1770): 8000 → 80 USD
+- Journal of electromagnetic engineering and science (2234-8395): — → 150000 KRW
+- Alfred Nobel University Journal of Philoligy (2523-4463): 200 → 100 USD
+
+## 2026-08-07
+
 - **10** journals added, **1** removed, **11** changed.
 
 ### Price changes (11)

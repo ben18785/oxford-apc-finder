@@ -1827,7 +1827,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0022-5428	The Columbia Journal of World Business	discount	discount_unknown_base			
 0022-5517	Journalism & Mass Communication Educator	covered	covered			
 0022-5800	Judicature	none	unknown			
-0022-6769	Juntendō Igaku/Juntendo igaku	none	list_price	110961	JPY	
+0022-6769	Juntendō Igaku/Juntendo igaku	none	list_price	240000	JPY	
 0022-6912	Juristische Blätter	discount	discount_unknown_base			
 0022-6920	Juristische Rundschau	covered	covered			
 0022-7498	Kadmos	covered	covered			
@@ -9534,7 +9534,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0798-2259	Revista Científica de la Facultad de Ciencias Veterinarias	none	no_apc			
 0800-0395	Polar Research	none	list_price	790	EUR	
 0800-1669	Barn – forskning om barn og barndom i Norden	none	list_price	2000	NOK	
-0800-2452	Dance Articulated	none	list_price	4000	NOK	
+0800-2452	Dance Articulated	none	list_price	5000	NOK	
 0800-2789	European Paediatric Haematology and Oncology	none	unknown			
 0800-3076	Norsk lingvistisk tidsskrift	none	no_apc			
 0800-3106	Norsk arkivforum	none	no_apc			
@@ -10738,7 +10738,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0927-3522	The International Journal of Marine and Coastal Law	covered	covered			
 0927-3948	Ocular Immunology and Inflammation	covered	covered			
 0927-3972	Strabismus	covered	covered			
-0927-460X	Utrecht Journal of International and European Law	none	list_price	450	GBP	
+0927-460X	Utrecht Journal of International and European Law	none	list_price	483	GBP	
 0927-5193	Membrane science and technology/Membrane science and technology series	discount	discount_unknown_base			
 0927-5371	Labour Economics	covered	covered			
 0927-538X	Pacific-Basin Finance Journal	covered	covered			
@@ -21211,7 +21211,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1693-7309	MEDISAINS	none	list_price	350000	IDR	
 1693-749X	Sintesis	none	no_apc			
 1693-7562	Jurnal Ilmiah Al-Mu ashirah	none	list_price	400000	IDR	
-1693-7619	Jurnal Ilmiah Manajemen dan Bisnis	none	list_price	300000	IDR	
+1693-7619	Jurnal Ilmiah Manajemen dan Bisnis	none	no_apc			
 1693-7740	Berkala Ilmu Perpustakaan dan Informasi	none	list_price	750000	IDR	
 1693-7864	JEMA Jurnal Ilmiah Bidang Akuntansi dan Manajemen	none	list_price	300000	IDR	
 1693-8046	Dharma Raflesia Jurnal Ilmiah Pengembangan dan Penerapan IPTEKS	none	list_price	500000	IDR	
@@ -27289,7 +27289,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2077-1312	Journal of Marine Science and Engineering	covered	covered			1
 2077-1444	Religions	covered	covered			1
 2077-172X	UCV - SCIENTIA	none	no_apc			
-2077-1770	Sovremennye issledovaniya sotsialnykh problem	none	list_price	8000	RUB	
+2077-1770	Sovremennye issledovaniya sotsialnykh problem	none	list_price	80	USD	
 2077-1886	Journal of Economics Finance and Administrative Science	none	no_apc			
 2077-2815	Inkanyiso	none	list_price	14260	ZAR	
 2077-2955	Transformación	none	no_apc			
@@ -30197,7 +30197,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2234-6163	Archives of Plastic Surgery	none	list_price	700	EUR	
 2234-6953	Animal Systematics Evolution and Diversity	none	list_price	200	USD	
 2234-7658	Restorative Dentistry & Endodontics	none	no_apc			
-2234-8395	Journal of electromagnetic engineering and science	none	no_apc			
+2234-8395	Journal of electromagnetic engineering and science	none	list_price	150000	KRW	
 2234-943X	Frontiers in Oncology	discount	discount	2835	CHF	
 2235-0225	Journal for Artistic Research	none	no_apc			
 2235-042X	Journal of Comorbidity	none	list_price	1500	USD	
@@ -35040,7 +35040,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2523-4161	Sports games	none	list_price	500	UAH	
 2523-4196	Єдиноборства	none	list_price	500	UAH	
 2523-4447	Microsystems Electronics and Acoustics	none	list_price	400	UAH	
-2523-4463	Alfred Nobel University Journal of Philoligy	none	list_price	200	UAH	
+2523-4463	Alfred Nobel University Journal of Philoligy	none	list_price	100	USD	
 2523-4544	The Scientific Journal Grain Crops	none	no_apc			
 2523-4552	Вісник Пенітенціарної асоціації України	none	list_price	1200	UAH	
 2523-4684	ARTS ACADEMY	none	no_apc			
