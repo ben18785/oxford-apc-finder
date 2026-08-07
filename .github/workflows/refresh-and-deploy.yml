@@ -26,10 +26,16 @@ permissions:
   id-token: write
   issues: write                   # open the Bodleian needs-review issue
 
-# Never let two refreshes race on the Pages deployment or on the commit.
+# Never let two refreshes race on the Pages deployment or on the baseline
+# commit. cancel-in-progress is deliberately TRUE: GitHub keeps only one
+# pending run per concurrency group, so with `false` a run stuck waiting on the
+# Pages environment (as happened during an Actions outage) holds the group
+# forever and silently cancels every run queued behind it. A refresh is
+# idempotent and rebuilds from source each time, so superseding an in-flight
+# one costs nothing and cannot deadlock.
 concurrency:
   group: refresh-and-deploy
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   refresh:
