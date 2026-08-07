@@ -108,20 +108,6 @@ jobs:
           APC_SKIP_ORACLE: ${{ inputs.skip_oracle && '1' || '' }}
         run: python pipeline/run_all.py
 
-      - name: Commit refreshed baselines
-        run: |
-          git config user.name  'github-actions[bot]'
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git add -A data/out/last_counts.json data/curated/bodleian_snapshot.txt \
-                     data/cache/manifest.json data/state/journal_state.tsv \
-                     CHANGELOG-data.md
-          if git diff --cached --quiet; then
-            echo "No baseline changes to commit."
-          else
-            git commit -m "chore(data): refresh baselines [skip ci]"
-            git push
-          fi
-
       # The link checker runs on its own schedule and has no dataset of its
       # own (data/out is not committed), so publish the URL list here.
       - name: Collect the URLs the site can show
@@ -140,6 +126,64 @@ jobs:
       - id: deploy
         uses: actions/deploy-pages@v4
 
+      # Bookkeeping, deliberately AFTER the deploy. This step once failed on a
+      # routine push race — a commit landed on main during the ~50 minute run —
+      # and because it sat before the deploy it discarded a completed, valid
+      # build: the site was never published. Publishing is the point; the
+      # baselines can always be regenerated next run.
+      - name: Commit refreshed baselines
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          # CHANGELOG-data.md does not exist on the very first run, so every
+          # file test is guarded: `[ -f x ] && cmd` returns non-zero when the
+          # file is absent, and GitHub runs steps under `bash -e`.
+          FILES="data/out/last_counts.json data/curated/bodleian_snapshot.txt
+                 data/cache/manifest.json data/state/journal_state.tsv
+                 CHANGELOG-data.md"
+
+          for attempt in 1 2 3; do
+            # Replay our generated files onto whatever main looks like now.
+            # These are build output, not authored content, so the freshly
+            # generated version always wins — no merge semantics to get wrong.
+            rm -rf /tmp/baselines
+            present=""
+            for f in $FILES; do
+              if [ -f "$f" ]; then
+                mkdir -p "$(dirname "/tmp/baselines/$f")"
+                cp "$f" "/tmp/baselines/$f"
+                present="$present $f"
+              fi
+            done
+
+            git fetch origin "$GITHUB_REF_NAME"
+            git reset --hard "origin/$GITHUB_REF_NAME"
+
+            for f in $present; do
+              mkdir -p "$(dirname "$f")"
+              cp "/tmp/baselines/$f" "$f"
+            done
+
+            if [ -z "$present" ]; then
+              echo "No baseline files were produced."
+              exit 0
+            fi
+            git add -- $present
+            if git diff --cached --quiet; then
+              echo "No baseline changes to commit."
+              exit 0
+            fi
+            git commit -m "chore(data): refresh baselines [skip ci]"
+            if git push; then
+              echo "Baselines committed on attempt $attempt."
+              exit 0
+            fi
+            echo "Push rejected (main moved during the run). Retrying…"
+            sleep $((attempt * 5))
+          done
+          echo "::error::Could not commit refreshed baselines after 3 attempts."
+          exit 1
+
       # A scheduled job that fails quietly is how a data site rots: the last
       # good build keeps serving, looking healthy, for weeks. Say so loudly.
       # (The site also shows a staleness banner once the data passes
@@ -153,7 +197,7 @@ jobs:
             --description "A scheduled data refresh did not complete" --force
           existing=$(gh issue list --label refresh-failed --state open \
                        --json number --jq '.[0].number')
-          body=$(printf 'The data refresh failed, so the site is still serving the previous dataset.\n\nIt will keep serving stale data until a refresh succeeds. The site shows readers a staleness banner once the data is older than the configured limit.\n\nRun: %s\n\nCommon causes, in rough order of likelihood:\n- an upstream source changed shape (check the Tests workflow contract job)\n- validation refused the build (a source came back truncated, or coverage dropped sharply)\n- the OPENALEX_API_KEY secret is missing or out of quota\n' \
+          body=$(printf 'The data refresh failed, so the site is still serving the previous dataset.\n\nIt will keep serving stale data until a refresh succeeds. The site shows readers a staleness banner once the data is older than the configured limit.\n\nRun: %s\n\nCommon causes, in rough order of likelihood:\n- an upstream source changed shape (check the Tests workflow contract job)\n- validation refused the build (a source came back truncated, or coverage dropped sharply)\n- the OPENALEX_API_KEY secret is missing or out of quota\n- a push landed on the branch during the run, so the baseline commit was rejected (the site still deployed; this is bookkeeping only)\n' \
                    "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID")
           if [ -n "$existing" ]; then
             gh issue comment "$existing" --body "$body"
