@@ -19,6 +19,10 @@ sources:
   doaj_api: "https://doaj.org/api"
   doaj_journal_csv: "https://doaj.org/csv"
   doaj_withdrawn_sheet_csv: "https://docs.google.com/spreadsheets/d/1Kv3MbgFSgtSDnEGkA2JacrSjunRu0umHeZCtcMeqO5E/gviz/tq?tqx=out:csv&sheet=Withdrawn"
+  # Human-readable view of the same sheet. The withdrawal changelog is
+  # CC BY-SA 4.0 (unlike DOAJ's CC0 journal metadata), so wherever the site
+  # shows a withdrawal reason it credits this and names the licence.
+  doaj_withdrawn_changelog: "https://docs.google.com/spreadsheets/d/1Kv3MbgFSgtSDnEGkA2JacrSjunRu0umHeZCtcMeqO5E/"
 
 # Optional OpenAlex API key (free at https://openalex.org/settings/api).
 # Set as env var OPENALEX_API_KEY in CI; raises the free daily credit to $1/day.
@@ -26,3 +30,13 @@ sources:
 validation:
   max_weekly_drop_pct: 10        # fail build if deal-journal count drops more than this
   oracle_sample_size: 25         # random journals cross-checked against live JCT API
+  max_dataset_age_days: 10       # site warns readers past this age (weekly refresh + slack)
+  # Floors per source. A partially-fetched source can hide inside a
+  # whole-dataset percentage threshold; these catch it directly. Set well below
+  # observed values (Aug 2026: 42 agreements, 43.8k OpenAlex, 23.1k DOAJ,
+  # 2.1k withdrawals) so normal fluctuation never trips them.
+  min_source_counts:
+    agreements: 30
+    openalex: 30000
+    doaj_journals: 18000
+    withdrawn: 1000

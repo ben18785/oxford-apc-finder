@@ -187,12 +187,37 @@ def test_keyword_ids_are_within_the_vocabulary(built):
 
 def test_every_indexed_journal_has_a_detail_record(built):
     """The browser fetches data/details/<shard>.json to open a journal; a
-    missing shard is a dead click."""
+    missing shard is a dead click.
+
+    Uses the shard length the build published rather than a literal, so this
+    tests the contract the client actually follows.
+    """
+    length = built["config"]["shard_key_length"]
     details = built["work"] / "_site" / "data" / "details"
     for rec in built["index"]["journals"]:
-        shard = details / f"{rec['id'][:4]}.json"
+        shard = details / f"{rec['id'][:length]}.json"
         assert shard.exists(), f"no shard for {rec['id']}"
         assert rec["id"] in json.loads(shard.read_text())
+
+
+def test_regression_build_publishes_the_shard_length_it_used(built):
+    """app.js derives the detail path from config.shard_key_length. When the
+    build moved from 2-character to 4-character shards and the client kept
+    asking for 2, every journal click 404'd and did nothing — silently.
+
+    The client side is covered by tests/frontend/search.test.js; this pins the
+    build side of the same contract, cheaply and without a JS engine.
+    """
+    length = built["config"].get("shard_key_length")
+    assert length, "config.json must publish shard_key_length for the client"
+
+    names = [p.stem for p in
+             (built["work"] / "_site" / "data" / "details").glob("*.json")]
+    assert names, "no detail shards were written"
+    bad = sorted({n for n in names if len(n) != length})
+    assert not bad, (
+        f"config says shard_key_length={length} but shards are named {bad[:5]} "
+        "— the client would request a path that does not exist")
 
 
 def test_index_is_sorted_by_title(built):
@@ -271,3 +296,27 @@ def test_regression_fixture_build_does_not_touch_the_real_state_file(built):
     if real.exists():
         assert real.read_text() == (ROOT / "data/state/journal_state.tsv").read_text()
     assert (built["work"] / "data" / "state" / "journal_state.fixtures.tsv").exists()
+
+
+def test_every_journal_explains_its_verdict(built):
+    """"Covered" used to reduce to "a spreadsheet says so", and "no deal" was
+    indistinguishable from "we hold no data". Every journal now carries one
+    plain sentence saying why it got the answer it did."""
+    for j in built["journals"]["journals"]:
+        basis = j["deal"].get("basis")
+        assert basis and len(basis) > 40, f"{j['id']}: no usable basis"
+
+
+def test_covered_journals_name_the_agreement_that_covers_them(built):
+    """So a reader who disagrees has something specific to dispute."""
+    for j in built["journals"]["journals"]:
+        if j["deal"]["status"] == "covered":
+            assert j["deal"]["esac_id"] in j["deal"]["basis"]
+
+
+def test_undealt_journals_say_they_were_checked(built):
+    """The distinction that matters: searched and genuinely absent, versus
+    unknown to the tool."""
+    for j in built["journals"]["journals"]:
+        if j["deal"]["status"] == "none":
+            assert "Checked against" in j["deal"]["basis"] or "arrangement with" in j["deal"]["basis"]

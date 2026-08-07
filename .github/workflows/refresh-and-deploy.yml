@@ -140,6 +140,40 @@ jobs:
       - id: deploy
         uses: actions/deploy-pages@v4
 
+      # A scheduled job that fails quietly is how a data site rots: the last
+      # good build keeps serving, looking healthy, for weeks. Say so loudly.
+      # (The site also shows a staleness banner once the data passes
+      # validation.max_dataset_age_days, so readers are told independently.)
+      - name: Announce a failed refresh
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create refresh-failed --color B60205 \
+            --description "A scheduled data refresh did not complete" --force
+          existing=$(gh issue list --label refresh-failed --state open \
+                       --json number --jq '.[0].number')
+          body=$(printf 'The data refresh failed, so the site is still serving the previous dataset.\n\nIt will keep serving stale data until a refresh succeeds. The site shows readers a staleness banner once the data is older than the configured limit.\n\nRun: %s\n\nCommon causes, in rough order of likelihood:\n- an upstream source changed shape (check the Tests workflow contract job)\n- validation refused the build (a source came back truncated, or coverage dropped sharply)\n- the OPENALEX_API_KEY secret is missing or out of quota\n' \
+                   "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID")
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "$body"
+          else
+            gh issue create --title "Data refresh failed" --body "$body" \
+              --label refresh-failed
+          fi
+
+      # A refresh that succeeds closes any standing failure issue, so the
+      # tracker reflects the current state rather than accumulating noise.
+      - name: Clear the failure issue on success
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for n in $(gh issue list --label refresh-failed --state open \
+                       --json number --jq '.[].number'); do
+            gh issue close "$n" --comment "A later refresh completed successfully."
+          done
+
       # Keep the built dataset around for a fortnight so a bad week can be
       # diagnosed (or rolled back) without re-running every fetch.
       - name: Archive the dataset

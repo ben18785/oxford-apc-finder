@@ -51,6 +51,14 @@ body {
   text-transform: none; letter-spacing: 0; }
 .disclaimer-body p, .disclaimer-body li { font-size: .92rem; }
 
+/* Shown when the dataset is older than config.max_dataset_age_days — a
+   refresh can fail silently for weeks and the page would look identical. */
+.stale-banner {
+  margin: 14px 0 0; background: #fff4d6; color: #6a4c00; border: 1px solid #f0d68a;
+  padding: 9px 12px; border-radius: 8px; font-size: .9rem;
+}
+.badge.expired { background: #fdecea; color: #86271b; border: 1px solid #f5c6c0; }
+
 .sample-banner {
   margin: 14px 0 0; background: #fff4d6; color: #6a4c00; border: 1px solid #f0d68a;
   padding: 8px 12px; border-radius: 8px; font-size: .9rem;
@@ -120,6 +128,9 @@ body {
 .src a { color: var(--oxford); }
 .derived-note { font-size: .8rem; color: var(--muted); font-style: italic; margin-top: 6px; }
 .warn { background: #fdecea; border: 1px solid #f5c6c0; color: #86271b; padding: 10px 12px; border-radius: 8px; font-size: .9rem; }
+/* Licence credit sits with the quoted text it applies to, not in a footer. */
+.attrib { display: block; margin-top: 6px; font-size: .78rem; opacity: .85; }
+.attrib a { color: inherit; }
 
 /* Sources disagree about this deal. Deliberately loud, and placed above the
    cost figure so it cannot be read as a footnote to it. */
@@ -128,6 +139,9 @@ body {
 .dispute h4 { margin: 0 0 8px; color: #86271b; font-size: .95rem; }
 .dispute p { margin: 6px 0; }
 .dispute .cost-note { color: #86271b; opacity: .85; }
+
+.basis { margin: 0; font-size: .93rem; }
+.basis + .cost-note code { background: #eef1f4; padding: 1px 5px; border-radius: 4px; font-size: .85em; }
 
 .report-box textarea { width: 100%; min-height: 90px; padding: 10px; border: 1px solid var(--line); border-radius: 8px; font: inherit; }
 .report-box .btn { margin-top: 10px; }

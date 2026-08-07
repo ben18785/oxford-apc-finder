@@ -14,6 +14,7 @@ Output: data/out/journals.json
 """
 from __future__ import annotations
 
+import datetime
 import html
 import re
 
@@ -24,6 +25,24 @@ from common import (CURATED, OUT, load_config, normalise_issn, read_json,
 
 MISCONDUCT_PAT = re.compile(
     r"misconduct|best practice|not adhering", re.I)
+
+
+def agreement_expired(end_date: str | None, today: datetime.date) -> dict | None:
+    """Has the agreement's stated end date passed?
+
+    JCT lists an agreement for as long as the institution is a participant, and
+    renewals are recorded late — so an expired end date does not mean coverage
+    has stopped. It does mean the site must stop presenting "£0" as settled.
+    """
+    if not end_date:
+        return None
+    try:
+        end = datetime.date.fromisoformat(end_date.strip())
+    except ValueError:
+        return None
+    if end >= today:
+        return None
+    return {"end_date": end_date.strip(), "days": (today - end).days}
 
 
 def clean_text(s: str | None) -> str | None:
@@ -59,13 +78,63 @@ def load_overrides() -> dict:
 
 
 def match_override(entry: dict, rec: dict) -> bool:
+    return override_match_reason(entry, rec) is not None
+
+
+def override_match_reason(entry: dict, rec: dict) -> str | None:
+    """How this overlay entry matched — or None if it didn't.
+
+    Worth surfacing: an ISSN match is exact, a publisher-name match is a
+    heuristic that can catch the wrong imprint. A reader disputing a result
+    deserves to know which kind they are looking at.
+    """
     issns = set(rec.get("issns") or [])
     if entry.get("match_issns") and issns & set(entry["match_issns"]):
-        return True
+        return "its ISSN is listed explicitly"
     rx = entry.get("match_publisher_regex")
     if rx and rec.get("publisher") and re.search(rx, rec["publisher"]):
-        return True
-    return False
+        return f"its publisher is recorded as {rec['publisher']}"
+    return None
+
+
+def coverage_basis(status: str, *, esac_id: str | None = None,
+                   agreement_count: int = 0, scheme: str | None = None,
+                   match_reason: str | None = None,
+                   discount_pct: int | None = None,
+                   not_in_agreement: str | None = None) -> str:
+    """One plain sentence saying *why* this journal got this answer.
+
+    Without it the two commonest verdicts explain nothing: "covered" reduces to
+    "a spreadsheet says so", and "no deal" is indistinguishable from "we have no
+    data". A reader who disagrees needs something specific to dispute.
+    """
+    if status == "covered":
+        return (f"This journal appears on the title list of transformative "
+                f"agreement {esac_id}, which Oxford is a current participant in. "
+                "Both facts come from the Journal Checker Tool's agreement data, "
+                "linked below.")
+    if status == "diamond":
+        return (f"Oxford supports {scheme}, so publishing here is free to "
+                f"authors. Matched because {match_reason}."
+                if match_reason else
+                f"Oxford supports {scheme}, so publishing here is free to authors.")
+    if status == "discount" and not_in_agreement:
+        return (f"This title is not on the {not_in_agreement} read-and-publish "
+                f"agreement's list, so the APC is not covered outright — but "
+                f"Oxford has a {discount_pct}% discount on that publisher's fully "
+                "open access journals.")
+    if status == "discount":
+        return (f"Oxford has a {discount_pct}% discount arrangement with "
+                f"{scheme}, listed on the Bodleian's publisher deals page. "
+                f"Matched because {match_reason}."
+                if match_reason else
+                f"Oxford has a {discount_pct}% discount arrangement with {scheme}.")
+    return (f"Checked against the title lists of all {agreement_count} "
+            "agreements Oxford participates in, and against the discount and "
+            "diamond schemes on the Bodleian's deals page — this journal and "
+            "its publisher appear in none of them. That is not the same as the "
+            "journal being ineligible for support: block grants or funder "
+            "routes may still apply.")
 
 
 def scope_sentence(rec: dict) -> str | None:
@@ -136,6 +205,7 @@ def main() -> None:
                      if e["kind"] not in ("caveat", "conflict")]
     bodleian_url = overrides["meta"]["source"]
 
+    today = datetime.date.today()
     journals = []
     excluded_misconduct = 0
     retrieved = meta.get("generated", utcnow())
@@ -160,17 +230,30 @@ def main() -> None:
         # --- deal resolution
         deal = next((deal_lookup[i] for i in issns if i in deal_lookup), None)
         status, discount_pct, caveats, deal_sources = "none", None, [], []
-        esac_id = None
+        esac_id, expired = None, None
+        basis = coverage_basis("none", agreement_count=len(deals["agreements"]))
         if deal:
             status = "covered"
             esac_id = deal["esac_id"]
+            basis = coverage_basis("covered", esac_id=esac_id)
             # Conditions the Bodleian page attaches to every deal.
             caveats.extend(universal_criteria)
             deal_sources.append({"label": "JCT agreement data (CC BY 4.0)",
                                  "url": deal["data_url"]})
             if deal["corresponding_author_only"]:
                 caveats.append("Corresponding author must be Oxford-affiliated.")
-            if deal["end_date"]:
+            expired = agreement_expired(deal["end_date"], today)
+            if expired:
+                # JCT keeps listing an agreement after its end date — renewals
+                # are recorded late — so this is a warning, not a reason to
+                # drop the coverage claim. But "£0" must never be shown as
+                # settled fact once the stated end date has passed.
+                caveats.append(
+                    f"This agreement's end date ({deal['end_date']}) has passed "
+                    f"{expired['days']} days ago. It may have been renewed — the "
+                    "Journal Checker Tool still lists Oxford as a participant — "
+                    "but confirm before submitting.")
+            elif deal["end_date"]:
                 caveats.append(f"Agreement runs to {deal['end_date']}.")
             for e in caveat_entries:
                 if esac_id and esac_id.startswith(e["match_esac_prefix"]):
@@ -182,14 +265,24 @@ def main() -> None:
             # Journal-or-publisher-specific overlay entries win: they are the
             # more precise statement about this title.
             for e in other_entries:
-                if match_override(e, rec):
+                reason = override_match_reason(e, rec)
+                if reason:
                     kind = e["kind"]
+                    label = e.get("publisher_label") or "a listed scheme"
                     if kind == "discount":
                         status, discount_pct = "discount", e.get("pct")
+                        basis = coverage_basis("discount", scheme=label,
+                                               discount_pct=discount_pct,
+                                               match_reason=reason)
                     elif kind == "diamond":
                         status = "diamond"
+                        basis = coverage_basis("diamond", scheme=label,
+                                               match_reason=reason)
                     elif kind in ("green", "note"):
                         status = "none"
+                        basis = (f"No APC deal, but Oxford has an arrangement with "
+                                 f"{label} worth knowing about — see below. "
+                                 f"Matched because {reason}.")
                     caveats.extend(e.get("caveats", []))
                     deal_sources.append({"label": "Bodleian publisher deals page",
                                          "url": e.get("source_extra") or bodleian_url})
@@ -205,6 +298,9 @@ def main() -> None:
                     rx = ad.get("match_publisher_regex")
                     if rx and rec.get("publisher") and re.search(rx, rec["publisher"]):
                         status, discount_pct = "discount", ad["pct"]
+                        basis = coverage_basis(
+                            "discount", discount_pct=ad["pct"],
+                            not_in_agreement=e["publisher_label"])
                         caveats.append(
                             f"{ad['pct']}% Oxford discount on {ad['applies_to']} — "
                             f"this title is not in the {e['publisher_label']} "
@@ -271,7 +367,8 @@ def main() -> None:
             "doaj_withdrawn": wd,
             "deal": {"status": status, "esac_id": esac_id,
                      "discount_pct": discount_pct, "caveats": caveats,
-                     "disputed": disputed},
+                     "disputed": disputed, "expired": expired,
+                     "basis": basis},
             "cost": cost,
             "scope": {
                 "sentence": scope_sentence(rec),
@@ -290,6 +387,8 @@ def main() -> None:
         "generated": utcnow(),
         "sample_data": bool(deals.get("sample_data")),
         "institution": cfg["institution_name"],
+        "source_counts": {**(meta.get("counts") or {}),
+                          "agreements": len(deals["agreements"])},
         "counts": {
             "total": len(journals),
             "covered": sum(1 for j in journals if j["deal"]["status"] == "covered"),
@@ -297,6 +396,7 @@ def main() -> None:
             "diamond": sum(1 for j in journals if j["deal"]["status"] == "diamond"),
             "in_doaj": sum(1 for j in journals if j["in_doaj"]),
             "disputed": sum(1 for j in journals if j["deal"].get("disputed")),
+            "expired": sum(1 for j in journals if j["deal"].get("expired")),
             "excluded_misconduct": excluded_misconduct,
         },
         "journals": journals,

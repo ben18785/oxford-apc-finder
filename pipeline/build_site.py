@@ -26,13 +26,19 @@ STOPWORDS = {"and", "of", "the", "in", "for", "to", "a", "on", "with", "by",
              "its", "or", "an", "at", "from", "as", "is"}
 
 
+# Published in config.json so the client cannot drift from the build: when
+# this went 2 -> 4, app.js kept requesting the old path and every journal click
+# silently 404'd.
+SHARD_KEY_LENGTH = 4
+
+
 def shard_key(issn_l: str) -> str:
     """Detail records are sharded on the ISSN-L prefix, and the browser fetches
     a whole shard to open one journal — so the shards have to stay small.
     Two characters gives 32 shards with the largest at ~9MB (ISSNs are not
     uniformly distributed); four gives ~2,500 shards with a median of a dozen
     records, which is the difference between a 9MB click and a 60KB one."""
-    return issn_l[:4]
+    return issn_l[:SHARD_KEY_LENGTH]
 
 
 def cost_summary(j: dict) -> str:
@@ -85,6 +91,7 @@ def main() -> None:
             "s": j["deal"]["status"],
             "d": j["in_doaj"],
             "x": bool(j["deal"].get("disputed")),   # sources disagree
+            "e": bool(j["deal"].get("expired")),     # agreement end date passed
             "c": cost_summary(j),
         })
         terms = " ".join((j["scope"]["topics"] or []) +
@@ -137,6 +144,9 @@ def main() -> None:
         "bodleian_apc": cfg["sources"]["bodleian_apc"],
         "bodleian_deals": cfg["sources"]["bodleian_deals"],
         "bodleian_block_grants": cfg["sources"]["bodleian_block_grants"],
+        "doaj_withdrawn_changelog": cfg["sources"]["doaj_withdrawn_changelog"],
+        "max_dataset_age_days": cfg["validation"]["max_dataset_age_days"],
+        "shard_key_length": SHARD_KEY_LENGTH,
         "contact": "oapayments@bodleian.ox.ac.uk",
     })
     print(f"Site built into _site/ — {len(index)} journals, {len(shards)} detail shards")

@@ -358,6 +358,15 @@ def main() -> None:
             "doaj_withdrawn": {"url": cfg["sources"]["doaj_withdrawn_sheet_csv"],
                                 "license": "CC BY-SA 4.0"},
         },
+        # Carried through to validate.py, which fails the build if any source
+        # comes back far smaller than expected. A half-fetched source hides
+        # inside a whole-dataset drop threshold.
+        "counts": {
+            "openalex": len(openalex),
+            "doaj_journals": len(doaj_primary),
+            "doaj_issns": len(doaj),
+            "withdrawn": len(withdrawn),
+        },
         "openalex": openalex,
         "doaj": doaj,
         "doaj_withdrawn": withdrawn,

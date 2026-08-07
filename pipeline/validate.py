@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import os
 import random
+import re
 import sys
 from datetime import datetime, timezone
 
@@ -72,6 +73,83 @@ def check_thresholds(data: dict, cfg: dict) -> list[str]:
             errors.append(f"count '{key}' dropped {old} → {new} "
                           f"(> {cfg['validation']['max_weekly_drop_pct']}% fall); "
                           "refusing to ship without human review")
+    return errors
+
+
+def check_source_minimums(data: dict, cfg: dict) -> list[str]:
+    """Every source must come back roughly the size we expect.
+
+    The week-on-week threshold works on the merged totals, where a source that
+    returned half its rows can hide — DOAJ journals are only one of three
+    inclusion routes. These floors catch a truncated fetch directly.
+    """
+    if FIXTURES_MODE:
+        # Floors describe the real sources (tens of thousands of records); a
+        # fixtures build has a dozen journals and would fail every one.
+        print("  [fixtures] source minimums skipped")
+        return []
+    counts = data.get("source_counts") or {}
+    errors = []
+    for key, floor in (cfg["validation"].get("min_source_counts") or {}).items():
+        actual = counts.get(key)
+        if actual is None:
+            errors.append(f"source count '{key}' missing — cannot verify the "
+                          "fetch was complete")
+        elif actual < floor:
+            errors.append(f"source '{key}' returned {actual:,}, below the floor "
+                          f"of {floor:,}; the fetch was probably truncated")
+    return errors
+
+
+def check_overlay_is_live(data: dict, overrides: dict | None = None) -> list[str]:
+    """Every curated overlay entry must reach at least one journal.
+
+    Two entries silently matched nothing for the life of the project because
+    their esac_id prefixes were wrong, so caveats like "Disease Models &
+    Mechanisms is NOT covered" never appeared. A dead entry is invisible — it
+    looks exactly like a caveat that simply did not apply.
+
+    An entry that is legitimately unreachable must say so explicitly, with
+    `expect_no_match: true` and a comment explaining why.
+    """
+    if FIXTURES_MODE and overrides is None:
+        # Most overlay entries legitimately match nothing in a dozen fixture
+        # journals. The logic is unit-tested directly instead.
+        print("  [fixtures] overlay liveness skipped")
+        return []
+
+    if overrides is None:
+        import yaml
+        from common import CURATED
+        overrides = yaml.safe_load((CURATED / "oxford_overrides.yaml").read_text())
+    journals = data["journals"]
+    errors = []
+
+    for entry in overrides["entries"]:
+        kind = entry["kind"]
+        label = entry.get("publisher_label", "?")
+        if entry.get("expect_no_match"):
+            continue
+
+        if kind == "caveat":
+            prefix = entry["match_esac_prefix"]
+            hits = sum(1 for j in journals
+                       if (j["deal"].get("esac_id") or "").startswith(prefix))
+        elif kind == "conflict":
+            hits = sum(1 for j in journals if j["deal"].get("disputed"))
+        else:
+            issns = set(entry.get("match_issns") or [])
+            rx = entry.get("match_publisher_regex")
+            hits = sum(
+                1 for j in journals
+                if (issns & set(j["issns"]))
+                or (rx and j["publisher"] and re.search(rx, j["publisher"])))
+
+        if hits == 0:
+            errors.append(
+                f"overlay entry {kind}/{label!r} matches no journal — it is "
+                "doing nothing. Fix the matcher, or set expect_no_match: true "
+                "with a comment saying why.")
     return errors
 
 
@@ -133,6 +211,8 @@ def main() -> None:
     data = read_json(OUT / "journals.json")
     failures = (check_schema(data)
                 + check_thresholds(data, cfg)
+                + check_source_minimums(data, cfg)
+                + check_overlay_is_live(data)
                 + check_oracle(data, cfg))
     if failures:
         print("VALIDATION FAILED:", file=sys.stderr)

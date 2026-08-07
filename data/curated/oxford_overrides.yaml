@@ -176,6 +176,12 @@ entries:
     pct: 20
     caveats:
       - "20% APC discount for Oxford corresponding authors on all accepted articles."
+    # Currently unreachable: JCT records a full MDPI agreement (mdpi2026jisc),
+    # so every MDPI journal resolves as `covered` and never falls through to
+    # this discount. Kept, because the conflict entry above says the two
+    # sources disagree — if the Bodleian page turns out to be right, this is
+    # the rule that should apply. Remove the flag when the conflict resolves.
+    expect_no_match: true
 
   - kind: discount
     publisher_label: "Frontiers"

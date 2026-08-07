@@ -37,8 +37,13 @@ def infrastructure_links(cfg: dict, data: dict) -> set[str]:
     urls: set[str] = set()
 
     for key in ("bodleian_deals", "bodleian_apc", "bodleian_block_grants",
-                "jct_ta_docs", "jct_api", "openalex_api", "doaj_api"):
+                "jct_ta_docs", "jct_api", "openalex_api", "doaj_api",
+                "doaj_withdrawn_changelog"):
         urls.add(cfg["sources"][key])
+
+    # Licence links shown next to quoted CC BY-SA text — a dead licence link
+    # undermines the attribution it exists to provide.
+    urls.add("https://creativecommons.org/licenses/by-sa/4.0/")
 
     overrides = yaml.safe_load((CURATED / "oxford_overrides.yaml").read_text())
     urls.add(overrides["meta"]["source"])

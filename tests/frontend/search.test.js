@@ -59,10 +59,20 @@ globalThis.document = {
 globalThis.location = { href: "http://localhost/" };
 globalThis.setTimeout = function (fn) { fn(); return 0; };
 globalThis.clearTimeout = function () {};
+/* Mirrors the parts of the fetch Response the app uses: a missing file must
+ * present as {ok:false, status:404}, not as a thrown read error, or the app's
+ * own error handling is never exercised. */
 globalThis.fetch = function (path) {
-  var text = readTextFile(SITE + "/" + path);
-  return Promise.resolve({ json: function () { return Promise.resolve(JSON.parse(text)); } });
+  var text;
+  try { text = readTextFile(SITE + "/" + path); }
+  catch (e) { return Promise.resolve({ ok: false, status: 404,
+    json: function () { return Promise.reject(new Error("404")); } }); }
+  return Promise.resolve({ ok: true, status: 200,
+    json: function () { return Promise.resolve(JSON.parse(text)); } });
 };
+if (typeof console === "undefined") {          // jsc has no console
+  globalThis.console = { log: say, warn: function () {}, error: function () {} };
+}
 
 runProgram("site/app.js");
 
@@ -141,9 +151,41 @@ chain.then(function () {
   check("index is pre-sorted by title (the app relies on this)",
     JSON.stringify(titles) === JSON.stringify(sorted));
 
-  say(FAILURES ? "\n" + FAILURES + " check(s) FAILED" : "\nall frontend checks passed");
-  if (!IS_JSC) { process.exit(FAILURES ? 1 : 0); }
-  else if (FAILURES) { throw new Error(FAILURES + " frontend check(s) failed"); }
+  /* ----------------------------------------- opening a journal -------
+   * Regression: build_site sharded details on 4 characters while loadShard
+   * still asked for 2, so every click 404'd and did nothing at all. Search
+   * tests passed throughout — nothing here ever opened a journal. */
+  return openDetail(first.id).then(function () {
+    var body = el("#detail-body").innerHTML;
+    check("clicking a journal opens the detail modal",
+      el("#detail-modal").hidden === false);
+    // Compare against the escaped form: titles legitimately contain quotes
+    // and ampersands, which the app escapes on the way into the DOM.
+    check("detail modal shows the journal title",
+      body.indexOf(esc(first.t)) !== -1, "title missing from rendered detail");
+    check("detail modal is not an error placeholder",
+      body.indexOf("Could not load this journal") === -1
+      && body.indexOf("Journal not found") === -1,
+      body.slice(0, 120));
+    check("detail modal renders the cost section",
+      body.indexOf("Cost for an Oxford author") !== -1);
+    check("detail modal renders source links",
+      body.indexOf("Sources for the information above") !== -1);
+    check("detail modal offers the report box",
+      body.indexOf("report-text") !== -1);
+
+    /* A shard that does not exist must say so rather than dying silently. */
+    return openDetail("9999-9999").then(function () {
+      var err = el("#detail-body").innerHTML;
+      check("a missing shard reports an error instead of doing nothing",
+        err.indexOf("Could not load") !== -1 || err.indexOf("not found") !== -1,
+        err.slice(0, 120));
+    });
+  }).then(function () {
+    say(FAILURES ? "\n" + FAILURES + " check(s) FAILED" : "\nall frontend checks passed");
+    if (!IS_JSC) { process.exit(FAILURES ? 1 : 0); }
+    else if (FAILURES) { throw new Error(FAILURES + " frontend check(s) failed"); }
+  });
 }).catch(function (err) {
   say("HARNESS ERROR: " + err + "\n" + (err && err.stack));
   if (!IS_JSC) { process.exit(1); } else { throw err; }

@@ -276,3 +276,145 @@ def test_state_row_escapes_tabs_in_titles():
     j = {"id": "0028-0836", "title": "Has\ttab",
          "deal": {"status": "none", "disputed": None}, "cost": {"kind": "unknown"}}
     assert "\t" not in state_row(j)[1]
+
+
+# ------------------------------------------------- agreement expiry
+import datetime  # noqa: E402
+
+from merge import agreement_expired  # noqa: E402
+from validate import (check_overlay_is_live, check_source_minimums)  # noqa: E402
+
+TODAY = datetime.date(2026, 8, 7)
+
+
+@pytest.mark.parametrize("end_date", [None, "", "not-a-date", "2026-08-07",
+                                      "2027-12-31"])
+def test_agreement_not_expired(end_date):
+    assert agreement_expired(end_date, TODAY) is None
+
+
+def test_regression_expired_agreement_is_flagged():
+    """apa2024jisc ended 2026-07-31, yet 90 journals were still shown as
+    '£0 — covered by Oxford deal' a week later."""
+    got = agreement_expired("2026-07-31", TODAY)
+    assert got == {"end_date": "2026-07-31", "days": 7}
+
+
+def test_expiry_is_inclusive_of_the_end_date():
+    """An agreement running 'to 2026-08-07' still covers you on the 7th."""
+    assert agreement_expired("2026-08-07", TODAY) is None
+    assert agreement_expired("2026-08-06", TODAY)["days"] == 1
+
+
+# --------------------------------------------- source count floors
+def _cfg(**floors):
+    return {"validation": {"min_source_counts": floors}}
+
+
+def test_source_minimums_pass_when_counts_are_healthy():
+    data = {"source_counts": {"agreements": 42, "openalex": 43839}}
+    assert check_source_minimums(data, _cfg(agreements=30, openalex=30000)) == []
+
+
+def test_source_minimums_catch_a_truncated_fetch():
+    """A half-fetched source hides inside a whole-dataset drop threshold,
+    because DOAJ is only one of three inclusion routes."""
+    data = {"source_counts": {"doaj_journals": 1535}}   # the pagination bug
+    errors = check_source_minimums(data, _cfg(doaj_journals=18000))
+    assert len(errors) == 1 and "truncated" in errors[0]
+
+
+def test_source_minimums_treat_a_missing_count_as_failure():
+    errors = check_source_minimums({"source_counts": {}}, _cfg(openalex=30000))
+    assert len(errors) == 1 and "missing" in errors[0]
+
+
+# ------------------------------------------ overlay liveness check
+def _journal(esac=None, publisher=None, issns=(), disputed=None):
+    return {"deal": {"esac_id": esac, "disputed": disputed},
+            "publisher": publisher, "issns": list(issns)}
+
+
+def test_overlay_entry_matching_a_journal_passes():
+    overrides = {"entries": [{"kind": "caveat", "match_esac_prefix": "compbio",
+                              "publisher_label": "Company of Biologists"}]}
+    data = {"journals": [_journal(esac="compbio2025jisc")]}
+    assert check_overlay_is_live(data, overrides) == []
+
+
+def test_regression_overlay_entry_matching_nothing_fails_the_build():
+    """'cob' and 'wolterskluwer' matched no agreement id for the life of the
+    project, so their caveats — including 'Disease Models & Mechanisms is NOT
+    covered' — never once displayed. A dead entry is indistinguishable from a
+    caveat that simply did not apply."""
+    overrides = {"entries": [{"kind": "caveat", "match_esac_prefix": "cob",
+                              "publisher_label": "Company of Biologists"}]}
+    data = {"journals": [_journal(esac="compbio2025jisc")]}
+    errors = check_overlay_is_live(data, overrides)
+    assert len(errors) == 1
+    assert "Company of Biologists" in errors[0]
+
+
+def test_overlay_entry_may_declare_itself_unreachable():
+    """MDPI's discount is shadowed by a JCT agreement; the exception has to be
+    stated explicitly rather than passing silently."""
+    overrides = {"entries": [{"kind": "discount", "publisher_label": "MDPI",
+                              "match_publisher_regex": "(?i)^MDPI",
+                              "expect_no_match": True}]}
+    assert check_overlay_is_live({"journals": []}, overrides) == []
+
+
+def test_overlay_discount_matches_by_publisher_or_issn():
+    overrides = {"entries": [
+        {"kind": "discount", "publisher_label": "Frontiers",
+         "match_publisher_regex": "(?i)^Frontiers"},
+        {"kind": "diamond", "publisher_label": "PCJ",
+         "match_issns": ["2804-3871"]},
+    ]}
+    data = {"journals": [_journal(publisher="Frontiers Media SA"),
+                         _journal(issns=["2804-3871"])]}
+    assert check_overlay_is_live(data, overrides) == []
+
+
+# ------------------------------------------------- why this verdict
+from merge import coverage_basis, override_match_reason  # noqa: E402
+
+
+def test_basis_for_covered_names_the_agreement():
+    b = coverage_basis("covered", esac_id="els2026jisc")
+    assert "els2026jisc" in b and "title list" in b
+
+
+def test_basis_for_no_deal_says_it_was_checked_not_unknown():
+    """The distinction a researcher needs: searched and genuinely absent,
+    versus the tool simply not knowing."""
+    b = coverage_basis("none", agreement_count=42)
+    assert "42" in b and "Checked against" in b
+    assert "block grants" in b, "must not imply no support is possible"
+
+
+def test_basis_for_gold_discount_explains_the_exclusion():
+    b = coverage_basis("discount", discount_pct=15, not_in_agreement="Elsevier")
+    assert "not on the Elsevier read-and-publish agreement" in b and "15%" in b
+
+
+def test_basis_for_scheme_discount_names_the_scheme_and_match():
+    b = coverage_basis("discount", scheme="MDPI", discount_pct=20,
+                       match_reason="its publisher is recorded as MDPI AG")
+    assert "20%" in b and "MDPI AG" in b
+
+
+def test_basis_for_diamond():
+    assert "free to authors" in coverage_basis("diamond", scheme="SciPost")
+
+
+def test_match_reason_distinguishes_issn_from_publisher_matching():
+    """An ISSN match is exact; a publisher-name match is a heuristic that can
+    catch the wrong imprint. The reader should be able to tell which."""
+    issn_entry = {"match_issns": ["2375-2548"]}
+    pub_entry = {"match_publisher_regex": "(?i)^MDPI"}
+    assert "ISSN" in override_match_reason(
+        issn_entry, {"issns": ["2375-2548"], "publisher": "AAAS"})
+    assert "MDPI AG" in override_match_reason(
+        pub_entry, {"issns": [], "publisher": "MDPI AG"})
+    assert override_match_reason(pub_entry, {"issns": [], "publisher": "Elsevier"}) is None

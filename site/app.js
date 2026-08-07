@@ -24,6 +24,7 @@ async function boot() {
   STATE.counts = idx.counts;
   STATE.generated = idx.generated;
   if (idx.sample_data) $("#sample-banner").hidden = false;
+  showStalenessWarning(idx.generated);
   STATE.index.forEach((r, n) => { r.n = n; });   // position in the keyword arrays
   STATE.loaded = true;
   wireUI();
@@ -57,6 +58,24 @@ function vocabMatches(term) {
   return hits;
 }
 
+/* A refresh can fail for weeks and the page would look identical, so say how
+ * old the data is once it passes the age the config considers acceptable. */
+function showStalenessWarning(generated) {
+  const maxDays = STATE.config.max_dataset_age_days;
+  if (!generated || !maxDays) return;
+  const built = new Date(generated);
+  if (isNaN(built)) return;
+  const days = Math.floor((Date.now() - built.getTime()) / 86400000);
+  if (days <= maxDays) return;
+  const el = $("#stale-banner");
+  el.innerHTML = `\u26a0 This data was last rebuilt <strong>${days} days ago</strong>
+    (${esc(generated.slice(0, 10))}). The automatic refresh may have stopped.
+    Deals may have changed since — check the
+    <a href="${esc(STATE.config.bodleian_deals)}" target="_blank" rel="noopener">Bodleian deals page</a>
+    before relying on anything here.`;
+  el.hidden = false;
+}
+
 function applyConfig() {
   const c = STATE.config;
   document.title = c.title;
@@ -69,9 +88,13 @@ function applyConfig() {
 }
 
 async function loadShard(id) {
-  const key = id.slice(0, 2);
+  // Length comes from the build rather than being hardcoded here — these two
+  // silently disagreed once already, and the only symptom was a dead click.
+  const key = id.slice(0, STATE.config.shard_key_length || 4);
   if (STATE.shards[key]) return STATE.shards[key];
-  const data = await (await fetch(`data/details/${key}.json`)).json();
+  const resp = await fetch(`data/details/${key}.json`);
+  if (!resp.ok) throw new Error(`detail data unavailable (${resp.status})`);
+  const data = await resp.json();
   STATE.shards[key] = data;
   return data;
 }
@@ -137,12 +160,28 @@ function runSearch() {
 }
 
 /* ---------------- rendering ---------------- */
-function badge(status, inDoaj, disputed) {
+function badge(status, inDoaj, disputed, expired) {
   const [label, cls] = STATUS_LABEL[status] || STATUS_LABEL.none;
   let html = `<span class="badge ${cls}">${esc(label)}</span>`;
   if (inDoaj) html += ` <span class="badge doaj">In DOAJ</span>`;
   if (disputed) html += ` <span class="badge disputed" title="Oxford's own page and the Journal Checker Tool disagree about this deal">⚠ Sources disagree</span>`;
+  if (expired) html += ` <span class="badge expired" title="The agreement's stated end date has passed">⚠ Agreement ended</span>`;
   return html;
+}
+
+/* The agreement's stated end date has passed. JCT records renewals late, so
+ * this is not proof coverage stopped — but "£0" must not be shown as settled. */
+function expiryBlock(e) {
+  if (!e) return "";
+  return `<div class="dispute">
+    <h4>\u26a0 This agreement's end date has passed</h4>
+    <p>The Oxford agreement covering this journal was recorded as ending on
+      <strong>${esc(e.end_date)}</strong> \u2014 ${e.days} days ago.</p>
+    <p>It may well have been renewed: the Journal Checker Tool still lists Oxford
+      as a participant, and renewals are often recorded late. But the cost below
+      assumes coverage that is past its stated end date.</p>
+    <p class="cost-note">Confirm with ${esc(STATE.config.contact)} before submitting.</p>
+  </div>`;
 }
 
 /* A deal our sources contradict each other about. Shown prominently: the
@@ -173,7 +212,7 @@ function renderResults(list, total) {
       </div>
       <p class="pub">${esc(r.p || "Publisher unknown")}</p>
       <div class="cost">${esc(r.c)}</div>
-      <div class="badge-row">${badge(r.s, r.d, r.x)}</div>
+      <div class="badge-row">${badge(r.s, r.d, r.x, r.e)}</div>
     </button>`).join("");
   box.querySelectorAll(".jcard").forEach(el =>
     el.addEventListener("click", () => openDetail(el.dataset.id)));
@@ -230,9 +269,23 @@ function reportLinks(j) {
 }
 
 async function openDetail(id) {
-  const shard = await loadShard(id);
+  let shard;
+  try {
+    shard = await loadShard(id);
+  } catch (err) {
+    console.error(err);
+    return showModal(`<h2 id="detail-title">Could not load this journal</h2>
+      <p class="cost-note">${esc(err.message)}. This is a fault in the site, not
+        a statement about the journal. Please
+        <a href="https://github.com/${esc(STATE.config.github_repo)}/issues/new?title=${
+          encodeURIComponent("Journal detail failed to load: " + id)
+        }&labels=user-report" target="_blank" rel="noopener">report it</a>.</p>`);
+  }
   const j = shard[id];
-  if (!j) return;
+  if (!j) {
+    return showModal(`<h2 id="detail-title">Journal not found</h2>
+      <p class="cost-note">No detail record is held for ${esc(id)}.</p>`);
+  }
   const scope = j.scope || {};
   const wd = j.doaj_withdrawn;
   const rep = reportLinks(j);
@@ -242,13 +295,25 @@ async function openDetail(id) {
       <h2 id="detail-title">${esc(j.title)}</h2>
       <p class="pub">${esc(j.publisher || "Publisher unknown")}</p>
       <p class="detail-issn">ISSN: ${j.issns.map(esc).join(" · ")}</p>
-      <div class="badge-row">${badge(j.deal.status, j.in_doaj, j.deal.disputed)}
+      <div class="badge-row">${badge(j.deal.status, j.in_doaj, j.deal.disputed, j.deal.expired)}
         ${j.waiver ? '<span class="badge doaj">APC waivers available</span>' : ""}</div>
     </div>
 
-    ${wd ? `<div class="detail-section"><div class="warn">Note: this journal was recorded as withdrawn from DOAJ (${esc(wd.date)}) — reason: “${esc(wd.reason)}”.</div></div>` : ""}
+    ${wd ? `<div class="detail-section"><div class="warn">Note: this journal was recorded as withdrawn from DOAJ (${esc(wd.date)}) — reason: “${esc(wd.reason)}”.
+      <span class="attrib">Reason quoted from the
+        <a href="${esc(STATE.config.doaj_withdrawn_changelog)}" target="_blank" rel="noopener">DOAJ withdrawal changelog</a>,
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>.</span>
+    </div></div>` : ""}
 
+    ${expiryBlock(j.deal.expired)}
     ${disputeBlock(j.deal.disputed)}
+
+    <div class="detail-section">
+      <h4>Why this result</h4>
+      <p class="basis">${esc(j.deal.basis || "")}</p>
+      ${j.deal.esac_id ? `<p class="cost-note">Agreement identifier:
+        <code>${esc(j.deal.esac_id)}</code> \u2014 quote this if you report a problem.</p>` : ""}
+    </div>
 
     <div class="detail-section">
       <h4>Cost for an Oxford author</h4>
@@ -300,6 +365,13 @@ async function openDetail(id) {
   $("#modal-close").focus();
 }
 
+function showModal(html) {
+  $("#detail-body").innerHTML = html;
+  $("#detail-modal").hidden = false;
+  document.body.style.overflow = "hidden";
+  $("#modal-close").focus();
+}
+
 function closeModal() {
   $("#detail-modal").hidden = true;
   document.body.style.overflow = "";
@@ -321,6 +393,7 @@ async function showStatus() {
       <div class="stat"><div class="n">${(c.diamond||0).toLocaleString()}</div><div class="l">diamond OA</div></div>
       <div class="stat"><div class="n">${(c.in_doaj||0).toLocaleString()}</div><div class="l">in DOAJ</div></div>
       <div class="stat"><div class="n">${(c.disputed||0).toLocaleString()}</div><div class="l">flagged: sources disagree</div></div>
+      <div class="stat"><div class="n">${(c.expired||0).toLocaleString()}</div><div class="l">flagged: agreement ended</div></div>
       <div class="stat"><div class="n">${(c.excluded_misconduct||0).toLocaleString()}</div><div class="l">excluded (DOAJ misconduct)</div></div>
     </div>
     <div class="detail-section">
@@ -447,7 +520,7 @@ function showAbout() {
       <h4>Where the data comes from</h4>
       <ul class="caveats">
         <li><strong>Deal coverage:</strong> the cOAlition S <a href="https://journalcheckertool.org/transformative-agreements/" target="_blank" rel="noopener">Journal Checker Tool</a> public transformative-agreement data (CC BY 4.0), filtered to Oxford's ROR, plus a hand-curated overlay for discounts and diamond deals taken from the <a href="${esc(c.bodleian_deals)}" target="_blank" rel="noopener">Bodleian deals page</a>.</li>
-        <li><strong>Journal metadata &amp; APC list prices:</strong> <a href="https://openalex.org" target="_blank" rel="noopener">OpenAlex</a> (CC0) and <a href="https://doaj.org" target="_blank" rel="noopener">DOAJ</a> (metadata CC0).</li>
+        <li><strong>Journal metadata &amp; APC list prices:</strong> <a href="https://openalex.org" target="_blank" rel="noopener">OpenAlex</a> (CC0) and <a href="https://doaj.org" target="_blank" rel="noopener">DOAJ</a> (metadata CC0). DOAJ's <a href="${esc(c.doaj_withdrawn_changelog)}" target="_blank" rel="noopener">withdrawal changelog</a> is separately licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>, and is credited wherever a withdrawal reason is quoted.</li>
         <li><strong>Quality filter:</strong> journals are included only if they're deal-covered, in DOAJ, or from a vetted publisher; journals withdrawn from DOAJ for misconduct-type reasons are excluded. The tool never labels a journal “predatory”.</li>
         <li><strong>When sources disagree:</strong> the Journal Checker Tool and the Bodleian's own page do not always say the same thing about a publisher. Rather than silently picking one, those journals carry a “sources disagree” warning showing both claims, and you should confirm with the open access team before relying on the figure.</li>
       </ul>
