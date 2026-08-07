@@ -316,10 +316,18 @@ def test_covered_journals_name_the_agreement_that_covers_them(built):
 
 def test_undealt_journals_say_they_were_checked(built):
     """The distinction that matters: searched and genuinely absent, versus
-    unknown to the tool."""
+    unknown to the tool. Each recognised form of "no deal" must explain itself.
+    """
+    # The explanations a journal with no deal may legitimately carry.
+    forms = (
+        "Checked against",        # no rule matched at all
+        "arrangement with",       # a green/note scheme applies
+        "Not on the",             # publisher has an agreement, this title is not in it
+    )
     for j in built["journals"]["journals"]:
         if j["deal"]["status"] == "none":
-            assert "Checked against" in j["deal"]["basis"] or "arrangement with" in j["deal"]["basis"]
+            basis = j["deal"]["basis"]
+            assert any(f in basis for f in forms), f"{j['id']}: unexplained — {basis[:80]}"
 
 
 def test_every_journal_offers_a_way_to_browse_its_articles(built):
@@ -380,3 +388,17 @@ def test_regression_sibling_journals_resolve_consistently(built):
     assert all(j["publisher"] or not j["in_doaj"]
                for j in built["journals"]["journals"]), \
         "a DOAJ journal with no resolved publisher cannot match any overlay rule"
+
+
+def test_regression_no_gold_discount_on_subscription_journals(built):
+    """A publisher-level gold-OA discount must never attach to a journal that is
+    not open access. Nature Protocols was shown a "15% Oxford discount" while
+    being a subscription title with no APC at all."""
+    meta = json.loads((built["work"] / "data/out/metadata.json").read_text())
+    for j in built["journals"]["journals"]:
+        basis = j["deal"].get("basis") or ""
+        if "Oxford has a" in basis and "% discount on that publisher" in basis:
+            rec = meta["openalex"].get(j["id"]) or {}
+            assert rec.get("is_oa") or rec.get("is_in_doaj") or j["in_doaj"], (
+                f"{j['id']} {j['title']}: given a gold-OA discount but is not "
+                "an open access journal")

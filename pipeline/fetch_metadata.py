@@ -140,6 +140,68 @@ def fetch_openalex_top_journals(cfg, manifest, session, limit: int) -> dict:
     return out
 
 
+def fetch_openalex_top_by_subfield(cfg, manifest, session, per_subfield: int) -> dict:
+    """The leading journals *within each subfield*, not just globally.
+
+    A global citation ranking is dominated by biomedicine and physics: a top-15,000
+    cut still reaches only the largest journals in small disciplines, and citation
+    volume varies by an order of magnitude between fields. Ranking within each of
+    OpenAlex's 252 subfields gives every discipline its own head of the
+    distribution, which is what a historian or a statistician actually needs.
+
+    Sources cannot be filtered by subfield directly, so topics are fetched once
+    (a few paged requests), grouped by subfield locally, and each subfield's
+    topic set becomes one OR-filter.
+    """
+    out: dict[str, dict] = {}
+    if per_subfield <= 0:
+        print("  subfield sweep disabled (top_journals_per_subfield: 0)")
+        return out
+    base = cfg["sources"]["openalex_api"]
+
+    # 1. every topic, grouped by its subfield
+    subfields: dict[str, list[str]] = {}
+    cursor, page = "*", 0
+    while cursor:
+        data = openalex_get(cfg, manifest, session, base + "/topics",
+                            f"openalex_topics_{page}",
+                            {"per-page": PER_PAGE, "cursor": cursor,
+                             "select": "id,subfield"})
+        for t in data.get("results", []):
+            sub = (t.get("subfield") or {}).get("id")
+            tid = (t.get("id") or "").rsplit("/", 1)[-1]
+            if sub and tid:
+                subfields.setdefault(sub.rsplit("/", 1)[-1], []).append(tid)
+        cursor = (data.get("meta") or {}).get("next_cursor")
+        page += 1
+        time.sleep(0.15)
+    print(f"  {len(subfields)} subfields over {sum(len(v) for v in subfields.values())} topics")
+
+    # 2. the leading journals inside each
+    for n, (sub, topics) in enumerate(sorted(subfields.items()), 1):
+        seen, cursor, page = 0, "*", 0
+        while cursor and seen < per_subfield:
+            data = openalex_get(
+                cfg, manifest, session, base + "/sources",
+                f"openalex_subfield_{sub}_p{page}",
+                {"filter": "topics.id:" + "|".join(topics) + ",type:journal",
+                 "sort": "cited_by_count:desc",
+                 "per-page": min(PER_PAGE, per_subfield - seen), "cursor": cursor})
+            results = data.get("results", [])
+            for src in results:
+                rec = compact_openalex(src)
+                if rec["issn_l"]:
+                    out.setdefault(rec["issn_l"], rec)
+            seen += len(results)
+            cursor = (data.get("meta") or {}).get("next_cursor")
+            page += 1
+            time.sleep(0.15)
+        if n % 50 == 0:
+            print(f"    subfields {n}/{len(subfields)}: {len(out)} journals so far")
+    print(f"  top-{per_subfield}-per-subfield: {len(out)} distinct journals")
+    return out
+
+
 def resolve_publisher_ids(cfg, manifest, session, names: list[str]) -> dict[str, str]:
     """Allowlist publisher names → OpenAlex publisher IDs.
 
@@ -385,6 +447,12 @@ def main() -> None:
     for k, v in pub_recs.items():
         openalex.setdefault(k, v)
 
+    print("Fetching the leading journals in each subfield …")
+    by_subfield = fetch_openalex_top_by_subfield(
+        cfg, manifest, session, cfg["inclusion"]["top_journals_per_subfield"])
+    for k, v in by_subfield.items():
+        openalex.setdefault(k, v)
+
     print("Fetching the most-cited journals worldwide …")
     top = fetch_openalex_top_journals(
         cfg, manifest, session, cfg["inclusion"]["top_journals_by_citations"])
@@ -411,6 +479,7 @@ def main() -> None:
         # Inclusion route: present because it is among the most-cited journals,
         # regardless of publisher, DOAJ status or any agreement.
         "top_cited": sorted(top),
+        "top_by_subfield": sorted(by_subfield),
         "openalex": openalex,
         "doaj": doaj,
         "doaj_withdrawn": withdrawn,

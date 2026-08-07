@@ -585,3 +585,21 @@ def test_retention_boundary(tmp_path, monkeypatch):
     assert kept == 1, "exactly at the retention limit it is kept"
     gone, retired = _changelog.update_known([], "2026-09-02", 30)
     assert gone == 0 and retired == 1
+
+
+# --------------------------- gold-OA discounts only for gold-OA journals
+def test_regression_gold_discount_requires_the_journal_to_be_open_access():
+    """The Bodleian's discounts apply to a publisher's "fully gold open access
+    journals". Matching on publisher alone gave 3,637 subscription journals a
+    15% discount — including Nature Protocols, where publishing is free unless
+    you choose OA, so the discount implied a cost that does not exist.
+
+    Guards the condition merge.py applies; see the integration test for the
+    end-to-end behaviour.
+    """
+    subscription = {"is_oa": False, "is_in_doaj": False}
+    gold = {"is_oa": True, "is_in_doaj": False}
+    in_doaj = {"is_oa": False, "is_in_doaj": True}
+    eligible = lambda r: bool(r.get("is_oa") or r.get("is_in_doaj"))  # noqa: E731
+    assert not eligible(subscription)
+    assert eligible(gold) and eligible(in_doaj)

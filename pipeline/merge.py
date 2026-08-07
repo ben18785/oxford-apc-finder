@@ -236,6 +236,8 @@ def main() -> None:
     ta_worldwide = set(deals.get("agreement_issns_worldwide") or [])
     # Inclusion route 5: among the most-cited journals in the world.
     top_cited = set(meta.get("top_cited") or [])
+    # Inclusion route 7: leading in its own subfield, however small that field.
+    top_by_subfield = set(meta.get("top_by_subfield") or [])
     # Inclusion route 6: it was on the site before. Makes coverage monotonic —
     # the misconduct exclusion still overrides, since that runs first.
     remembered = known_journal_issns()
@@ -342,7 +344,30 @@ def main() -> None:
             # discount on its fully-gold titles. Those gold journals aren't in
             # the agreement's journal list, so they fall through to here —
             # apply the `also_discount` on that publisher's caveat entry.
-            if status == "none" and not deal_sources:
+            # The Bodleian's wording is specific: these discounts apply to the
+            # publisher's "fully gold open access journals". Matching on
+            # publisher alone handed a 15% discount to 3,637 subscription
+            # journals — including Nature Protocols, where publishing is free
+            # unless you choose OA, so the discount implied a cost that does
+            # not exist.
+            fully_oa = bool(rec.get("is_oa") or rec.get("is_in_doaj"))
+            if status == "none" and not deal_sources and not fully_oa:
+                for e in caveat_entries:
+                    ad = e.get("also_discount") or {}
+                    rx = ad.get("match_publisher_regex")
+                    if rx and rec.get("publisher") and re.search(rx, rec["publisher"]):
+                        basis = (
+                            f"Not on the {e['publisher_label']} read-and-publish "
+                            "agreement's title list. Oxford's discount with that "
+                            f"publisher applies to its fully open access journals, "
+                            "and this is a subscription title — so there may be no "
+                            "open access charge at all unless you choose to pay one. "
+                            "Check the journal's own publishing-model page.")
+                        deal_sources.append({"label": "Bodleian publisher deals page",
+                                             "url": bodleian_url})
+                        break
+
+            if status == "none" and not deal_sources and fully_oa:
                 for e in caveat_entries:
                     ad = e.get("also_discount") or {}
                     rx = ad.get("match_publisher_regex")
@@ -383,7 +408,8 @@ def main() -> None:
 
         # --- inclusion policy
         included = (status != "none") or in_doaj or issn_l in top_cited \
-            or issn_l in remembered or bool(issns & ta_worldwide) or (
+            or issn_l in remembered or issn_l in top_by_subfield \
+            or bool(issns & ta_worldwide) or (
             rec.get("publisher") and allow_rx.search(rec["publisher"]))
         if not included:
             continue

@@ -847,21 +847,29 @@ function wireUI() {
   $("#foot-about").addEventListener("click", e => { e.preventDefault(); showAbout(); });
   $("#disclaimer-link").addEventListener("click", e => { e.preventDefault(); showDisclaimer(); });
   $("#search-tips").addEventListener("click", e => { e.preventDefault(); showSearchTips(); });
-  $("#empty-clear-filter").addEventListener("click", e => {
-    e.preventDefault(); $("#deal-only").checked = false; runSearch();
-  });
-  // A journal absent from the dataset is a coverage gap we want reported, not
-  // a dead end. Pre-fill the report with what was actually searched for.
-  $("#empty-report").addEventListener("click", () => {
+  // Always reachable, not only when a search comes up empty: someone who finds
+  // nothing usually concludes the tool is broken rather than that the journal
+  // sits outside its coverage — so make reporting the gap a visible option.
+  const missingReportUrl = () => {
     const q = $("#q").value.trim();
     const body = encodeURIComponent(
-      `**Journal I searched for:** ${q}\n\n**Why I expected it to be listed:**\n\n\n` +
-      `---\n_Reported from the empty-results message; the journal appears to be ` +
-      `outside the site's inclusion rules._`);
-    $("#empty-report").href =
-      `https://github.com/${STATE.config.github_repo}/issues/new` +
-      `?title=${encodeURIComponent("Missing journal: " + q)}` +
-      `&labels=user-report&body=${body}`;
+      `**Journal I could not find:** ${q || "(describe it here)"}\n\n` +
+      `**Why I expected it to be listed:**\n\n\n---\n` +
+      `_Reported from the site. It may sit outside the inclusion rules; if so, ` +
+      `the rules need widening._`);
+    return `https://github.com/${STATE.config.github_repo}/issues/new` +
+           `?title=${encodeURIComponent("Missing journal: " + (q || "?"))}` +
+           `&labels=user-report&body=${body}`;
+  };
+  $("#missing-journal").addEventListener("click", e => {
+    e.currentTarget.href = missingReportUrl();
+  });
+  $("#empty-report").addEventListener("click", e => {
+    e.currentTarget.href = missingReportUrl();
+  });
+
+  $("#empty-clear-filter").addEventListener("click", e => {
+    e.preventDefault(); $("#deal-only").checked = false; runSearch();
   });
   $("#foot-disclaimer").addEventListener("click", e => { e.preventDefault(); showDisclaimer(); });
   $("#foot-changes").addEventListener("click", e => { e.preventDefault(); showChanges(); });

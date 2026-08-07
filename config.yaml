@@ -41,6 +41,15 @@ inclusion:
   # Journals the site has listed before stay in scope for this long, even if no
   # other rule still selects them. Makes coverage monotonic against a source
   # having a bad day, while bounding the accumulation of genuinely dead titles.
+  # Leading journals within each of OpenAlex's 252 subfields. A global citation
+  # ranking is dominated by biomedicine and physics, so small disciplines only
+  # reach it with their very largest titles. Ranking inside each subfield gives
+  # every field its own head of the distribution — which is what makes the
+  # humanities and social sciences findable at all.
+  # Set to 0 to skip. Enabled only after a refresh has been seen to succeed
+  # with it: it adds ~500 requests and ~13 minutes, and an untested fetch path
+  # inside an hour-long job can leave a known-bad dataset live if it fails.
+  top_journals_per_subfield: 0
   remember_journals_days: 365
 
 validation:

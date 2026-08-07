@@ -25,9 +25,6 @@
   --muted: #5c6b7a;
   --radius: 10px;
   --serif: "Source Serif 4", Charter, Georgia, "Times New Roman", serif;
-  /* Small interface labels stay in the system sans: a serif at 0.72rem in
-     caps is muddy, and the system stack costs nothing to load. */
-  --ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --shadow: 0 1px 3px rgba(0,33,71,.08), 0 4px 14px rgba(0,33,71,.06);
 }
 * { box-sizing: border-box; }
@@ -40,42 +37,44 @@ body {
 .skip { position: absolute; left: -999px; }
 .skip:focus { left: 12px; top: 12px; background: #fff; padding: 8px 12px; z-index: 20; border-radius: 6px; }
 
-.site-header { background: var(--oxford); color: #fff; padding: 26px 0 20px; }
-.site-header h1 { margin: 0; font-size: 1.5rem; letter-spacing: .2px; }
-.tagline { margin: 6px 0 0; color: #c9d6e5; font-size: .98rem; }
+/* Header B: no blue field. The brand survives as ink rather than as a banner,
+   which returns ~120px above the fold and — more importantly — lets the
+   disclaimer sit on paper where it reads as a warning rather than as masthead
+   furniture. */
+.site-header { background: var(--card); border-bottom: 1px solid var(--line); padding: 22px 0 16px; }
+.site-header h1 { margin: 0; font-size: 1.6rem; color: var(--oxford); letter-spacing: -.015em; }
+.tagline { margin: 4px 0 0; color: var(--muted); font-size: .95rem; }
 
-.header-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.header-row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
 .gh-link {
-  display: inline-flex; align-items: center; gap: 7px; flex-shrink: 0;
-  color: #fff; text-decoration: none; font-size: .9rem; font-weight: 500;
-  padding: 7px 12px; border-radius: 999px;
-  border: 1px solid rgba(255,255,255,.35); background: rgba(255,255,255,.06);
+  display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0;
+  font-size: .82rem; color: var(--oxford); text-decoration: none;
 }
-.gh-link:hover { background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.6); }
-.gh-link:focus-visible { outline: 3px solid #9cc3e6; outline-offset: 2px; }
-/* On narrow screens the icon alone carries the link; aria-label names it. */
+.gh-link:hover { text-decoration: underline; }
+.gh-link:focus-visible { outline: 3px solid #9cc3e6; outline-offset: 3px; border-radius: 4px; }
 @media (max-width: 560px) { .gh-link span { display: none; } }
-/* Always visible, never dismissible: the whole point is that nobody reaches a
-   cost figure without having seen it. */
+
 .disclaimer-bar {
-  margin: 16px 0 0; padding: 10px 14px; border-radius: 8px;
-  background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.28);
-  color: #e8eef6; font-size: .88rem; line-height: 1.5;
+  margin: 16px 0 0; padding: 10px 13px; border-radius: 8px;
+  background: #fdecea; border: 1px solid #f5c6c0; border-left: 3px solid #c0392b;
+  color: var(--text); font-size: .87rem; line-height: 1.5;
 }
-.disclaimer-bar strong { color: #fff; }
-.disclaimer-bar a { color: #fff; text-decoration: underline; white-space: nowrap; }
+.disclaimer-bar strong { color: #86271b; }
+.disclaimer-bar a { color: #86271b; text-decoration: underline; white-space: nowrap; }
 
 .disclaimer-body h4 { margin: 18px 0 6px; font-size: .95rem; color: var(--text);
   text-transform: none; letter-spacing: 0; }
 .disclaimer-body p, .disclaimer-body li { font-size: .92rem; }
 
-/* Shown when the dataset is older than config.max_dataset_age_days — a
-   refresh can fail silently for weeks and the page would look identical. */
 .stale-banner {
-  margin: 14px 0 0; background: #fff4d6; color: #6a4c00; border: 1px solid #f0d68a;
+  margin: 12px 0 0; background: #fff4d6; color: #6a4c00; border: 1px solid #f0d68a;
   padding: 9px 12px; border-radius: 8px; font-size: .9rem;
 }
 .badge.expired { background: #fdecea; color: #86271b; border: 1px solid #f5c6c0; }
+
+/* Always available, not only when a search comes up empty — a researcher who
+   finds nothing often assumes the tool is broken rather than reporting it. */
+.missing-link { font-size: .82rem; color: var(--oxford); }
 
 .sample-banner {
   margin: 14px 0 0; background: #fff4d6; color: #6a4c00; border: 1px solid #f0d68a;
@@ -101,8 +100,10 @@ body {
 .ledger { width: 100%; border-collapse: collapse; }
 .ledger caption { text-align: left; }
 .ledger th {
-  text-align: left; font-family: var(--ui); font-size: .68rem; font-weight: 700;
-  letter-spacing: .09em; text-transform: uppercase; color: var(--muted);
+  /* Sizes tuned for a serif: uppercase Source Serif needs a touch more size and
+     less tracking than the sans this replaced, or it goes muddy. */
+  text-align: left; font-size: .74rem; font-weight: 600;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--muted);
   padding: 0 10px 6px; border-bottom: 1px solid #c8d0d9;
 }
 .ledger th.num { text-align: right; }
@@ -116,9 +117,9 @@ body {
 }
 .ledger tr:hover .jtitle { text-decoration: underline; }
 .jtitle:focus-visible { outline: 3px solid #9cc3e6; outline-offset: 2px; border-radius: 2px; }
-.jmeta { font-family: var(--ui); font-size: .78rem; color: var(--muted); margin-top: 2px; }
+.jmeta { font-size: .82rem; color: var(--muted); margin-top: 2px; }
 
-.state { font-family: var(--ui); font-size: .82rem; color: var(--text); white-space: nowrap; }
+.state { font-size: .82rem; color: var(--text); white-space: nowrap; }
 .swatch { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 7px; }
 .sw-covered  { background: var(--accent); }
 .sw-discount { background: var(--discount); }
@@ -127,14 +128,16 @@ body {
 .flags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
 
 .cost-cell {
-  text-align: right; font-family: var(--ui); font-weight: 650; white-space: nowrap;
+  /* Source Serif 4 is subset with tabular figures, so costs still line up
+     down the column. */
+  text-align: right; font-weight: 600; white-space: nowrap;
   font-variant-numeric: tabular-nums; font-size: .92rem;
 }
 .cost-cell.free { color: var(--accent); }
 .cost-cell.none { color: var(--muted); font-weight: 500; }
 
 .subject-break td {
-  font-family: var(--ui); font-size: .82rem; color: var(--muted);
+  font-size: .82rem; color: var(--muted);
   padding-top: 26px; border-bottom: 1px solid #c8d0d9;
 }
 .subject-break strong { color: var(--text); }
@@ -187,7 +190,7 @@ body {
   all: unset; cursor: pointer; display: inline-grid; place-items: center;
   width: 1.05em; height: 1.05em; margin-left: .25em; border-radius: 50%;
   border: 1px solid currentColor; opacity: .5;
-  font-size: .82em; font-weight: 700; line-height: 1; font-family: var(--ui);
+  font-size: .82em; font-weight: 700; line-height: 1;
 }
 .why:hover, .why:focus-visible { opacity: 1; }
 .why:focus-visible { outline: 2px solid #9cc3e6; outline-offset: 2px; }
@@ -198,7 +201,7 @@ body {
   border-radius: 10px; padding: 14px 16px;
   box-shadow: 0 10px 34px rgba(0,33,71,.18); font-size: .88rem; line-height: 1.55;
 }
-.pop h4 { margin: 0 0 6px; font-family: var(--ui); font-size: .7rem;
+.pop h4 { margin: 0 0 6px; font-size: .7rem;
   letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .pop p { margin: 0; }
 .pop p + p { margin-top: 8px; }
@@ -209,7 +212,7 @@ body {
   display: grid; gap: 10px; font-size: .93rem;
 }
 .empty-lead { font-size: 1.1rem; font-weight: 600; color: var(--text); }
-.empty-actions { font-family: var(--ui); font-size: .88rem; }
+.empty-actions { font-size: .88rem; }
 .empty-actions a { color: var(--oxford); }
 
 .modal { position: fixed; inset: 0; background: rgba(10,22,38,.55); display: flex;
