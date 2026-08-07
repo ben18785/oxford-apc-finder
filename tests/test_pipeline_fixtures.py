@@ -323,6 +323,7 @@ def test_undealt_journals_say_they_were_checked(built):
         "Checked against",        # no rule matched at all
         "arrangement with",       # a green/note scheme applies
         "Not on the",             # publisher has an agreement, this title is not in it
+        "No Oxford deal is needed",   # diamond: the journal charges nothing
     )
     for j in built["journals"]["journals"]:
         if j["deal"]["status"] == "none":

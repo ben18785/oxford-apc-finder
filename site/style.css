@@ -161,6 +161,10 @@ body {
 .badge.discount { background: #fbeeda; color: var(--discount); }
 .badge.diamond { background: #efe7f8; color: var(--diamond); }
 .badge.none { background: #eef1f4; color: var(--muted); }
+.badge.m-diamond { background: #e3f4f0; color: var(--accent); }
+.badge.m-gold    { background: #eef4fb; color: var(--oxford); }
+.badge.m-hybrid  { background: #f3f0fa; color: var(--diamond); }
+.badge.m-sub     { background: #eef1f4; color: var(--muted); }
 .badge.doaj { background: #e8f0fb; color: var(--oxford); }
 .badge.disputed { background: #fdecea; color: #86271b; border: 1px solid #f5c6c0; }
 .badge-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }

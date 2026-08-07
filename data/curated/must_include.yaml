@@ -51,3 +51,9 @@ journals:
   - { issn: "0033-295X", title: "Psychological Review" }
   - { issn: "0001-8392", title: "Administrative Science Quarterly" }
   - { issn: "0022-2380", title: "Journal of Management Studies" }
+
+  # --- law and humanities: the disciplines citation ranking cannot reach.
+  #     LQR records 131 citations in OpenAlex; rank 200 in the Law subfield
+  #     needs 27,371. These are here precisely because no automatic rule other
+  #     than the publisher allowlist will find them.
+  - { issn: "0023-933X", title: "The Law Quarterly Review" }

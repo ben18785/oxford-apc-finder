@@ -79,3 +79,36 @@ publishers:
   - "Karger"
   - "PNAS"
   - "National Academy of Sciences"
+
+  # --- law, humanities and social sciences -----------------------------
+  # Added because citation ranking cannot reach these disciplines. The Law
+  # subfield holds 28,213 journals and rank 200 already needs 27,371 citations,
+  # while the Law Quarterly Review — a leading common-law journal — records 131,
+  # since legal scholarship cites in footnotes OpenAlex does not index. No
+  # citation-based rule will ever find it; only its publisher will.
+  - "Sweet & Maxwell"
+  - "Thomson Reuters"
+  - "Hart Publishing"
+  - "Bloomsbury"
+  - "Incorporated Council of Law Reporting"
+  - "Institute of Mathematical Statistics"
+  - "Duke University Press"
+  - "Princeton University Press"
+  - "Harvard University Press"
+  - "Yale University Press"
+  - "Manchester University Press"
+  - "Liverpool University Press"
+  - "UCL Press"
+  - "Amsterdam University Press"
+  - "University of Toronto Press"
+  - "Modern Language Association"
+  - "American Philosophical Association"
+  - "Aristotelian Society"
+  - "Royal Historical Society"
+  - "American Historical Association"
+  - "American Economic Association"
+  - "Econometric Society"
+  - "Mohr Siebeck"
+  - "Nomos"
+  - "Peeters"
+  - "Vandenhoeck & Ruprecht"

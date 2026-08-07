@@ -713,3 +713,43 @@ def test_single_doaj_record_is_used_unchanged():
     doaj = {"1234-5678": {"title": "Some Journal", **_apc(True, 100)}}
     assert pick_doaj_record({"1234-5678"}, doaj, "Anything")["apc"]["price"] == 100
     assert pick_doaj_record({"9999-9999"}, doaj, "Anything") is None
+
+
+# --------------------------------------------- publishing model
+from merge import oa_status  # noqa: E432
+
+
+def test_model_diamond_requires_an_explicit_no_charge():
+    assert oa_status({}, _apc(False), True) == "diamond"
+
+
+def test_regression_unknown_charge_is_gold_not_diamond():
+    """Claiming a journal is free when it is not is the wrong error to make."""
+    assert oa_status({}, _apc(None), True) == "gold"
+    assert oa_status({}, None, True) == "gold"
+
+
+def test_model_gold_when_fully_oa_and_charging():
+    assert oa_status({}, _apc(True, 1500), True) == "gold"
+
+
+def test_model_hybrid_is_a_paywalled_journal_with_a_price():
+    """Nature is not open access, but has an £8,490 charge to make one article
+    so. The figure is the price of openness, not of publishing there."""
+    assert oa_status({"apc_prices": [{"price": 8490, "currency": "GBP"}]},
+                     None, False) == "hybrid"
+
+
+def test_model_subscription_when_no_oa_route_is_known():
+    assert oa_status({"apc_prices": []}, None, False) == "subscription"
+
+
+def test_regression_free_journals_are_not_told_no_deal_applies():
+    """13,467 journals cost the author nothing yet were labelled only "No Oxford
+    deal", because Oxford funds nothing for them and none is needed — the exact
+    route the Bodleian recommends to unfunded authors."""
+    from merge import coverage_basis
+    # The dedicated wording is applied in merge; this pins the generic text it
+    # replaces, so a regression shows up as the wrong sentence rather than none.
+    generic = coverage_basis("none", agreement_count=42)
+    assert "Checked against" in generic and "block grants" in generic

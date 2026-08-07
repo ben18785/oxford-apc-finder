@@ -115,6 +115,8 @@ def main() -> None:
             "e": bool(j["deal"].get("expired")),     # agreement end date passed
             "c": cost_summary(j),
             "o": j.get("oa_status", "gold"),
+            # Costs the author nothing, by whatever route.
+            "f": j["cost"]["kind"] in ("covered", "diamond", "no_apc"),
             # Initialism plus any abbreviations the publisher registered, so
             # "jrsssa" and "J. R. Stat. Soc." both find the journal.
             "y": " ".join(filter(None, [acronym(j["title"])]

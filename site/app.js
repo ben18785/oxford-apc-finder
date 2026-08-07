@@ -25,6 +25,14 @@ const EXPLAIN = {
     "<p>The Journal Checker Tool and the Bodleian's own deals page make different claims about this publisher, and we cannot tell which is current.</p><p>Both claims are shown on the journal's page. Confirm with the open access team before submitting.</p>"],
   expired: ["Agreement ended",
     "<p>The agreement covering this journal has passed its stated end date. Renewals are often recorded late, so coverage may well continue, but it is no longer a settled fact.</p>"],
+  model_diamond: ["Free to publish",
+    "<p><strong>Diamond open access</strong>: free to publish <em>and</em> free to read. The journal's costs are met by its publisher, a university or a consortium rather than by authors.</p><p>No Oxford deal is needed, and none exists — the Bodleian recommends this route to authors without funder support.</p>"],
+  model_gold: ["Open access",
+    "<p>Fully open access: every article is free to read, and an article processing charge is normally payable to publish.</p><p>The figure shown is that charge, after any Oxford discount.</p>"],
+  model_hybrid: ["Subscription journal with a paid open access option",
+    "<p>Articles sit behind a paywall by default, and <strong>publishing that way is free to you</strong>. Paying the charge shown makes your article open access.</p><p>So the figure is the price of openness, not the price of publishing here.</p>"],
+  model_subscription: ["Subscription journal",
+    "<p>Articles are behind a paywall and we hold no open access charge for this journal. Publishing is normally free to the author.</p><p>If you need open access — for a funder mandate, say — ask the publisher what they charge.</p>"],
   waiver: ["APC waivers available",
     "<p>The journal states it will waive or reduce its charge for authors who cannot pay, typically those in lower-income countries. Terms are set by the journal, not by Oxford.</p>"],
 };
@@ -32,8 +40,20 @@ const EXPLAIN = {
 const STATUS_LABEL = {
   covered: ["Covered by Oxford deal", "covered"],
   discount: ["Discount available", "discount"],
-  diamond: ["Free to publish (diamond)", "diamond"],
+  // Oxford funding a diamond consortium is a fact about Oxford. Whether the
+  // journal charges you is a fact about the journal, and lives in MODEL_LABEL.
+  diamond: ["Oxford supports this journal", "diamond"],
   none: ["No Oxford deal", "none"],
+};
+
+/* The journal's publishing model — what it costs an author regardless of any
+ * Oxford arrangement. 13,467 journals cost nothing to publish in yet were
+ * labelled only "No Oxford deal", because none is needed. */
+const MODEL_LABEL = {
+  diamond: ["Free to publish", "m-diamond"],
+  gold: ["Open access", "m-gold"],
+  hybrid: ["Subscription + paid OA", "m-hybrid"],
+  subscription: ["Subscription", "m-sub"],
 };
 
 /* ---------------- data loading ---------------- */
@@ -274,12 +294,16 @@ function runSearch() {
   if (!STATE.loaded) return;
   const raw = $("#q").value.trim();
   const dealOnly = $("#deal-only").checked;
+  const freeOnly = $("#free-only") && $("#free-only").checked;
+  // One predicate for both the empty-query and the scored path, so a filter
+  // cannot apply on one and silently not the other.
+  const passes = (r) => (!dealOnly || r.s !== "none") && (!freeOnly || r.f);
 
   if (!raw) {
     // merge.py already emits journals sorted by title, so the index arrives in
     // display order — re-sorting 43k records on every empty search changes
     // nothing and costs hundreds of milliseconds.
-    const pool = dealOnly ? STATE.index.filter((r) => r.s !== "none") : STATE.index;
+    const pool = (dealOnly || freeOnly) ? STATE.index.filter(passes) : STATE.index;
     STATE.results = pool;
     STATE.nominalCount = pool.length;
     STATE.hiddenByFilter = [];
@@ -304,8 +328,12 @@ function runSearch() {
   for (const r of STATE.index) {
     const { sc, nominal } = scoreRecord(r, groups, cleaned);
     if (sc <= 0) continue;
-    if (dealOnly && r.s === "none") {
-      if (nominal) hidden.push({ r, sc });
+    if (!passes(r)) {
+      // Track only the deal filter's casualties: a strong name match hidden by
+      // it looks identical to one the tool has never heard of.
+      if (nominal && dealOnly && r.s === "none" && (!freeOnly || r.f)) {
+        hidden.push({ r, sc });
+      }
       continue;
     }
     (nominal ? byName : bySubject).push({ r, sc });
@@ -329,9 +357,17 @@ function why(key) {
     aria-label="What does &quot;${esc(title)}&quot; mean?">?</button>`;
 }
 
-function badge(status, inDoaj, disputed, expired) {
+function modelBadge(model) {
+  const entry = MODEL_LABEL[model];
+  if (!entry) return "";
+  return `<span class="badge ${entry[1]}">${esc(entry[0])}${why("model_" + model)}</span>`;
+}
+
+function badge(status, inDoaj, disputed, expired, model) {
   const [label, cls] = STATUS_LABEL[status] || STATUS_LABEL.none;
-  let html = `<span class="badge ${cls}">${esc(label)}${why(status)}</span>`;
+  let html = modelBadge(model);
+  // The deal badge is only worth space when there is a deal to report.
+  if (status !== "none") html += ` <span class="badge ${cls}">${esc(label)}${why(status)}</span>`;
   if (inDoaj) html += ` <span class="badge doaj">In DOAJ${why("doaj")}</span>`;
   if (disputed) html += ` <span class="badge disputed" title="Oxford's own page and the Journal Checker Tool disagree about this deal">⚠ Sources disagree${why("disputed")}</span>`;
   if (expired) html += ` <span class="badge expired" title="The agreement's stated end date has passed">⚠ Agreement ended${why("expired")}</span>`;
@@ -454,6 +490,7 @@ function renderResults(list, total, nominalCount, hidden) {
            <strong>subject</strong> matches, but not their name</td></tr>` : "";
       const fig = costFigure(r);
       const flags = [
+        modelBadge(r.o),
         r.d ? `<span class="badge doaj">In DOAJ${why("doaj")}</span>` : "",
         r.x ? `<span class="badge disputed">⚠ Sources disagree${why("disputed")}</span>` : "",
         r.e ? `<span class="badge expired">⚠ Agreement ended${why("expired")}</span>` : "",
@@ -571,7 +608,7 @@ async function openDetail(id) {
       <h2 id="detail-title">${esc(j.title)}</h2>
       <p class="pub">${esc(j.publisher || "Publisher unknown")}</p>
       <p class="detail-issn">ISSN: ${j.issns.map(esc).join(" · ")}</p>
-      <div class="badge-row">${badge(j.deal.status, j.in_doaj, j.deal.disputed, j.deal.expired)}
+      <div class="badge-row">${badge(j.deal.status, j.in_doaj, j.deal.disputed, j.deal.expired, j.oa_status)}
         ${j.waiver ? '<span class="badge doaj">APC waivers available</span>' : ""}</div>
     </div>
 
@@ -856,6 +893,7 @@ function wireUI() {
   $("#search-form").addEventListener("submit", e => { e.preventDefault(); runSearch(); });
   $("#deal-only").addEventListener("change", runSearch);
   $("#show-hybrid").addEventListener("change", runSearch);
+  $("#free-only").addEventListener("change", runSearch);
   $("#modal-close").addEventListener("click", closeModal);
   $("#detail-modal").addEventListener("click", e => { if (e.target.id === "detail-modal") closeModal(); });
   document.addEventListener("keydown", e => {

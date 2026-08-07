@@ -204,17 +204,25 @@ def browse_links(rec: dict, doaj_rec: dict | None) -> list[dict]:
 
 
 def oa_status(rec: dict, doaj_rec: dict | None, in_doaj: bool) -> str:
-    """How you publish here, which decides what a price even means.
+    """The journal's publishing model — a fact about the journal, not about Oxford.
 
-    Every APC figure the site holds is the cost of publishing *open access*,
-    never the cost of publishing at all. In a fully open access journal those
-    are the same thing. In a hybrid journal publishing is free behind the
-    paywall and the APC buys openness — so showing the number unqualified
-    reads as "it costs £8,490 to publish in Nature", which is wrong.
+    diamond      free to publish and free to read
+    gold         open access, the author pays
+    hybrid       subscription journal with a paid open access option
+    subscription no open access option on record
+
+    This decides what a price even means: every APC the site holds is the cost
+    of publishing *open access*, never of publishing at all. It also separates
+    two things the site used to conflate — 13,467 journals cost the author
+    nothing yet were labelled "No Oxford deal", because Oxford funds nothing
+    for them and none is needed.
     """
+    apc = (doaj_rec or {}).get("apc") or {}
     if in_doaj or rec.get("is_oa"):
-        return "gold"
-    if rec.get("apc_prices") or (doaj_rec or {}).get("apc", {}).get("price"):
+        # Only an explicit "no charge" earns the diamond label. Unknown stays
+        # gold: claiming a journal is free when it is not is the wrong error.
+        return "diamond" if apc.get("has_apc") is False else "gold"
+    if rec.get("apc_prices") or apc.get("price") is not None:
         return "hybrid"
     return "subscription"
 
@@ -477,6 +485,13 @@ def main() -> None:
 
         cost = effective_cost(status, discount_pct, rec, doaj_rec)
         access = oa_status(rec, doaj_rec, in_doaj)
+        if access == "diamond" and status == "none":
+            # No arrangement exists because none is needed. Saying "no Oxford
+            # deal applies" reads as "nothing here for you" about the route the
+            # Bodleian explicitly recommends to unfunded authors.
+            basis = ("No Oxford deal is needed: this journal is diamond open "
+                     "access, free to publish and free to read. Costs are met "
+                     "by the publisher or its supporting institutions.")
         dormant = superseded(rec, today)
 
         provenance = {

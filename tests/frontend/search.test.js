@@ -346,6 +346,26 @@ chain.then(function () {
       costFigure(hybridCovered).text);
   }
 
+  /* The publishing model is a fact about the journal, not about Oxford. */
+  el("#free-only").checked = true; el("#deal-only").checked = false;
+  var free = search("");
+  el("#free-only").checked = false;
+  var all = search("");
+  check("the free-to-publish filter narrows the list",
+    free.length > 0 && free.length < all.length,
+    free.length + " of " + all.length);
+  check("everything it returns really is free to the author",
+    free.every(function (r) { return r.f === true; }));
+  check("most free journals have no Oxford deal, and that is fine",
+    free.filter(function (r) { return r.s === "none"; }).length > 0,
+    "these are diamond journals: no deal exists because none is needed");
+  check("every journal carries a publishing model",
+    all.every(function (r) {
+      return ["diamond", "gold", "hybrid", "subscription"].indexOf(r.o) !== -1; }));
+  check("each model has an explanation",
+    ["diamond", "gold", "hybrid", "subscription"].every(function (m) {
+      return EXPLAIN["model_" + m] && EXPLAIN["model_" + m][1].length > 80; }));
+
   check("the cost column says what the figure is",
     el("#results").innerHTML.indexOf("Open access cost") !== -1);
 
