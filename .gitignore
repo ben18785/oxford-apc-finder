@@ -22,3 +22,7 @@ data/cache/*
 data/out/*
 !data/out/.gitkeep
 !data/out/last_counts.json
+
+# Fixture-mode changelog artefacts — never the real baseline.
+data/state/journal_state.fixtures.tsv
+CHANGELOG-data.fixtures.md

@@ -37,6 +37,16 @@ def built(tmp_path_factory) -> dict:
         shutil.copytree(ROOT / "data" / sub, work / "data" / sub)
     (work / "data" / "out").mkdir(parents=True, exist_ok=True)
 
+    # Copy the committed baselines too. Without them this test ran against a
+    # repo state that never exists in practice, and so missed that a fixtures
+    # build was being compared against real-dataset counts — which failed in
+    # CI, where the whole repo is checked out.
+    for baseline in (Path("data/out/last_counts.json"),
+                     Path("data/state/journal_state.tsv")):
+        if (ROOT / baseline).exists():
+            (work / baseline).parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(ROOT / baseline, work / baseline)
+
     env = {**os.environ, "APC_FIXTURES": "1"}
     env.pop("OPENALEX_API_KEY", None)
     result = subprocess.run(
@@ -207,7 +217,7 @@ def test_status_reports_source_freshness(built):
 
 # -------------------------------------------------------------- changelog
 def test_changelog_writes_a_baseline_on_first_run(built):
-    state = built["work"] / "data" / "state" / "journal_state.tsv"
+    state = built["work"] / "data" / "state" / "journal_state.fixtures.tsv"
     assert state.exists()
     lines = state.read_text().splitlines()
     assert len(lines) == len(built["journals"]["journals"]) + 1   # + header
@@ -217,7 +227,7 @@ def test_changelog_detects_a_deal_disappearing(built, tmp_path):
     """Simulate next week's run where a journal loses its deal, and check the
     diff reports it — this is the early-warning signal for a broken source."""
     work = built["work"]
-    state = work / "data" / "state" / "journal_state.tsv"
+    state = work / "data" / "state" / "journal_state.fixtures.tsv"
 
     rows = state.read_text().splitlines()
     header, body = rows[0], rows[1:]
@@ -240,4 +250,24 @@ def test_changelog_detects_a_deal_disappearing(built, tmp_path):
     changes = json.loads((work / "data" / "out" / "changes.json").read_text())
     assert changes["summary"]["added"] == 1
     assert dropped in [a["issn_l"] for a in changes["added"]]
-    assert (work / "CHANGELOG-data.md").exists()
+    assert (work / "CHANGELOG-data.fixtures.md").exists()
+
+
+def test_regression_fixture_build_ignores_the_real_baseline(built):
+    """A fixtures build has ~12 journals; the committed baseline describes
+    ~43,000. Comparing them tripped the week-on-week drop threshold and failed
+    every offline run in CI (the test suite missed it by not copying the
+    baseline into its work dir)."""
+    assert (built["work"] / "data" / "out" / "last_counts.json").exists(), \
+        "test must run against a repo that has the real baseline"
+    assert "threshold check skipped" in built["stdout"]
+    assert "VALIDATION FAILED" not in built["stdout"]
+
+
+def test_regression_fixture_build_does_not_touch_the_real_state_file(built):
+    """changelog.py must not overwrite the committed baseline with fixture
+    data — that would destroy the history the file exists to preserve."""
+    real = built["work"] / "data" / "state" / "journal_state.tsv"
+    if real.exists():
+        assert real.read_text() == (ROOT / "data/state/journal_state.tsv").read_text()
+    assert (built["work"] / "data" / "state" / "journal_state.fixtures.tsv").exists()

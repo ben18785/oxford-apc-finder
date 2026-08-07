@@ -25,11 +25,18 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from common import DATA, OUT, ROOT, read_json, utcnow, write_json
+from common import DATA, FIXTURES_MODE, OUT, ROOT, read_json, utcnow, write_json
 
 STATE_DIR = DATA / "state"
-STATE_FILE = STATE_DIR / "journal_state.tsv"
-CHANGELOG = ROOT / "CHANGELOG-data.md"
+
+# A fixtures build must never touch the real baseline: it would diff a dozen
+# hand-picked journals against the ~43,000 in the committed state file, report
+# the whole dataset as removed, and then overwrite the baseline with fixture
+# data — destroying the history this file exists to keep.
+STATE_FILE = STATE_DIR / ("journal_state.fixtures.tsv" if FIXTURES_MODE
+                          else "journal_state.tsv")
+CHANGELOG = ROOT / ("CHANGELOG-data.fixtures.md" if FIXTURES_MODE
+                    else "CHANGELOG-data.md")
 
 # Only fields a user would act on. Scope text and topic lists churn constantly
 # as OpenAlex reclassifies, and tracking them would bury the real changes.

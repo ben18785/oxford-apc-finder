@@ -56,6 +56,12 @@ def check_thresholds(data: dict, cfg: dict) -> list[str]:
     """Compare against the counts from the last successfully-validated build
     (committed as data/out/last_counts.json), so a sudden drop in coverage
     blocks the deploy for human review rather than silently shipping."""
+    if FIXTURES_MODE:
+        # The committed baseline describes the real dataset (~43,000 journals).
+        # A fixtures build is a dozen hand-picked journals, so the comparison is
+        # meaningless and would fail every offline run.
+        print("  [fixtures] threshold check skipped (baseline is real data)")
+        return []
     if not LAST_COUNTS.exists():
         return []
     prev = read_json(LAST_COUNTS)
