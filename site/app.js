@@ -8,6 +8,27 @@ const $ = (s, r = document) => r.querySelector(s);
 const esc = (s) => (s == null ? "" : String(s).replace(/[&<>"']/g,
   c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])));
 
+/* Plain-English explanations for the jargon on the page. One place, so the
+ * badge, the detail panel and the search tips can never drift apart. */
+const EXPLAIN = {
+  covered: ["Covered by Oxford deal",
+    "<p>This journal is on the title list of a transformative agreement Oxford takes part in, so the article processing charge should be paid centrally by your division rather than by you.</p><p>Conditions apply: you must be the corresponding author, submit from your <code>@ox.ac.uk</code> address, and choose a CC BY licence.</p>"],
+  discount: ["Discount available",
+    "<p>No agreement covers this journal outright, but Oxford has negotiated a percentage off the publisher's list price. The figure shown is that arithmetic, not a quotation.</p><p>You or your grant still pay the remainder.</p>"],
+  diamond: ["Free to publish (diamond)",
+    "<p>Free to publish <em>and</em> free to read. Costs are met by supporting institutions and funders rather than by authors, and Oxford is one of the supporters.</p>"],
+  none: ["No Oxford deal",
+    "<p>This journal is not on the title list of any agreement Oxford participates in, and its publisher is not in a discount or diamond scheme on the Bodleian's page.</p><p>That is not the same as being ineligible for support: block grants or funder routes may still apply.</p>"],
+  doaj: ["In DOAJ",
+    "<p>Listed in the <strong>Directory of Open Access Journals</strong>, an independent index that checks journals against around fifty criteria covering peer review, licensing, editorial transparency and fees.</p><p>It is a check on openness and process, <strong>not a ranking of quality</strong>. Its absence means little on its own, since subscription journals are not eligible to be listed.</p>"],
+  disputed: ["Sources disagree",
+    "<p>The Journal Checker Tool and the Bodleian's own deals page make different claims about this publisher, and we cannot tell which is current.</p><p>Both claims are shown on the journal's page. Confirm with the open access team before submitting.</p>"],
+  expired: ["Agreement ended",
+    "<p>The agreement covering this journal has passed its stated end date. Renewals are often recorded late, so coverage may well continue, but it is no longer a settled fact.</p>"],
+  waiver: ["APC waivers available",
+    "<p>The journal states it will waive or reduce its charge for authors who cannot pay, typically those in lower-income countries. Terms are set by the journal, not by Oxford.</p>"],
+};
+
 const STATUS_LABEL = {
   covered: ["Covered by Oxford deal", "covered"],
   discount: ["Discount available", "discount"],
@@ -288,13 +309,43 @@ function runSearch() {
 }
 
 /* ---------------- rendering ---------------- */
+function why(key) {
+  const [title] = EXPLAIN[key] || [];
+  if (!title) return "";
+  return ` <button class="why" data-explain="${esc(key)}"
+    aria-label="What does &quot;${esc(title)}&quot; mean?">?</button>`;
+}
+
 function badge(status, inDoaj, disputed, expired) {
   const [label, cls] = STATUS_LABEL[status] || STATUS_LABEL.none;
-  let html = `<span class="badge ${cls}">${esc(label)}</span>`;
-  if (inDoaj) html += ` <span class="badge doaj">In DOAJ</span>`;
-  if (disputed) html += ` <span class="badge disputed" title="Oxford's own page and the Journal Checker Tool disagree about this deal">⚠ Sources disagree</span>`;
-  if (expired) html += ` <span class="badge expired" title="The agreement's stated end date has passed">⚠ Agreement ended</span>`;
+  let html = `<span class="badge ${cls}">${esc(label)}${why(status)}</span>`;
+  if (inDoaj) html += ` <span class="badge doaj">In DOAJ${why("doaj")}</span>`;
+  if (disputed) html += ` <span class="badge disputed" title="Oxford's own page and the Journal Checker Tool disagree about this deal">⚠ Sources disagree${why("disputed")}</span>`;
+  if (expired) html += ` <span class="badge expired" title="The agreement's stated end date has passed">⚠ Agreement ended${why("expired")}</span>`;
   return html;
+}
+
+/* Popover shared by every "?" on the page. */
+let openWhy = null;
+function closeWhy() { const p = $("#why-pop"); if (p) { p.hidden = true; } openWhy = null; }
+function showWhy(btn) {
+  const entry = EXPLAIN[btn.dataset.explain];
+  if (!entry) return;
+  let pop = $("#why-pop");
+  if (!pop) {
+    pop = document.createElement("div");
+    pop.id = "why-pop"; pop.className = "pop"; pop.setAttribute("role", "dialog");
+    document.body.appendChild(pop);
+  }
+  pop.innerHTML = `<h4>${esc(entry[0])}</h4>${entry[1]}`;
+  pop.hidden = false;
+  const r = btn.getBoundingClientRect();
+  const w = Math.min(pop.offsetWidth, window.innerWidth - 24);
+  let left = r.left + window.scrollX - w / 2 + r.width / 2;
+  left = Math.max(12, Math.min(left, window.innerWidth - w - 12));
+  pop.style.left = left + "px";
+  pop.style.top = (r.bottom + window.scrollY + 8) + "px";
+  openWhy = btn;
 }
 
 /* The agreement's stated end date has passed. JCT records renewals late, so
@@ -327,6 +378,19 @@ function disputeBlock(d) {
   </div>`;
 }
 
+/* Split the cost summary so the figure can be right-aligned on its own.
+ * cost_summary() in build_site.py produces e.g. "£0 — covered by Oxford deal";
+ * the ledger shows only the figure, since the status column says the rest. */
+function costFigure(rec) {
+  const c = rec.c || "";
+  if (/^£0/.test(c)) return { text: "£0", cls: "free" };
+  const m = c.match(/^~?([\d,]+\s+[A-Z]{3})/);
+  if (m) return { text: (c.startsWith("~") ? "≈ " : "") + m[1], cls: "" };
+  if (/^No APC/i.test(c)) return { text: "no charge", cls: "free" };
+  if (/discount/i.test(c)) return { text: c.replace(/\s*\(.*\)$/, ""), cls: "" };
+  return { text: "not published", cls: "none" };
+}
+
 function renderResults(list, total, nominalCount, hidden) {
   const box = $("#results");
   $("#empty").hidden = total > 0 || (hidden && hidden.length > 0);
@@ -356,22 +420,35 @@ function renderResults(list, total, nominalCount, hidden) {
       <a href="#" id="show-all">Show journals without a deal</a></p>`;
   }
 
-  list.forEach((r, i) => {
-    // Divider where name matches end and subject matches begin, so a long tail
-    // of "journals about this topic" cannot be mistaken for "journals called
-    // this".
-    if (i === nominalCount && nominalCount > 0) {
-      html += `<p class="result-divider">Journals whose <strong>subject</strong>
-        matches, but not their name</p>`;
-    }
-    html += `
-      <button class="jcard" data-id="${esc(r.id)}">
-        <div class="jcard-top"><h3>${esc(r.t)}</h3></div>
-        <p class="pub">${esc(r.p || "Publisher unknown")}</p>
-        <div class="cost">${esc(r.c)}</div>
-        <div class="badge-row">${badge(r.s, r.d, r.x, r.e)}</div>
-      </button>`;
-  });
+  if (list.length) {
+    const rows = list.map((r, i) => {
+      const brk = (i === nominalCount && nominalCount > 0)
+        ? `<tr class="subject-break"><td colspan="3">Journals whose
+           <strong>subject</strong> matches, but not their name</td></tr>` : "";
+      const fig = costFigure(r);
+      const flags = [
+        r.d ? `<span class="badge doaj">In DOAJ${why("doaj")}</span>` : "",
+        r.x ? `<span class="badge disputed">⚠ Sources disagree${why("disputed")}</span>` : "",
+        r.e ? `<span class="badge expired">⚠ Agreement ended${why("expired")}</span>` : "",
+      ].filter(Boolean).join("");
+      const [label] = STATUS_LABEL[r.s] || STATUS_LABEL.none;
+      return `${brk}
+        <tr data-id="${esc(r.id)}">
+          <td>
+            <button class="jtitle">${esc(r.t)}</button>
+            <div class="jmeta">${esc(r.p || "Publisher unknown")} · ${esc(r.i[0] || "")}</div>
+            ${flags ? `<div class="flags">${flags}</div>` : ""}
+          </td>
+          <td class="state"><span class="swatch sw-${esc(r.s)}"></span>${esc(label)}${why(r.s)}</td>
+          <td class="cost-cell ${fig.cls}">${esc(fig.text)}</td>
+        </tr>`;
+    }).join("");
+
+    html += `<table class="ledger">
+      <thead><tr><th>Journal</th><th>Oxford deal</th><th class="num">Cost to you</th></tr></thead>
+      <tbody>${rows}</tbody></table>`;
+  }
+
   box.innerHTML = html;
 
   const showAll = $("#show-all");
@@ -380,8 +457,14 @@ function renderResults(list, total, nominalCount, hidden) {
     $("#deal-only").checked = false;
     runSearch();
   });
-  box.querySelectorAll(".jcard").forEach(el =>
-    el.addEventListener("click", () => openDetail(el.dataset.id)));
+  // The title is the real control, so keyboard users get one stop per row;
+  // clicking anywhere else in the row is a convenience for mouse users.
+  box.querySelectorAll("tr[data-id]").forEach((tr) => {
+    tr.addEventListener("click", (e) => {
+      if (e.target.closest(".why")) return;
+      openDetail(tr.dataset.id);
+    });
+  });
 }
 
 function priceStr(p) { return p ? `${Number(p.price).toLocaleString()} ${esc(p.currency)}` : "—"; }
@@ -747,7 +830,19 @@ function wireUI() {
   $("#deal-only").addEventListener("change", runSearch);
   $("#modal-close").addEventListener("click", closeModal);
   $("#detail-modal").addEventListener("click", e => { if (e.target.id === "detail-modal") closeModal(); });
-  document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") { closeWhy(); closeModal(); }
+  });
+  document.addEventListener("click", e => {
+    const btn = e.target.closest(".why");
+    if (btn) {
+      e.preventDefault(); e.stopPropagation();
+      if (openWhy === btn) closeWhy(); else showWhy(btn);
+      return;
+    }
+    if (!e.target.closest("#why-pop")) closeWhy();
+  });
+  window.addEventListener("resize", closeWhy);
   $("#foot-status").addEventListener("click", e => { e.preventDefault(); showStatus(); });
   $("#foot-about").addEventListener("click", e => { e.preventDefault(); showAbout(); });
   $("#disclaimer-link").addEventListener("click", e => { e.preventDefault(); showDisclaimer(); });

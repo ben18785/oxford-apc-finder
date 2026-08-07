@@ -1,6 +1,6 @@
 # Site + pipeline configuration
 site_title: "Oxford Journal APC Finder"
-site_tagline: "Which journals do Oxford's open-access deals cover — and what will publishing cost?"
+site_tagline: "Which journals do Oxford's open-access deals cover, and what will publishing cost?"
 # GitHub repository that hosts this site (used for error-report links).
 github_repo: "ben18785/oxford-apc-finder"
 # University of Oxford ROR ID (https://ror.org/052gg0110)

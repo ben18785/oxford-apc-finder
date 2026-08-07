@@ -48,6 +48,8 @@ function El(id) {
 El.prototype.addEventListener = function () {};
 El.prototype.querySelectorAll = function () { return { forEach: function () {} }; };
 El.prototype.focus = function () {};
+El.prototype.appendChild = function (c) { return c; };
+El.prototype.setAttribute = function () {};
 
 var ELS = {};
 function el(sel) { if (!ELS[sel]) { ELS[sel] = new El(sel); } return ELS[sel]; }
@@ -57,6 +59,16 @@ globalThis.document = {
   body: { style: {} }, title: ""
 };
 globalThis.location = { href: "http://localhost/" };
+/* The popover reads window geometry and listens for resize. A browser always
+ * has these; the harness previously modelled document but not window, so any
+ * window reference silently rejected boot() and left the keyword index
+ * unloaded — with the only symptom a couple of unrelated-looking failures. */
+globalThis.window = {
+  addEventListener: function () {}, innerWidth: 1280, innerHeight: 900,
+  scrollX: 0, scrollY: 0,
+};
+globalThis.document.body.appendChild = function (c) { return c; };
+globalThis.document.createElement = function () { return new El("created"); };
 globalThis.setTimeout = function (fn) { fn(); return 0; };
 globalThis.clearTimeout = function () {};
 /* Mirrors the parts of the fetch Response the app uses: a missing file must
@@ -150,6 +162,34 @@ chain.then(function () {
   var sorted = titles.slice().sort();
   check("index is pre-sorted by title (the app relies on this)",
     JSON.stringify(titles) === JSON.stringify(sorted));
+
+  /* ------------------------------------------------- the ledger -------
+   * Results render as a table with the cost in its own right-aligned column,
+   * and jargon labels carry a "?" explainer. */
+  search("");
+  var resultsHtml = el("#results").innerHTML;
+  check("results render as a ledger table",
+    resultsHtml.indexOf("<table class=\"ledger\"") !== -1);
+  check("the ledger has a cost column",
+    resultsHtml.indexOf("cost-cell") !== -1 && resultsHtml.indexOf("Cost to you") !== -1);
+  check("each row exposes its journal id for opening the detail",
+    /<tr data-id="\d{4}-\d{3}[\dX]"/.test(resultsHtml));
+  check("status labels carry a ? explainer",
+    resultsHtml.indexOf('class="why" data-explain=') !== -1);
+
+  var keys = Object.keys(EXPLAIN);
+  check("every deal status has an explanation",
+    ["covered", "discount", "diamond", "none"].every(function (k) {
+      return keys.indexOf(k) !== -1; }));
+  check("the jargon labels users asked about are explained",
+    ["doaj", "disputed", "expired"].every(function (k) {
+      return keys.indexOf(k) !== -1; }));
+  check("explanations are non-trivial prose",
+    keys.every(function (k) {
+      return EXPLAIN[k][0] && EXPLAIN[k][1].length > 80; }));
+  check("the DOAJ explanation says it is not a quality ranking",
+    /not a ranking of quality/i.test(EXPLAIN.doaj[1]),
+    "DOAJ indexes process, not quality — implying otherwise misleads");
 
   /* --------------------------------------------- query language -------
    * Regression: quoting a query left the quote marks in the string used for

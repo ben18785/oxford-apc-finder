@@ -1,3 +1,17 @@
+/* Source Serif 4 — SIL OFL 1.1, self-hosted (see fonts/README.md). Subset to
+   Latin, 37 KB for both weights. font-display:swap so text is readable
+   immediately and the page never blocks on the font. */
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("fonts/SourceSerif4-Regular.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("fonts/SourceSerif4-Semibold.woff2") format("woff2");
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+
 :root {
   --oxford: #002147;
   --oxford-light: #1a3a5c;
@@ -10,13 +24,17 @@
   --text: #1b2733;
   --muted: #5c6b7a;
   --radius: 10px;
+  --serif: "Source Serif 4", Charter, Georgia, "Times New Roman", serif;
+  /* Small interface labels stay in the system sans: a serif at 0.72rem in
+     caps is muddy, and the system stack costs nothing to load. */
+  --ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --shadow: 0 1px 3px rgba(0,33,71,.08), 0 4px 14px rgba(0,33,71,.06);
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0; background: var(--bg); color: var(--text);
-  font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font: 17px/1.55 var(--serif);
 }
 .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px; }
 .skip { position: absolute; left: -999px; }
@@ -75,18 +93,62 @@ body {
 .toggle input { width: 17px; height: 17px; accent-color: var(--oxford); }
 .result-count { font-size: .86rem; color: var(--muted); }
 
-#results { display: grid; gap: 12px; margin-bottom: 40px; }
-.jcard {
-  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
-  padding: 15px 17px; box-shadow: var(--shadow); cursor: pointer; text-align: left; width: 100%;
-  font: inherit; color: inherit; display: block;
+#results { margin-bottom: 40px; }
+
+/* Results as a ledger: one row per journal, costs right-aligned in tabular
+   figures so they can be read down the column, hairline rules instead of
+   boxes. Roughly four times the density of the previous cards. */
+.ledger { width: 100%; border-collapse: collapse; }
+.ledger caption { text-align: left; }
+.ledger th {
+  text-align: left; font-family: var(--ui); font-size: .68rem; font-weight: 700;
+  letter-spacing: .09em; text-transform: uppercase; color: var(--muted);
+  padding: 0 10px 6px; border-bottom: 1px solid #c8d0d9;
 }
-.jcard:hover { border-color: #b9c6d3; }
-.jcard:focus-visible { outline: 3px solid #9cc3e6; }
-.jcard-top { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
-.jcard h3 { margin: 0; font-size: 1.06rem; }
-.jcard .pub { color: var(--muted); font-size: .85rem; margin: 3px 0 0; }
-.jcard .cost { font-size: .92rem; margin-top: 9px; font-weight: 600; }
+.ledger th.num { text-align: right; }
+.ledger td { padding: 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.ledger tr:last-child td { border-bottom: 0; }
+.ledger tbody tr:hover { background: #f4f7fa; }
+
+.jtitle {
+  all: unset; cursor: pointer; font-weight: 600; font-size: 1.02rem;
+  color: var(--text); display: inline; text-decoration-color: transparent;
+}
+.ledger tr:hover .jtitle { text-decoration: underline; }
+.jtitle:focus-visible { outline: 3px solid #9cc3e6; outline-offset: 2px; border-radius: 2px; }
+.jmeta { font-family: var(--ui); font-size: .78rem; color: var(--muted); margin-top: 2px; }
+
+.state { font-family: var(--ui); font-size: .82rem; color: var(--text); white-space: nowrap; }
+.swatch { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 7px; }
+.sw-covered  { background: var(--accent); }
+.sw-discount { background: var(--discount); }
+.sw-diamond  { background: var(--diamond); }
+.sw-none     { background: #c8d0d9; }
+.flags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
+
+.cost-cell {
+  text-align: right; font-family: var(--ui); font-weight: 650; white-space: nowrap;
+  font-variant-numeric: tabular-nums; font-size: .92rem;
+}
+.cost-cell.free { color: var(--accent); }
+.cost-cell.none { color: var(--muted); font-weight: 500; }
+
+.subject-break td {
+  font-family: var(--ui); font-size: .82rem; color: var(--muted);
+  padding-top: 26px; border-bottom: 1px solid #c8d0d9;
+}
+.subject-break strong { color: var(--text); }
+
+/* Below ~640px the columns stack: a three-column table on a phone is a
+   horizontal scroll nobody wants. */
+@media (max-width: 640px) {
+  .ledger thead { position: absolute; left: -9999px; }
+  .ledger tr { display: block; border-bottom: 1px solid var(--line); padding: 10px 0; }
+  .ledger tr:hover { background: none; }
+  .ledger td { display: block; border: 0; padding: 0 2px; }
+  .ledger .cost-cell { text-align: left; margin-top: 6px; }
+  .subject-break td { padding-top: 18px; }
+}
 
 .badge {
   display: inline-block; font-size: .74rem; font-weight: 700; padding: 3px 9px;
@@ -118,6 +180,28 @@ body {
   background: #fff4d6; color: #6a4c00; border: 1px solid #f0d68a;
 }
 .filter-note a { color: #6a4c00; }
+
+/* "?" on a jargon label. Hover gives mouse users a native tooltip; click pins
+   it for touch and keyboard. */
+.why {
+  all: unset; cursor: pointer; display: inline-grid; place-items: center;
+  width: 1.05em; height: 1.05em; margin-left: .25em; border-radius: 50%;
+  border: 1px solid currentColor; opacity: .5;
+  font-size: .82em; font-weight: 700; line-height: 1; font-family: var(--ui);
+}
+.why:hover, .why:focus-visible { opacity: 1; }
+.why:focus-visible { outline: 2px solid #9cc3e6; outline-offset: 2px; }
+
+.pop {
+  position: absolute; z-index: 40; max-width: 21rem;
+  background: #fff; color: var(--text); border: 1px solid #c8d0d9;
+  border-radius: 10px; padding: 14px 16px;
+  box-shadow: 0 10px 34px rgba(0,33,71,.18); font-size: .88rem; line-height: 1.55;
+}
+.pop h4 { margin: 0 0 6px; font-family: var(--ui); font-size: .7rem;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.pop p { margin: 0; }
+.pop p + p { margin-top: 8px; }
 
 .empty { color: var(--muted); text-align: center; padding: 30px; }
 
