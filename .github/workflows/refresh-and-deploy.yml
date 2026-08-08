@@ -13,10 +13,15 @@ on:
         default: false
   push:
     branches: [main]
-    paths:                        # site/pipeline changes redeploy from existing data
-      - 'site/**'
+    # Only things that can change the DATA trigger a refresh. Front-end work
+    # goes to deploy-site.yml instead, which rebuilds from the cached dataset
+    # in about a minute rather than re-fetching for an hour. The two path lists
+    # must stay disjoint or a single push races two deploys at the Pages
+    # environment — tests/test_workflows.py enforces that.
+    paths:
       - 'pipeline/**'
-      - 'config.yaml'
+      - '!pipeline/build_site.py'   # rendering only; see deploy-site.yml
+      - 'config.yaml'               # carries inclusion + validation thresholds
       - 'data/curated/**'
       - '.github/workflows/refresh-and-deploy.yml'
 
@@ -111,6 +116,24 @@ jobs:
           GOATCOUNTER_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
           APC_SKIP_ORACLE: ${{ inputs.skip_oracle && '1' || '' }}
         run: python pipeline/run_all.py
+
+      # Hand the built dataset to deploy-site.yml so a front-end change can be
+      # published without re-fetching. journals.json is 128 MB and changes
+      # weekly, so it cannot be committed; a cache is the right shape for it.
+      # Only what build_site.py actually reads is stored — metadata.json is
+      # another 122 MB and is never opened after merge.
+      #
+      # The key is unique per run so every refresh writes a new entry (cache
+      # entries are immutable); deploy-site restores by the `dataset-v1-`
+      # prefix, which resolves to the most recent one.
+      - name: Cache the dataset for site-only deploys
+        uses: actions/cache/save@v4
+        with:
+          key: dataset-v1-${{ github.run_id }}
+          path: |
+            data/out/journals.json
+            data/out/changes.json
+            data/out/usage.json
 
       # The link checker runs on its own schedule and has no dataset of its
       # own (data/out is not committed), so publish the URL list here.

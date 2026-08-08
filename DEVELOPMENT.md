@@ -130,6 +130,56 @@ the page as a count — a chart that silently drops its tail reads as complete.
 GoatCounter outage costs the site a chart, never a refresh, and leaves the
 previous `usage.json` in place rather than overwriting real history with zeros.
 
+### Two deploy paths
+
+`data/out/` is not committed — `journals.json` alone is 128 MB and changes
+weekly — so for a long time every deploy meant rebuilding the dataset from
+scratch. A CSS fix and a data refresh cost the same hour and the same ~800
+OpenAlex calls. There are now two workflows instead:
+
+| | `refresh-and-deploy.yml` | `deploy-site.yml` |
+|---|---|---|
+| Fires on | `pipeline/**`, `config.yaml`, `data/curated/**`, the weekly cron | `site/**`, `pipeline/build_site.py` |
+| Does | fetch → merge → validate → changelog → build → deploy | restore cached dataset → build → deploy |
+| Takes | ~1 hour | ~2 minutes |
+| Can change the data | yes | **no** |
+
+The refresh caches the three files `build_site.py` reads (`journals.json`,
+`changes.json`, `usage.json` — not `metadata.json`, another 122 MB that is
+never opened after merge) under a `dataset-v1-` key. The site workflow restores
+by that prefix, so it always renders the most recent refresh's output.
+
+Three things about this are load-bearing, and `tests/test_workflows.py` asserts
+all of them:
+
+* **The path filters must stay disjoint.** Both publish to the same Pages
+  environment and share a concurrency group, so a file matching both starts two
+  runs and one silently cancels the other — which looks exactly like a deploy
+  that never happened.
+* **The cache must carry everything `build_site.py` reads.** Adding a read
+  without adding it to the cache breaks every site-only deploy, and only the
+  next time one runs.
+* **The site path must never fetch.** Its whole premise is that it re-renders
+  and nothing more; it holds `contents: read` and runs no pipeline stage but
+  the build.
+
+`config.yaml` deliberately routes to the *full* refresh even though most of it
+is presentational, because it also holds the inclusion and validation
+thresholds. Sending it down the fast path would let an inclusion change appear
+to deploy while silently not being applied.
+
+A site-only deploy publishes whatever the last refresh produced, so it can
+publish stale data — but honestly: the age comes from `journals.json` itself,
+so the staleness banner and "data freshness" page report the real figure, not
+the deploy time. It also re-runs the frontend suite against the rebuilt `_site`
+before deploying, which is what would catch a cached dataset that predates a
+schema change.
+
+GitHub evicts caches unused for 7 days. The weekly refresh writes a fresh one
+and every site deploy reads it, so in normal use it stays warm; if it ever does
+go, the workflow fails with an explicit message rather than deploying an empty
+site.
+
 ### Schedule
 
 `refresh-and-deploy.yml` runs weekly (Mon 04:17 UTC). To go daily — also free

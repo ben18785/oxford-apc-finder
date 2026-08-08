@@ -1,0 +1,122 @@
+name: Deploy site
+
+# Front-end changes, published without re-fetching anything.
+#
+# refresh-and-deploy.yml rebuilds the whole dataset — roughly an hour and ~800
+# OpenAlex calls — because data/out is not committed. That is the right cost
+# for a data change and an absurd one for a CSS fix, so rendering-only work
+# comes here instead: restore the dataset the last refresh cached, re-run
+# build_site.py over it, deploy. About a minute.
+#
+# This workflow NEVER fetches and never writes a baseline. It cannot change a
+# single fact on the site — only how the facts already gathered are presented.
+on:
+  push:
+    branches: [main]
+    # Must stay disjoint from refresh-and-deploy.yml's list, or one push starts
+    # two runs that race at the Pages environment. tests/test_workflows.py
+    # enforces it.
+    paths:
+      - 'site/**'
+      - 'pipeline/build_site.py'
+      - '.github/workflows/deploy-site.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read                  # no baseline commit here — nothing to write
+  pages: write
+  id-token: write
+
+# Shares refresh-and-deploy's group deliberately: both publish to the same
+# Pages environment, so they must serialise rather than interleave.
+#
+# But cancel-in-progress is FALSE here, unlike the refresh. GitHub lets the
+# *incoming* run decide whether to cancel the running one, so with `true` a
+# two-minute CSS deploy would kill a refresh fifty minutes into its fetch —
+# trading an hour of work and ~800 API calls for a stylesheet. Queuing behind
+# it costs only a wait, and the refresh publishes a complete site when it
+# lands regardless.
+concurrency:
+  group: refresh-and-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: pipeline/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r pipeline/requirements.txt
+
+      - name: Restore the dataset from the last refresh
+        id: dataset
+        uses: actions/cache/restore@v4
+        with:
+          # No exact key — take whatever the most recent refresh left behind.
+          key: dataset-v1-
+          restore-keys: dataset-v1-
+          path: |
+            data/out/journals.json
+            data/out/changes.json
+            data/out/usage.json
+
+      # Without a dataset, build_site.py would raise on a missing file and the
+      # error would read like a code fault. Say plainly what happened and what
+      # fixes it. Caches are evicted after 7 days unused, so this is a real
+      # state, not a theoretical one — though the weekly refresh writes a new
+      # one and every deploy here reads it, which keeps it warm.
+      - name: Check the dataset restored
+        if: steps.dataset.outputs.cache-matched-key == ''
+        run: |
+          echo "::error::No cached dataset found, so there is nothing to render."
+          echo "The cache is written by 'Refresh data and deploy' and evicted after"
+          echo "7 days without use. Run that workflow once; site-only deploys will"
+          echo "work again afterwards."
+          exit 1
+
+      - name: Build the site
+        run: python pipeline/build_site.py
+
+      # A cached dataset that predates a schema change would render a site with
+      # missing columns and no error. Reuse the frontend suite, which asserts
+      # against the built _site — it is the same check CI runs on a pull
+      # request, and it is the only thing standing between a stale cache and a
+      # silently wrong page.
+      - name: Check the built site
+        run: node tests/frontend/search.test.js
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deploy
+        uses: actions/deploy-pages@v4
+
+      # Same reasoning as the refresh workflow: a deploy that fails quietly
+      # leaves the last good site serving and looking healthy.
+      - name: Announce a failed deploy
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create deploy-failed --color B60205 \
+            --description "A site-only deploy did not complete" --force || true
+          gh issue create --title "Site deploy failed" --label deploy-failed \
+            --body "A front-end deploy failed, so the site still serves the previous build.
+
+          Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
+
+          Most likely causes:
+          - the cached dataset was evicted (run 'Refresh data and deploy' once)
+          - the frontend test suite failed against the rebuilt site
+          - build_site.py raised on data written by an older pipeline version" || true
