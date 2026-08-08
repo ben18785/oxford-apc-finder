@@ -1201,3 +1201,22 @@ def test_the_subfield_route_is_justified_where_readers_can_see_it():
     entry = app[start:app.index('"],', start)]
     assert "subfield" in entry
     assert "law" in entry.lower() or "humanities" in entry.lower()
+
+
+def test_a_disputed_discount_is_no_safer_than_a_disputed_zero():
+    """check_cost_claims escalates on `status in (covered, discount)`, but only
+    the covered half was pinned. A contested discount is the MDPI case exactly
+    — JCT says full coverage, the Bodleian says 20% off — and asserting the
+    discount is picking a winner just as much as asserting £0 would be."""
+    from validate import check_cost_claims
+    disputed_discount = {
+        "status": "discount", "expired": None, "conditions": None,
+        "disputed": {"publisher": "MDPI", "bodleian_says": "20% discount"}}
+    errors = check_cost_claims({"journals": [
+        {"id": "1234-5678", "cost": {"kind": "discount"},
+         "deal": disputed_discount}]})
+    assert errors and "uncertain" in errors[0]
+    # ...and the safe answer passes.
+    assert not check_cost_claims({"journals": [
+        {"id": "1234-5678", "cost": {"kind": "uncertain"},
+         "deal": disputed_discount}]})
