@@ -20,7 +20,7 @@ import re
 
 import yaml
 
-from common import (CURATED, OUT, known_journal_issns, load_config,
+from common import (CURATED, DATA, OUT, known_journal_issns, load_config,
                     normalise_issn, read_json, utcnow, write_json)
 
 MISCONDUCT_PAT = re.compile(
@@ -257,8 +257,67 @@ def scope_sentence(rec: dict) -> str | None:
     return s + "."
 
 
-def effective_cost(deal_status: str, discount_pct, rec: dict, doaj_rec) -> dict:
-    """Deterministic cost summary. Never invents a number."""
+def comparable_gbp(cost: dict, rates: dict | None) -> int | None:
+    """One number per journal that can honestly be ordered against the others.
+
+    Returns None — meaning "not orderable", not "free" — whenever the site does
+    not hold a figure it can compare: no published price, a discount off an
+    unknown base, sources in conflict, or a currency the ECB does not publish.
+    Those journals are shown as a separate group rather than being sorted to
+    one end, where they would read as either the cheapest or the dearest.
+
+    A settled or conditional £0 is a real zero and sorts as one; the difference
+    between them is a matter of confidence, which the cost column already
+    carries, not of amount.
+    """
+    kind = cost.get("kind")
+    if kind in ("covered", "covered_conditional", "diamond", "no_apc"):
+        return 0
+    priced = cost.get("estimated") or cost.get("list")
+    if not priced or not rates:
+        return None
+    rate = rates.get(priced.get("currency"))
+    if not rate:
+        return None
+    return round(priced["price"] / rate)
+
+
+def effective_cost(deal_status: str, discount_pct, rec: dict, doaj_rec,
+                   *, expired=None, disputed=None, capacity_limited: bool = False,
+                   funders_only=None) -> dict:
+    """Deterministic cost summary. Never invents a number.
+
+    One invariant governs this function:
+
+        £0 may be asserted only when the evidence establishes £0 without
+        depending on an unknown fact about the author, the article, a
+        remaining quota, or a disputed or expired agreement.
+
+    It lives here rather than in the templates because the failure it guards
+    against is expensive and asymmetric: a false negative wastes someone's
+    afternoon, a false positive costs them £2-4k. Enforcing it in one function
+    means every surface — ledger, detail panel, changelog, the state baseline —
+    inherits it, and validate.py can assert it can never be bypassed.
+
+    Three states weaken a coverage claim, in descending order of severity:
+
+      * `disputed` — two credible sources contradict each other about this
+        publisher. Neither is asserted; ambiguity collapses to the financially
+        conservative state, not to whichever source we happen to read first.
+        (JCT says MDPI is fully covered; Oxford's own page says 20% discount.)
+      * `expired` — the agreement's stated end date has passed. JCT still lists
+        Oxford as a participant and renewals are recorded late, so coverage
+        probably continues — but "probably" is not £0.
+      * `capacity_limited` / `funders_only` — coverage is real but turns on a
+        fact this site cannot see: whether the annual allowance is still open,
+        or whether your funder is on the list.
+
+    Ordinary eligibility conditions — corresponding authorship, article type,
+    CC BY, an Oxford email — apply to *every* agreement and are stated site-wide
+    rather than per journal, so they qualify the wording ("£0 if eligible")
+    without moving the journal into a warning state. Reserving the warning for
+    journal-specific risk is what keeps it meaningful.
+    """
     list_prices = rec.get("apc_prices") or []
     doaj_price = None
     # `is not None`, not truthiness: a genuine zero is a price, not a missing one.
@@ -266,7 +325,31 @@ def effective_cost(deal_status: str, discount_pct, rec: dict, doaj_rec) -> dict:
             and doaj_rec["apc"]["price"] is not None):
         doaj_price = {"price": doaj_rec["apc"]["price"],
                       "currency": doaj_rec["apc"]["currency"]}
+    # Sources contradicting each other outranks everything below: if we cannot
+    # say whether the deal is full coverage or a discount, we certainly cannot
+    # put a number on it.
+    if disputed and deal_status in ("covered", "discount"):
+        return {"kind": "uncertain",
+                "note": ("Our sources disagree about this publisher, so no cost "
+                         "is shown. Confirm with the open access team before "
+                         "assuming either figure.")}
+
     if deal_status == "covered":
+        reasons = []
+        if expired:
+            reasons.append(
+                f"the agreement's recorded end date ({expired['end_date']}) has passed")
+        if capacity_limited:
+            reasons.append("the agreement covers a limited number of articles a year, "
+                           "and whether the allowance is still open is not published")
+        if funders_only:
+            reasons.append("coverage is restricted to articles funded by "
+                           + ", ".join(funders_only))
+        if reasons:
+            return {"kind": "covered_conditional", "reasons": reasons,
+                    "note": ("Oxford has an agreement covering this journal, but "
+                             + "; ".join(reasons)
+                             + ". Confirm before submitting rather than assuming £0.")}
         return {"kind": "covered",
                 "note": "APC covered by the Oxford agreement (subject to the caveats shown)."}
     if deal_status == "diamond":
@@ -292,6 +375,22 @@ def effective_cost(deal_status: str, discount_pct, rec: dict, doaj_rec) -> dict:
     return {"kind": "unknown", "note": "No published APC price held — check the journal's page."}
 
 
+FX_FILE = DATA / "state" / "fx_rates.json"
+
+
+def load_fx() -> tuple[dict | None, dict | None]:
+    """Rate table and its provenance, or (None, None) if never fetched.
+
+    Missing rates are not an error: every cost still displays, only the
+    ordering is unavailable, and the site hides the control rather than
+    offering an ordering it cannot compute.
+    """
+    if not FX_FILE.exists():
+        return None, None
+    fx = read_json(FX_FILE)
+    return fx.get("rates"), {k: fx.get(k) for k in ("date", "retrieved", "source")}
+
+
 def main() -> None:
     cfg = load_config()
     deals = read_json(OUT / "deals.json")
@@ -299,6 +398,8 @@ def main() -> None:
     overrides = load_overrides()
     allow = yaml.safe_load((CURATED / "publisher_allowlist.yaml").read_text())["publishers"]
     allow_rx = re.compile("|".join(f"(?:{re.escape(p)})" for p in allow), re.I)
+
+    fx_rates, fx_meta = load_fx()
 
     deal_lookup = build_deal_lookup(deals)
     # Inclusion route 4: in a transformative agreement somewhere in the world.
@@ -352,6 +453,8 @@ def main() -> None:
         deal = next((deal_lookup[i] for i in issns if i in deal_lookup), None)
         status, discount_pct, caveats, deal_sources = "none", None, [], []
         esac_id, expired = None, None
+        # Journal-specific risks that stop a coverage claim becoming a flat £0.
+        capacity_limited, funders_only = False, None
         basis = coverage_basis("none", agreement_count=len(deals["agreements"]))
         if deal:
             status = "covered"
@@ -379,6 +482,10 @@ def main() -> None:
             for e in caveat_entries:
                 if esac_id and esac_id.startswith(e["match_esac_prefix"]):
                     caveats.extend(e.get("caveats", []))
+                    # Read as data, not just rendered as prose: these decide
+                    # whether the cost may be stated as a flat £0.
+                    capacity_limited = capacity_limited or bool(e.get("capacity_limited"))
+                    funders_only = funders_only or e.get("funders_only")
                     if e.get("source_extra"):
                         deal_sources.append({"label": f"{e['publisher_label']} details",
                                              "url": e["source_extra"]})
@@ -483,7 +590,15 @@ def main() -> None:
         if not included:
             continue
 
-        cost = effective_cost(status, discount_pct, rec, doaj_rec)
+        cost = effective_cost(status, discount_pct, rec, doaj_rec,
+                              expired=expired, disputed=disputed,
+                              capacity_limited=capacity_limited,
+                              funders_only=funders_only)
+        # A single GBP figure so the site can order by cost. Absent when there
+        # is nothing honestly comparable — see comparable_gbp.
+        gbp = comparable_gbp(cost, fx_rates)
+        if gbp is not None:
+            cost["gbp"] = gbp
         access = oa_status(rec, doaj_rec, in_doaj)
         if access == "diamond" and status == "none":
             # No arrangement exists because none is needed. Saying "no Oxford
@@ -548,6 +663,9 @@ def main() -> None:
         "institution": cfg["institution_name"],
         "source_counts": {**(meta.get("counts") or {}),
                           "agreements": len(deals["agreements"])},
+        # Published so the site can date the conversion rather than presenting
+        # converted figures as though they were quoted in sterling.
+        "fx": fx_meta,
         "counts": {
             "total": len(journals),
             "covered": sum(1 for j in journals if j["deal"]["status"] == "covered"),
@@ -557,6 +675,7 @@ def main() -> None:
             "disputed": sum(1 for j in journals if j["deal"].get("disputed")),
             "expired": sum(1 for j in journals if j["deal"].get("expired")),
             "excluded_misconduct": excluded_misconduct,
+            "cost_comparable": sum(1 for j in journals if "gbp" in j["cost"]),
         },
         "journals": journals,
     }

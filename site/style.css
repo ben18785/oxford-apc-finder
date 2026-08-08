@@ -135,6 +135,10 @@ body {
 }
 .cost-cell.free { color: var(--accent); }
 .cost-cell.none { color: var(--muted); font-weight: 500; }
+/* A figure that needs checking before it can be relied on. Deliberately not
+   the accent green: reading "covered" and "free to publish" as the same colour
+   is how an agreement turns into an assumed guarantee. */
+.cost-cell.caution { color: var(--discount); }
 
 .subject-break td {
   font-size: .82rem; color: var(--muted);
@@ -323,4 +327,14 @@ body {
 
 @media (max-width: 520px) {
   .jcard-top { flex-direction: column; gap: 6px; }
+}
+
+/* Ordering control. Sits with the filters because it is the same kind of
+   thing — a statement about which results you want and in what order. */
+.sortbox { font-size: .85rem; color: var(--muted); display: inline-flex;
+           align-items: center; gap: 6px; }
+.sortbox select {
+  font: inherit; font-family: var(--serif); color: var(--text);
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 6px; padding: 3px 6px;
 }

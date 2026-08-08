@@ -33,6 +33,8 @@ const EXPLAIN = {
     "<p>Articles sit behind a paywall by default. Paying the charge shown makes your article open access instead, so the figure is the price of <em>openness</em>, not the price of publishing here.</p><p>Publishing behind the paywall is often free to the author, but not always: submission fees are near-universal in economics and finance, and page or colour charges are common in the physical sciences. This site has no source for any of them — check the journal's own author guidance.</p>"],
   model_subscription: ["Subscription journal",
     "<p>Articles are behind a paywall and we hold no open access charge for this journal.</p><p>There is often nothing to pay, but some journals levy submission, page or colour charges that this site does not track — check the journal's author guidance.</p><p>If you need open access — for a funder mandate, say — ask the publisher what they charge.</p>"],
+  transformative: ["Transformative agreement",
+    "<p>A contract between a publisher and a university — or, for most of Oxford's, a consortium such as Jisc negotiating for UK universities — that folds subscription fees and open-access charges into a single payment.</p><p>Instead of the library paying to <em>read</em> and the author paying to <em>publish</em>, one deal covers both. That is why an eligible Oxford author pays nothing: the charge is settled centrally, not waived.</p><p>They are called “transformative” because they are meant to be temporary. The intent is to move a subscription journal to fully open access, so each one has an end date and is renegotiated. Each also carries its own conditions — which article types qualify, which licence you must choose, and sometimes a cap on how many articles a year are covered. That is why coverage here is not the same as a guarantee for your particular article.</p>"],
   inclusion: ["What gets listed here",
     "<p>This is not every journal in existence — roughly 46,000 of them. A journal is listed if <em>any</em> of these is true:</p><ul><li>Oxford has a deal covering it, or the Bodleian lists a discount for its publisher</li><li>It is in the Directory of Open Access Journals</li><li>Its publisher is one of about 95 established publishers, societies and university presses on a vetted list</li><li>It appears in a transformative agreement <em>anywhere in the world</em>, not only Oxford's</li><li>It is among the 15,000 most-cited journals</li><li>This site has listed it before — kept for a year, so coverage cannot shrink just because a source had a bad day</li></ul><p>Journals withdrawn from DOAJ for misconduct-type reasons are excluded, whoever publishes them.</p><p>The gap this leaves is disciplinary rather than random. Citation counts reach the sciences long before law or the humanities, where scholarship cites in footnotes that citation indexes do not capture — the Law Quarterly Review records 131 citations where a top-200 law journal would need 27,371. The vetted publisher list exists to cover that, and it will always be missing someone. If a journal you expected is absent, use <strong>“Journal missing? Tell us”</strong>: the rules need widening more often than the journal is genuinely out of scope.</p>"],
   waiver: ["APC waivers available",
@@ -293,6 +295,26 @@ function scoreRecord(rec, groups, rawQuery) {
   return { sc: score, nominal };
 }
 
+/* Ordering by cost, which is only honest once currencies are reconciled.
+ *
+ * Journals price in 46 currencies. Sorted on the raw number, the dearest
+ * journal on the site would be one charging 150,000,000 IRR — about £2,400 —
+ * while Nature at $12,290 sat far below it. The pipeline therefore attaches a
+ * GBP figure (`g`) converted at dated ECB reference rates.
+ *
+ * `g` is absent, never zero, wherever nothing comparable exists: no published
+ * price, a discount off an unknown base, sources in conflict, or a currency
+ * the ECB does not publish. Those journals are held back as a labelled group
+ * instead of being sorted to one end, where they would silently read as either
+ * the cheapest or the most expensive thing available. */
+function sortByCost(list, direction) {
+  const priced = [], unpriced = [];
+  for (const r of list) (typeof r.g === "number" ? priced : unpriced).push(r);
+  priced.sort((a, b) => (direction === "cost-desc" ? b.g - a.g : a.g - b.g)
+                        || (a.t || "").localeCompare(b.t || ""));
+  return { priced, unpriced };
+}
+
 function runSearch() {
   if (!STATE.loaded) return;
   // Any new search invalidates a pending "found nothing" report — otherwise a
@@ -311,10 +333,7 @@ function runSearch() {
     // display order — re-sorting 43k records on every empty search changes
     // nothing and costs hundreds of milliseconds.
     const pool = (dealOnly || freeOnly) ? STATE.index.filter(passes) : STATE.index;
-    STATE.results = pool;
-    STATE.nominalCount = pool.length;
-    STATE.hiddenByFilter = [];
-    return renderResults(pool.slice(0, 200), pool.length, pool.length, []);
+    return finish(pool, pool.length, []);
   }
 
   const groups = parseQuery(raw);
@@ -349,14 +368,31 @@ function runSearch() {
   byName.sort(rank); bySubject.sort(rank); hidden.sort(rank);
 
   const matches = byName.concat(bySubject).map((x) => x.r);
-  STATE.results = matches;
-  STATE.nominalCount = byName.length;
-  STATE.hiddenByFilter = hidden.map((x) => x.r);
   // A genuine miss, not one the deal filter caused — those are a different
   // thing and the user is already told about them.
   if (!matches.length && !hidden.length) trackMissedSearch(cleaned);
-  renderResults(matches.slice(0, 200), matches.length, byName.length,
-                STATE.hiddenByFilter);
+  finish(matches, byName.length, hidden.map((x) => x.r));
+}
+
+/* Shared tail of both search paths, so an ordering can never apply to one and
+ * silently not the other — the same reason `passes` is a single predicate. */
+function finish(matches, nominalCount, hidden) {
+  const sort = ($("#sort") && $("#sort").value) || "rel";
+  let list = matches, unpriced = null;
+  if (sort !== "rel") {
+    // Copy first: the empty-query path hands back STATE.index itself.
+    const split = sortByCost(matches.slice(), sort);
+    list = split.priced.concat(split.unpriced);
+    unpriced = split.unpriced.length;
+    // The name/subject boundary is a statement about relevance order, so it
+    // means nothing once the rows are ordered by price.
+    nominalCount = 0;
+  }
+  STATE.results = list;
+  STATE.nominalCount = nominalCount;
+  STATE.hiddenByFilter = hidden;
+  STATE.unpricedCount = unpriced;
+  renderResults(list.slice(0, 200), list.length, nominalCount, hidden);
 }
 
 /* ---------------- rendering ---------------- */
@@ -456,6 +492,25 @@ function costFigure(rec) {
   if (rec.o === "subscription" && /^APC unknown/.test(c)) {
     return { text: "subscription", cls: "none" };
   }
+  // Three tiers, and the distinction between them is the point of the column:
+  //
+  //   £0             the journal charges authors nothing — diamond or no-APC.
+  //                  Nothing about you can change this.
+  //   £0 if eligible an Oxford agreement pays it for an eligible corresponding
+  //                  author. True for the great majority of covered journals.
+  //   confirm first  as above, but with a journal-specific risk on top: a
+  //                  finite annual allowance, a funder restriction, or an
+  //                  agreement past its end date.
+  //   not confirmed  our sources contradict each other; no figure is asserted.
+  //
+  // Colouring the second the same green as the first was the old behaviour and
+  // is what let "this journal is in an agreement" read as "I will not be
+  // invoiced".
+  if (/^Not confirmed/.test(c)) return { text: "not confirmed", cls: "caution" };
+  if (/^£0 if eligible — but confirm/.test(c)) {
+    return { text: "£0 — confirm first", cls: "caution" };
+  }
+  if (/^£0 if eligible/.test(c)) return { text: "£0 if eligible", cls: "free" };
   if (/^£0/.test(c)) return { text: "£0", cls: "free" };
   const m = c.match(/^~?([\d,]+\s+[A-Z]{3})/);
   if (m) return { text: (c.startsWith("~") ? "≈ " : "") + m[1], cls: "" };
@@ -485,6 +540,20 @@ function renderResults(list, total, nominalCount, hidden) {
     ? esc(countText) + why("inclusion") : "";
 
   let html = "";
+
+  // Ordering by price silently drops journals that have no comparable figure,
+  // so say how many and why — an ordering that quietly omits 5,000 journals
+  // reads as a complete list of everything.
+  if (STATE.unpricedCount) {
+    const fx = STATE.config.fx || {};
+    html += `<p class="filter-note">Ordered by cost, converted to sterling at
+      ${fx.date ? `European Central Bank rates for ${esc(fx.date)}`
+                : "published exchange rates"}.
+      <strong>${n(STATE.unpricedCount)}</strong> of these journals have no
+      comparable figure — no published price, a discount off an unknown base,
+      sources in conflict, or a currency the ECB does not publish — and are
+      listed after the priced ones rather than being ordered among them.</p>`;
+  }
 
   // A strong name match removed by the deal filter looks identical to one the
   // tool has never heard of. Searching "science" with the filter on hides the
@@ -708,7 +777,8 @@ async function openDetail(id) {
 
     <div class="detail-section">
       <h4>Why this result</h4>
-      <p class="basis">${esc(j.deal.basis || "")}</p>
+      <p class="basis">${esc(j.deal.basis || "")}${
+        /transformative agreement/i.test(j.deal.basis || "") ? why("transformative") : ""}</p>
       ${j.deal.esac_id ? `<p class="cost-note">Agreement identifier:
         <code>${esc(j.deal.esac_id)}</code> \u2014 quote this if you report a problem.</p>` : ""}
     </div>
@@ -1152,6 +1222,7 @@ function wireUI() {
   $("#search-form").addEventListener("submit", e => { e.preventDefault(); runSearch(); });
   $("#deal-only").addEventListener("change", runSearch);
   $("#free-only").addEventListener("change", runSearch);
+  $("#sort").addEventListener("change", runSearch);
   $("#modal-close").addEventListener("click", closeModal);
   $("#detail-modal").addEventListener("click", e => { if (e.target.id === "detail-modal") closeModal(); });
   document.addEventListener("keydown", e => {

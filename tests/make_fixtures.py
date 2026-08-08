@@ -40,6 +40,11 @@ WANTED = {
     # frontend job builds from these twelve journals, so a field absent here is
     # a field nobody tests. Both shapes are kept because the archiving row is
     # the only optional one and has its own fallback.
+    # The weakened-coverage states. `uncertain` is already reached via the
+    # disputed journal above, but naming both explicitly means a future
+    # regeneration cannot quietly drop the only example of either.
+    "cost_conditional": lambda j: j["cost"]["kind"] == "covered_conditional",
+    "cost_uncertain": lambda j: j["cost"]["kind"] == "uncertain",
     "submission_with_archiving":
         lambda j: bool((j.get("submission") or {}).get("deposit_policy")),
     "submission_without_archiving":

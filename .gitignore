@@ -27,3 +27,4 @@ data/out/*
 data/state/journal_state.fixtures.tsv
 data/state/known_journals.fixtures.tsv
 CHANGELOG-data.fixtures.md
+data/out-fixtures/

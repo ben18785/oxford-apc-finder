@@ -34,9 +34,15 @@ universal_criteria:
 
 entries:
   # ---- caveats on JCT-covered agreements -------------------------------
+  # capacity_limited is read by merge.py, not just displayed: an agreement with
+  # a finite annual allowance cannot support an unqualified "£0", because
+  # whether the allowance is still open is a fact nobody here can check. The
+  # prose caveat below says the same thing, but prose cannot constrain the
+  # headline figure — the flag can.
   - kind: caveat
     match_esac_prefix: "aip"
     publisher_label: "American Institute of Physics"
+    capacity_limited: true
     caveats:
       - "Covers an agreed number of articles per year in hybrid titles; the allowance can run out before year end."
       - "AIP's fully open access journals are excluded."
@@ -86,6 +92,7 @@ entries:
   - kind: caveat
     match_esac_prefix: "rsc"
     publisher_label: "Royal Society of Chemistry"
+    capacity_limited: true
     caveats:
       - "Hybrid (subscription) journals covered, up to an annual cap."
       - "15% discount applies to articles above the cap, and to RSC's fully open access journals."

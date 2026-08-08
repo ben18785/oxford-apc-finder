@@ -35,13 +35,16 @@ def built(tmp_path_factory) -> dict:
         (shutil.copytree if src.is_dir() else shutil.copy2)(src, work / item)
     for sub in ("fixtures", "curated"):
         shutil.copytree(ROOT / "data" / sub, work / "data" / sub)
-    (work / "data" / "out").mkdir(parents=True, exist_ok=True)
+    # APC_FIXTURES=1 writes to data/out-fixtures/, never data/out/, so a
+    # demo build cannot overwrite the real dataset or the committed
+    # last_counts.json baseline. See pipeline/common.py.
+    (work / "data" / "out-fixtures").mkdir(parents=True, exist_ok=True)
 
     # Copy the committed baselines too. Without them this test ran against a
     # repo state that never exists in practice, and so missed that a fixtures
     # build was being compared against real-dataset counts — which failed in
     # CI, where the whole repo is checked out.
-    for baseline in (Path("data/out/last_counts.json"),
+    for baseline in (Path("data/out-fixtures/last_counts.json"),
                      Path("data/state/journal_state.tsv")):
         if (ROOT / baseline).exists():
             (work / baseline).parent.mkdir(parents=True, exist_ok=True)
@@ -59,7 +62,7 @@ def built(tmp_path_factory) -> dict:
     return {
         "work": work,
         "stdout": result.stdout,
-        "journals": read("data/out/journals.json"),
+        "journals": read("data/out-fixtures/journals.json"),
         "index": read("_site/data/index.json"),
         "keywords": read("_site/data/keywords.json"),
         "status": read("_site/data/status.json"),
@@ -272,7 +275,7 @@ def test_changelog_detects_a_deal_disappearing(built, tmp_path):
         capture_output=True, text=True)
     assert result.returncode == 0, result.stderr
 
-    changes = json.loads((work / "data" / "out" / "changes.json").read_text())
+    changes = json.loads((work / "data" / "out-fixtures" / "changes.json").read_text())
     assert changes["summary"]["added"] == 1
     assert dropped in [a["issn_l"] for a in changes["added"]]
     assert (work / "CHANGELOG-data.fixtures.md").exists()
@@ -283,7 +286,7 @@ def test_regression_fixture_build_ignores_the_real_baseline(built):
     ~43,000. Comparing them tripped the week-on-week drop threshold and failed
     every offline run in CI (the test suite missed it by not copying the
     baseline into its work dir)."""
-    assert (built["work"] / "data" / "out" / "last_counts.json").exists(), \
+    assert (built["work"] / "data" / "out-fixtures" / "last_counts.json").exists(), \
         "test must run against a repo that has the real baseline"
     assert "threshold check skipped" in built["stdout"]
     assert "VALIDATION FAILED" not in built["stdout"]
@@ -356,7 +359,7 @@ def test_regression_publisher_falls_back_to_doaj(built):
     the overlay matches discounts on publisher name, that gap turned one of the
     four Lancet Regional Health titles into "no Oxford deal" while its three
     identical siblings kept theirs."""
-    meta = json.loads((built["work"] / "data/out/metadata.json").read_text())
+    meta = json.loads((built["work"] / "data/out-fixtures/metadata.json").read_text())
     doaj = meta["doaj"]
 
     recovered = 0
@@ -395,7 +398,7 @@ def test_regression_no_gold_discount_on_subscription_journals(built):
     """A publisher-level gold-OA discount must never attach to a journal that is
     not open access. Nature Protocols was shown a "15% Oxford discount" while
     being a subscription title with no APC at all."""
-    meta = json.loads((built["work"] / "data/out/metadata.json").read_text())
+    meta = json.loads((built["work"] / "data/out-fixtures/metadata.json").read_text())
     for j in built["journals"]["journals"]:
         basis = j["deal"].get("basis") or ""
         if "Oxford has a" in basis and "% discount on that publisher" in basis:
@@ -403,3 +406,18 @@ def test_regression_no_gold_discount_on_subscription_journals(built):
             assert rec.get("is_oa") or rec.get("is_in_doaj") or j["in_doaj"], (
                 f"{j['id']} {j['title']}: given a gold-OA discount but is not "
                 "an open access journal")
+
+
+def test_regression_fixture_build_never_writes_to_the_real_output_directory(built):
+    """`{"total": 14}` was committed to main from a local demo build, because a
+    fixtures run wrote data/out/last_counts.json — the *committed* baseline the
+    week-on-week drop check compares against. Until it was spotted, that check
+    could not have caught a collapse in coverage: 46,000 measured against 14
+    reads as an increase, not a drop.
+
+    The state files were already routed away for exactly this reason; the
+    output directory was not."""
+    real_out = built["work"] / "data" / "out"
+    assert not real_out.exists() or not any(real_out.iterdir()), \
+        f"a fixtures build wrote to data/out/: {[p.name for p in real_out.iterdir()]}"
+    assert (built["work"] / "data" / "out-fixtures" / "journals.json").exists()

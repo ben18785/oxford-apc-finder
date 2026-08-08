@@ -65,8 +65,16 @@ def acronym(title: str | None) -> str:
 def cost_summary(j: dict) -> str:
     c = j["cost"]
     kind = c["kind"]
+    # "£0 if eligible" rather than "£0": an agreement pays the charge for an
+    # eligible corresponding author, and the site cannot see whether you are
+    # one. Three words are a small price for not implying a guarantee.
     if kind == "covered":
-        return "£0 — covered by Oxford deal"
+        return "£0 if eligible — covered by Oxford deal"
+    if kind == "covered_conditional":
+        return "£0 if eligible — but confirm first"
+    if kind == "uncertain":
+        return "Not confirmed — sources disagree"
+    # The only two states where £0 depends on nothing about the author.
     if kind == "diamond":
         return "£0 — diamond OA"
     if kind == "no_apc":
@@ -117,6 +125,10 @@ def main() -> None:
             "o": j.get("oa_status", "gold"),
             # Costs the author nothing, by whatever route.
             "f": j["cost"]["kind"] in ("covered", "diamond", "no_apc"),
+            # Comparable cost in GBP for ordering. Absent, not zero, when
+            # nothing honest can be compared — the UI groups those separately
+            # rather than sorting them to either end.
+            **({"g": j["cost"]["gbp"]} if "gbp" in j["cost"] else {}),
             # Initialism plus any abbreviations the publisher registered, so
             # "jrsssa" and "J. R. Stat. Soc." both find the journal.
             "y": " ".join(filter(None, [acronym(j["title"])]
@@ -188,6 +200,8 @@ def main() -> None:
         # subdomain readers' browsers send hits to). The API token stays in CI
         # secrets and is never written into the site.
         "goatcounter_code": analytics.get("goatcounter_code"),
+        # Dated so converted figures are never passed off as quoted in sterling.
+        "fx": data.get("fx"),
         "usage_available": usage_path.exists(),
     })
     print(f"Site built into _site/ — {len(index)} journals, {len(shards)} detail shards")

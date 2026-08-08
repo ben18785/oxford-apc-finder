@@ -168,6 +168,7 @@ jobs:
           FILES="data/out/last_counts.json data/curated/bodleian_snapshot.txt
                  data/cache/manifest.json data/state/journal_state.tsv
                  data/state/oxford_agreements.json data/state/known_journals.tsv
+                 data/state/fx_rates.json
                  CHANGELOG-data.md"
 
           for attempt in 1 2 3; do

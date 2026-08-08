@@ -13,7 +13,10 @@ from pathlib import Path
 # fetch_usage.py sits last before the build because it reads journals.json for
 # the corpus baseline. It always exits 0 — usage numbers are never worth
 # failing a refresh over — so it cannot halt the pipeline.
-STAGES = ["fetch_jct.py", "fetch_metadata.py", "merge.py",
+# fetch_fx.py runs before merge because merge converts prices with its output.
+# Like fetch_usage it never fails the build: without rates, every cost still
+# displays and only the cost ordering is unavailable.
+STAGES = ["fetch_jct.py", "fetch_metadata.py", "fetch_fx.py", "merge.py",
           "validate.py", "changelog.py", "fetch_usage.py", "build_site.py"]
 HERE = Path(__file__).resolve().parent
 

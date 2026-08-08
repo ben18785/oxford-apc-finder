@@ -77,6 +77,12 @@
   "sha256": "b110ea0dac662d9a68cf6465f8df93df75d0d11923990286ab0df43d1a4ef741",
   "url": "https://docs.google.com/spreadsheets/d/1Kv3MbgFSgtSDnEGkA2JacrSjunRu0umHeZCtcMeqO5E/gviz/tq?tqx=out:csv&sheet=Withdrawn"
  },
+ "fx_rates": {
+  "bytes": 430,
+  "retrieved": "2026-08-08T21:31:46Z",
+  "sha256": "97ceafc8c96ba09b549a73404224ba985786cf88a020bacf55a07d7b1079da00",
+  "url": "https://api.frankfurter.dev/v1/latest?base=GBP"
+ },
  "jct_index": {
   "bytes": 127977,
   "retrieved": "2026-08-08T16:08:00Z",

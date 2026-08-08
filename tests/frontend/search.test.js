@@ -491,6 +491,68 @@ chain.then(function () {
     });
     });
 
+  /* -------------------------------------------------- ordering by cost
+   * Only meaningful because the pipeline reconciles 46 currencies first:
+   * sorted on raw numbers, a journal charging 150,000,000 IRR (~£2,400) would
+   * outrank Nature at $12,290. */
+  }).then(function () {
+    function sorted(mode) {
+      el("#sort").value = mode;
+      search("");
+      el("#sort").value = "rel";
+      return STATE.results;
+    }
+    var byRel = (el("#sort").value = "rel", search(""));
+    var relOrder = byRel.map(function (r) { return r.id; }).join(",");
+
+    var asc = sorted("cost-asc"), desc = sorted("cost-desc");
+    var pricedAsc = asc.filter(function (r) { return typeof r.g === "number"; });
+    var pricedDesc = desc.filter(function (r) { return typeof r.g === "number"; });
+
+    check("some journals carry a comparable GBP figure", pricedAsc.length > 0,
+      pricedAsc.length + " of " + asc.length);
+    check("low-to-high really is non-decreasing",
+      pricedAsc.every(function (r, i) { return !i || pricedAsc[i-1].g <= r.g; }),
+      JSON.stringify(pricedAsc.map(function (r) { return r.g; })));
+    check("high-to-low really is non-increasing",
+      pricedDesc.every(function (r, i) { return !i || pricedDesc[i-1].g >= r.g; }),
+      JSON.stringify(pricedDesc.map(function (r) { return r.g; })));
+    check("the two directions are actual reverses of each other",
+      pricedAsc[0].g === pricedDesc[pricedDesc.length - 1].g);
+
+    /* A journal with no comparable figure must never be ordered among the
+     * priced ones, in either direction — at one end it reads as free, at the
+     * other as the most expensive thing on the site. */
+    function tailIsUnpriced(list) {
+      var seenUnpriced = false;
+      return list.every(function (r) {
+        if (typeof r.g !== "number") { seenUnpriced = true; return true; }
+        return !seenUnpriced;   // no priced row may follow an unpriced one
+      });
+    }
+    check("unpriced journals are held back, ascending", tailIsUnpriced(asc));
+    check("unpriced journals are held back, descending", tailIsUnpriced(desc));
+
+    check("a settled £0 sorts as zero, not as missing",
+      asc.filter(function (r) { return /^£0/.test(r.c); })
+         .every(function (r) { return r.g === 0; }));
+
+    el("#sort").value = "cost-asc"; search("");
+    /* Whitespace-tolerant: the phrase straddles a line break in the template
+     * literal, so a plain indexOf misses it. */
+    check("the reader is told how many journals could not be ordered",
+      /no\s+comparable figure/.test(el("#results").innerHTML));
+    check("and how many, not just that some exist",
+      /<strong>3<\/strong>\s+of these journals/.test(el("#results").innerHTML),
+      "expected the 3 unpriced fixtures to be counted");
+    check("and on what date the conversion was made",
+      /European Central Bank rates for \d{4}-\d{2}-\d{2}/
+        .test(el("#results").innerHTML), (STATE.config.fx || {}).date);
+    el("#sort").value = "rel";
+
+    check("switching back to best match restores the original order",
+      search("").map(function (r) { return r.id; }).join(",") === relOrder);
+
   /* ------------------------------------------------- usage monitoring */
   }).then(function () {
     /* The beacon must be inert unless a site code is configured. A build with

@@ -41,12 +41,51 @@ def check_schema(data: dict) -> list[str]:
                 errors.append(f"{jid}: malformed ISSN {issn}")
         if j["deal"]["status"] not in ("covered", "discount", "diamond", "none"):
             errors.append(f"{jid}: bad deal status {j['deal']['status']}")
-        if j["cost"]["kind"] not in ("covered", "diamond", "discount",
+        if j["cost"]["kind"] not in ("covered", "covered_conditional", "uncertain",
+                                     "diamond", "discount",
                                      "discount_unknown_base", "list_price",
                                      "no_apc", "unknown"):
             errors.append(f"{jid}: bad cost kind {j['cost']['kind']}")
         if j["deal"]["status"] == "covered" and not j["provenance"].get("deal"):
             errors.append(f"{jid}: covered but no deal provenance")
+    return errors[:50]
+
+
+def check_cost_claims(data: dict) -> list[str]:
+    """The site may assert a settled £0 only where nothing unknown stands in
+    the way. This is the one rule whose violation costs a real person real
+    money, so it is enforced here as well as implemented in merge.effective_cost
+    — a convention held in one function decays the first time someone adds a
+    branch; an invariant that fails the build does not.
+
+    Deliberately checked against the *output*, not by reading merge.py: it
+    catches the case where the flag is computed correctly and then lost on the
+    way to the record, which is exactly how the expired-agreement bug survived
+    a code comment saying it must never happen.
+    """
+    errors = []
+    for j in data["journals"]:
+        deal, kind = j["deal"], j["cost"]["kind"]
+        if kind != "covered":
+            continue
+        if deal.get("expired"):
+            errors.append(f"{j['id']}: cost is a settled £0 but the agreement "
+                          f"expired on {deal['expired']['end_date']}")
+        if deal.get("disputed"):
+            errors.append(f"{j['id']}: cost is a settled £0 but our sources "
+                          "disagree about this publisher")
+    # A blanket count guard as well as the per-journal one: if a future change
+    # stops populating the flags altogether, every journal silently passes the
+    # checks above while the site goes back to over-claiming on all of them.
+    conditional = sum(1 for j in data["journals"]
+                      if j["cost"]["kind"] in ("covered_conditional", "uncertain"))
+    covered = sum(1 for j in data["journals"] if j["deal"]["status"] == "covered")
+    if covered and not conditional:
+        errors.append(
+            f"{covered:,} journals are covered by an agreement and not one carries "
+            "a conditional or uncertain cost. Some always do (expired agreements, "
+            "capped allowances, the MDPI conflict), so the risk flags have "
+            "probably stopped reaching effective_cost().")
     return errors[:50]
 
 
@@ -271,6 +310,7 @@ def main() -> None:
     cfg = load_config()
     data = read_json(OUT / "journals.json")
     failures = (check_schema(data)
+                + check_cost_claims(data)
                 + check_thresholds(data, cfg)
                 + check_source_minimums(data, cfg)
                 + check_overlay_is_live(data)

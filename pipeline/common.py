@@ -46,13 +46,24 @@ DATA = ROOT / "data"
 CACHE = DATA / "cache"
 CURATED = DATA / "curated"
 FIXTURES = DATA / "fixtures"
-OUT = DATA / "out"
 
 USER_AGENT = "oxford-apc-finder/0.1 (https://github.com/{repo}; data pipeline)"
 
 # When FIXTURES_MODE is on, fetch stages read from data/fixtures/ instead of
 # the network. Used for local development and demo builds; CI runs live.
 FIXTURES_MODE = os.environ.get("APC_FIXTURES", "") == "1"
+
+# A fixtures run writes somewhere else entirely. It used to share data/out/,
+# which meant a twelve-journal demo build silently overwrote the real dataset —
+# and, worse, last_counts.json, which is *committed* and is the baseline the
+# week-on-week drop check compares against. That happened: `{"total": 14}` was
+# committed to main, and until it was noticed the guard could not have caught a
+# real collapse in coverage, because 46,000 against 14 reads as an increase.
+#
+# changelog.py already routed its state files this way for the same reason.
+# Doing it at the directory level covers every stage at once, including any
+# added later, which is the only version of this fix that stays fixed.
+OUT = DATA / ("out-fixtures" if FIXTURES_MODE else "out")
 
 
 def load_config() -> dict:

@@ -895,3 +895,145 @@ def test_a_site_with_no_traffic_yet_publishes_nothing(tmp_path, monkeypatch):
                                                "window_days": 90}})
     fetch_usage.main()
     assert not (tmp_path / "usage.json").exists()
+
+
+# --------------------------------- the £0 invariant
+# "£0 may be asserted only when the evidence establishes £0 without depending
+# on an unknown fact about the author, the article, a remaining quota, or a
+# disputed or expired agreement."
+
+def test_expired_agreement_never_yields_a_settled_zero():
+    """merge.py carried a comment saying exactly this — "£0 must never be shown
+    as settled fact once the stated end date has passed" — while the code did
+    the opposite for 90 journals. The comment was right."""
+    c = effective_cost("covered", None, _oa(), None,
+                       expired={"end_date": "2025-12-31", "days": 220})
+    assert c["kind"] == "covered_conditional"
+    assert "2025-12-31" in " ".join(c["reasons"])
+
+
+def test_disputed_sources_yield_no_figure_at_all():
+    """JCT says MDPI is fully covered; Oxford's own page says a 20% discount.
+    Presenting either as fact picks a winner we have no basis to pick — and the
+    £0 reading is the one that costs someone £2-4k if it is wrong."""
+    c = effective_cost("covered", None, _oa(), None,
+                       disputed={"publisher": "MDPI"})
+    assert c["kind"] == "uncertain"
+    for j in (effective_cost("discount", 20, _oa(), None, disputed={"publisher": "MDPI"}),):
+        assert j["kind"] == "uncertain", "a disputed discount is no safer than a disputed £0"
+
+
+def test_a_capped_allowance_is_not_a_zero():
+    """AIP and RSC cover an agreed number of articles a year. Whether the
+    allowance is still open is not published anywhere, so it cannot be asserted
+    as £0 — only as £0 if it still applies."""
+    c = effective_cost("covered", None, _oa(), None, capacity_limited=True)
+    assert c["kind"] == "covered_conditional"
+    assert "allowance" in " ".join(c["reasons"])
+
+
+def test_a_funder_restriction_is_not_a_zero():
+    c = effective_cost("covered", None, _oa(), None,
+                       funders_only=["UKRI", "Wellcome Trust"])
+    assert c["kind"] == "covered_conditional"
+    assert "UKRI" in " ".join(c["reasons"])
+
+
+def test_ordinary_coverage_is_still_covered():
+    """Universal conditions — corresponding authorship, article type, CC BY —
+    apply to every agreement and are stated site-wide. Moving all 12,000
+    covered journals into a warning state would make the warning meaningless
+    for the 694 that carry a specific, journal-level risk."""
+    assert effective_cost("covered", None, _oa(), None)["kind"] == "covered"
+
+
+def test_diamond_is_unaffected_by_agreement_risk_flags():
+    """Diamond £0 is a fact about the journal, not about an agreement, so no
+    agreement-level doubt can weaken it."""
+    c = effective_cost("diamond", None, _oa(), None,
+                       expired={"end_date": "2020-01-01", "days": 2000},
+                       capacity_limited=True)
+    assert c["kind"] == "diamond"
+
+
+def test_validation_refuses_a_build_that_asserts_zero_on_a_risky_claim():
+    """The invariant is implemented in merge and enforced here, because a rule
+    living in one function decays the first time someone adds a branch."""
+    from validate import check_cost_claims
+    bad = {"journals": [{
+        "id": "1234-5678", "cost": {"kind": "covered"},
+        "deal": {"status": "covered", "expired": {"end_date": "2025-01-01"},
+                 "disputed": None}}]}
+    errors = check_cost_claims(bad)
+    assert errors and "expired" in errors[0]
+
+
+def test_validation_notices_if_the_risk_flags_stop_arriving_entirely():
+    """Per-journal checks all pass trivially if the flags are never populated —
+    which is precisely the regression that would reintroduce the bug."""
+    from validate import check_cost_claims
+    silent = {"journals": [{"id": f"0000-000{i}", "cost": {"kind": "covered"},
+                            "deal": {"status": "covered", "expired": None,
+                                     "disputed": None}} for i in range(5)]}
+    assert any("stopped reaching" in e for e in check_cost_claims(silent))
+
+
+# ------------------------------------------- comparable cost for ordering
+from merge import comparable_gbp  # noqa: E402
+
+RATES = {"GBP": 1.0, "USD": 1.3445, "EUR": 1.166, "IDR": 24002.0}
+
+
+def test_regression_ordering_by_raw_price_would_rank_by_denomination():
+    """Journals price in 46 currencies. Sorted on the number alone, the dearest
+    APC on the site is 150,000,000 IRR — about £2,400 — while Nature at
+    $12,290 ranks far below it. An ordering of denominations dressed up as an
+    ordering of prices is exactly the kind of confident wrongness this site is
+    built to avoid."""
+    idr = comparable_gbp({"kind": "list_price",
+                          "list": {"price": 100_000_000, "currency": "IDR"}}, RATES)
+    usd = comparable_gbp({"kind": "list_price",
+                          "list": {"price": 12_290, "currency": "USD"}}, RATES)
+    assert 100_000_000 > 12_290          # the raw numbers say one thing...
+    assert idr < usd                      # ...and the money says the opposite
+
+
+def test_a_currency_the_ecb_does_not_publish_is_not_orderable():
+    """~648 journals price in IRR, IQD, UAH and similar. Guessing a rate would
+    be inventing a number; sorting them as zero would file them under
+    'cheapest'. Neither is acceptable, so they carry no figure."""
+    assert comparable_gbp({"kind": "list_price",
+                           "list": {"price": 5_000_000, "currency": "IRR"}}, RATES) is None
+
+
+def test_missing_is_distinguishable_from_free():
+    """None means 'cannot be compared'; 0 means 'costs nothing'. Collapsing the
+    two is how an unknown price becomes the top hit for 'cheapest'."""
+    assert comparable_gbp({"kind": "unknown"}, RATES) is None
+    assert comparable_gbp({"kind": "uncertain"}, RATES) is None
+    assert comparable_gbp({"kind": "discount_unknown_base", "pct": 15}, RATES) is None
+    assert comparable_gbp({"kind": "no_apc"}, RATES) == 0
+    assert comparable_gbp({"kind": "diamond"}, RATES) == 0
+
+
+def test_a_conditional_zero_is_still_zero_for_ordering():
+    """Confidence and amount are different axes. The cost column carries the
+    doubt; the ordering only needs the number."""
+    assert comparable_gbp({"kind": "covered"}, RATES) == 0
+    assert comparable_gbp({"kind": "covered_conditional"}, RATES) == 0
+
+
+def test_the_discounted_figure_is_what_gets_ordered_not_the_list_price():
+    """Ordering on the pre-discount price would rank journals by what you would
+    have paid without Oxford, which is not the question anyone is asking."""
+    cost = {"kind": "discount", "pct": 15,
+            "list": {"price": 1000, "currency": "USD"},
+            "estimated": {"price": 850, "currency": "USD"}}
+    assert comparable_gbp(cost, RATES) == round(850 / RATES["USD"])
+
+
+def test_no_rates_means_no_ordering_rather_than_a_wrong_one():
+    """A failed rate fetch must disable cost ordering, not silently order by
+    raw numbers across currencies."""
+    assert comparable_gbp({"kind": "list_price",
+                           "list": {"price": 1000, "currency": "USD"}}, None) is None
