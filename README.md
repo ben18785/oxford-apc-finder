@@ -18,7 +18,7 @@ As such, please use this tool to scope out journal options and then email <oapay
 Coverage comes from the [Journal Checker Tool](https://journalcheckertool.org/transformative-agreements/)'s
 public transformative-agreement data, filtered to Oxford's ROR identifier. A
 journal is reported as covered when Oxford appears as a current participant in
-an agreement *and* that agreement's own title list contains the journal. Journal metadata and list prices come from
+an agreement and that agreement's own title list contains the journal. Journal metadata and list prices come from
 [OpenAlex](https://openalex.org) and [DOAJ](https://doaj.org); subject
 descriptions are generated from OpenAlex's own topic classification. A hand-maintained overlay adds the things the
 agreement data does not carry, e.g. percentage discounts, diamond schemes, funder
@@ -26,26 +26,39 @@ restrictions, annual caps, each taken from the Bodleian's deals page and
 recorded with a link back to it.
 
 Costs are worked out by simple arithmetic on published prices, never guessed: a
-covered journal shows £0, a percentage discount is subtracted from the list
-price the sources publish, and where no price is held the site says so rather
-than estimating one. Journals enter the dataset only if
-they are covered by a deal, listed in DOAJ, or published by a vetted publisher,
-and those withdrawn from DOAJ for misconduct-type reasons are excluded outright. Where sources contradict each other, or where an agreement's stated
-end date has passed, the journal carries a visible warning showing both claims
-rather than picking one.
+percentage discount is subtracted from the list price the sources publish, and
+where no price is held the site says so rather than estimating one.
 
-**Every one of these decisions is made by hard-coded rules and no language model
-is involved anywhere in producing the data.** The pipeline is a set of Python
-scripts applying explicit conditions to the sources above: string matching on
+Our decision about what monetary value to show is governed by the following:
+
+> "£0" is asserted only where the evidence establishes £0 without depending on
+> an unknown fact: about the author, the article, a remaining quota, or a
+> disputed or expired agreement.
+
+So an unqualified £0 appears only for diamond and no-APC journals, where the
+journal charges authors nothing. A current
+agreement shows "£0 if eligible", because the charge is paid for an eligible
+corresponding author and the site cannot see whether you are one. An agreement
+with other factors including a capped annual allowance, a funder
+restriction, or an end date already passed, shows "£0 if eligible, but
+confirm first". And where authoritative sources contradict each other, the
+site provides no cost information at all and shows both claims.
+
+Journals enter the dataset only if they are covered by a deal, listed in DOAJ, or
+published by a vetted publisher, and those withdrawn from DOAJ for
+misconduct-type reasons are excluded outright.
+
+Every one of our decisions is made by hard-coded rules and no language model
+is involved anywhere in producing the data; however, it is true that CLAUDE did contribute most of the infrastructure.
+The pipeline is a set of Python scripts applying explicit conditions to the sources above: string matching on
 ISSNs, date comparisons, a curated YAML file of Oxford-specific facts, and
-templated sentences. The same inputs always give the same output, and any
-result can be traced to the rule and the source that produced it. The site is
+templated sentences. The site is
 rebuilt automatically each week, with the previous dataset kept for comparison
 so changes are recorded.
 
 ## What it cannot tell you
 
-Whether a deal covers *your* article depends on your corresponding authorship,
+Whether a deal covers your article depends on your corresponding authorship,
 article type, funder, licence choice, submission email address and whether the
 publisher's annual allowance is still open. The site states the caveats it
 knows about but cannot check any of them for you. Prices are list prices as

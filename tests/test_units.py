@@ -1037,3 +1037,41 @@ def test_no_rates_means_no_ordering_rather_than_a_wrong_one():
     raw numbers across currencies."""
     assert comparable_gbp({"kind": "list_price",
                            "list": {"price": 1000, "currency": "USD"}}, None) is None
+
+
+def test_validation_pins_each_risk_to_its_own_cost_kind():
+    """The aggregate guard catches total failure; these catch a single flag
+    silently ceasing to reach effective_cost, which is the likelier
+    regression."""
+    from validate import check_cost_claims
+
+    def one(deal, kind):
+        return check_cost_claims({"journals": [
+            {"id": "1234-5678", "cost": {"kind": kind}, "deal": deal}]})
+
+    capped = {"status": "covered", "expired": None, "disputed": None,
+              "conditions": {"capacity_limited": True, "funders_only": None}}
+    assert one(capped, "covered"), "a capped allowance must not be a settled £0"
+    assert not one(capped, "covered_conditional")
+
+    funder = {"status": "covered", "expired": None, "disputed": None,
+              "conditions": {"capacity_limited": False, "funders_only": ["UKRI"]}}
+    assert one(funder, "covered")
+    assert not one(funder, "covered_conditional")
+
+    # A conflict outranks everything: not a qualified figure, no figure.
+    clash = {"status": "covered", "expired": None, "conditions": None,
+             "disputed": {"publisher": "MDPI"}}
+    assert one(clash, "covered_conditional"), "a disputed deal is not merely conditional"
+    assert not one(clash, "uncertain")
+
+
+def test_a_disputed_journal_with_no_deal_is_left_alone():
+    """A conflict entry can match a journal that has no agreement anyway.
+    Demanding 'uncertain' there would fail the build over a journal whose cost
+    was never in question."""
+    from validate import check_cost_claims
+    assert not check_cost_claims({"journals": [
+        {"id": "1234-5678", "cost": {"kind": "list_price"},
+         "deal": {"status": "none", "expired": None, "conditions": None,
+                  "disputed": {"publisher": "MDPI"}}}]})

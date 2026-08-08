@@ -156,10 +156,13 @@ entries:
       - "Selected hybrid journals; Wolters Kluwer Law journals are excluded."
 
   # ---- source conflicts -------------------------------------------------
-  # Where the JCT agreement data and the Bodleian page disagree, the site
-  # shows BOTH claims and a health warning rather than silently picking one.
-  # The computed cost still follows JCT (the machine-readable source), but the
-  # user is told the claim is contested and pointed at both sources.
+  # Where the JCT agreement data and the Bodleian page disagree, the site shows
+  # BOTH claims and states NO cost at all. It used to follow JCT and add a
+  # warning, on the grounds that JCT is the machine-readable source — but a
+  # warning under a green "£0" is not a warning, and the £0 reading is the one
+  # that costs someone £2-4k if it is wrong. merge.effective_cost now returns
+  # `uncertain` for these, and validate.check_cost_claims fails the build if it
+  # ever stops doing so.
   #
   # Add an entry here whenever a refresh surfaces a disagreement; remove it
   # once the Bodleian confirms which source is right.

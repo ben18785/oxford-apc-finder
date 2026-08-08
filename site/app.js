@@ -468,8 +468,10 @@ function disputeBlock(d) {
     <p>${esc(d.note || "")}</p>
     ${d.jct_says ? `<p><strong>Journal Checker Tool says:</strong> ${esc(d.jct_says)}</p>` : ""}
     ${d.bodleian_says ? `<p><strong>The Bodleian's page says:</strong> ${esc(d.bodleian_says)}</p>` : ""}
-    <p class="cost-note">The cost shown below follows the Journal Checker Tool.
-      Confirm with ${esc(STATE.config.contact)} before submitting.</p>
+    <p class="cost-note">Because these sources disagree, this tool states
+      <strong>no expected cost</strong> for this journal — picking one of them
+      would be a guess with your money. Confirm with
+      ${esc(STATE.config.contact)} before relying on either figure.</p>
   </div>`;
 }
 

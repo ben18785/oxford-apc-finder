@@ -66,14 +66,32 @@ def check_cost_claims(data: dict) -> list[str]:
     errors = []
     for j in data["journals"]:
         deal, kind = j["deal"], j["cost"]["kind"]
-        if kind != "covered":
-            continue
+        cond = deal.get("conditions") or {}
+        risks = []
         if deal.get("expired"):
-            errors.append(f"{j['id']}: cost is a settled £0 but the agreement "
-                          f"expired on {deal['expired']['end_date']}")
-        if deal.get("disputed"):
-            errors.append(f"{j['id']}: cost is a settled £0 but our sources "
-                          "disagree about this publisher")
+            risks.append(f"the agreement expired on {deal['expired']['end_date']}")
+        if cond.get("capacity_limited"):
+            risks.append("the agreement has a capped annual allowance")
+        if cond.get("funders_only"):
+            risks.append("coverage is restricted by funder")
+
+        # This mirrors the precedence in merge.effective_cost, deliberately and
+        # independently: a conflict outranks every other doubt, because if we
+        # cannot say whether the deal is full coverage or a discount there is
+        # no figure to qualify. The two implementations agreeing is the point —
+        # if they drift, the build stops.
+        if deal.get("disputed") and deal["status"] in ("covered", "discount"):
+            if kind != "uncertain":
+                errors.append(f"{j['id']}: sources disagree about this publisher, "
+                              f"so the cost must be 'uncertain', not '{kind}'")
+            continue
+        if deal["status"] == "covered" and risks:
+            if kind != "covered_conditional":
+                errors.append(f"{j['id']}: {risks[0]}, so the cost must be "
+                              f"'covered_conditional', not '{kind}'")
+            continue
+        if kind == "covered" and (risks or deal.get("disputed")):
+            errors.append(f"{j['id']}: cost is a settled £0 despite {risks[0]}")
     # A blanket count guard as well as the per-journal one: if a future change
     # stops populating the flags altogether, every journal silently passes the
     # checks above while the site goes back to over-claiming on all of them.

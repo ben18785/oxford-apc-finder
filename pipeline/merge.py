@@ -640,6 +640,16 @@ def main() -> None:
             "deal": {"status": status, "esac_id": esac_id,
                      "discount_pct": discount_pct, "caveats": caveats,
                      "disputed": disputed, "expired": expired,
+                     # Persisted, not just used and discarded. These are two of
+                     # the four inputs that decide whether a £0 may be stated
+                     # as settled, and a rule enforced against the *output*
+                     # cannot check an input that only ever existed as a local
+                     # variable. Writing them down is what lets validate.py
+                     # assert the invariant per record rather than in
+                     # aggregate.
+                     "conditions": ({"capacity_limited": capacity_limited,
+                                     "funders_only": funders_only}
+                                    if (capacity_limited or funders_only) else None),
                      "basis": basis},
             "cost": cost,
             "scope": {
