@@ -52,6 +52,32 @@ inclusion:
   top_journals_per_subfield: 0
   remember_journals_days: 365
 
+# Usage monitoring.
+#
+# GoatCounter is used because it fits the same constraints as the rest of the
+# site: no cookies, no IP addresses retained (it hashes IP+user-agent with a
+# salt that rotates daily to count uniques, then discards it), no cross-site
+# identifiers, and no consent banner needed under GDPR. It is also open source,
+# so if the hosted service goes away the same data can be self-hosted.
+#
+# Leave goatcounter_code null and NO beacon is loaded at all: no third-party
+# script, no requests, and the usage view does not appear. The site is
+# functionally identical either way, which is the point — monitoring must never
+# be load-bearing.
+analytics:
+  # Your GoatCounter site code, i.e. the <code>.goatcounter.com subdomain.
+  goatcounter_code: ben18785
+  # A journal joins the public "most looked up" chart only once it has at least
+  # this many views. Oxford is a small population and a journal lookup is close
+  # to a statement of intent to submit; at low counts, publishing it edges from
+  # a fact about the journal towards a fact about a person.
+  min_views_to_publish: 5
+  # Likewise for the zero-result search list, which is free text and so needs a
+  # higher bar before anything is shown publicly.
+  min_searches_to_publish: 3
+  # How far back the published figures reach.
+  window_days: 90
+
 validation:
   max_weekly_drop_pct: 10        # fail build if deal-journal count drops more than this
   oracle_sample_size: 25         # random journals cross-checked against live JCT API

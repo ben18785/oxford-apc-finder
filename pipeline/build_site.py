@@ -165,6 +165,14 @@ def main() -> None:
     if changes_path.exists():
         write_json(datadir / "changes.json", read_json(changes_path))
 
+    # Optional. Absent when analytics is switched off, when no token is
+    # configured, or when GoatCounter was unreachable — the site checks before
+    # offering the usage view.
+    usage_path = OUT / "usage.json"
+    if usage_path.exists():
+        write_json(datadir / "usage.json", read_json(usage_path))
+
+    analytics = cfg.get("analytics") or {}
     write_json(SITE_OUT / "config.json", {
         "title": cfg["site_title"],
         "tagline": cfg["site_tagline"],
@@ -176,6 +184,11 @@ def main() -> None:
         "max_dataset_age_days": cfg["validation"]["max_dataset_age_days"],
         "shard_key_length": SHARD_KEY_LENGTH,
         "contact": "oapayments@bodleian.ox.ac.uk",
+        # Only the site code is published — it is public by design (it is the
+        # subdomain readers' browsers send hits to). The API token stays in CI
+        # secrets and is never written into the site.
+        "goatcounter_code": analytics.get("goatcounter_code"),
+        "usage_available": usage_path.exists(),
     })
     print(f"Site built into _site/ — {len(index)} journals, {len(shards)} detail shards")
 

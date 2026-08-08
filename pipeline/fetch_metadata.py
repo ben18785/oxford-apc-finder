@@ -368,6 +368,27 @@ def fetch_doaj(cfg, manifest, session) -> tuple[dict, list[str]]:
             "license": [l.strip() for l in (row.get("Journal license") or "").split(",")
                         if l.strip()],
             "aims_scope_url": (row.get("URL for journal's aims & scope") or "").strip() or None,
+            # What it is like to submit here. All present for every DOAJ
+            # journal, and all already in this download — no extra requests.
+            # Word limits and LaTeX policy are deliberately absent: they exist
+            # only as prose in each journal's own guidelines, so the site links
+            # there rather than pretending to hold them.
+            "submission": {
+                "author_instructions_url":
+                    (row.get("URL for journal's instructions for authors") or "").strip() or None,
+                "review_process": [r.strip() for r in
+                                   (row.get("Review process") or "").split(",") if r.strip()],
+                "weeks_to_publication":
+                    (row.get("Average number of weeks between article submission and publication") or "").strip() or None,
+                "plagiarism_screening":
+                    (row.get("Journal plagiarism screening policy") or "").strip().lower() == "yes",
+                "author_retains_copyright":
+                    (row.get("Author holds copyright without restrictions") or "").strip().lower() == "yes",
+                "persistent_ids": [x.strip() for x in
+                                   (row.get("Persistent article identifiers") or "").split(",") if x.strip()],
+                "deposit_policy": (row.get("Deposit policy directory") or "").strip() or None,
+                "deposit_policy_url": (row.get("URL for deposit policy") or "").strip() or None,
+            },
             "journal_url": (row.get("Journal URL") or "").strip() or None,
         }
         issns = [normalise_issn(row.get(k)) for k in

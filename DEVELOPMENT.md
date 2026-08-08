@@ -79,7 +79,56 @@ GitHub account to click "submit".
    truncated by rate limiting. `fetch_metadata.py` prints the run's spend and
    warns at 80% of the allowance.
 
+5. **(Optional) Turn on usage monitoring.** Off by default and entirely
+   skippable — see below.
+
 Then push to `main`, or run the **Refresh data and deploy** workflow manually.
+
+### Usage monitoring
+
+Off unless you switch it on, and the site is functionally identical either way.
+With `analytics.goatcounter_code` left `null`, no third-party script is fetched,
+nothing is counted, and the "How this site is used" link does not appear.
+
+To enable it:
+
+1. Create a free site at <https://www.goatcounter.com> and note the site code
+   (the `<code>.goatcounter.com` subdomain).
+2. Set `analytics.goatcounter_code` in `config.yaml` to that code. This value is
+   public by design — it is the subdomain readers' browsers post hits to.
+3. Create an API token in GoatCounter (Settings → API) with **read-only**
+   permissions, and add it as the repo secret `GOATCOUNTER_TOKEN`. This one is
+   *not* public; it is used only by `pipeline/fetch_usage.py` to read the
+   aggregate back, and is never written into the site.
+
+GoatCounter was chosen because it fits the same constraints as everything else
+here: no cookies, no IP addresses retained (it hashes IP + user-agent with a
+salt that rotates daily to count uniques, then discards it), no cross-site
+identifier, and so **no consent banner needed** under GDPR. It is open source,
+so the same data can be self-hosted if the service ever goes away.
+
+What is recorded:
+
+| Event | Path posted | Why |
+|---|---|---|
+| Page load | `/` | Visitor and session counts |
+| Journal opened | `/j/<deal-status>/<issn>` | Most-looked-up chart, and the deal-coverage share |
+| Search returning **nothing** | `/missing/<normalised query>` | The coverage gap — a work queue for the publisher allowlist |
+
+The deal status rides in the journal path rather than going as a second event,
+so one call yields both the per-journal count and the coverage split and the
+two cannot drift apart. Searches that *succeed* are never recorded.
+
+Two publication floors guard against the aggregate becoming disclosive. Oxford
+is a small population and looking a journal up is close to saying "I am
+thinking of submitting here", so a journal joins the public chart only at
+`min_views_to_publish` views, and a free-text query only at
+`min_searches_to_publish` searches. Whatever is withheld is still *declared* on
+the page as a count — a chart that silently drops its tail reads as complete.
+
+`fetch_usage.py` always exits 0. A missing token, an API change, or a
+GoatCounter outage costs the site a chart, never a refresh, and leaves the
+previous `usage.json` in place rather than overwriting real history with zeros.
 
 ### Schedule
 

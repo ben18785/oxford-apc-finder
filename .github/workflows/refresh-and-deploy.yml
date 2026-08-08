@@ -105,6 +105,10 @@ jobs:
       - name: Run the pipeline
         env:
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+          # Read-only GoatCounter API token, used solely to pull aggregate
+          # usage counts back for the "How this site is used" view. Absent on
+          # forks, which simply build without that view.
+          GOATCOUNTER_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
           APC_SKIP_ORACLE: ${{ inputs.skip_oracle && '1' || '' }}
         run: python pipeline/run_all.py
 

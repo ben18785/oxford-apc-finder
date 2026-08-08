@@ -30,9 +30,9 @@ const EXPLAIN = {
   model_gold: ["Open access",
     "<p>Fully open access: every article is free to read, and an article processing charge is normally payable to publish.</p><p>The figure shown is that charge, after any Oxford discount.</p>"],
   model_hybrid: ["Subscription journal with a paid open access option",
-    "<p>Articles sit behind a paywall by default, and <strong>publishing that way is free to you</strong>. Paying the charge shown makes your article open access.</p><p>So the figure is the price of openness, not the price of publishing here.</p>"],
+    "<p>Articles sit behind a paywall by default. Paying the charge shown makes your article open access instead, so the figure is the price of <em>openness</em>, not the price of publishing here.</p><p>Publishing behind the paywall is often free to the author, but not always: submission fees are near-universal in economics and finance, and page or colour charges are common in the physical sciences. This site has no source for any of them — check the journal's own author guidance.</p>"],
   model_subscription: ["Subscription journal",
-    "<p>Articles are behind a paywall and we hold no open access charge for this journal. Publishing is normally free to the author.</p><p>If you need open access — for a funder mandate, say — ask the publisher what they charge.</p>"],
+    "<p>Articles are behind a paywall and we hold no open access charge for this journal.</p><p>There is often nothing to pay, but some journals levy submission, page or colour charges that this site does not track — check the journal's author guidance.</p><p>If you need open access — for a funder mandate, say — ask the publisher what they charge.</p>"],
   waiver: ["APC waivers available",
     "<p>The journal states it will waive or reduce its charge for authors who cannot pay, typically those in lower-income countries. Terms are set by the journal, not by Oxford.</p>"],
 };
@@ -69,6 +69,7 @@ async function boot() {
   STATE.index.forEach((r, n) => { r.n = n; });   // position in the keyword arrays
   STATE.loaded = true;
   wireUI();
+  initAnalytics();
   runSearch();
   loadKeywords();
 }
@@ -292,6 +293,10 @@ function scoreRecord(rec, groups, rawQuery) {
 
 function runSearch() {
   if (!STATE.loaded) return;
+  // Any new search invalidates a pending "found nothing" report — otherwise a
+  // prefix that matched nothing gets recorded even though the finished query
+  // succeeded a keystroke later.
+  clearTimeout(missedTimer);
   const raw = $("#q").value.trim();
   const dealOnly = $("#deal-only").checked;
   const freeOnly = $("#free-only") && $("#free-only").checked;
@@ -345,6 +350,9 @@ function runSearch() {
   STATE.results = matches;
   STATE.nominalCount = byName.length;
   STATE.hiddenByFilter = hidden.map((x) => x.r);
+  // A genuine miss, not one the deal filter caused — those are a different
+  // thing and the user is already told about them.
+  if (!matches.length && !hidden.length) trackMissedSearch(cleaned);
   renderResults(matches.slice(0, 200), matches.length, byName.length,
                 STATE.hiddenByFilter);
 }
@@ -432,17 +440,17 @@ function disputeBlock(d) {
  * the ledger shows only the figure, since the status column says the rest. */
 function costFigure(rec) {
   const c = rec.c || "";
-  // Every price the site holds is the cost of publishing OPEN ACCESS. In a
-  // hybrid journal publishing is free behind the paywall, so showing the
-  // number unqualified reads as the price of publishing there at all.
-  const showHybrid = $("#show-hybrid") && $("#show-hybrid").checked;
-  // Only hide a charge the reader would actually pay. When a deal covers the
-  // journal the answer is £0, and that is exactly the useful fact — the deal's
-  // whole value is buying open access at no cost.
-  const payable = rec.s === "none" || rec.s === "discount";
-  if (rec.o === "hybrid" && payable && !showHybrid && /\d/.test(c)) {
-    return { text: "free, or pay for OA", cls: "none" };
-  }
+  // Every figure here is the cost of publishing OPEN ACCESS, and the column
+  // heading says so — which is what lets the number stand unqualified for all
+  // four publishing models alike.
+  //
+  // Hybrid journals were previously shown as "free, or pay for OA" instead,
+  // hiding the charge behind a filter. That was wrong twice over: the filter
+  // moved 667 of 46,315 rows and so looked broken, and "free" was an
+  // unsourced claim about the subscription route. Hybrids commonly levy
+  // submission fees (near-universal in economics), page charges and colour
+  // charges, and no source this site reads records any of them. The Bodleian
+  // says as much on its own page, and the disclaimer carries it.
   if (rec.o === "subscription" && /^APC unknown/.test(c)) {
     return { text: "subscription", cls: "none" };
   }
@@ -599,6 +607,10 @@ async function openDetail(id) {
     return showModal(`<h2 id="detail-title">Journal not found</h2>
       <p class="cost-note">No detail record is held for ${esc(id)}.</p>`);
   }
+  // Counted here rather than on the row click, so a failed load is not
+  // recorded as a reader having seen the journal.
+  trackJournalView({ id, s: (j.deal || {}).status, t: j.title });
+
   const scope = j.scope || {};
   const wd = j.doaj_withdrawn;
   const rep = reportLinks(j);
@@ -722,6 +734,112 @@ async function showStatus() {
       <p class="cost-note">Showing the ${Object.keys(s.sources_fetched).length} newest of
         ${(s.sources_fetched_total || 0).toLocaleString()} URLs fetched in the last refresh.</p>
       <table class="status-table"><tbody>${rows}</tbody></table>
+    </div>`;
+  $("#detail-modal").hidden = false;
+  document.body.style.overflow = "hidden";
+  $("#modal-close").focus();
+}
+
+/* What people actually look up. Deliberately modest in what it claims: these
+ * are counts of page interactions, not of people, and the difference matters
+ * enough to say on the page rather than bury in a footnote. */
+async function showUsage() {
+  let u;
+  try {
+    u = await (await fetch("data/usage.json")).json();
+  } catch {
+    return showModal(`<h2 id="detail-title">How this site is used</h2>
+      <p class="cost-note">No usage data has been published yet.</p>`);
+  }
+  const t = u.totals || {}, cov = u.coverage || {};
+  const pct = (x) => (x == null ? "—" : `${(x * 100).toFixed(0)}%`);
+  const n = (x) => (x || 0).toLocaleString();
+
+  const top = u.top_journals || [];
+  const max = top.reduce((m, r) => Math.max(m, r.views), 0) || 1;
+  const bars = top.map((r) => `
+    <div class="bar-row">
+      <div class="bar-label" title="${esc(r.title)}">${esc(r.title)}</div>
+      <div class="bar-track">
+        <div class="bar-fill ${r.status === "covered" ? "covered" : ""}"
+             style="width:${Math.max(2, (r.views / max) * 100).toFixed(1)}%"></div>
+      </div>
+      <div class="bar-value">${n(r.views)}</div>
+    </div>`).join("");
+
+  const wanted = (u.most_wanted || []).map((m) =>
+    `<li><code>${esc(m.query)}</code> — ${n(m.searches)} searches</li>`).join("");
+
+  // The coverage rate only means something next to the corpus rate. On its own
+  // it is a number nobody can calibrate.
+  const delta = (cov.covered_journal_share != null && cov.corpus_share != null)
+    ? cov.covered_journal_share - cov.corpus_share : null;
+
+  $("#detail-body").innerHTML = `
+    <h2 id="detail-title">How this site is used</h2>
+    <p class="cost-note">Last ${esc(String(u.window_days || 90))} days ·
+      updated ${esc((u.generated || "").replace("T", " ").slice(0, 16))} UTC.</p>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="n">${n(t.visitors)}</div><div class="l">visitors</div></div>
+      <div class="stat"><div class="n">${n(t.pageviews)}</div><div class="l">sessions</div></div>
+      <div class="stat"><div class="n">${n(t.journal_views)}</div><div class="l">journals looked up</div></div>
+      <div class="stat"><div class="n">${n(t.distinct_journals_viewed)}</div><div class="l">different journals</div></div>
+      <div class="stat"><div class="n">${esc(pct(cov.covered_journal_share))}</div><div class="l">of those have a deal</div></div>
+      <div class="stat"><div class="n">${n(t.countries)}</div><div class="l">countries</div></div>
+    </div>
+
+    <div class="detail-section">
+      <h4>Are the deals aimed at what people publish in?</h4>
+      ${cov.sample_journals ? `<p>${esc(pct(cov.covered_journal_share))} of the journals
+        readers looked up are covered by an Oxford deal, against
+        ${esc(pct(cov.corpus_share))} of every journal this site tracks.${
+          delta == null ? "" : delta >= 0.02
+          ? " Readers are landing on covered journals more often than chance — the deals are pointed at the right titles."
+          : delta <= -0.02
+            ? " Readers are landing on covered journals <em>less</em> often than chance, which suggests a gap between what the deals cover and what people are actually trying to publish in."
+            : " That is close to chance."}</p>
+      <p class="cost-note">Counted over the ${n(cov.sample_journals)} journals opened
+        with the “only show journals with an Oxford deal” filter <em>switched off</em>
+        (${n(cov.sample_views)} views). Views made with the filter on are excluded
+        deliberately: that list is already 100% covered, so including them would
+        measure the default setting rather than what researchers chose.</p>`
+      : `<p class="cost-note">Not enough data yet. This is measured only over journals
+        opened with the deal filter switched off, since the filtered list is already
+        100% covered and would answer the question with its own default.</p>`}
+    </div>
+
+    ${top.length ? `<div class="detail-section">
+      <h4>Most looked up</h4>
+      <div class="bar-chart">${bars}</div>
+      <p class="cost-note">Bars in colour are journals with an Oxford deal.
+        ${u.withheld && u.withheld.journals
+          ? `A further ${n(u.withheld.journals)} journals were looked up
+             ${n(u.withheld.views)} times between them but are not listed
+             individually: below ${esc(String(u.withheld.min_views_to_publish))} views,
+             naming a journal here says more about a person than about the journal.`
+          : ""}</p>
+    </div>` : ""}
+
+    ${wanted ? `<div class="detail-section">
+      <h4>Searched for, not found</h4>
+      <p class="cost-note">Queries that returned nothing. This is the site's own
+        to-do list — each one is either a journal that should be in scope, or a
+        search that should have worked.</p>
+      <ul class="wanted-list">${wanted}</ul>
+    </div>` : ""}
+
+    <div class="detail-section">
+      <h4>What is and is not recorded</h4>
+      <p>Counting is done by <a href="https://www.goatcounter.com" target="_blank"
+        rel="noopener">GoatCounter</a>, which sets <strong>no cookies</strong>, stores
+        <strong>no IP addresses</strong>, and issues no identifier that could follow you
+        to another site. Recorded: that a journal page was opened, and the country a
+        request came from. Not recorded: who you are, what you searched for when the
+        search worked, or anything you go on to do.</p>
+      <p class="cost-note">“Visitors” and “sessions” are browser-side estimates, not
+        counts of people — one person on a laptop and a phone is two, and a shared
+        machine may be one. Treat them as an order of magnitude.</p>
     </div>`;
   $("#detail-modal").hidden = false;
   document.body.style.overflow = "hidden";
@@ -886,13 +1004,78 @@ function showAbout() {
   $("#modal-close").focus();
 }
 
+/* ---------------- usage monitoring ----------------
+ *
+ * Cookieless and aggregate-only. GoatCounter sets no cookie, stores no IP
+ * address, and issues no cross-site identifier, so there is nothing here that
+ * needs a consent banner and nothing that follows a reader off this page.
+ *
+ * Everything below is a no-op unless config.json carries a goatcounter_code —
+ * with monitoring off, no third-party script is fetched at all. Every call is
+ * also guarded against the script being blocked, which it often is: an ad
+ * blocker must degrade the counting, never the tool. */
+function initAnalytics() {
+  const code = STATE.config && STATE.config.goatcounter_code;
+  if (!code) return;
+  window.goatcounter = { path: () => location.pathname || "/" };
+  const s = document.createElement("script");
+  s.async = true;
+  s.src = "https://gc.zgo.at/count.js";
+  s.setAttribute("data-goatcounter", `https://${code}.goatcounter.com/count`);
+  document.head.appendChild(s);
+}
+
+/* Record one event. Silent by design: a failure here must be invisible. */
+function track(path, title) {
+  try {
+    const gc = window.goatcounter;
+    if (gc && typeof gc.count === "function") {
+      gc.count({ path, title: title || "", event: true });
+    }
+  } catch { /* counting is never worth an error in the console */ }
+}
+
+/* The deal status rides in the path rather than going as a second event, so
+ * one call yields both the per-journal count and the coverage split — and the
+ * two cannot drift apart the way separate counters would.
+ *
+ * The filter state rides along too, because without it the coverage share is
+ * not a finding, it is an artefact: "Only show journals with an Oxford deal"
+ * is ON by default, so most readers are choosing from a list that is already
+ * 100% covered. Only views taken with the filter OFF say anything about what
+ * people would have picked freely, and only those are used for the share. */
+function trackJournalView(rec) {
+  if (!rec) return;
+  const el = $("#deal-only");
+  const scope = el && el.checked ? "deals" : "all";
+  track(`j/${rec.s || "none"}/${scope}/${rec.id}`, rec.t || "");
+}
+
+/* Only searches that found NOTHING are recorded, and only the normalised
+ * terms. A zero-result search is the one query whose text is actually useful —
+ * it is a coverage gap, and the list of them is a work queue for the
+ * publisher allowlist. Recording every search instead would be a far larger
+ * pile of free text for no added insight.
+ *
+ * Held well past the 120ms search debounce so only a finished query is
+ * recorded. Without this, typing a missing title one letter at a time posts
+ * every prefix that happens to match nothing, and the resulting list is a
+ * tower of fragments rather than the thing the reader was looking for. */
+let missedTimer;
+function trackMissedSearch(raw) {
+  const q = (raw || "").toLowerCase().replace(/[^a-z0-9 ]+/g, " ")
+    .replace(/\s+/g, " ").trim().slice(0, 60);
+  clearTimeout(missedTimer);
+  if (q.length < 3) return;
+  missedTimer = setTimeout(() => track(`missing/${q}`, "(no results)"), 2500);
+}
+
 /* ---------------- wiring ---------------- */
 let debounce;
 function wireUI() {
   $("#q").addEventListener("input", () => { clearTimeout(debounce); debounce = setTimeout(runSearch, 120); });
   $("#search-form").addEventListener("submit", e => { e.preventDefault(); runSearch(); });
   $("#deal-only").addEventListener("change", runSearch);
-  $("#show-hybrid").addEventListener("change", runSearch);
   $("#free-only").addEventListener("change", runSearch);
   $("#modal-close").addEventListener("click", closeModal);
   $("#detail-modal").addEventListener("click", e => { if (e.target.id === "detail-modal") closeModal(); });
@@ -911,6 +1094,14 @@ function wireUI() {
   window.addEventListener("resize", closeWhy);
   $("#foot-status").addEventListener("click", e => { e.preventDefault(); showStatus(); });
   $("#foot-about").addEventListener("click", e => { e.preventDefault(); showAbout(); });
+  // Offered only when a build actually published figures, so the link can
+  // never lead to an empty page.
+  const usageLink = $("#foot-usage");
+  if (usageLink && STATE.config.usage_available) {
+    usageLink.hidden = false;
+    usageLink.insertAdjacentText("afterend", " · ");
+    usageLink.addEventListener("click", e => { e.preventDefault(); showUsage(); });
+  }
   $("#disclaimer-link").addEventListener("click", e => { e.preventDefault(); showDisclaimer(); });
   $("#search-tips").addEventListener("click", e => { e.preventDefault(); showSearchTips(); });
   // Always reachable, not only when a search comes up empty: someone who finds

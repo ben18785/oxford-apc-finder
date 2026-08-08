@@ -536,6 +536,7 @@ def main() -> None:
                 "aims_url": (doaj_rec or {}).get("aims_scope_url") or rec.get("homepage"),
             },
             "browse": browse_links(rec, doaj_rec),
+            "submission": (doaj_rec or {}).get("submission"),
             "waiver": bool(doaj_rec and doaj_rec.get("waiver")),
             "provenance": provenance,
         })

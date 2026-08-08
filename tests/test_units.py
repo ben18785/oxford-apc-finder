@@ -767,3 +767,131 @@ def test_regression_quota_exhaustion_is_not_retried():
     assert issubclass(DailyQuotaExhausted, RuntimeError)
     err = DailyQuotaExhausted("daily request allowance exhausted; resets in 6.6 hours")
     assert "allowance exhausted" in str(err) and "resets" in str(err)
+
+
+# ------------------------------------------------- usage monitoring
+from fetch_usage import split_journal_path, summarise, _first_int  # noqa: E402
+
+USAGE_CFG = {"min_views_to_publish": 5, "min_searches_to_publish": 3,
+             "window_days": 90}
+CORPUS = {"total": 46315, "covered": 12535}
+
+
+@pytest.mark.parametrize("path,expected", [
+    ("/j/covered/all/1234-5678", ("covered", "all", "1234-5678")),
+    ("j/none/deals/1234-5678", ("none", "deals", "1234-5678")),   # slash optional
+    ("/j/discount/all/1234-5678/", ("discount", "all", "1234-5678")),
+    # Three-segment form predates the scope segment. Those views still count
+    # towards the chart; they just cannot support a coverage share.
+    ("/j/covered/1234-5678", ("covered", "deals", "1234-5678")),
+    ("/missing/some query", None),
+    ("/", None),
+    ("/j/covered", None),                             # too few segments
+    ("/other/covered/all/1234-5678", None),
+])
+def test_journal_paths_are_parsed_and_everything_else_ignored(path, expected):
+    assert split_journal_path(path) == expected
+
+
+def test_ordinary_pageviews_are_not_counted_as_journal_lookups():
+    """The homepage is by far the most-hit path. Counting it as a journal would
+    put a phantom entry at the top of the chart and skew every share below."""
+    u = summarise([{"path": "/", "title": "home", "count": 900},
+                   {"path": "/j/covered/all/1111-2222", "title": "Nature", "count": 10}],
+                  [], {"total": 910}, CORPUS, USAGE_CFG)
+    assert u["totals"]["journal_views"] == 10
+    assert u["totals"]["distinct_journals_viewed"] == 1
+
+
+def test_journals_below_the_floor_are_withheld_but_still_declared():
+    """Oxford is a small population: at low counts, naming a journal here says
+    more about a person than about the journal. It must still be declared,
+    though — a chart that silently drops its tail reads as complete."""
+    hits = [{"path": "/j/covered/all/1111-2222", "title": "Nature", "count": 40},
+            {"path": "/j/none/all/3333-4444", "title": "Tiny", "count": 2},
+            {"path": "/j/none/all/5555-6666", "title": "Tinier", "count": 1}]
+    u = summarise(hits, [], {}, CORPUS, USAGE_CFG)
+    titles = [j["title"] for j in u["top_journals"]]
+    assert titles == ["Nature"]
+    assert u["withheld"] == {"journals": 2, "views": 3, "min_views_to_publish": 5}
+
+
+def test_free_text_searches_need_several_people_before_publication():
+    hits = [{"path": "/missing/law quarterly review", "count": 5},
+            {"path": "/missing/something identifying", "count": 1}]
+    u = summarise(hits, [], {}, CORPUS, USAGE_CFG)
+    assert [m["query"] for m in u["most_wanted"]] == ["law quarterly review"]
+
+
+def test_coverage_share_is_reported_against_the_corpus_baseline():
+    """The share on its own is uncalibratable. It only means something next to
+    the rate across every journal the site tracks."""
+    hits = [{"path": "/j/covered/all/1111-2222", "title": "A", "count": 10},
+            {"path": "/j/none/all/3333-4444", "title": "B", "count": 10}]
+    u = summarise(hits, [], {}, CORPUS, USAGE_CFG)
+    assert u["coverage"]["covered_journal_share"] == 0.5
+    assert round(u["coverage"]["corpus_share"], 3) == 0.271
+
+
+def test_no_traffic_does_not_divide_by_zero():
+    u = summarise([], [], {}, CORPUS, USAGE_CFG)
+    assert u["coverage"]["covered_view_share"] is None
+    assert u["totals"]["journal_views"] == 0
+
+
+def test_totals_survive_the_api_renaming_its_fields():
+    """GoatCounter has changed how it reports totals between releases. Guessing
+    one name and getting a zero would be published to readers as '0 visitors',
+    which is worse than publishing nothing."""
+    assert _first_int({"total_unique": 7}, "total_unique", "unique") == 7
+    assert _first_int({"unique": 7}, "total_unique", "unique") == 7
+    assert _first_int({}, "total_unique", "unique") == 0
+
+
+def test_regression_coverage_share_ignores_views_made_under_the_deal_filter():
+    """"Only show journals with an Oxford deal" is ON by default, so those
+    readers are picking from a list that is already 100% covered. Counting
+    those views would report the default setting back as a finding about what
+    researchers publish in."""
+    hits = [
+        # Filtered browsing: every one covered, and every one irrelevant here.
+        {"path": "/j/covered/deals/1111-1111", "title": "A", "count": 50},
+        {"path": "/j/covered/deals/2222-2222", "title": "B", "count": 50},
+        # Unfiltered: the only views that answer the question.
+        {"path": "/j/covered/all/3333-3333", "title": "C", "count": 5},
+        {"path": "/j/none/all/4444-4444", "title": "D", "count": 5},
+        {"path": "/j/none/all/5555-5555", "title": "E", "count": 5},
+    ]
+    u = summarise(hits, [], {}, CORPUS, USAGE_CFG)
+    # One of three unfiltered journals is covered, not five of five.
+    assert u["coverage"]["covered_journal_share"] == pytest.approx(1 / 3)
+    assert u["coverage"]["sample_journals"] == 3
+    assert u["coverage"]["sample_views"] == 15
+    # The chart itself still counts every view, filtered or not.
+    assert u["totals"]["journal_views"] == 115
+
+
+def test_coverage_share_is_withheld_rather_than_guessed_without_a_sample():
+    """With no unfiltered views there is no honest number to report."""
+    u = summarise([{"path": "/j/covered/deals/1111-1111", "title": "A", "count": 30}],
+                  [], {}, CORPUS, USAGE_CFG)
+    assert u["coverage"]["covered_journal_share"] is None
+    assert u["coverage"]["sample_journals"] == 0
+
+
+def test_a_site_with_no_traffic_yet_publishes_nothing(tmp_path, monkeypatch):
+    """Zeros in every field would put a "How this site is used" link in the
+    footer leading to a page of noughts — that reads as a broken feature, not
+    a new one. Nothing counted means nothing published."""
+    import fetch_usage
+    monkeypatch.setattr(fetch_usage, "OUT", tmp_path)
+    monkeypatch.setattr(fetch_usage, "_api", lambda base, path, token, params: (
+        {"total": 0, "total_events": 0} if path == "/stats/total"
+        else {"hits": [], "more": False} if path == "/stats/hits"
+        else {"stats": [], "more": False}))
+    monkeypatch.setenv("GOATCOUNTER_TOKEN", "test-token")
+    monkeypatch.setattr(fetch_usage, "load_config",
+                        lambda: {"analytics": {"goatcounter_code": "example",
+                                               "window_days": 90}})
+    fetch_usage.main()
+    assert not (tmp_path / "usage.json").exists()

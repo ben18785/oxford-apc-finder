@@ -56,7 +56,10 @@ function el(sel) { if (!ELS[sel]) { ELS[sel] = new El(sel); } return ELS[sel]; }
 
 globalThis.document = {
   querySelector: el, addEventListener: function () {},
-  body: { style: {} }, title: ""
+  // head is stubbed for the same reason window is: a browser always has it, so
+  // code that touches it looks fine in review and then silently rejects the
+  // whole boot promise here, surfacing as unrelated-looking failures.
+  body: { style: {} }, head: { appendChild: function (c) { return c; } }, title: ""
 };
 globalThis.location = { href: "http://localhost/" };
 /* The popover reads window geometry and listens for resize. A browser always
@@ -321,22 +324,33 @@ chain.then(function () {
       search(a).some(function (r) { return r.id === withAcro.id; }), a);
   }
 
-  /* Every price the site holds is an OPEN ACCESS charge. In a hybrid journal
-   * publishing is free behind the paywall, so the figure must not read as the
-   * price of publishing there at all. */
+  /* Every figure is an OPEN ACCESS charge and the column heading says so, so
+   * all four publishing models show their number the same way — no filter, no
+   * hidden state. */
   var hybridPayable = STATE.index.filter(function (r) {
     return r.o === "hybrid" && r.s === "none" && /\d/.test(r.c || ""); })[0];
   if (hybridPayable) {
-    el("#show-hybrid").checked = false;
-    check("hybrid OA charges are hidden by default",
-      costFigure(hybridPayable).text.indexOf("free") !== -1,
-      costFigure(hybridPayable).text);
-    el("#show-hybrid").checked = true;
-    check("the toggle reveals the hybrid OA charge",
+    check("a hybrid journal shows its OA charge like any other",
       /\d/.test(costFigure(hybridPayable).text),
       costFigure(hybridPayable).text);
-    el("#show-hybrid").checked = false;
+    /* The site has no source for page charges, colour charges or submission
+     * fees — near-universal in economics — so it must never tell a reader the
+     * subscription route is free. */
+    check("the cost cell makes no claim about publishing non-open-access",
+      costFigure(hybridPayable).text.toLowerCase().indexOf("free") === -1,
+      costFigure(hybridPayable).text);
   }
+
+  /* The same claim must not survive in the explainer either. Removing it from
+   * the cost cell and leaving it in bold behind the "?" would just move the
+   * over-claim somewhere harder to notice. */
+  ["model_hybrid", "model_subscription"].forEach(function (k) {
+    var text = EXPLAIN[k][1];
+    check(k + " does not assert that publishing non-open-access is free",
+      !/is free to you|is free to the author|normally free/.test(text));
+    check(k + " names the charges the site cannot see",
+      /submission|page or colour|colour charges/.test(text));
+  });
 
   var hybridCovered = STATE.index.filter(function (r) {
     return r.o === "hybrid" && r.s === "covered"; })[0];
@@ -401,6 +415,158 @@ chain.then(function () {
       check("a missing shard reports an error instead of doing nothing",
         err.indexOf("Could not load") !== -1 || err.indexOf("not found") !== -1,
         err.slice(0, 120));
+    });
+
+  /* ------------------------------------------------- usage monitoring */
+  }).then(function () {
+    /* The beacon must be inert unless a site code is configured. A build with
+     * analytics off must load no third-party script and post nothing. */
+    var created = 0, realCreate = globalThis.document.createElement;
+    globalThis.document.createElement = function () { created++; return new El("created"); };
+    var savedCode = STATE.config.goatcounter_code;
+    STATE.config.goatcounter_code = null;
+    initAnalytics();
+    check("no analytics script is loaded when no site code is configured",
+      created === 0, created + " element(s) created");
+
+    STATE.config.goatcounter_code = "example";
+    initAnalytics();
+    check("analytics script is loaded when a site code is configured", created === 1);
+    STATE.config.goatcounter_code = savedCode;
+    globalThis.document.createElement = realCreate;
+
+    /* Counting must never be able to break the page. With GoatCounter absent
+     * (blocked, or still loading) every call is a silent no-op. */
+    var threw = false;
+    globalThis.window.goatcounter = undefined;
+    try {
+      track("j/covered/1234-5678", "Nature");
+      trackJournalView({ id: "1234-5678", s: "covered", t: "Nature" });
+      trackMissedSearch("some missing journal");
+    } catch (e) { threw = true; }
+    check("tracking is a no-op when the counter is unavailable", !threw);
+
+    /* The deal status travels in the path, so one call yields both the
+     * per-journal count and the coverage split. */
+    var posted = [];
+    globalThis.window.goatcounter = { count: function (o) { posted.push(o); } };
+    el("#deal-only").checked = false;
+    trackJournalView({ id: "1234-5678", s: "covered", t: "Nature" });
+    check("a journal view records status, filter scope and ISSN in the path",
+      posted.length === 1 && posted[0].path === "j/covered/all/1234-5678",
+      JSON.stringify(posted[0]));
+    trackJournalView({ id: "3333-4444", s: undefined, t: "No deal" });
+    check("a journal with no deal status still records a usable path",
+      posted[1] && posted[1].path === "j/none/all/3333-4444",
+      JSON.stringify(posted[1]));
+    /* The filter state has to travel with the view, or the coverage share
+     * measures the default setting rather than what the reader chose. */
+    el("#deal-only").checked = true;
+    trackJournalView({ id: "1234-5678", s: "covered", t: "Nature" });
+    check("a view made under the deal filter is marked as such",
+      posted[2] && posted[2].path === "j/covered/deals/1234-5678",
+      JSON.stringify(posted[2]));
+    el("#deal-only").checked = false;
+
+    /* Search text is only ever recorded for a search that found nothing, and
+     * only after normalising: no punctuation, no case, length-capped. */
+    posted.length = 0;
+    trackMissedSearch("  Law Quarterly REVIEW!! ");
+    check("a missed search is normalised before being recorded",
+      posted.length === 1 && posted[0].path === "missing/law quarterly review",
+      JSON.stringify(posted[0]));
+    posted.length = 0;
+    trackMissedSearch("ab");
+    check("a too-short query is not recorded", posted.length === 0);
+    globalThis.window.goatcounter = undefined;
+
+    /* A real search that finds something must record nothing at all. */
+    posted.length = 0;
+    globalThis.window.goatcounter = { count: function (o) { posted.push(o); } };
+    search(first.t);
+    check("a search that finds results records nothing", posted.length === 0,
+      JSON.stringify(posted));
+
+    /* Typing a missing title one letter at a time must post the finished
+     * query, not every prefix that happened to match nothing. The harness
+     * fires setTimeout synchronously, which would hide exactly this, so hold
+     * the callbacks in a queue for the duration of the check. */
+    var pending = [], realSet = globalThis.setTimeout, realClear = globalThis.clearTimeout;
+    globalThis.setTimeout = function (fn) { pending.push(fn); return pending.length; };
+    globalThis.clearTimeout = function (h) { if (h) { pending[h - 1] = null; } };
+    posted.length = 0;
+    trackMissedSearch("zzzq");
+    trackMissedSearch("zzzqq");
+    trackMissedSearch("zzzqqxwv");
+    pending.forEach(function (fn) { if (fn) { fn(); } });
+    check("only the finished query is recorded, not each prefix",
+      posted.length === 1 && posted[0].path === "missing/zzzqqxwv",
+      JSON.stringify(posted));
+    globalThis.setTimeout = realSet; globalThis.clearTimeout = realClear;
+    globalThis.window.goatcounter = undefined;
+
+    /* The usage view, against a synthetic payload — the real one only exists
+     * once a build has pulled stats back. */
+    var realFetch = globalThis.fetch;
+    globalThis.fetch = function (path) {
+      if (path.indexOf("usage.json") === -1) { return realFetch(path); }
+      return Promise.resolve({ ok: true, status: 200, json: function () {
+        return Promise.resolve({
+          generated: "2026-08-08T00:00:00Z", window_days: 90,
+          totals: { pageviews: 1200, visitors: 310, journal_views: 77,
+                    distinct_journals_viewed: 5, countries: 2 },
+          coverage: { covered_journal_share: 0.4, corpus_share: 0.27,
+                      sample_journals: 5, sample_views: 20 },
+          top_journals: [
+            { issn_l: "1234-5678", title: "Nature", status: "covered", views: 40 },
+            { issn_l: "3333-4444", title: "Obscure Review", status: "none", views: 7 }],
+          withheld: { journals: 3, views: 6, min_views_to_publish: 5 },
+          most_wanted: [{ query: "law quarterly review", searches: 5 }],
+          top_countries: [{ code: "GB", name: "United Kingdom", count: 800 }],
+        });
+      } });
+    };
+    return showUsage().then(function () {
+      var u = el("#detail-body").innerHTML;
+      check("usage view renders the headline counts",
+        u.indexOf("310") !== -1 && u.indexOf("visitors") !== -1);
+      check("usage view draws a bar per journal",
+        (u.match(/bar-fill/g) || []).length === 2,
+        (u.match(/bar-fill/g) || []).length + " bars");
+      check("usage view marks deal-covered bars",
+        u.indexOf("bar-fill covered") !== -1);
+      check("usage view compares coverage against the whole corpus",
+        u.indexOf("40%") !== -1 && u.indexOf("27%") !== -1);
+      check("usage view says what the coverage share was measured over",
+        u.indexOf("switched off") !== -1 && u.indexOf("5 journals") !== -1);
+      check("usage view discloses what it withheld",
+        u.indexOf("3 journals were looked up") !== -1
+        && u.indexOf("below 5 views") !== -1);
+      check("usage view lists searches that found nothing",
+        u.indexOf("law quarterly review") !== -1);
+      check("usage view states the privacy position",
+        u.indexOf("no cookies") !== -1 && u.indexOf("no IP addresses") !== -1);
+      /* The counts are browser-side estimates. Presenting them as a headcount
+       * would be the one genuinely misleading thing this view could do. */
+      check("usage view does not present visitors as a count of people",
+        /not\s+counts of people/.test(u));
+      globalThis.fetch = realFetch;
+    });
+
+    /* A build with no usage data must degrade to a message, not an error. */
+  }).then(function () {
+    var realFetch = globalThis.fetch;
+    globalThis.fetch = function (path) {
+      if (path.indexOf("usage.json") !== -1) {
+        return Promise.resolve({ ok: false, status: 404,
+          json: function () { return Promise.reject(new Error("404")); } });
+      }
+      return realFetch(path);
+    };
+    return showUsage().then(function () {
+      check("usage view degrades gracefully when no data is published",
+        el("#detail-body").innerHTML.indexOf("No usage data") !== -1);
+      globalThis.fetch = realFetch;
     });
   }).then(function () {
     say(FAILURES ? "\n" + FAILURES + " check(s) FAILED" : "\nall frontend checks passed");

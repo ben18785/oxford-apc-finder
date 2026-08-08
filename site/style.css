@@ -279,6 +279,31 @@ body {
 .stat .n { font-size: 1.5rem; font-weight: 700; color: var(--oxford); }
 .stat .l { font-size: .78rem; color: var(--muted); }
 
+/* ---- usage view: horizontal bar chart -------------------------------
+ * Hand-built rather than pulled from a charting library: it is a dozen bars,
+ * and a dependency would outweigh the whole rest of the site's JavaScript. */
+.bar-chart { display: flex; flex-direction: column; gap: 6px; margin: 12px 0; }
+.bar-row { display: grid; grid-template-columns: minmax(0, 15rem) 1fr auto; gap: 10px; align-items: center; }
+.bar-label {
+  font-size: .85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.bar-track { background: var(--bg); border-radius: 4px; height: 1.1rem; overflow: hidden; }
+.bar-fill { background: var(--muted); height: 100%; border-radius: 4px; }
+.bar-fill.covered { background: var(--accent); }
+.bar-value {
+  font-size: .82rem; color: var(--muted); min-width: 3.5ch; text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.wanted-list { margin: 8px 0 0; padding-left: 1.2rem; font-size: .9rem; }
+.wanted-list li { margin-bottom: 3px; }
+
+@media (max-width: 560px) {
+  /* Truncated to a few characters the label stops being a journal name, so
+     stack instead and give it the full width. */
+  .bar-row { grid-template-columns: 1fr auto; }
+  .bar-label { grid-column: 1 / -1; }
+}
+
 @media (max-width: 520px) {
   .jcard-top { flex-direction: column; gap: 6px; }
 }
