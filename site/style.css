@@ -294,6 +294,23 @@ body {
   font-size: .82rem; color: var(--muted); min-width: 3.5ch; text-align: right;
   font-variant-numeric: tabular-nums;
 }
+/* ---- "Submitting here" ------------------------------------------------
+ * Label/value pairs as a real <dl>: these are journal policies, which is
+ * exactly what a description list is for, and it reads correctly to a screen
+ * reader without any ARIA. */
+.subm-grid {
+  display: grid; grid-template-columns: minmax(0, 12rem) 1fr;
+  gap: 6px 16px; margin: 12px 0 4px;
+}
+.subm-grid dt { color: var(--muted); font-size: .88rem; }
+.subm-grid dd { margin: 0; font-size: .92rem; }
+
+@media (max-width: 520px) {
+  /* At this width the label column squeezes values onto three lines each. */
+  .subm-grid { grid-template-columns: 1fr; gap: 2px; }
+  .subm-grid dd { margin-bottom: 8px; }
+}
+
 .wanted-list { margin: 8px 0 0; padding-left: 1.2rem; font-size: .9rem; }
 .wanted-list li { margin-bottom: 3px; }
 

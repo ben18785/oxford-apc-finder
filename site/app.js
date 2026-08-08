@@ -589,6 +589,71 @@ function reportLinks(j) {
   return { url, title, body };
 }
 
+/* What DOAJ records about actually submitting here.
+ *
+ * Only journals in DOAJ have any of this — about half the site — so the whole
+ * section is omitted rather than rendering a page of blanks on the other half.
+ *
+ * The two booleans are never null in the source: DOAJ requires an answer, so
+ * `false` genuinely means "no", not "we don't know". They are rendered as a
+ * plain No for that reason, which is a stronger claim than the site usually
+ * makes and is only safe because the field is mandatory upstream. */
+function submissionBlock(j) {
+  const s = j.submission;
+  if (!s) return "";
+
+  const rows = [];
+  const row = (label, value) => {
+    if (value) rows.push(`<dt>${esc(label)}</dt><dd>${value}</dd>`);
+  };
+
+  if (s.review_process && s.review_process.length) {
+    row("Peer review", esc(s.review_process.join(" · ")));
+  }
+  // Stored as a string, and not always a bare number.
+  const wk = (s.weeks_to_publication || "").toString().trim();
+  if (wk) {
+    row("Time to publication",
+        /^\d+$/.test(wk) ? `About ${esc(wk)} week${wk === "1" ? "" : "s"} from submission`
+                         : esc(wk));
+  }
+  if (typeof s.plagiarism_screening === "boolean") {
+    row("Plagiarism screening", s.plagiarism_screening ? "Yes" : "No");
+  }
+  if (typeof s.author_retains_copyright === "boolean") {
+    row("Author keeps copyright", s.author_retains_copyright ? "Yes" : "No");
+  }
+  if (s.persistent_ids && s.persistent_ids.length) {
+    row("Persistent identifiers", esc(s.persistent_ids.join(" · ")));
+  }
+  // A handful of records carry the URL with no label. Gating the row on the
+  // label alone silently threw the link away for those.
+  if (s.deposit_policy || s.deposit_policy_url) {
+    const label = esc(s.deposit_policy || "See the journal's policy");
+    row("Archiving policy", s.deposit_policy_url
+      ? `<a href="${esc(s.deposit_policy_url)}" target="_blank" rel="noopener">${label} ↗</a>`
+      : label);
+  }
+
+  if (!rows.length && !s.author_instructions_url) return "";
+
+  return `
+    <div class="detail-section">
+      <h4>Submitting here</h4>
+      ${s.author_instructions_url ? `<p class="src"><a class="btn"
+        href="${esc(s.author_instructions_url)}" target="_blank" rel="noopener"
+        >The journal's author guidelines ↗</a></p>` : ""}
+      ${rows.length ? `<dl class="subm-grid">${rows.join("")}</dl>` : ""}
+      <p class="derived-note">Recorded by the journal in its
+        <a href="https://doaj.org/" target="_blank" rel="noopener">DOAJ</a> entry,
+        not by Oxford — and describing the journal's stated policy, not any
+        individual submission.</p>
+      <p class="cost-note">Word limits, LaTeX and preprint policies are not
+        shown because no structured source publishes them; they live in the
+        author guidelines above.</p>
+    </div>`;
+}
+
 async function openDetail(id) {
   let shard;
   try {
@@ -660,6 +725,8 @@ async function openDetail(id) {
       ${j.browse.map(b => `<div class="src"><a href="${esc(b.url)}"
         target="_blank" rel="noopener">${esc(b.label)} \u2197</a></div>`).join("")}
     </div>` : ""}
+
+    ${submissionBlock(j)}
 
     <div class="detail-section">
       <h4>Sources for the information above</h4>

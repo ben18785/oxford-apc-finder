@@ -409,12 +409,71 @@ chain.then(function () {
       body.indexOf("Browse recent articles") !== -1
       && body.indexOf("openalex.org/works") !== -1);
 
+    /* ---- "Submitting here" ------------------------------------------
+     * Present only for DOAJ journals (about half the site), so both the
+     * rendered and the omitted case are checked. */
+    var withSub = null, withoutSub = null;
+    for (var n = 0; n < STATE.index.length && (!withSub || !withoutSub); n++) {
+      var rec = STATE.index[n];
+      if (rec.d && !withSub) { withSub = rec; }
+      if (!rec.d && !withoutSub) { withoutSub = rec; }
+    }
+
+    return openDetail(withSub.id).then(function () {
+      var b = el("#detail-body").innerHTML;
+      /* Assert the invariant rather than assuming this particular journal has
+       * the data: the panel must appear exactly when submission data exists,
+       * which is what would break if merge stopped emitting the field. */
+      var shard = STATE.shards[withSub.id.slice(0, STATE.config.shard_key_length || 4)];
+      var hasData = !!(shard && shard[withSub.id] && shard[withSub.id].submission);
+      check("the Submitting here panel appears exactly when there is data for it",
+        (b.indexOf("Submitting here") !== -1) === hasData,
+        withSub.t + " (submission data: " + hasData + ")");
+      check("some DOAJ journal in the index actually carries submission data",
+        hasData, "merge may have stopped emitting the field");
+      check("the panel links the journal's author guidelines",
+        b.indexOf("author guidelines") !== -1);
+      check("the panel says who recorded it, not just what it says",
+        b.indexOf("Recorded by the journal") !== -1 && b.indexOf("doaj.org") !== -1);
+      /* The one question users actually asked for, and the one thing no
+       * structured source publishes. Saying so beats a silent omission. */
+      check("the panel explains why word limits are absent",
+        b.indexOf("Word limits") !== -1 && b.indexOf("LaTeX") !== -1);
+      return openDetail(withoutSub.id);
+    }).then(function () {
+      check("a non-DOAJ journal gets no empty Submitting here panel",
+        el("#detail-body").innerHTML.indexOf("Submitting here") === -1,
+        withoutSub.t);
+
+      /* `false` is a real answer here — DOAJ makes both fields mandatory — so
+       * it must render as "No", not vanish the way a null would. */
+      var noScreen = STATE.index.filter(function (r) { return r.d; })[0];
+      var fake = { submission: { plagiarism_screening: false,
+                                 author_retains_copyright: false,
+                                 review_process: [], persistent_ids: [] } };
+      var html = submissionBlock(fake);
+      check("a mandatory boolean that is false renders as No, not as absent",
+        (html.match(/<dd>No<\/dd>/g) || []).length === 2, html);
+
+      var missing = submissionBlock({ submission: null });
+      check("no submission data renders nothing at all", missing === "");
+
+      /* A few DOAJ records carry the archiving URL with no label. Gating the
+       * row on the label alone silently threw the link away. */
+      var urlOnly = submissionBlock({ submission: {
+        deposit_policy: null,
+        deposit_policy_url: "https://example.org/archiving" } });
+      check("an archiving URL with no label still renders as a link",
+        urlOnly.indexOf("https://example.org/archiving") !== -1, urlOnly);
+    }).then(function () {
+
     /* A shard that does not exist must say so rather than dying silently. */
     return openDetail("9999-9999").then(function () {
       var err = el("#detail-body").innerHTML;
       check("a missing shard reports an error instead of doing nothing",
         err.indexOf("Could not load") !== -1 || err.indexOf("not found") !== -1,
         err.slice(0, 120));
+    });
     });
 
   /* ------------------------------------------------- usage monitoring */
