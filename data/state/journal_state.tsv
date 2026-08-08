@@ -583,6 +583,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0005-9021	Berichte der Bunsengesellschaft für physikalische Chemie	none	unknown			
 0005-9366	Berliner und Münchener tierärztliche Wochenschrift	none	list_price	950	EUR	
 0005-9900	Beton- und Stahlbetonbau	none	unknown			
+0006-0895	The Biblical Archaeologist	none	unknown			
 0006-1972	Bibliotheksdienst	none	unknown			
 0006-2014	Biblische Zeitschrift	covered	covered			
 0006-2278	Bijdragen	covered	covered			
@@ -2735,6 +2736,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0030-9842	Pakistan journal of medical research	none	no_apc			
 0030-9923	Pakistan Journal of Zoology	none	unknown			
 0030-9982	Journal of the Pakistan Medical Association	none	list_price	650	USD	
+0031-0174	The Palaeobotanist	none	unknown			
 0031-0182	Palaeogeography Palaeoclimatology Palaeoecology	covered	covered			
 0031-0220	Paläontologische Zeitschrift	covered	covered			
 0031-0239	Palaeontology	covered	covered			
@@ -46431,6 +46433,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3067-8935	The Journal of LGBTQ+ Mental Health	covered	covered			
 3067-9125	Evidence Base	covered	covered			
 3067-946X	Journal of Environmental Science Health & Sustainability	none	list_price	500	USD	
+3068-0433	Immersive Technologies	covered	covered			
 3068-1618	ASA Discoveries	covered	covered			
 3068-1634	Journal of HIV & Social Services	covered	covered			
 3068-2576	Respiratory Care Reports	none	unknown			

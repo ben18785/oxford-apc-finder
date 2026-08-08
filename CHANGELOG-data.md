@@ -5,6 +5,10 @@ What the site said, and when it changed. Generated automatically by
 
 ## 2026-08-08
 
+- **3** journals added, **0** removed, **0** changed.
+
+## 2026-08-08
+
 - **353** journals added, **0** removed, **3649** changed.
 
 ### Deal status changes (3637)
