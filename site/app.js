@@ -33,6 +33,8 @@ const EXPLAIN = {
     "<p>Articles sit behind a paywall by default. Paying the charge shown makes your article open access instead, so the figure is the price of <em>openness</em>, not the price of publishing here.</p><p>Publishing behind the paywall is often free to the author, but not always: submission fees are near-universal in economics and finance, and page or colour charges are common in the physical sciences. This site has no source for any of them — check the journal's own author guidance.</p>"],
   model_subscription: ["Subscription journal",
     "<p>Articles are behind a paywall and we hold no open access charge for this journal.</p><p>There is often nothing to pay, but some journals levy submission, page or colour charges that this site does not track — check the journal's author guidance.</p><p>If you need open access — for a funder mandate, say — ask the publisher what they charge.</p>"],
+  inclusion: ["What gets listed here",
+    "<p>This is not every journal in existence — roughly 46,000 of them. A journal is listed if <em>any</em> of these is true:</p><ul><li>Oxford has a deal covering it, or the Bodleian lists a discount for its publisher</li><li>It is in the Directory of Open Access Journals</li><li>Its publisher is one of about 95 established publishers, societies and university presses on a vetted list</li><li>It appears in a transformative agreement <em>anywhere in the world</em>, not only Oxford's</li><li>It is among the 15,000 most-cited journals</li><li>This site has listed it before — kept for a year, so coverage cannot shrink just because a source had a bad day</li></ul><p>Journals withdrawn from DOAJ for misconduct-type reasons are excluded, whoever publishes them.</p><p>The gap this leaves is disciplinary rather than random. Citation counts reach the sciences long before law or the humanities, where scholarship cites in footnotes that citation indexes do not capture — the Law Quarterly Review records 131 citations where a top-200 law journal would need 27,371. The vetted publisher list exists to cover that, and it will always be missing someone. If a journal you expected is absent, use <strong>“Journal missing? Tell us”</strong>: the rules need widening more often than the journal is genuinely out of scope.</p>"],
   waiver: ["APC waivers available",
     "<p>The journal states it will waive or reduce its charge for authors who cannot pay, typically those in lower-income countries. Terms are set by the journal, not by Oxford.</p>"],
 };
@@ -470,11 +472,17 @@ function renderResults(list, total, nominalCount, hidden) {
   // "science" is true and completely useless.
   const subject = total - nominalCount;
   const n = (x) => x.toLocaleString();
-  $("#result-count").textContent = !total ? ""
+  const countText = !total ? ""
     : (subject > 0 && nominalCount !== total
         ? `${n(nominalCount)} by name · ${n(subject)} more by subject`
         : `${n(total)} journal${total === 1 ? "" : "s"}`)
       + (total > list.length ? ` (showing ${n(list.length)})` : "");
+  // A count is the obvious place to ask "out of what?", and on an empty search
+  // this line *is* the corpus size — so the inclusion rules hang off it rather
+  // than being buried in the About page. innerHTML, not textContent, because
+  // why() returns markup; the count itself is generated numbers.
+  $("#result-count").innerHTML = countText
+    ? esc(countText) + why("inclusion") : "";
 
   let html = "";
 
@@ -787,7 +795,7 @@ async function showStatus() {
     <h2 id="detail-title">Data freshness &amp; sources</h2>
     <p class="cost-note">Dataset generated ${esc((s.dataset_generated||"").replace("T"," ").slice(0,16))} UTC · site built ${esc((s.built||"").replace("T"," ").slice(0,16))} UTC.</p>
     <div class="stat-grid">
-      <div class="stat"><div class="n">${(c.total||0).toLocaleString()}</div><div class="l">journals</div></div>
+      <div class="stat"><div class="n">${(c.total||0).toLocaleString()}</div><div class="l">journals${why("inclusion")}</div></div>
       <div class="stat"><div class="n">${(c.covered||0).toLocaleString()}</div><div class="l">covered by a deal</div></div>
       <div class="stat"><div class="n">${(c.discount||0).toLocaleString()}</div><div class="l">discounted</div></div>
       <div class="stat"><div class="n">${(c.diamond||0).toLocaleString()}</div><div class="l">diamond OA</div></div>

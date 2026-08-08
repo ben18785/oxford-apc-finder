@@ -186,6 +186,21 @@ chain.then(function () {
   check("every deal status has an explanation",
     ["covered", "discount", "diamond", "none"].every(function (k) {
       return keys.indexOf(k) !== -1; }));
+  /* "46,341 journals" invites "out of what?", so the inclusion rules hang off
+   * the count itself rather than being buried in the About page. */
+  search("");
+  check("the journal count carries a ? explainer",
+    el("#result-count").innerHTML.indexOf('data-explain="inclusion"') !== -1,
+    el("#result-count").innerHTML);
+  check("the count itself still renders",
+    /\d/.test(el("#result-count").innerHTML));
+  check("the inclusion explainer lists the routes in, not just the total",
+    ["DOAJ", "transformative agreement", "most-cited", "publisher"]
+      .every(function (s) { return EXPLAIN.inclusion[1].indexOf(s) !== -1; }));
+  check("the inclusion explainer admits what it misses",
+    /law|humanities/i.test(EXPLAIN.inclusion[1])
+    && EXPLAIN.inclusion[1].indexOf("Tell us") !== -1);
+
   check("the jargon labels users asked about are explained",
     ["doaj", "disputed", "expired"].every(function (k) {
       return keys.indexOf(k) !== -1; }));

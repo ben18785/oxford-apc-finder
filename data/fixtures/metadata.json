@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-06T17:09:30Z",
+ "generated": "2026-08-07T13:17:07Z",
  "sources": {
   "openalex": {
    "url": "https://api.openalex.org",
@@ -15,73 +15,87 @@
   }
  },
  "openalex": {
-  "0570-1783": {
-   "openalex_id": "https://openalex.org/S2764619822",
-   "issn_l": "0570-1783",
+  "0001-2092": {
+   "openalex_id": "https://openalex.org/S5303612",
+   "issn_l": "0001-2092",
    "issns": [
-    "0570-1783",
-    "2090-8377"
+    "0001-2092",
+    "1878-0369"
    ],
-   "title": "Annals of Agricultural Science Cairo",
+   "title": "AORN Journal",
    "alternate_titles": [
-    "Annals of Agricultural Sciences"
+    "AORN J",
+    "Association of Operating Room Nurses journal"
    ],
-   "publisher": null,
-   "homepage": null,
-   "is_in_doaj": true,
-   "is_oa": true,
+   "publisher": "Wiley",
+   "homepage": "https://aornjournal.onlinelibrary.wiley.com/",
+   "is_in_doaj": false,
+   "is_oa": false,
    "type": "journal",
-   "works_count": 1061,
-   "apc_usd": null,
-   "apc_prices": [],
+   "works_count": 21971,
+   "apc_usd": 3050,
+   "apc_prices": [
+    {
+     "price": 3050,
+     "currency": "USD"
+    },
+    {
+     "price": 2550,
+     "currency": "EUR"
+    },
+    {
+     "price": 2050,
+     "currency": "GBP"
+    }
+   ],
    "topics": [
     {
-     "name": "Crop Yield and Soil Fertility",
-     "subfield": "Agronomy and Crop Science",
-     "field": "Agricultural and Biological Sciences",
-     "count": 74
-    },
-    {
-     "name": "Agricultural pest management studies",
-     "subfield": "Plant Science",
-     "field": "Agricultural and Biological Sciences",
-     "count": 66
-    },
-    {
-     "name": "Agricultural Science and Fertilization",
-     "subfield": "Soil Science",
-     "field": "Agricultural and Biological Sciences",
-     "count": 63
-    },
-    {
-     "name": "Insect Pest Control Strategies",
-     "subfield": "Plant Science",
-     "field": "Agricultural and Biological Sciences",
-     "count": 61
-    },
-    {
-     "name": "Agronomic Practices and Intercropping Systems",
-     "subfield": "Agronomy and Crop Science",
-     "field": "Agricultural and Biological Sciences",
-     "count": 60
-    },
-    {
-     "name": "Plant Physiology and Cultivation Studies",
-     "subfield": "Plant Science",
-     "field": "Agricultural and Biological Sciences",
-     "count": 58
-    },
-    {
-     "name": "Plant tissue culture and regeneration",
-     "subfield": "Molecular Biology",
-     "field": "Biochemistry, Genetics and Molecular Biology",
-     "count": 51
-    },
-    {
-     "name": "Food composition and properties",
-     "subfield": "Nutrition and Dietetics",
+     "name": "Nursing Education, Practice, and Leadership",
+     "subfield": "Issues, ethics and legal aspects",
      "field": "Nursing",
-     "count": 37
+     "count": 2633
+    },
+    {
+     "name": "Cardiac, Anesthesia and Surgical Outcomes",
+     "subfield": "Cardiology and Cardiovascular Medicine",
+     "field": "Medicine",
+     "count": 1799
+    },
+    {
+     "name": "Human auditory perception and evaluation",
+     "subfield": "Aerospace Engineering",
+     "field": "Engineering",
+     "count": 1161
+    },
+    {
+     "name": "Vascular Anomalies and Treatments",
+     "subfield": "Genetics",
+     "field": "Medicine",
+     "count": 1070
+    },
+    {
+     "name": "Diverse Scientific and Economic Studies",
+     "subfield": "Economics and Econometrics",
+     "field": "Economics, Econometrics and Finance",
+     "count": 967
+    },
+    {
+     "name": "Medical Malpractice and Liability Issues",
+     "subfield": "Pharmacy",
+     "field": "Health Professions",
+     "count": 814
+    },
+    {
+     "name": "Nursing Diagnosis and Documentation",
+     "subfield": "Issues, ethics and legal aspects",
+     "field": "Nursing",
+     "count": 780
+    },
+    {
+     "name": "Educational Robotics and Engineering",
+     "subfield": "Artificial Intelligence",
+     "field": "Computer Science",
+     "count": 730
     }
    ]
   },
@@ -166,6 +180,161 @@
      "subfield": "Fluid Flow and Transfer Processes",
      "field": "Chemical Engineering",
      "count": 888
+    }
+   ]
+  },
+  "0001-6918": {
+   "openalex_id": "https://openalex.org/S180067919",
+   "issn_l": "0001-6918",
+   "issns": [
+    "0001-6918",
+    "1873-6297"
+   ],
+   "title": "Acta Psychologica",
+   "alternate_titles": [],
+   "publisher": "Elsevier BV",
+   "homepage": "https://www.journals.elsevier.com/acta-psychologica",
+   "is_in_doaj": true,
+   "is_oa": true,
+   "type": "journal",
+   "works_count": 10207,
+   "apc_usd": 1650,
+   "apc_prices": [
+    {
+     "price": 1650,
+     "currency": "USD"
+    },
+    {
+     "price": 1500,
+     "currency": "EUR"
+    },
+    {
+     "price": 1320,
+     "currency": "GBP"
+    },
+    {
+     "price": 185390,
+     "currency": "JPY"
+    }
+   ],
+   "topics": [
+    {
+     "name": "Neural and Behavioral Psychology Studies",
+     "subfield": "Cognitive Neuroscience",
+     "field": "Neuroscience",
+     "count": 1299
+    },
+    {
+     "name": "Visual perception and processing mechanisms",
+     "subfield": "Cognitive Neuroscience",
+     "field": "Neuroscience",
+     "count": 919
+    },
+    {
+     "name": "Motor Control and Adaptation",
+     "subfield": "Cognitive Neuroscience",
+     "field": "Neuroscience",
+     "count": 557
+    },
+    {
+     "name": "Action Observation and Synchronization",
+     "subfield": "Social Psychology",
+     "field": "Psychology",
+     "count": 547
+    },
+    {
+     "name": "Multisensory perception and integration",
+     "subfield": "Experimental and Cognitive Psychology",
+     "field": "Psychology",
+     "count": 529
+    },
+    {
+     "name": "Decision-Making and Behavioral Economics",
+     "subfield": "General Decision Sciences",
+     "field": "Decision Sciences",
+     "count": 474
+    },
+    {
+     "name": "Human auditory perception and evaluation",
+     "subfield": "Aerospace Engineering",
+     "field": "Engineering",
+     "count": 419
+    },
+    {
+     "name": "Child and Animal Learning Development",
+     "subfield": "Developmental and Educational Psychology",
+     "field": "Psychology",
+     "count": 407
+    }
+   ]
+  },
+  "0570-1783": {
+   "openalex_id": "https://openalex.org/S2764619822",
+   "issn_l": "0570-1783",
+   "issns": [
+    "0570-1783",
+    "2090-8377"
+   ],
+   "title": "Annals of Agricultural Science Cairo",
+   "alternate_titles": [
+    "Annals of Agricultural Sciences"
+   ],
+   "publisher": null,
+   "homepage": null,
+   "is_in_doaj": true,
+   "is_oa": true,
+   "type": "journal",
+   "works_count": 1061,
+   "apc_usd": null,
+   "apc_prices": [],
+   "topics": [
+    {
+     "name": "Crop Yield and Soil Fertility",
+     "subfield": "Agronomy and Crop Science",
+     "field": "Agricultural and Biological Sciences",
+     "count": 74
+    },
+    {
+     "name": "Agricultural pest management studies",
+     "subfield": "Plant Science",
+     "field": "Agricultural and Biological Sciences",
+     "count": 66
+    },
+    {
+     "name": "Agricultural Science and Fertilization",
+     "subfield": "Soil Science",
+     "field": "Agricultural and Biological Sciences",
+     "count": 63
+    },
+    {
+     "name": "Insect Pest Control Strategies",
+     "subfield": "Plant Science",
+     "field": "Agricultural and Biological Sciences",
+     "count": 61
+    },
+    {
+     "name": "Agronomic Practices and Intercropping Systems",
+     "subfield": "Agronomy and Crop Science",
+     "field": "Agricultural and Biological Sciences",
+     "count": 60
+    },
+    {
+     "name": "Plant Physiology and Cultivation Studies",
+     "subfield": "Plant Science",
+     "field": "Agricultural and Biological Sciences",
+     "count": 58
+    },
+    {
+     "name": "Plant tissue culture and regeneration",
+     "subfield": "Molecular Biology",
+     "field": "Biochemistry, Genetics and Molecular Biology",
+     "count": 51
+    },
+    {
+     "name": "Food composition and properties",
+     "subfield": "Nutrition and Dietetics",
+     "field": "Nursing",
+     "count": 37
     }
    ]
   },
@@ -393,6 +562,76 @@
     }
    ]
   },
+  "0001-5113": {
+   "openalex_id": "https://openalex.org/S2764458511",
+   "issn_l": "0001-5113",
+   "issns": [
+    "0001-5113",
+    "1846-0453"
+   ],
+   "title": "Acta Adriatica",
+   "alternate_titles": [
+    "Acta Adriatica (online)"
+   ],
+   "publisher": null,
+   "homepage": "http://jadran.izor.hr/acta",
+   "is_in_doaj": true,
+   "is_oa": true,
+   "type": "journal",
+   "works_count": 389,
+   "apc_usd": null,
+   "apc_prices": [],
+   "topics": [
+    {
+     "name": "Marine Ecology and Invasive Species",
+     "subfield": "Global and Planetary Change",
+     "field": "Environmental Science",
+     "count": 115
+    },
+    {
+     "name": "Fish Biology and Ecology Studies",
+     "subfield": "Aquatic Science",
+     "field": "Agricultural and Biological Sciences",
+     "count": 109
+    },
+    {
+     "name": "Identification and Quantification in Food",
+     "subfield": "Molecular Biology",
+     "field": "Biochemistry, Genetics and Molecular Biology",
+     "count": 77
+    },
+    {
+     "name": "Marine and fisheries research",
+     "subfield": "Global and Planetary Change",
+     "field": "Environmental Science",
+     "count": 74
+    },
+    {
+     "name": "Ichthyology and Marine Biology",
+     "subfield": "Nature and Landscape Conservation",
+     "field": "Environmental Science",
+     "count": 49
+    },
+    {
+     "name": "Marine Biology and Ecology Research",
+     "subfield": "Oceanography",
+     "field": "Earth and Planetary Sciences",
+     "count": 47
+    },
+    {
+     "name": "Marine and environmental studies",
+     "subfield": "Oceanography",
+     "field": "Earth and Planetary Sciences",
+     "count": 34
+    },
+    {
+     "name": "Coral and Marine Ecosystems Studies",
+     "subfield": "Ecology",
+     "field": "Environmental Science",
+     "count": 30
+    }
+   ]
+  },
   "0370-2693": {
    "openalex_id": "https://openalex.org/S173952182",
    "issn_l": "0370-2693",
@@ -463,172 +702,71 @@
     }
    ]
   },
-  "0001-6918": {
-   "openalex_id": "https://openalex.org/S180067919",
-   "issn_l": "0001-6918",
+  "0001-494X": {
+   "openalex_id": "https://openalex.org/S4306500158",
+   "issn_l": "0001-494X",
    "issns": [
-    "0001-6918",
-    "1873-6297"
+    "0001-494X",
+    "2282-0035"
    ],
-   "title": "Acta Psychologica",
+   "title": "Acme : annali della Facoltà di lettere e filosofia dell'Università degli studi di Milano",
    "alternate_titles": [],
-   "publisher": "Elsevier BV",
-   "homepage": "https://www.journals.elsevier.com/acta-psychologica",
+   "publisher": null,
+   "homepage": null,
    "is_in_doaj": true,
    "is_oa": true,
    "type": "journal",
-   "works_count": 10207,
-   "apc_usd": 1650,
-   "apc_prices": [
-    {
-     "price": 1650,
-     "currency": "USD"
-    },
-    {
-     "price": 1500,
-     "currency": "EUR"
-    },
-    {
-     "price": 1320,
-     "currency": "GBP"
-    },
-    {
-     "price": 185390,
-     "currency": "JPY"
-    }
-   ],
+   "works_count": 1410,
+   "apc_usd": null,
+   "apc_prices": [],
    "topics": [
     {
-     "name": "Neural and Behavioral Psychology Studies",
-     "subfield": "Cognitive Neuroscience",
-     "field": "Neuroscience",
-     "count": 1299
+     "name": "Italian Literature and Culture",
+     "subfield": "General Arts and Humanities",
+     "field": "Arts and Humanities",
+     "count": 239
     },
     {
-     "name": "Visual perception and processing mechanisms",
-     "subfield": "Cognitive Neuroscience",
-     "field": "Neuroscience",
-     "count": 919
+     "name": "Classical Antiquity Studies",
+     "subfield": "Anthropology",
+     "field": "Social Sciences",
+     "count": 232
     },
     {
-     "name": "Motor Control and Adaptation",
-     "subfield": "Cognitive Neuroscience",
-     "field": "Neuroscience",
-     "count": 557
+     "name": "Ancient Mediterranean Archaeology and History",
+     "subfield": "Archeology",
+     "field": "Arts and Humanities",
+     "count": 178
     },
     {
-     "name": "Action Observation and Synchronization",
-     "subfield": "Social Psychology",
-     "field": "Psychology",
-     "count": 547
-    },
-    {
-     "name": "Multisensory perception and integration",
-     "subfield": "Experimental and Cognitive Psychology",
-     "field": "Psychology",
-     "count": 529
-    },
-    {
-     "name": "Decision-Making and Behavioral Economics",
-     "subfield": "General Decision Sciences",
-     "field": "Decision Sciences",
-     "count": 474
-    },
-    {
-     "name": "Human auditory perception and evaluation",
-     "subfield": "Aerospace Engineering",
-     "field": "Engineering",
-     "count": 419
-    },
-    {
-     "name": "Child and Animal Learning Development",
-     "subfield": "Developmental and Educational Psychology",
-     "field": "Psychology",
-     "count": 407
-    }
-   ]
-  },
-  "0001-2092": {
-   "openalex_id": "https://openalex.org/S5303612",
-   "issn_l": "0001-2092",
-   "issns": [
-    "0001-2092",
-    "1878-0369"
-   ],
-   "title": "AORN Journal",
-   "alternate_titles": [
-    "AORN J",
-    "Association of Operating Room Nurses journal"
-   ],
-   "publisher": "Wiley",
-   "homepage": "https://aornjournal.onlinelibrary.wiley.com/",
-   "is_in_doaj": false,
-   "is_oa": false,
-   "type": "journal",
-   "works_count": 21971,
-   "apc_usd": 3050,
-   "apc_prices": [
-    {
-     "price": 3050,
-     "currency": "USD"
-    },
-    {
-     "price": 2550,
-     "currency": "EUR"
-    },
-    {
-     "price": 2050,
-     "currency": "GBP"
-    }
-   ],
-   "topics": [
-    {
-     "name": "Nursing Education, Practice, and Leadership",
-     "subfield": "Issues, ethics and legal aspects",
-     "field": "Nursing",
-     "count": 2633
-    },
-    {
-     "name": "Cardiac, Anesthesia and Surgical Outcomes",
-     "subfield": "Cardiology and Cardiovascular Medicine",
-     "field": "Medicine",
-     "count": 1799
-    },
-    {
-     "name": "Human auditory perception and evaluation",
-     "subfield": "Aerospace Engineering",
-     "field": "Engineering",
-     "count": 1161
-    },
-    {
-     "name": "Vascular Anomalies and Treatments",
-     "subfield": "Genetics",
-     "field": "Medicine",
-     "count": 1070
-    },
-    {
-     "name": "Diverse Scientific and Economic Studies",
-     "subfield": "Economics and Econometrics",
-     "field": "Economics, Econometrics and Finance",
-     "count": 967
-    },
-    {
-     "name": "Medical Malpractice and Liability Issues",
-     "subfield": "Pharmacy",
-     "field": "Health Professions",
-     "count": 814
-    },
-    {
-     "name": "Nursing Diagnosis and Documentation",
-     "subfield": "Issues, ethics and legal aspects",
-     "field": "Nursing",
-     "count": 780
-    },
-    {
-     "name": "Educational Robotics and Engineering",
+     "name": "Linguistic Studies and Language Acquisition",
      "subfield": "Artificial Intelligence",
      "field": "Computer Science",
-     "count": 730
+     "count": 175
+    },
+    {
+     "name": "Historical and Environmental Studies",
+     "subfield": "Sociology and Political Science",
+     "field": "Social Sciences",
+     "count": 119
+    },
+    {
+     "name": "Historical and Literary Analyses",
+     "subfield": "Literature and Literary Theory",
+     "field": "Arts and Humanities",
+     "count": 106
+    },
+    {
+     "name": "Historical, Religious, and Philosophical Studies",
+     "subfield": "Archeology",
+     "field": "Arts and Humanities",
+     "count": 92
+    },
+    {
+     "name": "Byzantine Studies and History",
+     "subfield": "Classics",
+     "field": "Arts and Humanities",
+     "count": 90
     }
    ]
   },
@@ -723,77 +861,6 @@
    "apc_prices": [],
    "topics": []
   },
-  "0001-0782": {
-   "openalex_id": "https://openalex.org/S103482838",
-   "issn_l": "0001-0782",
-   "issns": [
-    "0001-0782",
-    "1557-7317"
-   ],
-   "title": "Communications of the ACM",
-   "alternate_titles": [
-    "Communications of the A.C.M.",
-    "Communications of the Association for Computing Machinery"
-   ],
-   "publisher": "Association for Computing Machinery",
-   "homepage": "http://cacm.acm.org",
-   "is_in_doaj": false,
-   "is_oa": false,
-   "type": "journal",
-   "works_count": 16139,
-   "apc_usd": null,
-   "apc_prices": [],
-   "topics": [
-    {
-     "name": "Parallel Computing and Optimization Techniques",
-     "subfield": "Hardware and Architecture",
-     "field": "Computer Science",
-     "count": 762
-    },
-    {
-     "name": "Algorithms and Data Compression",
-     "subfield": "Artificial Intelligence",
-     "field": "Computer Science",
-     "count": 658
-    },
-    {
-     "name": "Information Systems Education and Curriculum Development",
-     "subfield": "Information Systems",
-     "field": "Computer Science",
-     "count": 600
-    },
-    {
-     "name": "Distributed and Parallel Computing Systems",
-     "subfield": "Computer Networks and Communications",
-     "field": "Computer Science",
-     "count": 599
-    },
-    {
-     "name": "Logic, programming, and type systems",
-     "subfield": "Artificial Intelligence",
-     "field": "Computer Science",
-     "count": 543
-    },
-    {
-     "name": "Software Engineering Research",
-     "subfield": "Information Systems",
-     "field": "Computer Science",
-     "count": 540
-    },
-    {
-     "name": "Big Data and Business Intelligence",
-     "subfield": "Management Information Systems",
-     "field": "Business, Management and Accounting",
-     "count": 524
-    },
-    {
-     "name": "Advanced Database Systems and Queries",
-     "subfield": "Computer Networks and Communications",
-     "field": "Computer Science",
-     "count": 500
-    }
-   ]
-  },
   "0001-0383": {
    "openalex_id": "https://openalex.org/S4210223324",
    "issn_l": "0001-0383",
@@ -863,6 +930,74 @@
     }
    ]
   },
+  "0003-3170": {
+   "openalex_id": "https://openalex.org/S4210223617",
+   "issn_l": "0003-3170",
+   "issns": [
+    "0003-3170",
+    "1695-2987"
+   ],
+   "title": "Angiología",
+   "alternate_titles": [],
+   "publisher": "Elsevier BV",
+   "homepage": null,
+   "is_in_doaj": false,
+   "is_oa": true,
+   "type": "journal",
+   "works_count": 1865,
+   "apc_usd": null,
+   "apc_prices": [],
+   "topics": [
+    {
+     "name": "Aortic aneurysm repair treatments",
+     "subfield": "Pulmonary and Respiratory Medicine",
+     "field": "Medicine",
+     "count": 483
+    },
+    {
+     "name": "Vascular Procedures and Complications",
+     "subfield": "Pulmonary and Respiratory Medicine",
+     "field": "Medicine",
+     "count": 361
+    },
+    {
+     "name": "Peripheral Artery Disease Management",
+     "subfield": "Surgery",
+     "field": "Medicine",
+     "count": 350
+    },
+    {
+     "name": "Venous Thromboembolism Diagnosis and Management",
+     "subfield": "Internal Medicine",
+     "field": "Medicine",
+     "count": 279
+    },
+    {
+     "name": "Aortic Disease and Treatment Approaches",
+     "subfield": "Pulmonary and Respiratory Medicine",
+     "field": "Medicine",
+     "count": 273
+    },
+    {
+     "name": "Cardiac, Anesthesia and Surgical Outcomes",
+     "subfield": "Cardiology and Cardiovascular Medicine",
+     "field": "Medicine",
+     "count": 210
+    },
+    {
+     "name": "Infectious Aortic and Vascular Conditions",
+     "subfield": "Surgery",
+     "field": "Medicine",
+     "count": 163
+    },
+    {
+     "name": "Diagnosis and Treatment of Venous Diseases",
+     "subfield": "Surgery",
+     "field": "Medicine",
+     "count": 145
+    }
+   ]
+  },
   "0008-7386": {
    "openalex_id": "https://openalex.org/S000000000",
    "issn_l": "0008-7386",
@@ -914,7 +1049,191 @@
     "CC BY-NC-ND"
    ],
    "aims_scope_url": "https://ejournals.bibliothek.thws.de/qrp/about",
+   "submission": {
+    "author_instructions_url": "https://ejournals.bibliothek.thws.de/qrp/about/submissions",
+    "review_process": [
+     "Double anonymous peer review"
+    ],
+    "weeks_to_publication": "16",
+    "plagiarism_screening": true,
+    "author_retains_copyright": false,
+    "persistent_ids": [
+     "DOI"
+    ],
+    "deposit_policy": null,
+    "deposit_policy_url": null
+   },
    "journal_url": "https://ejournals.bibliothek.thws.de/qrp/"
+  },
+  "1846-0453": {
+   "doaj_id": "851b69850b3f42e3bf489558aa64bcd0",
+   "doaj_url": "https://doaj.org/toc/851b69850b3f42e3bf489558aa64bcd0",
+   "title": "Acta Adriatica",
+   "publisher": "Institute of Oceanography and Fisheries, Split",
+   "apc": {
+    "has_apc": false,
+    "price": null,
+    "currency": null
+   },
+   "apc_url": "https://acta.izor.hr/ojs/index.php/acta/about/submissions",
+   "waiver": false,
+   "keywords": [
+    "marine ecology",
+    "oceanography",
+    "fisheries",
+    "biodiversity"
+   ],
+   "subjects": [
+    "Science: Botany",
+    "Science: Zoology",
+    "Geography. Anthropology. Recreation: Oceanography"
+   ],
+   "license": [
+    "CC BY-SA"
+   ],
+   "aims_scope_url": "https://acta.izor.hr/ojs/index.php/acta/about",
+   "submission": {
+    "author_instructions_url": "https://acta.izor.hr/ojs/index.php/acta/about/submissions#authorGuidelines",
+    "review_process": [
+     "Anonymous peer review"
+    ],
+    "weeks_to_publication": "18",
+    "plagiarism_screening": false,
+    "author_retains_copyright": false,
+    "persistent_ids": [
+     "DOI"
+    ],
+    "deposit_policy": null,
+    "deposit_policy_url": null
+   },
+   "journal_url": "https://acta.izor.hr/ojs/index.php/acta"
+  },
+  "0001-5113": {
+   "doaj_id": "851b69850b3f42e3bf489558aa64bcd0",
+   "doaj_url": "https://doaj.org/toc/851b69850b3f42e3bf489558aa64bcd0",
+   "title": "Acta Adriatica",
+   "publisher": "Institute of Oceanography and Fisheries, Split",
+   "apc": {
+    "has_apc": false,
+    "price": null,
+    "currency": null
+   },
+   "apc_url": "https://acta.izor.hr/ojs/index.php/acta/about/submissions",
+   "waiver": false,
+   "keywords": [
+    "marine ecology",
+    "oceanography",
+    "fisheries",
+    "biodiversity"
+   ],
+   "subjects": [
+    "Science: Botany",
+    "Science: Zoology",
+    "Geography. Anthropology. Recreation: Oceanography"
+   ],
+   "license": [
+    "CC BY-SA"
+   ],
+   "aims_scope_url": "https://acta.izor.hr/ojs/index.php/acta/about",
+   "submission": {
+    "author_instructions_url": "https://acta.izor.hr/ojs/index.php/acta/about/submissions#authorGuidelines",
+    "review_process": [
+     "Anonymous peer review"
+    ],
+    "weeks_to_publication": "18",
+    "plagiarism_screening": false,
+    "author_retains_copyright": false,
+    "persistent_ids": [
+     "DOI"
+    ],
+    "deposit_policy": null,
+    "deposit_policy_url": null
+   },
+   "journal_url": "https://acta.izor.hr/ojs/index.php/acta"
+  },
+  "2282-0035": {
+   "doaj_id": "b1ca04ba56194f29a362b3eeff428f91",
+   "doaj_url": "https://doaj.org/toc/b1ca04ba56194f29a362b3eeff428f91",
+   "title": "ACME",
+   "publisher": "Milano University Press",
+   "apc": {
+    "has_apc": false,
+    "price": null,
+    "currency": null
+   },
+   "apc_url": "https://riviste.unimi.it/index.php/Lebenswelt/about",
+   "waiver": false,
+   "keywords": [
+    "italian literature",
+    "classic literature",
+    "linguistics",
+    "philosophy"
+   ],
+   "subjects": [
+    "General Works"
+   ],
+   "license": [
+    "CC BY-SA"
+   ],
+   "aims_scope_url": "https://riviste.unimi.it/index.php/ACME/about",
+   "submission": {
+    "author_instructions_url": "http://riviste.unimi.it/index.php/ACME/about/submissions#authorGuidelines",
+    "review_process": [
+     "Anonymous peer review"
+    ],
+    "weeks_to_publication": "12",
+    "plagiarism_screening": false,
+    "author_retains_copyright": true,
+    "persistent_ids": [
+     "DOI",
+     "NBN"
+    ],
+    "deposit_policy": "Sulla rivista",
+    "deposit_policy_url": "https://riviste.unimi.it/index.php/ACME/about"
+   },
+   "journal_url": "http://riviste.unimi.it/index.php/ACME"
+  },
+  "0001-494X": {
+   "doaj_id": "b1ca04ba56194f29a362b3eeff428f91",
+   "doaj_url": "https://doaj.org/toc/b1ca04ba56194f29a362b3eeff428f91",
+   "title": "ACME",
+   "publisher": "Milano University Press",
+   "apc": {
+    "has_apc": false,
+    "price": null,
+    "currency": null
+   },
+   "apc_url": "https://riviste.unimi.it/index.php/Lebenswelt/about",
+   "waiver": false,
+   "keywords": [
+    "italian literature",
+    "classic literature",
+    "linguistics",
+    "philosophy"
+   ],
+   "subjects": [
+    "General Works"
+   ],
+   "license": [
+    "CC BY-SA"
+   ],
+   "aims_scope_url": "https://riviste.unimi.it/index.php/ACME/about",
+   "submission": {
+    "author_instructions_url": "http://riviste.unimi.it/index.php/ACME/about/submissions#authorGuidelines",
+    "review_process": [
+     "Anonymous peer review"
+    ],
+    "weeks_to_publication": "12",
+    "plagiarism_screening": false,
+    "author_retains_copyright": true,
+    "persistent_ids": [
+     "DOI",
+     "NBN"
+    ],
+    "deposit_policy": "Sulla rivista",
+    "deposit_policy_url": "https://riviste.unimi.it/index.php/ACME/about"
+   },
+   "journal_url": "http://riviste.unimi.it/index.php/ACME"
   },
   "1651-2057": {
    "doaj_id": "ffde9666ab1d46f1a8c688ce64e59262",
@@ -943,6 +1262,20 @@
     "CC BY-NC"
    ],
    "aims_scope_url": "https://medicaljournalssweden.se/actadv/about",
+   "submission": {
+    "author_instructions_url": "https://medicaljournalssweden.se/actadv/authorguidelines",
+    "review_process": [
+     "Anonymous peer review"
+    ],
+    "weeks_to_publication": "20",
+    "plagiarism_screening": false,
+    "author_retains_copyright": true,
+    "persistent_ids": [
+     "DOI"
+    ],
+    "deposit_policy": null,
+    "deposit_policy_url": null
+   },
    "journal_url": "https://medicaljournalssweden.se/actadv"
   },
   "0001-5555": {
@@ -972,6 +1305,20 @@
     "CC BY-NC"
    ],
    "aims_scope_url": "https://medicaljournalssweden.se/actadv/about",
+   "submission": {
+    "author_instructions_url": "https://medicaljournalssweden.se/actadv/authorguidelines",
+    "review_process": [
+     "Anonymous peer review"
+    ],
+    "weeks_to_publication": "20",
+    "plagiarism_screening": false,
+    "author_retains_copyright": true,
+    "persistent_ids": [
+     "DOI"
+    ],
+    "deposit_policy": null,
+    "deposit_policy_url": null
+   },
    "journal_url": "https://medicaljournalssweden.se/actadv"
   },
   "1734-154X": {
@@ -1001,6 +1348,20 @@
     "CC BY"
    ],
    "aims_scope_url": "https://www.frontierspartnerships.org/journals/acta-biochimica-polonica/about#about-scope",
+   "submission": {
+    "author_instructions_url": "https://www.frontierspartnerships.org/journals/acta-biochimica-polonica/for-authors/author-guidelines",
+    "review_process": [
+     "Anonymous peer review"
+    ],
+    "weeks_to_publication": "10",
+    "plagiarism_screening": true,
+    "author_retains_copyright": true,
+    "persistent_ids": [
+     "DOI"
+    ],
+    "deposit_policy": "Open Policy Finder",
+    "deposit_policy_url": "https://openpolicyfinder.jisc.ac.uk/id/publication/30716"
+   },
    "journal_url": "https://www.frontierspartnerships.org/journals/acta-biochimica-polonica"
   },
   "1873-2445": {
@@ -1029,6 +1390,20 @@
     "CC BY"
    ],
    "aims_scope_url": "https://www.sciencedirect.com/journal/physics-letters-b/about/aims-and-scope",
+   "submission": {
+    "author_instructions_url": "https://www.sciencedirect.com/journal/physics-letters-b/publish/guide-for-authors",
+    "review_process": [
+     "Anonymous peer review"
+    ],
+    "weeks_to_publication": "15",
+    "plagiarism_screening": true,
+    "author_retains_copyright": false,
+    "persistent_ids": [
+     "DOI"
+    ],
+    "deposit_policy": "Open Policy Finder",
+    "deposit_policy_url": "https://openpolicyfinder.jisc.ac.uk/id/publication/11456"
+   },
    "journal_url": "https://www.sciencedirect.com/journal/physics-letters-b"
   },
   "0370-2693": {
@@ -1057,36 +1432,21 @@
     "CC BY"
    ],
    "aims_scope_url": "https://www.sciencedirect.com/journal/physics-letters-b/about/aims-and-scope",
-   "journal_url": "https://www.sciencedirect.com/journal/physics-letters-b"
-  },
-  "0570-1783": {
-   "doaj_id": "d82562699a1245c8ad0217cb3c98de28",
-   "doaj_url": "https://doaj.org/toc/d82562699a1245c8ad0217cb3c98de28",
-   "title": "Annals of Agricultural Sciences",
-   "publisher": "Elsevier",
-   "apc": {
-    "has_apc": true,
-    "price": 1000,
-    "currency": "USD"
+   "submission": {
+    "author_instructions_url": "https://www.sciencedirect.com/journal/physics-letters-b/publish/guide-for-authors",
+    "review_process": [
+     "Anonymous peer review"
+    ],
+    "weeks_to_publication": "15",
+    "plagiarism_screening": true,
+    "author_retains_copyright": false,
+    "persistent_ids": [
+     "DOI"
+    ],
+    "deposit_policy": "Open Policy Finder",
+    "deposit_policy_url": "https://openpolicyfinder.jisc.ac.uk/id/publication/11456"
    },
-   "apc_url": "https://www.sciencedirect.com/science/journal/05701783/publish/open-access-options",
-   "waiver": true,
-   "keywords": [
-    "agricultural science",
-    "organic fertilizers",
-    "soil solarization",
-    "seed morphology",
-    "vermicompost"
-   ],
-   "subjects": [
-    "Agriculture: Agriculture (General)"
-   ],
-   "license": [
-    "CC BY",
-    "CC BY-NC-ND"
-   ],
-   "aims_scope_url": "https://www.sciencedirect.com/journal/annals-of-agricultural-sciences/about/aims-and-scope",
-   "journal_url": "https://www.sciencedirect.com/journal/annals-of-agricultural-sciences"
+   "journal_url": "https://www.sciencedirect.com/journal/physics-letters-b"
   },
   "1873-6297": {
    "doaj_id": "ccbace2c4ad943b791c7d48123ddf931",
@@ -1115,6 +1475,20 @@
     "CC BY-NC-ND"
    ],
    "aims_scope_url": "https://www.sciencedirect.com/journal/acta-psychologica/about/aims-and-scope",
+   "submission": {
+    "author_instructions_url": "https://www.sciencedirect.com/journal/acta-psychologica/publish/guide-for-authors",
+    "review_process": [
+     "Double anonymous peer review"
+    ],
+    "weeks_to_publication": "22",
+    "plagiarism_screening": true,
+    "author_retains_copyright": false,
+    "persistent_ids": [
+     "DOI"
+    ],
+    "deposit_policy": null,
+    "deposit_policy_url": null
+   },
    "journal_url": "https://www.sciencedirect.com/journal/acta-psychologica"
   },
   "0001-6918": {
@@ -1144,7 +1518,64 @@
     "CC BY-NC-ND"
    ],
    "aims_scope_url": "https://www.sciencedirect.com/journal/acta-psychologica/about/aims-and-scope",
+   "submission": {
+    "author_instructions_url": "https://www.sciencedirect.com/journal/acta-psychologica/publish/guide-for-authors",
+    "review_process": [
+     "Double anonymous peer review"
+    ],
+    "weeks_to_publication": "22",
+    "plagiarism_screening": true,
+    "author_retains_copyright": false,
+    "persistent_ids": [
+     "DOI"
+    ],
+    "deposit_policy": null,
+    "deposit_policy_url": null
+   },
    "journal_url": "https://www.sciencedirect.com/journal/acta-psychologica"
+  },
+  "0570-1783": {
+   "doaj_id": "d82562699a1245c8ad0217cb3c98de28",
+   "doaj_url": "https://doaj.org/toc/d82562699a1245c8ad0217cb3c98de28",
+   "title": "Annals of Agricultural Sciences",
+   "publisher": "Elsevier",
+   "apc": {
+    "has_apc": true,
+    "price": 1000,
+    "currency": "USD"
+   },
+   "apc_url": "https://www.sciencedirect.com/science/journal/05701783/publish/open-access-options",
+   "waiver": true,
+   "keywords": [
+    "agricultural science",
+    "organic fertilizers",
+    "soil solarization",
+    "seed morphology",
+    "vermicompost"
+   ],
+   "subjects": [
+    "Agriculture: Agriculture (General)"
+   ],
+   "license": [
+    "CC BY",
+    "CC BY-NC-ND"
+   ],
+   "aims_scope_url": "https://www.sciencedirect.com/journal/annals-of-agricultural-sciences/about/aims-and-scope",
+   "submission": {
+    "author_instructions_url": "https://www.sciencedirect.com/journal/annals-of-agricultural-sciences/publish/guide-for-authors",
+    "review_process": [
+     "Anonymous peer review"
+    ],
+    "weeks_to_publication": "40",
+    "plagiarism_screening": true,
+    "author_retains_copyright": false,
+    "persistent_ids": [
+     "DOI"
+    ],
+    "deposit_policy": "Open Policy Finder",
+    "deposit_policy_url": "https://openpolicyfinder.jisc.ac.uk/publication/20470?from=single_hit"
+   },
+   "journal_url": "https://www.sciencedirect.com/journal/annals-of-agricultural-sciences"
   },
   "1678-2690": {
    "doaj_id": "ed09859a464f4461b1af34279d17f7a8",
@@ -1170,6 +1601,20 @@
     "CC BY"
    ],
    "aims_scope_url": "https://www.scielo.br/journal/aabc/about/#about",
+   "submission": {
+    "author_instructions_url": "https://www.scielo.br/journal/aabc/about/#instructions",
+    "review_process": [
+     "Anonymous peer review"
+    ],
+    "weeks_to_publication": "18",
+    "plagiarism_screening": true,
+    "author_retains_copyright": true,
+    "persistent_ids": [
+     "DOI"
+    ],
+    "deposit_policy": "Mir@bel",
+    "deposit_policy_url": "https://reseau-mirabel.info/revue/issn/1678-2690"
+   },
    "journal_url": "https://www.scielo.br/j/aabc/"
   },
   "0001-3765": {
@@ -1196,6 +1641,20 @@
     "CC BY"
    ],
    "aims_scope_url": "https://www.scielo.br/journal/aabc/about/#about",
+   "submission": {
+    "author_instructions_url": "https://www.scielo.br/journal/aabc/about/#instructions",
+    "review_process": [
+     "Anonymous peer review"
+    ],
+    "weeks_to_publication": "18",
+    "plagiarism_screening": true,
+    "author_retains_copyright": true,
+    "persistent_ids": [
+     "DOI"
+    ],
+    "deposit_policy": "Mir@bel",
+    "deposit_policy_url": "https://reseau-mirabel.info/revue/issn/1678-2690"
+   },
    "journal_url": "https://www.scielo.br/j/aabc/"
   }
  },

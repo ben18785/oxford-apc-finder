@@ -35,6 +35,16 @@ WANTED = {
     "unknown_cost": lambda j: j["cost"]["kind"] == "unknown",
     "in_doaj": lambda j: j["in_doaj"] and j["deal"]["status"] == "none",
     "waiver": lambda j: j.get("waiver"),
+    # The "Submitting here" panel renders only from DOAJ's submission block.
+    # Without a fixture carrying one, the whole panel is invisible to CI — the
+    # frontend job builds from these twelve journals, so a field absent here is
+    # a field nobody tests. Both shapes are kept because the archiving row is
+    # the only optional one and has its own fallback.
+    "submission_with_archiving":
+        lambda j: bool((j.get("submission") or {}).get("deposit_policy")),
+    "submission_without_archiving":
+        lambda j: bool(j.get("submission"))
+                  and not (j.get("submission") or {}).get("deposit_policy"),
 }
 
 # Needs the raw OpenAlex record, so it is selected separately from WANTED.

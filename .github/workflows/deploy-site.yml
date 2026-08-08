@@ -84,6 +84,23 @@ jobs:
           echo "work again afterwards."
           exit 1
 
+      # Reading the counters is a three-second, read-only API call, so it does
+      # not belong behind an hour of fetching. Running it here means usage
+      # figures refresh on any site deploy — and can be refreshed on demand by
+      # running this workflow, without touching a single journal fact.
+      #
+      # Output goes to the run summary because this stage deliberately never
+      # fails: without it, "no usage page appeared" is indistinguishable from
+      # a missing token, an empty site, and an API change.
+      - name: Refresh usage statistics
+        env:
+          GOATCOUNTER_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
+        run: |
+          echo '### Usage statistics' >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          python pipeline/fetch_usage.py 2>&1 | tee -a "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
       - name: Build the site
         run: python pipeline/build_site.py
 

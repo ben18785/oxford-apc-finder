@@ -139,11 +139,24 @@ def test_restore_uses_the_same_cache_prefix_as_save():
 def test_a_site_deploy_cannot_change_the_data():
     """The whole premise of the fast path is that it only re-renders. A fetch
     stage here would let a change advertised as front-end-only silently alter
-    what the site claims."""
+    what the site claims about a journal.
+
+    fetch_usage.py is deliberately NOT on this list: it reads visitor counters
+    and writes usage.json, touching no journal fact, and it is three seconds of
+    work that has no business waiting behind an hour of fetching."""
     body = DEPLOY.read_text()
     for forbidden in ("run_all.py", "fetch_jct.py", "fetch_metadata.py",
-                      "merge.py", "changelog.py", "fetch_usage.py"):
+                      "merge.py", "changelog.py", "validate.py"):
         assert forbidden not in body, f"deploy-site.yml runs {forbidden}"
+
+
+def test_the_usage_stage_never_fails_a_deploy():
+    """fetch_usage.py exits 0 on every path by design, so a GoatCounter outage
+    cannot block a site deploy. If that ever changes, this workflow becomes a
+    way for a third-party API to take the site's deploys down with it."""
+    source = (ROOT / "pipeline" / "fetch_usage.py").read_text()
+    assert "sys.exit(0)" in source
+    assert "except Exception" in source, "the top-level catch-all is gone"
 
 
 def test_a_site_deploy_cannot_write_to_the_repo():
