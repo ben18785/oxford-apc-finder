@@ -1,11 +1,24 @@
 """Stage 4 — Merge everything into the canonical journal dataset.
 
-Inclusion policy (design doc §4): a journal enters the dataset iff
-  (1) covered by an Oxford deal (JCT or curated overlay), or
-  (2) listed in DOAJ, or
-  (3) its publisher is on the curated allowlist,
+Inclusion policy: a journal enters the dataset if ANY of these holds
+  (1) it is covered by an Oxford deal — JCT agreement or curated overlay,
+      including discount and diamond schemes;
+  (2) it is listed in DOAJ;
+  (3) its publisher is on the curated allowlist;
+  (4) it appears in a transformative agreement anywhere in the world, not only
+      one Oxford is in;
+  (5) it is among the most-cited journals globally (top_journals_by_citations);
+  (6) it leads its own subfield (top_journals_per_subfield) — the route that
+      reaches disciplines a global citation ranking never will;
+  (7) the site has listed it before and has not yet retired it
+      (remember_journals_days), so coverage cannot shrink because a source had
+      a bad day,
 EXCEPT journals withdrawn from DOAJ for misconduct-type reasons, which are
-excluded outright.
+excluded outright whichever of the above they satisfy.
+
+Keep this list in step with `included = ...` below, and with the user-facing
+copy in site/app.js (EXPLAIN.inclusion) and README.md — a test asserts the
+copy names every route that config.yaml has switched on.
 
 Every record carries per-fact provenance (source name, URL, retrieved date).
 Scope text is a deterministic template over OpenAlex topics — no LLM.

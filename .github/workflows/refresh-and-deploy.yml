@@ -11,6 +11,10 @@ on:
         description: 'Skip the live JCT oracle cross-check (use only to unblock a known-good build)'
         type: boolean
         default: false
+      force_subfield_sweep:
+        description: 'Re-run the per-subfield journal discovery now (~500 extra requests, ~13 min) instead of waiting for its quarterly cadence'
+        type: boolean
+        default: false
   push:
     branches: [main]
     # Only things that can change the DATA trigger a refresh. Front-end work
@@ -115,6 +119,7 @@ jobs:
           # forks, which simply build without that view.
           GOATCOUNTER_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
           APC_SKIP_ORACLE: ${{ inputs.skip_oracle && '1' || '' }}
+          APC_FORCE_SUBFIELD_SWEEP: ${{ inputs.force_subfield_sweep && '1' || '' }}
         run: python pipeline/run_all.py
 
       # Hand the built dataset to deploy-site.yml so a front-end change can be
@@ -168,7 +173,7 @@ jobs:
           FILES="data/out/last_counts.json data/curated/bodleian_snapshot.txt
                  data/cache/manifest.json data/state/journal_state.tsv
                  data/state/oxford_agreements.json data/state/known_journals.tsv
-                 data/state/fx_rates.json
+                 data/state/fx_rates.json data/state/subfield_sweep.json
                  CHANGELOG-data.md"
 
           for attempt in 1 2 3; do

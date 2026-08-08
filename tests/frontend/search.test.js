@@ -491,6 +491,40 @@ chain.then(function () {
     });
     });
 
+  }).then(function () {
+  /* ------------------------------------- the £0 invariant, as rendered
+     * The pipeline tests prove journals.json and the index are safe. This is the
+     * last link: a change to costFigure() could turn a conditional state back
+     * into a green unconditional £0 while every backend test still passed. */
+    var riskyRecs = STATE.index.filter(function (r) {
+      return /but confirm|^Not confirmed/.test(r.c || "");
+    });
+    var safeZero = STATE.index.filter(function (r) {
+      return /^£0 — diamond|^No APC/.test(r.c || "");
+    });
+    check("the fixture build contains journals in a weakened state",
+      riskyRecs.length > 0, "otherwise the checks below pass vacuously");
+    check("and journals whose £0 depends on nothing", safeZero.length > 0);
+
+    check("a weakened claim never renders as a bare £0",
+      riskyRecs.every(function (r) { return costFigure(r).text !== "£0"; }),
+      JSON.stringify(riskyRecs.map(function (r) { return costFigure(r).text; })));
+    check("a weakened claim never renders in the free colour",
+      riskyRecs.every(function (r) { return costFigure(r).cls !== "free"; }),
+      JSON.stringify(riskyRecs.map(function (r) { return costFigure(r).cls; })));
+    check("a weakened claim is marked for caution",
+      riskyRecs.every(function (r) { return costFigure(r).cls === "caution"; }));
+    check("an unconditional £0 still reads as free",
+      safeZero.every(function (r) { return costFigure(r).cls === "free"; }));
+    /* The whole point of the tiering: these two groups must not be typographically
+     * indistinguishable, or the wording change bought nothing. */
+    check("the two groups cannot be confused with each other",
+      riskyRecs.every(function (a) {
+        return safeZero.every(function (b) {
+          return costFigure(a).text !== costFigure(b).text;
+        });
+      }));
+
   /* -------------------------------------------------- ordering by cost
    * Only meaningful because the pipeline reconciles 46 currencies first:
    * sorted on raw numbers, a journal charging 150,000,000 IRR (~£2,400) would
@@ -532,6 +566,24 @@ chain.then(function () {
     }
     check("unpriced journals are held back, ascending", tailIsUnpriced(asc));
     check("unpriced journals are held back, descending", tailIsUnpriced(desc));
+
+    /* Twelve thousand journals share the value 0. If amount were the only key,
+     * a capped agreement whose allowance may already be spent would sit
+     * indistinguishably among diamond titles that charge nothing — position
+     * saying what the wording was changed to stop saying. */
+    var zeros = asc.filter(function (r) { return r.g === 0; });
+    check("within £0, certainty orders the rows",
+      zeros.every(function (r, i) { return !i || (zeros[i-1].v || 0) <= (r.v || 0); }),
+      JSON.stringify(zeros.map(function (r) { return r.v; })));
+    check("a conditional £0 never precedes an unconditional one",
+      zeros.filter(function (r) { return r.v === 2; }).every(function (r) {
+        return zeros.indexOf(r) > zeros.map(function (x) { return x.v; }).lastIndexOf(0);
+      }));
+    check("the same holds sorting downwards",
+      (function () {
+        var z = desc.filter(function (r) { return r.g === 0; });
+        return z.every(function (r, i) { return !i || (z[i-1].v || 0) <= (r.v || 0); });
+      })());
 
     check("a settled £0 sorts as zero, not as missing",
       asc.filter(function (r) { return /^£0/.test(r.c); })

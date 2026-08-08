@@ -42,8 +42,13 @@ Then open `_site/index.html` (via any static server, e.g. `python -m http.server
 
 ## Inclusion & anti-predatory policy
 
-A journal is included only if it is (1) covered by an Oxford deal, (2) listed
-in DOAJ, or (3) from a publisher on `data/curated/publisher_allowlist.yaml`.
+A journal is included if **any** of seven routes admits it: (1) an Oxford deal
+covers it, (2) it is in DOAJ, (3) its publisher is on
+`data/curated/publisher_allowlist.yaml`, (4) it appears in a transformative
+agreement anywhere in the world, (5) it is among the most-cited journals
+globally, (6) it leads its own subfield, or (7) the site listed it before and
+has not yet retired it. The authoritative list is the docstring at the top of
+`pipeline/merge.py`, next to the code that applies it.
 Journals withdrawn from DOAJ for misconduct-type reasons are excluded outright.
 The site shows verification badges (In DOAJ, covered by a Jisc agreement) rather
 than ever asserting a journal is predatory. See the design doc for rationale.
@@ -129,6 +134,36 @@ the page as a count — a chart that silently drops its tail reads as complete.
 `fetch_usage.py` always exits 0. A missing token, an API change, or a
 GoatCounter outage costs the site a chart, never a refresh, and leaves the
 previous `usage.json` in place rather than overwriting real history with zeros.
+
+### The subfield sweep runs quarterly, not weekly
+
+`inclusion.top_journals_per_subfield` finds the leading journals inside each of
+OpenAlex's 252 subfields. It exists because a global citation ranking is
+dominated by biomedicine and physics — ranking *within* a field is what makes
+law and the humanities findable at all.
+
+It costs ~500 requests and ~13 minutes, so it does **not** run every refresh.
+It is a *discovery* step: it answers "which journals lead each discipline", and
+that answer does not change from one Monday to the next. Once discovered, a
+journal stays in scope through `known_journals.tsv` for a year, and its facts
+are re-fetched every run like everything else. Scope is accumulated; facts never
+are — so a quarterly sweep costs nothing in freshness.
+
+`inclusion.subfield_sweep_days` (default 90) sets the cadence, tracked in the
+committed `data/state/subfield_sweep.json`. Keep it comfortably below
+`remember_journals_days` or journals will age out of scope between sweeps. It
+re-runs early if you change the depth, since a larger number means journals the
+stored set was never asked about, and it re-runs rather than skipping if the
+marker is missing or unreadable — failing closed here would silently disable
+discovery with no signal anywhere.
+
+To run it now: tick **Re-run the per-subfield journal discovery** on the
+workflow dispatch, or set `APC_FORCE_SUBFIELD_SWEEP=1` locally.
+
+A sweep that fails does not fail the refresh. It costs the journals that sweep
+would have added; everything discovered previously is still in scope. The
+marker is deliberately not written on failure, so the next run retries rather
+than waiting out the quarter.
 
 ### Two deploy paths
 

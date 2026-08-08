@@ -44,9 +44,12 @@ restriction, or an end date already passed, shows "£0 if eligible, but
 confirm first". And where authoritative sources contradict each other, the
 site provides no cost information at all and shows both claims.
 
-Journals enter the dataset only if they are covered by a deal, listed in DOAJ, or
-published by a vetted publisher, and those withdrawn from DOAJ for
-misconduct-type reasons are excluded outright.
+A journal is listed if any one of these is true: an Oxford deal covers it; it is
+in DOAJ; its publisher is one of about 95 vetted publishers, societies and
+university presses; it appears in a transformative agreement anywhere in the
+world; it is among the 15,000 most-cited journals; it is among the leading
+journals within its own subfield; or the site has listed it before. Journals
+withdrawn from DOAJ for misconduct-type reasons are excluded outright.
 
 Every one of our decisions is made by hard-coded rules and no language model
 is involved anywhere in producing the data; however, it is true that CLAUDE did contribute most of the infrastructure.

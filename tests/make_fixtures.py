@@ -61,6 +61,19 @@ def _publisher_only_from_doaj(journal, meta):
     return not rec.get("publisher") and bool(journal.get("publisher"))
 
 
+CONDITIONAL = [
+    ("9990-0001", "Fixture Journal With A Capped Allowance",
+     "aip2026jisc", "2099-12-31",
+     "capacity_limited, from the AIP overlay entry"),
+    ("9990-0002", "Fixture Journal With An Expired Agreement",
+     "els2020jisc", "2020-06-30",
+     "expired, from the agreement's own end date"),
+    ("9990-0003", "Fixture Journal Restricted By Funder",
+     "bmj2026jisc", "2099-12-31",
+     "funders_only, from the BMJ overlay entry"),
+]
+
+
 def main() -> None:
     journals = read_json(OUT / "journals.json")["journals"]
     deals = read_json(OUT / "deals.json")
@@ -117,8 +130,37 @@ def main() -> None:
         }
         print(f"  {'misconduct_excluded':22} -> {bad_issn}  (synthetic)")
 
+    # --- the weakened-coverage states, synthesised.
+    #
+    # These are the cases where the site must NOT state a settled £0, and they
+    # are selected here rather than sampled from the real data because they
+    # depend on a curated esac_id prefix or a past end date — neither of which
+    # is guaranteed to survive a future regeneration. Without them the offline
+    # end-to-end build never produces a `covered_conditional` record, so the
+    # whole path from YAML flag → merge → cost kind → built JSON goes untested,
+    # and propagation failures are precisely what has bitten this repo before.
+    #
+    # Each needs both an OpenAlex record and an agreement naming it.
+    synthetic_agreements = []
+    for issn, title, esac, end_date, why in CONDITIONAL:
+        fx_meta["openalex"][issn] = {
+            "openalex_id": f"https://openalex.org/S{issn.replace('-', '')}",
+            "issn_l": issn, "issns": [issn], "title": title,
+            "alternate_titles": [], "publisher": "Fixture Press",
+            "homepage": "https://example.invalid/conditional",
+            "is_in_doaj": False, "is_oa": False, "type": "journal",
+            "works_count": 10, "apc_usd": None, "apc_prices": [], "topics": [],
+        }
+        synthetic_agreements.append({
+            "esac_id": esac, "end_date": end_date,
+            "corresponding_author_only": True,
+            "data_url": "https://example.invalid/agreement",
+            "journals": [{"issns": [issn]}], "journal_count": 1,
+        })
+        print(f"  {'cost_conditional':22} -> {issn}  (synthetic; {why})")
+
     # --- deals slice: keep only agreements that cover a picked journal
-    fx_agreements = []
+    fx_agreements = list(synthetic_agreements)
     for a in deals["agreements"]:
         keep = [j for j in a["journals"] if set(j["issns"]) & all_issns]
         if keep:

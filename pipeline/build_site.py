@@ -62,6 +62,12 @@ def acronym(title: str | None) -> str:
     return "".join(w[0] for w in words)[:12]
 
 
+# 0 = the figure depends on nothing unknown; 1 = ordinary eligibility applies,
+# as it does to every agreement; 2 = a journal-specific risk on top.
+CERTAINTY = {"diamond": 0, "no_apc": 0, "list_price": 0, "discount": 0,
+             "covered": 1, "covered_conditional": 2}
+
+
 def cost_summary(j: dict) -> str:
     c = j["cost"]
     kind = c["kind"]
@@ -129,6 +135,12 @@ def main() -> None:
             # nothing honest can be compared — the UI groups those separately
             # rather than sorting them to either end.
             **({"g": j["cost"]["gbp"]} if "gbp" in j["cost"] else {}),
+            # How much of that figure rests on something unknown. Ordering by
+            # amount alone would file a capped agreement whose quota may be
+            # exhausted alongside diamond OA under "cheapest" — the same
+            # conflation the wording was changed to avoid, reintroduced by
+            # position rather than by words.
+            "v": CERTAINTY.get(j["cost"]["kind"], 0),
             # Initialism plus any abbreviations the publisher registered, so
             # "jrsssa" and "J. R. Stat. Soc." both find the journal.
             "y": " ".join(filter(None, [acronym(j["title"])]

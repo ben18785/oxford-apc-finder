@@ -421,3 +421,71 @@ def test_regression_fixture_build_never_writes_to_the_real_output_directory(buil
     assert not real_out.exists() or not any(real_out.iterdir()), \
         f"a fixtures build wrote to data/out/: {[p.name for p in real_out.iterdir()]}"
     assert (built["work"] / "data" / "out-fixtures" / "journals.json").exists()
+
+
+# ------------------------------------------------ the £0 invariant, end to end
+# The unit tests show effective_cost() behaves when *handed* a risk flag. These
+# show the flag survives the whole journey: curated YAML -> esac prefix match ->
+# merge -> deal.conditions -> cost kind -> journals.json -> the search index.
+# Propagation is the step that has actually broken here before.
+
+def _by_title(built, fragment):
+    for j in built["journals"]["journals"]:
+        if fragment.lower() in (j["title"] or "").lower():
+            return j
+    raise AssertionError(f"no fixture journal matching {fragment!r}")
+
+
+def test_the_offline_build_produces_every_weakened_coverage_state(built):
+    """If the fixture set stops containing these, the safety states are exercised
+    only by unit tests on hand-built dicts, and the pipeline that assembles them
+    goes unchecked."""
+    kinds = {j["cost"]["kind"] for j in built["journals"]["journals"]}
+    assert "covered_conditional" in kinds
+    assert "uncertain" in kinds
+
+
+def test_a_capped_allowance_survives_the_whole_pipeline(built):
+    """capacity_limited is set in oxford_overrides.yaml, matched by esac prefix
+    in merge, and must reach both the record and the cost kind."""
+    j = _by_title(built, "Capped Allowance")
+    assert j["deal"]["conditions"]["capacity_limited"] is True
+    assert j["cost"]["kind"] == "covered_conditional"
+    assert "allowance" in " ".join(j["cost"]["reasons"])
+
+
+def test_a_funder_restriction_survives_the_whole_pipeline(built):
+    j = _by_title(built, "Restricted By Funder")
+    assert j["deal"]["conditions"]["funders_only"]
+    assert j["cost"]["kind"] == "covered_conditional"
+
+
+def test_an_expired_agreement_survives_the_whole_pipeline(built):
+    j = _by_title(built, "Expired Agreement")
+    assert j["deal"]["expired"]["end_date"] == "2020-06-30"
+    assert j["cost"]["kind"] == "covered_conditional"
+
+
+def test_no_risky_journal_reaches_the_site_claiming_a_settled_zero(built):
+    """The negative guarantee, asserted against the built artefacts rather than
+    the logic that produced them. validate.py checks journals.json; this also
+    checks the search index, because the index is what the browser reads and a
+    change to build_site.py could reintroduce the over-claim there alone."""
+    risky_ids = set()
+    for j in built["journals"]["journals"]:
+        cond = j["deal"].get("conditions") or {}
+        if (j["deal"].get("expired") or j["deal"].get("disputed")
+                or cond.get("capacity_limited") or cond.get("funders_only")):
+            risky_ids.add(j["id"])
+            assert j["cost"]["kind"] != "covered", \
+                f"{j['title']} asserts a settled £0 despite a known risk"
+    assert risky_ids, "no risky fixtures — this test would pass vacuously"
+
+    for rec in built["index"]["journals"]:
+        if rec["id"] in risky_ids:
+            # The index carries the rendered summary string, which is what the
+            # ledger prints. It must not read as an unqualified zero.
+            assert not rec["c"].startswith("£0 if eligible — covered"), \
+                f"{rec['t']} renders as ordinary coverage despite a known risk"
+            assert rec["c"].startswith("£0 if eligible — but confirm") \
+                or rec["c"].startswith("Not confirmed"), rec["c"]

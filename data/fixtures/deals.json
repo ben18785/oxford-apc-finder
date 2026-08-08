@@ -9,6 +9,48 @@
  },
  "agreements": [
   {
+   "esac_id": "bmj2026jisc",
+   "end_date": "2099-12-31",
+   "corresponding_author_only": true,
+   "data_url": "https://example.invalid/agreement",
+   "journals": [
+    {
+     "issns": [
+      "9990-0003"
+     ]
+    }
+   ],
+   "journal_count": 1
+  },
+  {
+   "esac_id": "els2020jisc",
+   "end_date": "2020-06-30",
+   "corresponding_author_only": true,
+   "data_url": "https://example.invalid/agreement",
+   "journals": [
+    {
+     "issns": [
+      "9990-0002"
+     ]
+    }
+   ],
+   "journal_count": 1
+  },
+  {
+   "esac_id": "aip2026jisc",
+   "end_date": "2099-12-31",
+   "corresponding_author_only": true,
+   "data_url": "https://example.invalid/agreement",
+   "journals": [
+    {
+     "issns": [
+      "9990-0001"
+     ]
+    }
+   ],
+   "journal_count": 1
+  },
+  {
    "esac_id": "mdpi2026jisc",
    "end_date": "2027-12-31",
    "corresponding_author_only": true,

@@ -1020,6 +1020,60 @@
     }
    ],
    "topics": []
+  },
+  "9990-0001": {
+   "openalex_id": "https://openalex.org/S99900001",
+   "issn_l": "9990-0001",
+   "issns": [
+    "9990-0001"
+   ],
+   "title": "Fixture Journal With A Capped Allowance",
+   "alternate_titles": [],
+   "publisher": "Fixture Press",
+   "homepage": "https://example.invalid/conditional",
+   "is_in_doaj": false,
+   "is_oa": false,
+   "type": "journal",
+   "works_count": 10,
+   "apc_usd": null,
+   "apc_prices": [],
+   "topics": []
+  },
+  "9990-0002": {
+   "openalex_id": "https://openalex.org/S99900002",
+   "issn_l": "9990-0002",
+   "issns": [
+    "9990-0002"
+   ],
+   "title": "Fixture Journal With An Expired Agreement",
+   "alternate_titles": [],
+   "publisher": "Fixture Press",
+   "homepage": "https://example.invalid/conditional",
+   "is_in_doaj": false,
+   "is_oa": false,
+   "type": "journal",
+   "works_count": 10,
+   "apc_usd": null,
+   "apc_prices": [],
+   "topics": []
+  },
+  "9990-0003": {
+   "openalex_id": "https://openalex.org/S99900003",
+   "issn_l": "9990-0003",
+   "issns": [
+    "9990-0003"
+   ],
+   "title": "Fixture Journal Restricted By Funder",
+   "alternate_titles": [],
+   "publisher": "Fixture Press",
+   "homepage": "https://example.invalid/conditional",
+   "is_in_doaj": false,
+   "is_oa": false,
+   "type": "journal",
+   "works_count": 10,
+   "apc_usd": null,
+   "apc_prices": [],
+   "topics": []
   }
  },
  "doaj": {

@@ -49,7 +49,16 @@ inclusion:
   # Set to 0 to skip. Enabled only after a refresh has been seen to succeed
   # with it: it adds ~500 requests and ~13 minutes, and an untested fetch path
   # inside an hour-long job can leave a known-bad dataset live if it fails.
-  top_journals_per_subfield: 0
+  top_journals_per_subfield: 250
+  # The sweep costs ~500 requests and ~13 minutes, and it is a DISCOVERY step:
+  # it answers "which journals lead each discipline", and that does not change
+  # from one Monday to the next. Once discovered, a journal stays in scope via
+  # known_journals.tsv for remember_journals_days below, and its facts are
+  # re-fetched every run like everything else — so a quarterly sweep costs
+  # nothing in freshness. Keep this comfortably under remember_journals_days or
+  # journals will age out of scope between sweeps.
+  # Run it now with: APC_FORCE_SUBFIELD_SWEEP=1, or the workflow input.
+  subfield_sweep_days: 90
   remember_journals_days: 365
 
 # Usage monitoring.

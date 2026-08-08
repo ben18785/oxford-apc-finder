@@ -1075,3 +1075,129 @@ def test_a_disputed_journal_with_no_deal_is_left_alone():
         {"id": "1234-5678", "cost": {"kind": "list_price"},
          "deal": {"status": "none", "expired": None, "conditions": None,
                   "disputed": {"publisher": "MDPI"}}}]})
+
+
+# ------------------------------------------ the subfield sweep's own cadence
+import datetime as _dt  # noqa: E402
+from fetch_metadata import subfield_sweep_due  # noqa: E402
+
+SWEEP_TODAY = _dt.date(2026, 8, 8)
+
+
+def _sweep_cfg(per_subfield=250, every=90):
+    return {"inclusion": {"top_journals_per_subfield": per_subfield,
+                          "subfield_sweep_days": every}}
+
+
+def _marker(tmp_path, monkeypatch, **fields):
+    import fetch_metadata, json
+    path = tmp_path / "subfield_sweep.json"
+    path.write_text(json.dumps(fields))
+    monkeypatch.setattr(fetch_metadata, "SWEEP_MARKER", path)
+    return path
+
+
+def test_the_sweep_is_skipped_between_quarters(tmp_path, monkeypatch):
+    """It is a discovery step costing ~500 requests and ~13 minutes. What it
+    discovers does not change weekly, and what it discovered last time stays in
+    scope via known_journals.tsv, so running it every push is pure waste."""
+    _marker(tmp_path, monkeypatch, last_run="2026-07-20", per_subfield=250,
+            journals=20134)
+    due, why = subfield_sweep_due(_sweep_cfg(), SWEEP_TODAY)
+    assert due is False
+    assert "next in" in why and "still in scope" in why
+
+
+def test_the_sweep_runs_once_the_cadence_has_elapsed(tmp_path, monkeypatch):
+    _marker(tmp_path, monkeypatch, last_run="2026-04-01", per_subfield=250)
+    due, why = subfield_sweep_due(_sweep_cfg(), SWEEP_TODAY)
+    assert due is True and "days ago" in why
+
+
+def test_changing_the_depth_re_runs_early(tmp_path, monkeypatch):
+    """A bigger number means journals the stored set was never asked about, so
+    waiting out the quarter would silently ignore the config change."""
+    _marker(tmp_path, monkeypatch, last_run="2026-08-07", per_subfield=250)
+    due, why = subfield_sweep_due(_sweep_cfg(per_subfield=500), SWEEP_TODAY)
+    assert due is True and "depth changed" in why
+
+
+def test_a_corrupt_marker_re_runs_rather_than_skipping_for_ever(tmp_path, monkeypatch):
+    """Failing open matters here: failing closed would silently disable
+    discovery with no signal anywhere."""
+    _marker(tmp_path, monkeypatch, per_subfield=250)          # no last_run
+    assert subfield_sweep_due(_sweep_cfg(), SWEEP_TODAY)[0] is True
+    _marker(tmp_path, monkeypatch, last_run="not-a-date", per_subfield=250)
+    assert subfield_sweep_due(_sweep_cfg(), SWEEP_TODAY)[0] is True
+
+
+def test_the_sweep_can_be_forced(tmp_path, monkeypatch):
+    _marker(tmp_path, monkeypatch, last_run="2026-08-07", per_subfield=250)
+    monkeypatch.setenv("APC_FORCE_SUBFIELD_SWEEP", "1")
+    assert subfield_sweep_due(_sweep_cfg(), SWEEP_TODAY) == (True, "forced by APC_FORCE_SUBFIELD_SWEEP")
+
+
+def test_zero_still_means_off_whatever_the_cadence_says(tmp_path, monkeypatch):
+    _marker(tmp_path, monkeypatch, last_run="2020-01-01", per_subfield=250)
+    assert subfield_sweep_due(_sweep_cfg(per_subfield=0), SWEEP_TODAY)[0] is False
+
+
+# ------------------------------- the inclusion rules vs what we tell people
+# Three separate descriptions of the inclusion policy had drifted to naming
+# three routes when the code implemented seven, and enabling the subfield sweep
+# made a fourth description stale the moment the config changed. Prose in four
+# files cannot be kept in step by remembering to; this ties it to config.yaml.
+
+import yaml as _yaml  # noqa: E402
+
+_ROOT = pathlib.Path(__file__).resolve().parent.parent if (
+    pathlib := __import__("pathlib")) else None
+
+COPY_FILES = {
+    "the site's inclusion explainer": _ROOT / "site" / "app.js",
+    "README.md": _ROOT / "README.md",
+    "merge.py's docstring": _ROOT / "pipeline" / "merge.py",
+}
+
+# Route -> a phrase that must appear wherever the policy is described. Only
+# checked for routes config.yaml actually has switched on, so turning one off
+# does not fail the build for not advertising it.
+CONFIG_GATED_ROUTES = {
+    "top_journals_by_citations": "most-cited",
+    "top_journals_per_subfield": "subfield",
+    "remember_journals_days": "before",
+}
+ALWAYS_ON_ROUTES = ["DOAJ", "transformative agreement", "publisher"]
+
+
+def _inclusion_cfg():
+    return _yaml.safe_load((_ROOT / "config.yaml").read_text())["inclusion"]
+
+
+@pytest.mark.parametrize("where", sorted(COPY_FILES))
+def test_every_enabled_inclusion_route_is_described(where):
+    text = COPY_FILES[where].read_text()
+    cfg = _inclusion_cfg()
+    for key, phrase in CONFIG_GATED_ROUTES.items():
+        if cfg.get(key):
+            assert phrase in text, (
+                f"{key} is enabled ({cfg[key]}) but {where} never mentions "
+                f"'{phrase}' — readers are being told a narrower rule than the "
+                "one actually applied")
+
+
+@pytest.mark.parametrize("where", sorted(COPY_FILES))
+def test_the_unconditional_routes_are_described_everywhere(where):
+    text = COPY_FILES[where].read_text()
+    for phrase in ALWAYS_ON_ROUTES:
+        assert phrase in text, f"{where} does not mention the {phrase!r} route"
+
+
+def test_the_subfield_route_is_justified_where_readers_can_see_it():
+    """It is the only route that reaches law and the humanities, and that is
+    the reason it exists — worth saying, not just listing."""
+    app = (_ROOT / "site" / "app.js").read_text()
+    start = app.index('inclusion: ["What gets listed here"')
+    entry = app[start:app.index('"],', start)]
+    assert "subfield" in entry
+    assert "law" in entry.lower() or "humanities" in entry.lower()

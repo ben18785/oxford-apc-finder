@@ -79,7 +79,7 @@
  },
  "fx_rates": {
   "bytes": 430,
-  "retrieved": "2026-08-08T21:45:17Z",
+  "retrieved": "2026-08-08T22:25:19Z",
   "sha256": "97ceafc8c96ba09b549a73404224ba985786cf88a020bacf55a07d7b1079da00",
   "url": "https://api.frankfurter.dev/v1/latest?base=GBP"
  },

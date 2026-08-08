@@ -21,6 +21,7 @@ Fixture mode: reads data/fixtures/metadata.json.
 from __future__ import annotations
 
 import csv
+import datetime
 import io
 import os
 import re
@@ -29,7 +30,7 @@ import time
 import requests
 import yaml
 
-from common import (CURATED, DailyQuotaExhausted, FIXTURES, FIXTURES_MODE,
+from common import (CURATED, DATA, DailyQuotaExhausted, FIXTURES, FIXTURES_MODE,
                     Manifest, OUT, fetch_json, http_get, known_journal_issns,
                     load_config, normalise_issn, read_json, utcnow, write_json)
 
@@ -40,6 +41,9 @@ from common import (CURATED, DailyQuotaExhausted, FIXTURES, FIXTURES_MODE,
 OPENALEX_BATCH = 100
 PER_PAGE = 200
 PUBLISHER_BATCH = 25          # publisher IDs per host_organization_lineage filter
+# OpenAlex's topic taxonomy has 252 subfields. Used only to forecast the sweep's
+# cost before it runs; the real number comes from the API.
+SUBFIELD_COUNT = 252
 
 # Running total of OpenAlex spend, reported at the end of the run.
 _openalex_cost = 0.0
@@ -176,6 +180,45 @@ def fetch_openalex_top_journals(cfg, manifest, session, limit: int) -> dict:
     return out
 
 
+SWEEP_MARKER = DATA / "state" / "subfield_sweep.json"
+
+
+def subfield_sweep_due(cfg, today: datetime.date) -> tuple[bool, str]:
+    """Should the subfield sweep run this time? Returns (due, why).
+
+    The sweep costs ~500 requests and ~13 minutes, and it is a *discovery*
+    step: it finds which journals lead each discipline, and the answer to that
+    does not change from one Monday to the next. Once a journal has been
+    discovered it stays in scope through known_journals.tsv for 365 days, and
+    its facts are re-fetched every run like everything else — so running the
+    sweep quarterly costs nothing in freshness. Scope is accumulated; facts
+    never are.
+
+    Re-runs early if the configured depth changed, since a larger number means
+    journals the stored set was never asked about.
+    """
+    per_subfield = cfg["inclusion"]["top_journals_per_subfield"]
+    if per_subfield <= 0:
+        return False, "disabled (top_journals_per_subfield: 0)"
+    if os.environ.get("APC_FORCE_SUBFIELD_SWEEP") == "1":
+        return True, "forced by APC_FORCE_SUBFIELD_SWEEP"
+    if not SWEEP_MARKER.exists():
+        return True, "never run"
+    marker = read_json(SWEEP_MARKER)
+    if marker.get("per_subfield") != per_subfield:
+        return True, (f"depth changed {marker.get('per_subfield')} -> {per_subfield}")
+    every = int(cfg["inclusion"].get("subfield_sweep_days", 90))
+    try:
+        age = (today - datetime.date.fromisoformat(marker["last_run"])).days
+    except (KeyError, ValueError):
+        return True, "marker unreadable"
+    if age >= every:
+        return True, f"last run {age} days ago (every {every})"
+    return False, (f"last run {age} days ago; next in {every - age} days "
+                   f"({marker.get('journals', 0):,} journals still in scope "
+                   "via known_journals.tsv)")
+
+
 def fetch_openalex_top_by_subfield(cfg, manifest, session, per_subfield: int) -> dict:
     """The leading journals *within each subfield*, not just globally.
 
@@ -188,6 +231,8 @@ def fetch_openalex_top_by_subfield(cfg, manifest, session, per_subfield: int) ->
     Sources cannot be filtered by subfield directly, so topics are fetched once
     (a few paged requests), grouped by subfield locally, and each subfield's
     topic set becomes one OR-filter.
+
+    Runs on its own slow cadence — see subfield_sweep_due.
     """
     out: dict[str, dict] = {}
     if per_subfield <= 0:
@@ -501,11 +546,21 @@ def main() -> None:
     print("Fetching DOAJ withdrawal changelog …")
     withdrawn = fetch_doaj_withdrawn(cfg, manifest, session)
 
+    today = datetime.date.today()
+    sweep_due, sweep_why = subfield_sweep_due(cfg, today)
+    print(f"Subfield sweep: {'running' if sweep_due else 'skipped'} — {sweep_why}")
+
     # A rough forecast is enough to catch "nowhere near enough left today".
+    # The sweep term was a flat 300 whether or not it ran, and whatever depth
+    # was configured; at 250 per subfield it really costs ~2 pages for each of
+    # ~252 subfields, so the guard under-forecast by 40% exactly when it
+    # mattered most.
+    per_subfield = cfg["inclusion"]["top_journals_per_subfield"]
+    sweep_cost = (SUBFIELD_COUNT * -(-per_subfield // PER_PAGE) + 10) if sweep_due else 0
     estimated = (len(set(deal_issns + doaj_primary + worldwide)) // OPENALEX_BATCH
                  + len(allow) + 40                       # publisher sweep
                  + cfg["inclusion"]["top_journals_by_citations"] // PER_PAGE
-                 + (300 if cfg["inclusion"]["top_journals_per_subfield"] else 0)
+                 + sweep_cost
                  + 60)                                   # headroom
     check_openalex_budget(cfg, session, estimated)
 
@@ -523,9 +578,27 @@ def main() -> None:
     for k, v in pub_recs.items():
         openalex.setdefault(k, v)
 
-    print("Fetching the leading journals in each subfield …")
-    by_subfield = fetch_openalex_top_by_subfield(
-        cfg, manifest, session, cfg["inclusion"]["top_journals_per_subfield"])
+    by_subfield: dict = {}
+    if sweep_due:
+        print("Fetching the leading journals in each subfield …")
+        try:
+            by_subfield = fetch_openalex_top_by_subfield(
+                cfg, manifest, session, per_subfield)
+            write_json(SWEEP_MARKER, {
+                "last_run": today.isoformat(),
+                "per_subfield": per_subfield,
+                "journals": len(by_subfield),
+            })
+        except DailyQuotaExhausted:
+            raise            # a real budget problem; the run should stop
+        except Exception as exc:                        # noqa: BLE001
+            # Discovery, not facts. Losing it costs the journals this sweep
+            # would have added — and the previously discovered ones are still
+            # in scope via known_journals.tsv — so it must not cost the whole
+            # refresh. The marker is deliberately NOT written, so the next run
+            # tries again rather than waiting out the quarter.
+            print(f"  subfield sweep failed ({exc}); continuing without it. "
+                  "Previously discovered journals remain in scope.")
     for k, v in by_subfield.items():
         openalex.setdefault(k, v)
 
