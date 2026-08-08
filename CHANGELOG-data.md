@@ -3,6 +3,129 @@
 What the site said, and when it changed. Generated automatically by
 `pipeline/changelog.py` on every refresh — newest entry first.
 
+## 2026-08-08
+
+- **353** journals added, **0** removed, **3649** changed.
+
+### Deal status changes (3637)
+
+- ABCA Bulletin (0001-0383): `discount` → `none`
+- ASHRAE journal (0001-2491): `discount` → `none`
+- ATZ - Automobiltechnische Zeitschrift (0001-2785): `discount` → `none`
+- AV communication review (0001-2890): `discount` → `none`
+- Chirurgie (0001-4001): `discount` → `none`
+- Bulletin de l Académie Nationale de Médecine (0001-4079): `discount` → `none`
+- Pharmacology and therapeutics in dentistry (0001-4389): `discount` → `none`
+- Acta Diabetologica Latina (0001-5563): `discount` → `none`
+- Acta Physica Academiae Scientiarum Hungaricae (0001-6705): `discount` → `none`
+- Acta physiologica et pharmacologica neerlandica (0001-6748): `discount` → `none`
+- ACTA THERIOLOGICA (0001-7051): `discount` → `none`
+- Activitas Nervosa Superior (0001-7604): `discount` → `none`
+- Adult Education (0001-8481): `discount` → `none`
+- Advances in Molecular Relaxation Processes (0001-8716): `discount` → `none`
+- Aging and Human Development (0002-0974): `discount` → `none`
+- Agricultural Meteorology (0002-1571): `discount` → `none`
+- Doklady Akademii nauk SSSR (0002-3264): `discount` → `none`
+- The Alabama journal of medical sciences (0002-4252): `discount` → `none`
+- Allgemeines Statistisches Archiv (0002-6018): `discount` → `none`
+- Alpha Omegan (0002-6417): `discount` → `none`
+- Journal of the American Dietetic Association (0002-8223): `discount` → `none`
+- Journal of the American Institute of Homeopathy (0002-8967): `discount` → `none`
+- The American Journal of Digestive Diseases (0002-9211): `discount` → `none`
+- American Journal of Orthodontics (0002-9416): `discount` → `none`
+- The American Journal of Psychoanalysis (0002-9548): `discount` → `none`
+- Transactions of the American Nuclear Society (0003-018X): `discount` → `none`
+- Journal of the American Pharmaceutical Association (1961) (0003-0465): `discount` → `none`
+- Der Anaesthesist (0003-2417): `discount` → `none`
+- Anales españoles de odontoestomatología (0003-2557): `discount` → `none`
+- Journal of Anatomical Society of India (0003-2778): `discount` → `none`
+- Annales d'anatomie pathologique (0003-3871): `discount` → `none`
+- annales de biologie animale biochimie biophysique (0003-388X): `discount` → `none`
+- Annales de Cardiologie et d Angéiologie (0003-3928): `discount` → `none`
+- Annales de Chirurgie (0003-3944): `discount` → `none`
+- Annales de chirurgie infantile (0003-3952): `discount` → `none`
+- Annales de chirurgie plastique (0003-3960): `discount` → `none`
+- Annales de dermatologie et de syphiligraphie (0003-3979): `discount` → `none`
+- Annales de Génétique (0003-3995): `discount` → `none`
+- Annales de Génétique et de Sélection Animale (0003-4002): `discount` → `none`
+- Annales de la nutrition et de l'alimentation (0003-4037): `discount` → `none`
+- Annales des Sciences Naturelles - Zoologie et Biologie Animale (0003-4339): `discount` → `none`
+- Annales d Otolaryngologie et de Chirurgie Cervico-Faciale (0003-438X): `discount` → `none`
+- Annales d Urologie (0003-4401): `discount` → `none`
+- Annales Pharmaceutiques Françaises (0003-4509): `discount` → `none`
+- Annali di ottalmologia e clinica oculistica (0003-4665): `discount` → `none`
+- Annali di radiologia diagnostica (0003-4673): `discount` → `none`
+- Annali Italiani di Chirurgia (0003-469X): `discount` → `none`
+- Annals of Mathematical Logic (0003-4843): `discount` → `none`
+- Annals of Ophthalmology (0003-4886): `discount` → `none`
+- L’Année Biologique (0003-5017): `discount` → `none`
+- Applied Scientific Research (0003-6994): `discount` → `none`
+- Architectural record (0003-858X): `discount` → `none`
+- Archiv für Klinische und Experimentelle Ohren- Nasen- und Kehlkopfheilkunde (0003-9195): `discount` → `none`
+- Archiv für Lebensmittelhygiene (0003-925X): `discount` → `none`
+- Archiv für Mathematische Logik und Grundlagenforschung (0003-9268): `discount` → `none`
+- Archiv für Orthopädische und Unfall-Chirurgie (0003-9330): `discount` → `none`
+- Archiv für Protistenkunde (0003-9365): `discount` → `none`
+- Archives d'anatomie microscopique et de morphologie expérimentale (0003-9594): `discount` → `none`
+- Archives des maladies professionnelles de médecine du travail et de sécurite sociale (0003-9691): `discount` → `none`
+- Archives d'ophtalmologie, Revue générale d'ophtalmologie (0003-973X): `discount` → `none`
+- Archives françaises des maladies de l'appareil digestif (0003-9772): `discount` → `none`
+- Archivum Immunologiae et Therapiae Experimentalis (0004-069X): `discount` → `none`
+- Arizona medicine (0004-1556): `discount` → `none`
+- Boletin de la Asociación Médica de Puerto Rico (0004-4849): `discount` → `none`
+- Bulletin de l'Association française pour l'étude du cancer (0004-5497): `discount` → `none`
+- Atmospheric Environment (1967) (0004-6981): `discount` → `none`
+- Atomic data (0004-7082): `discount` → `none`
+- Australian & New Zealand Journal of Criminology (0004-8658): `discount` → `none`
+- Australian Journal of Physiotherapy (0004-9514): `discount` → `none`
+- Biochimica et Biophysica Acta (BBA) - Lipids and Lipid Metabolism (0005-2760): `discount` → `none`
+- Biochimica et Biophysica Acta (BBA) - Nucleic Acids and Protein Synthesis (0005-2787): `discount` → `none`
+- Behavior Research Methods & Instrumentation (0005-7878): `discount` → `none`
+- Behavior Science Notes (0005-7886): `discount` → `none`
+- Beiträge zur Orthopaedie und Traumatologie (0005-8149): `discount` → `none`
+- Beiträge zur Pathologie (0005-8165): `discount` → `none`
+- Biochimica et Biophysica Acta (0006-3002): `discount` → `none`
+- Bioinorganic Chemistry (0006-3061): `discount` → `none`
+- Biomedical Engineering (0006-3398): `discount` → `none`
+- Blood (0006-4971): `discount` → `none`
+- Blut Zeitschrift für die gesamte Blutforschung (0006-5242): `discount` → `none`
+- British Homeopathic journal (0007-0785): `discount` → `none`
+- British Journal of Diseases of the Chest (0007-0971): `discount` → `none`
+- British journal of non-destructive testing (0007-1137): `discount` → `none`
+- British Journal of Oral Surgery (0007-117X): `discount` → `none`
+- British Journal of Plastic Surgery (0007-1226): `discount` → `none`
+- Bulletin of the British Mycological Society (0007-1528): `discount` → `none`
+- British Veterinary Journal (0007-1935): `discount` → `none`
+- Building Science (0007-3628): `discount` → `none`
+- Bulletin Géodésique (0007-4632): `discount` → `none`
+- Bulletin of Experimental Biology and Medicine (0007-4888): `discount` → `none`
+- The Bulletin of Mathematical Biophysics (0007-4985): `discount` → `none`
+- Cahiers de la Puéricultrice (0007-9820): `discount` → `none`
+- Calcified Tissue Research (0008-0594): `discount` → `none`
+- California medicine (0008-1264): `discount` → `none`
+- Canadian Anaesthetists Society journal / Journal de la Société canadienne des anesthésistes (0008-2856): `discount` → `none`
+- Canadian Institute of Food Technology Journal (0008-3860): `discount` → `none`
+- Canadian Psychiatric Association Journal (0008-4824): `discount` → `none`
+- Celestial Mechanics (0008-8714): `discount` → `none`
+- Československá gastroenterologie a výživa (0009-0565): `discount` → `none`
+- Chemical Age of India (0009-2320): `discount` → `none`
+- …and 3537 more (see `data/out/changes.json` in the run artifact).
+
+### Price changes (12)
+
+- journal of physical education (0103-3948): 800 → 80 USD
+- Urology Research and Practice (1300-5804): — → 900 USD
+- Harmonia Journal of Arts Research and Education (1411-5115): 200 → 7000000 IDR
+- Pedagogics psychology medical-biological problems of physical training and sports (1818-9172): — → 70 USD
+- ULUL ALBAB Jurnal Studi Islam (1858-4349): 500000 → —
+- Bezpieczeństwo i Technika Pożarnicza (1895-8443): — → 800 PLN
+- The Ultrasound Journal (2036-3176): 1606 → 1862 EUR
+- Sovremennye issledovaniya sotsialnykh problem (2077-1770): 8000 → 80 USD
+- Journal of watershed management research (2251-6174): 4000000 → 3000000
+- مجلة أسيوط لعلوم وفنون التربية الرياضية (2314-7091): 55 → 2450 EGP
+- Asian Journal of Social Health and Behavior (2589-9767): 450 → 38000 INR
+- VCOT Open (2625-2325): — → 2260 EUR
+
 ## 2026-08-07
 
 - **0** journals added, **0** removed, **10** changed.
