@@ -5,6 +5,14 @@
  * reach any of it. This runs app.js with a stub DOM and a stub fetch, so it
  * needs no browser.
  *
+ * Runs against TWO datasets, which is why no check may assume a particular
+ * count or a particular journal:
+ *   * the Tests workflow builds ~14 journals from data/fixtures/;
+ *   * the Deploy site workflow restores the cached real dataset (~49,000) and
+ *     runs this same suite over it before publishing.
+ * A literal like "3 unpriced journals" is right for one and wrong for the
+ * other. Derive expectations from the data in hand.
+ *
  * Runs under both engines, because CI has Node and macOS ships JavaScriptCore
  * but neither is guaranteed on a given machine:
  *
@@ -28,8 +36,10 @@ function runProgram(path) {
   if (IS_JSC) { load(path); }
   else { require("vm").runInThisContext(readTextFile(path), { filename: path }); }
 }
+var FAILED_LABELS = [];
 function fail(msg) {
   say("FAIL  " + msg);
+  FAILED_LABELS.push(msg);
   FAILURES++;
 }
 
@@ -612,9 +622,18 @@ chain.then(function () {
      * literal, so a plain indexOf misses it. */
     check("the reader is told how many journals could not be ordered",
       /no\s+comparable figure/.test(el("#results").innerHTML));
+    /* Derived, not hard-coded: this suite runs against the twelve-journal
+     * fixture build AND against the real 49,000-journal dataset in the deploy
+     * workflow, and a literal count is only ever right for one of them. It is
+     * also the stronger assertion — that the number shown IS the number
+     * withheld, rather than merely being some number. */
+    var noteNum = el("#results").innerHTML
+      .match(/<strong>([\d,]+)<\/strong>\s+of these journals/);
     check("and how many, not just that some exist",
-      /<strong>3<\/strong>\s+of these journals/.test(el("#results").innerHTML),
-      "expected the 3 unpriced fixtures to be counted");
+      noteNum !== null
+      && Number(noteNum[1].replace(/,/g, "")) === STATE.unpricedCount,
+      noteNum ? noteNum[1] + " shown vs " + STATE.unpricedCount + " actual"
+              : "no count rendered");
     check("and on what date the conversion was made",
       /European Central Bank rates for \d{4}-\d{2}-\d{2}/
         .test(el("#results").innerHTML), (STATE.config.fx || {}).date);
@@ -879,7 +898,14 @@ chain.then(function () {
       globalThis.fetch = realFetch;
     });
   }).then(function () {
-    say(FAILURES ? "\n" + FAILURES + " check(s) FAILED" : "\nall frontend checks passed");
+    if (FAILURES) {
+      // Repeated at the end because one FAIL among 140 ok lines is invisible in
+      // a CI log, and the tail is the part anyone pastes when asking for help.
+      say("\n" + FAILURES + " check(s) FAILED:");
+      FAILED_LABELS.forEach(function (m) { say("  - " + m); });
+    } else {
+      say("\nall frontend checks passed");
+    }
     if (!IS_JSC) { process.exit(FAILURES ? 1 : 0); }
     else if (FAILURES) { throw new Error(FAILURES + " frontend check(s) failed"); }
   });
