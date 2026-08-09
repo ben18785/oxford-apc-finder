@@ -5,6 +5,10 @@ What the site said, and when it changed. Generated automatically by
 
 ## 2026-08-09
 
+- **0** journals added, **0** removed, **0** changed.
+
+## 2026-08-09
+
 - **2** journals added, **0** removed, **0** changed.
 
 ## 2026-08-09
