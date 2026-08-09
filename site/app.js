@@ -1504,12 +1504,13 @@ function wireUI() {
   $("#foot-status").addEventListener("click", e => { e.preventDefault(); showStatus(); });
   $("#foot-about").addEventListener("click", e => { e.preventDefault(); showAbout(); });
   // Offered only when a build actually published figures, so the link can
-  // never lead to an empty page.
-  const usageLink = $("#foot-usage");
-  if (usageLink && STATE.config.usage_available) {
-    usageLink.hidden = false;
-    usageLink.insertAdjacentText("afterend", " · ");
-    usageLink.addEventListener("click", e => { e.preventDefault(); showUsage(); });
+  // never lead to an empty page. The separator lives inside the wrapper in the
+  // markup rather than being injected next to the link: showing a link and its
+  // punctuation is one decision, so it should be one toggle.
+  const usageWrap = $("#foot-usage-wrap");
+  if (usageWrap && STATE.config.usage_available) {
+    usageWrap.hidden = false;
+    $("#foot-usage").addEventListener("click", e => { e.preventDefault(); showUsage(); });
   }
   $("#disclaimer-link").addEventListener("click", e => { e.preventDefault(); showDisclaimer(); });
   $("#search-tips").addEventListener("click", e => { e.preventDefault(); showSearchTips(); });

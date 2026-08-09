@@ -1249,3 +1249,46 @@ def test_a_failing_subfield_does_not_discard_the_others(monkeypatch):
         {"sources": {"openalex_api": "https://x"}}, None, None, 250)
     assert out["failed"] == ["1100"]
     assert "1234-5678" in out["journals"], "the healthy subfield's work was kept"
+
+
+# ----------------------------------------- the JCT oracle's response parsing
+from validate import jct_verdict  # noqa: E402
+
+
+@pytest.mark.parametrize("payload,expected", [
+    # The normal shape.
+    ([{"issn": "0001-1541", "ror": "052gg0110",
+       "result": {"route": "ta", "compliant": "yes"}}], True),
+    ([{"result": {"route": "ta", "compliant": "no"}}], False),
+    # "No agreement" is HTTP 200 with a bare 404 integer, not an HTTP error.
+    (404, False),
+    # `result` as a LIST is what crashed a refresh with
+    # "'list' object has no attribute 'get'". It is a verdict, not a failure.
+    ([{"result": [{"compliant": "yes"}]}], True),
+    ([{"result": [{"compliant": "no"}, {"compliant": "no"}]}], False),
+    ([{"result": [{"compliant": "no"}, {"compliant": "yes"}]}], True),
+    # Shapes that carry no verdict at all must read as unknown, never as "no".
+    ([], None),
+    ([{"result": None}], None),
+    ([{"result": "yes"}], None),
+    (["unexpected"], None),
+    ({"error": "boom"}, None),
+    (None, None),
+])
+def test_the_oracle_reads_every_shape_jct_has_returned(payload, expected):
+    assert jct_verdict(payload) is expected
+
+
+def test_regression_a_list_valued_result_is_a_verdict_not_a_crash():
+    """A refresh died on `(r.get("result") or {}).get("compliant")` because the
+    isinstance guard checked the element but not what was inside it. The whole
+    build stopped over one oddly-shaped response."""
+    assert jct_verdict([{"result": [{"compliant": "yes"}]}]) is True
+
+
+def test_regression_an_unreadable_answer_is_not_read_as_no():
+    """Treating a broken response as "JCT says not covered" would invent
+    over-claims out of an API hiccup and fail the build for the wrong reason —
+    the same "missing is not the same as free" rule the cost logic follows."""
+    assert jct_verdict({"unexpected": "shape"}) is None
+    assert jct_verdict({"unexpected": "shape"}) is not False

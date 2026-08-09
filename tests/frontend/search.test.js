@@ -623,6 +623,19 @@ chain.then(function () {
     check("switching back to best match restores the original order",
       search("").map(function (r) { return r.id; }).join(",") === relOrder);
 
+  /* The usage-link branch only runs when a build published figures, so it is
+   * invisible to a fixtures build — which is how a crash in it reached CI. Run
+   * wireUI again with the flag on and make sure it survives. */
+  }).then(function () {
+    var saved = STATE.config.usage_available;
+    STATE.config.usage_available = true;
+    var threw = null;
+    try { wireUI(); } catch (e) { threw = e; }
+    check("wiring the usage link does not throw when a build published figures",
+      threw === null, threw && String(threw));
+    check("the usage link is revealed", el("#foot-usage-wrap").hidden === false);
+    STATE.config.usage_available = saved;
+
   /* --------------------------------------- starring, compare, export */
   }).then(function () {
     var a = STATE.index[0], b = STATE.index[1], c = STATE.index[2];

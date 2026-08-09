@@ -243,6 +243,41 @@ def check_must_include(data: dict, must: dict | None = None) -> list[str]:
               "data/curated/must_include.yaml."]
 
 
+def jct_verdict(payload):
+    """True / False / None from a JCT /ta response body.
+
+    The third state matters. Reading an unparseable response as "not covered"
+    would manufacture over-claims out of an API hiccup and fail the build for
+    the wrong reason; reading it as "covered" would mask a real one. Neither is
+    a verdict, so it is not reported as one.
+
+    Two shapes have actually come back from this endpoint and are handled
+    rather than assumed away:
+
+      * "no agreement" arrives as HTTP 200 with a bare `404` integer body — not
+        a list, not an HTTP error;
+      * `result` is normally an object but has been seen as a list, which
+        crashed a refresh with "'list' object has no attribute 'get'".
+
+    Anything else is inconclusive rather than fatal. This lives at module level
+    so it can be tested against those shapes without a network round trip — it
+    was a closure when it crashed, which is why nothing caught it.
+    """
+    if payload == 404:                         # documented "no agreement"
+        return False
+    if not isinstance(payload, list):
+        return None
+    verdicts = []
+    for r in payload:
+        if not isinstance(r, dict):
+            continue
+        res = r.get("result")
+        for entry in (res if isinstance(res, list) else [res]):
+            if isinstance(entry, dict):
+                verdicts.append(entry.get("compliant") == "yes")
+    return any(verdicts) if verdicts else None
+
+
 def check_oracle(data: dict, cfg: dict) -> list[str]:
     if FIXTURES_MODE:
         print("  [fixtures] oracle check skipped (no network)")
@@ -264,15 +299,14 @@ def check_oracle(data: dict, cfg: dict) -> list[str]:
     sample = (rng.sample(covered, min(n // 2, len(covered)))
               + rng.sample(uncovered, min(n - n // 2, len(uncovered))))
 
-    def jct_covers(issn: str) -> bool:
+    def jct_covers(issn: str):
         resp = http_get(f"{api}/ta", params={"issn": issn, "ror": ror}, retries=2)
-        # "No agreement" is returned as HTTP 200 with a bare `404` integer as
-        # the body, not as a list and not as an HTTP error — so check the shape
-        # rather than trusting the status code.
-        payload = resp.json() if resp.status_code == 200 else None
-        results = payload if isinstance(payload, list) else []
-        return any((r.get("result") or {}).get("compliant") == "yes"
-                   for r in results if isinstance(r, dict))
+        if resp.status_code != 200:
+            return None
+        try:
+            return jct_verdict(resp.json())
+        except ValueError:
+            return None
 
     # The two directions of disagreement carry very different risk, so they are
     # judged differently:
@@ -286,7 +320,7 @@ def check_oracle(data: dict, cfg: dict) -> list[str]:
     #                                   agreement lists only the current one,
     #                                   and JCT's API resolves the old ISSN to
     #                                   the new journal.
-    over_claims, under_claims = [], []
+    over_claims, under_claims, inconclusive = [], [], []
     for j in sample:
         ours = j["deal"]["status"] == "covered"
         # JCT indexes an agreement's journals under the specific ISSN the
@@ -297,10 +331,13 @@ def check_oracle(data: dict, cfg: dict) -> list[str]:
         theirs = jct_covers(j["issns"][0])
         if theirs != ours:
             for issn in j["issns"][1:]:
-                if jct_covers(issn):
+                if jct_covers(issn) is True:
                     theirs = True
                     break
 
+        if theirs is None:
+            inconclusive.append(j["id"])
+            continue
         if ours == theirs:
             continue
         note = (f"{j['id']} {j['title']}: we say covered={ours}, "
@@ -308,7 +345,8 @@ def check_oracle(data: dict, cfg: dict) -> list[str]:
         (over_claims if ours else under_claims).append(note)
 
     print(f"  oracle: {len(sample)} sampled, {len(over_claims)} over-claim(s), "
-          f"{len(under_claims)} under-claim(s)")
+          f"{len(under_claims)} under-claim(s), "
+          f"{len(inconclusive)} inconclusive")
     for note in under_claims:
         print(f"    under-claim: {note}")
 
@@ -321,6 +359,15 @@ def check_oracle(data: dict, cfg: dict) -> list[str]:
             f"{allowed}). One or two are usually renamed journals; this many "
             "suggests the agreement data is not being read correctly: "
             + "; ".join(under_claims[:3]))
+    # An oracle that could not read most of its answers has not cross-checked
+    # anything, and silently passing would be worse than the crash it replaced:
+    # the build would look verified when nothing was verified.
+    if len(inconclusive) > max(2, len(sample) // 4):
+        errors.append(
+            f"{len(inconclusive)} of {len(sample)} oracle checks returned no "
+            "usable answer from the JCT API, so coverage was effectively not "
+            "cross-checked this build. Either the API is unwell or its response "
+            f"shape has changed again: {', '.join(inconclusive[:5])}")
     return errors
 
 
