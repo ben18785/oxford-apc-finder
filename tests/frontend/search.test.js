@@ -858,6 +858,8 @@ chain.then(function () {
           generated: "2026-08-08T00:00:00Z", window_days: 90,
           totals: { page_loads: 1200, interactions: 77, journal_views: 77,
                     distinct_journals_viewed: 5, countries: 2 },
+          all_time: { since: "2026-08-08", page_loads: 4100, interactions: 900,
+                      journal_views: 2600, distinct_journals_viewed: 700 },
           coverage: { covered_journal_share: 0.4, corpus_share: 0.27,
                       sample_journals: 5, sample_views: 20 },
           top_journals: [
@@ -875,6 +877,10 @@ chain.then(function () {
         u.indexOf("1,200") !== -1 && u.indexOf("page loads") !== -1);
       /* The counter publishes no unique-visitor figure, so the page must not
        * imply one — it printed "0 visitors" when a lookup fell through. */
+      check("usage view leads with the all-time figures",
+        u.indexOf("2,600") !== -1 && /Since 8 August 2026/.test(u));
+      check("and says the rest covers the rolling window only",
+        /figures below cover the last\s+90 days/.test(u));
       check("usage view claims no visitor count it cannot source",
         !/\bvisitors\b/.test(u), u.slice(0, 0) || "");
       check("usage view draws a bar per journal",
@@ -906,7 +912,9 @@ chain.then(function () {
     var realFetch = globalThis.fetch, savedFlag = STATE.config.usage_available;
     var payload = { window_days: 90,
       totals: { page_loads: 1200, interactions: 77, journal_views: 340,
-                distinct_journals_viewed: 88, countries: 4 } };
+                distinct_journals_viewed: 88, countries: 4 },
+      all_time: { since: "2026-08-08", page_loads: 4100, interactions: 900,
+                  journal_views: 2600, distinct_journals_viewed: 700 } };
     globalThis.fetch = function (path) {
       if (path.indexOf("usage.json") === -1) return realFetch(path);
       return Promise.resolve({ ok: true, status: 200,
@@ -924,13 +932,21 @@ chain.then(function () {
       var s = el("#usage-strip").innerHTML;
       check("the strip appears once there are figures",
         el("#usage-strip").hidden === false);
+      /* All time, not the rolling window: "how much has this been used at
+       * all" is what a figure at the top of the page answers, and a 90-day
+       * number answers it wrongly once the tool is older than 90 days. */
+      check("the strip reports all time, not the rolling window",
+        s.indexOf("2,600") !== -1 && s.indexOf("340") === -1, s);
       check("it leads with journal lookups, not page loads",
-        s.indexOf("340") < s.indexOf("1,200"), s);
+        s.indexOf("2,600") < s.indexOf("4,100"), s);
       check("it links through to the full breakdown",
         s.indexOf("usage-strip-link") !== -1);
-      check("it says what period it covers", /last 90 days/.test(s));
+      check("it says when counting began, in words",
+        /Since 8 August 2026/.test(s), s);
       /* A counter that recorded nothing should show nothing rather than a row
        * of zeroes. */
+      payload.all_time = { since: null, page_loads: 0, interactions: 0,
+                           journal_views: 0, distinct_journals_viewed: 0 };
       payload.totals = { page_loads: 0, journal_views: 0,
                          distinct_journals_viewed: 0, countries: 0 };
       el("#usage-strip").hidden = true;

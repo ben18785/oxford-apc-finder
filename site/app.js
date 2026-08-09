@@ -89,6 +89,14 @@ async function boot() {
  *
  * Fetched after first paint and never awaited — if it fails, the strip simply
  * does not appear. */
+function prettyDate(iso) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || "");
+  if (!m) return "";
+  const months = ["January", "February", "March", "April", "May", "June", "July",
+                  "August", "September", "October", "November", "December"];
+  return `${Number(m[3])} ${months[Number(m[2]) - 1]} ${m[1]}`;
+}
+
 async function loadUsageStrip() {
   const strip = $("#usage-strip");
   if (!strip || !STATE.config.usage_available) return;
@@ -96,20 +104,24 @@ async function loadUsageStrip() {
   try {
     u = await (await fetch("data/usage.json")).json();
   } catch { return; }
-  const t = u.totals || {};
+  // All time, not the rolling window: "how much has this been used at all" is
+  // the question a figure at the top of the page answers, and a 90-day number
+  // answers it wrongly the moment the tool is older than 90 days.
+  const a = u.all_time || u.totals || {};
   const n = (x) => (x || 0).toLocaleString();
   // Only the counts that mean something to a reader. Page loads are the least
   // interesting of them, so they come last.
   const bits = [];
-  if (t.journal_views) {
-    bits.push(`<strong>${n(t.journal_views)}</strong> journal lookup${t.journal_views === 1 ? "" : "s"}`);
+  if (a.journal_views) {
+    bits.push(`<strong>${n(a.journal_views)}</strong> journal lookup${a.journal_views === 1 ? "" : "s"}`);
   }
-  if (t.distinct_journals_viewed) {
-    bits.push(`<strong>${n(t.distinct_journals_viewed)}</strong> different journals`);
+  if (a.distinct_journals_viewed) {
+    bits.push(`<strong>${n(a.distinct_journals_viewed)}</strong> different journals`);
   }
-  if (t.page_loads) bits.push(`<strong>${n(t.page_loads)}</strong> page loads`);
+  if (a.page_loads) bits.push(`<strong>${n(a.page_loads)}</strong> page loads`);
   if (!bits.length) return;              // counted nothing worth reporting
-  strip.innerHTML = `In the last ${esc(String(u.window_days || 90))} days:
+  const since = prettyDate(a.since);
+  strip.innerHTML = `${since ? `Since ${esc(since)}` : "So far"}:
     ${bits.join(" · ")}. <a href="#" id="usage-strip-link">How this site is used</a>`;
   strip.hidden = false;
   $("#usage-strip-link").addEventListener("click", (e) => {
@@ -982,7 +994,20 @@ async function showUsage() {
 
   $("#detail-body").innerHTML = `
     <h2 id="detail-title">How this site is used</h2>
-    <p class="cost-note">Last ${esc(String(u.window_days || 90))} days ·
+    ${(() => {
+      const a = u.all_time || {};
+      if (!a.page_loads && !a.journal_views) return "";
+      const parts = [];
+      if (a.journal_views != null) {
+        parts.push(`<strong>${n(a.journal_views)}</strong> journal lookups across
+          <strong>${n(a.distinct_journals_viewed)}</strong> different journals`);
+      }
+      if (a.page_loads) parts.push(`<strong>${n(a.page_loads)}</strong> page loads`);
+      return `<p class="alltime">${a.since ? `Since ${esc(prettyDate(a.since))}` : "In total"}:
+        ${parts.join(" · ")}.</p>`;
+    })()}
+    <p class="cost-note">The figures below cover the last
+      ${esc(String(u.window_days || 90))} days ·
       updated ${esc((u.generated || "").replace("T", " ").slice(0, 16))} UTC.</p>
 
     <div class="stat-grid">

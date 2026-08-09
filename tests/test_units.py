@@ -1320,3 +1320,37 @@ def test_both_unconditional_zeros_are_written_the_same_way():
     assert diamond.startswith("£0") and no_apc.startswith("£0")
     # ...while still saying which is which, since the reason differs.
     assert "diamond" in diamond and "APC" in no_apc
+
+
+# ------------------------------------------------- all-time usage totals
+from fetch_usage import first_traffic_day, totals_block  # noqa: E402
+
+
+def test_when_counting_began_is_derived_from_the_data():
+    """"Since we started counting" is a claim about the data, so it comes from
+    the data. A hard-coded launch date becomes a lie the first time the counter
+    is reset or moved."""
+    totals = {"stats": [{"day": "2026-08-05", "daily": 0, "hourly": [0] * 24},
+                        {"day": "2026-08-06", "daily": 0, "hourly": [0] * 24},
+                        {"day": "2026-08-08", "daily": 14, "hourly": [0] * 24}]}
+    assert first_traffic_day(totals) == "2026-08-08"
+    assert first_traffic_day({"stats": []}) is None
+    assert first_traffic_day({}) is None
+
+
+def test_a_rate_limited_call_omits_the_count_rather_than_reporting_zero():
+    """Five calls in a burst earned a 429 from GoatCounter, and the missing
+    response became "0 journal lookups" — a confident wrong answer the page
+    would then print in bold. None is not zero."""
+    blocked = totals_block(None, {"total": 24, "total_events": 16}, since="2026-08-08")
+    assert "journal_views" not in blocked
+    assert blocked["page_loads"] == 8          # still derivable from totals
+
+    fine = totals_block([{"path": "/j/covered/all/1111-2222", "count": 11}],
+                        {"total": 24, "total_events": 16}, since="2026-08-08")
+    assert fine["journal_views"] == 11 and fine["distinct_journals_viewed"] == 1
+
+
+def test_all_time_page_loads_exclude_events_too():
+    b = totals_block([], {"total": 24, "total_events": 16})
+    assert b["page_loads"] == 8 and b["interactions"] == 16

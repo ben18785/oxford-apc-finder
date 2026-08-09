@@ -25,6 +25,7 @@ from __future__ import annotations
 import datetime
 import os
 import sys
+import time
 
 import requests
 
@@ -35,22 +36,47 @@ TIMEOUT = 30
 # work if a misconfigured beacon ever starts emitting unbounded distinct paths.
 PAGE_LIMIT = 500
 
+# "All time" has to start somewhere. This predates the site, so nothing earlier
+# can exist — and the date actually published is derived from the first day
+# that recorded any traffic, so the label stays true without a config value
+# anyone has to remember to update.
+ALL_TIME_START = "2026-01-01"
+
+
+# GoatCounter allows 4 requests a second. Five calls fired in a burst earned a
+# 429 on the last one, which degraded to "0 journal lookups" — a wrong number
+# rather than a missing one. Pacing is cheaper than handling that.
+RATE_LIMIT_PAUSE = 0.3
+
 
 def _api(base: str, path: str, token: str, params: dict) -> dict | None:
-    """One API call. Returns None on any failure — callers degrade, never raise."""
-    try:
-        resp = requests.get(
-            f"{base}/api/v0{path}",
-            headers={"Authorization": f"Bearer {token}",
-                     "Content-Type": "application/json"},
-            params=params, timeout=TIMEOUT)
-        if resp.status_code != 200:
-            print(f"  {path}: HTTP {resp.status_code} — skipping")
+    """One API call. Returns None on any failure — callers degrade, never raise.
+
+    None means "no answer", and callers must not read it as zero: a rate limit
+    that silently becomes a count of nothing is worse than no figure at all.
+    """
+    for attempt in range(2):
+        time.sleep(RATE_LIMIT_PAUSE)
+        try:
+            resp = requests.get(
+                f"{base}/api/v0{path}",
+                headers={"Authorization": f"Bearer {token}",
+                         "Content-Type": "application/json"},
+                params=params, timeout=TIMEOUT)
+            if resp.status_code == 429 and attempt == 0:
+                wait = float(resp.headers.get("retry-after") or 2)
+                print(f"  {path}: rate limited, waiting {wait:.0f}s")
+                time.sleep(min(wait, 10))
+                continue
+            if resp.status_code != 200:
+                print(f"  {path}: HTTP {resp.status_code} — skipping")
+                return None
+            return resp.json()
+        except Exception as exc:                    # noqa: BLE001
+            print(f"  {path}: {exc} — skipping")
             return None
-        return resp.json()
-    except Exception as exc:                        # noqa: BLE001
-        print(f"  {path}: {exc} — skipping")
-        return None
+    print(f"  {path}: still rate limited — skipping")
+    return None
 
 
 def _first_int(d: dict, *names: str) -> int:
@@ -88,6 +114,54 @@ def split_journal_path(path: str) -> tuple[str, str, str] | None:
     if len(parts) == 3:
         return parts[1], "deals", parts[2]
     return None
+
+
+def first_traffic_day(totals: dict) -> str | None:
+    """The earliest day that recorded anything, from /stats/total's day array.
+
+    Derived rather than configured: "since we started counting" is a claim
+    about the data, so it should come from the data. A hard-coded launch date
+    would quietly become a lie the first time the counter was reset or moved.
+    """
+    for day in (totals.get("stats") or []):
+        if not isinstance(day, dict):
+            continue
+        if (day.get("daily") or sum(day.get("hourly") or [])) > 0:
+            return day.get("day")
+    return None
+
+
+def totals_block(hits: list[dict] | None, totals: dict,
+                 since: str | None = None) -> dict:
+    """Headline counts for one time window.
+
+    `hits` of None means the call for them did not come back. The journal
+    figures are then omitted rather than reported as zero — a rate limit that
+    turns into "0 journal lookups" is a confident wrong answer, and the page
+    would print it in bold.
+    """
+    if hits is None:
+        return {
+            "since": since,
+            "page_loads": max(0, _first_int(totals, "total", "total_utc")
+                              - _first_int(totals, "total_events")),
+            "interactions": _first_int(totals, "total_events"),
+        }
+    journals: dict[str, int] = {}
+    for h in hits:
+        parsed = split_journal_path(h.get("path", ""))
+        if parsed:
+            journals[parsed[2]] = journals.get(parsed[2], 0) + (h.get("count", 0) or 0)
+    return {
+        "since": since,
+        # `total` counts events too, so page loads are the difference — every
+        # journal opened and every missed search would otherwise inflate it.
+        "page_loads": max(0, _first_int(totals, "total", "total_utc")
+                          - _first_int(totals, "total_events")),
+        "interactions": _first_int(totals, "total_events"),
+        "journal_views": sum(journals.values()),
+        "distinct_journals_viewed": len(journals),
+    }
 
 
 def summarise(hits: list[dict], locations: list[dict], totals: dict,
@@ -223,6 +297,15 @@ def main() -> None:
     hits_resp = _api(base, "/stats/hits", token, {**window, "limit": PAGE_LIMIT}) or {}
     loc_resp = _api(base, "/stats/locations", token, {**window, "limit": PAGE_LIMIT}) or {}
 
+    # The rolling window drives the charts, but "how much has this been used at
+    # all" is a different and more interesting question, and a 90-day figure
+    # answers it wrongly the moment the tool is older than 90 days.
+    all_window = {"start": ALL_TIME_START, "end": end.isoformat()}
+    all_totals = _api(base, "/stats/total", token, all_window) or {}
+    all_hits_resp = _api(base, "/stats/hits", token,
+                         {**all_window, "limit": PAGE_LIMIT})
+    all_hits = all_hits_resp.get("hits") or [] if all_hits_resp is not None else None
+
     hits = hits_resp.get("hits") or []
     locations = loc_resp.get("stats") or []
 
@@ -239,17 +322,25 @@ def main() -> None:
         corpus = {"total": counts.get("journals"), "covered": counts.get("covered")}
 
     usage = summarise(hits, locations, totals, corpus, cfg)
+    usage["all_time"] = totals_block(all_hits, all_totals,
+                                     since=first_traffic_day(all_totals))
 
     # A site that has counted nothing yet has nothing to say. Publishing zeros
     # would put a "How this site is used" link in the footer leading to a page
     # of noughts, which reads as a broken feature rather than a new one.
-    if not usage["totals"]["page_loads"] and not usage["totals"]["journal_views"]:
+    if (not usage["all_time"]["page_loads"]
+            and not usage["all_time"]["journal_views"]):
         print("No traffic counted yet — not publishing a usage page.")
         return
 
     write_json(OUT / "usage.json", usage)
     t = usage["totals"]
-    print(f"Usage: {t['page_loads']:,} page loads, {t['interactions']:,} interactions, "
+    a = usage["all_time"]
+    lookups = (f"{a['journal_views']:,} journal lookups across "
+               f"{a['distinct_journals_viewed']:,} journals"
+               if "journal_views" in a else "journal counts unavailable")
+    print(f"Usage since {a['since'] or '?'}: {a['page_loads']:,} page loads, {lookups}")
+    print(f"  last {usage['window_days']} days: {t['page_loads']:,} page loads, "
           f"{t['distinct_journals_viewed']:,} journals looked up "
           f"({usage['withheld']['journals']} below the publication floor)")
 
