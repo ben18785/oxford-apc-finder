@@ -44,6 +44,14 @@ PUBLISHER_BATCH = 25          # publisher IDs per host_organization_lineage filt
 # OpenAlex's topic taxonomy has 252 subfields. Used only to forecast the sweep's
 # cost before it runs; the real number comes from the API.
 SUBFIELD_COUNT = 252
+# OpenAlex rejects an OR-filter with more than 100 values:
+#   "Maximum number of values exceeded for topics.id."
+# Five subfields exceed it — Molecular Biology, Electrical Engineering,
+# Education, Sociology & Political Science, and Political Science &
+# International Relations — and all five failed the first live sweep. Three of
+# them are Social Sciences, which is precisely what the subfield route exists to
+# reach, so this was not a random 2% loss.
+OPENALEX_MAX_OR_VALUES = 100
 
 # Running total of OpenAlex spend, reported at the end of the run.
 _openalex_cost = 0.0
@@ -267,24 +275,32 @@ def fetch_openalex_top_by_subfield(cfg, manifest, session, per_subfield: int) ->
     # for organic chemistry should cost us law.
     failed: list[str] = []
     for n, (sub, topics) in enumerate(sorted(subfields.items()), 1):
-        seen, cursor, page = 0, "*", 0
+        # Split oversized topic lists across several filters. Taking the top N
+        # of each chunk and merging yields a SUPERSET of the true top N for the
+        # subfield — a journal in the subfield's top N is, at worst, Nth within
+        # whichever chunk contains it — so nothing is lost by splitting.
+        chunks = [topics[i:i + OPENALEX_MAX_OR_VALUES]
+                  for i in range(0, len(topics), OPENALEX_MAX_OR_VALUES)] or [[]]
         try:
-            while cursor and seen < per_subfield:
-                data = openalex_get(
-                    cfg, manifest, session, base + "/sources",
-                    f"openalex_subfield_{sub}_p{page}",
-                    {"filter": "topics.id:" + "|".join(topics) + ",type:journal",
-                     "sort": "cited_by_count:desc",
-                     "per-page": min(PER_PAGE, per_subfield - seen), "cursor": cursor})
-                results = data.get("results", [])
-                for src in results:
-                    rec = compact_openalex(src)
-                    if rec["issn_l"]:
-                        out.setdefault(rec["issn_l"], rec)
-                seen += len(results)
-                cursor = (data.get("meta") or {}).get("next_cursor")
-                page += 1
-                time.sleep(0.15)
+            for part, chunk in enumerate(chunks):
+                seen, cursor, page = 0, "*", 0
+                while cursor and seen < per_subfield:
+                    data = openalex_get(
+                        cfg, manifest, session, base + "/sources",
+                        f"openalex_subfield_{sub}_c{part}_p{page}",
+                        {"filter": "topics.id:" + "|".join(chunk) + ",type:journal",
+                         "sort": "cited_by_count:desc",
+                         "per-page": min(PER_PAGE, per_subfield - seen),
+                         "cursor": cursor})
+                    results = data.get("results", [])
+                    for src in results:
+                        rec = compact_openalex(src)
+                        if rec["issn_l"]:
+                            out.setdefault(rec["issn_l"], rec)
+                    seen += len(results)
+                    cursor = (data.get("meta") or {}).get("next_cursor")
+                    page += 1
+                    time.sleep(0.15)
         except DailyQuotaExhausted:
             # Out of budget: every remaining subfield would fail the same way,
             # so stop sweeping and keep what we have rather than burning the
@@ -578,7 +594,8 @@ def main() -> None:
     # ~252 subfields, so the guard under-forecast by 40% exactly when it
     # mattered most.
     per_subfield = cfg["inclusion"]["top_journals_per_subfield"]
-    sweep_cost = (SUBFIELD_COUNT * -(-per_subfield // PER_PAGE) + 10) if sweep_due else 0
+    # +40 covers the few subfields whose topic list splits across filters.
+    sweep_cost = (SUBFIELD_COUNT * -(-per_subfield // PER_PAGE) + 40) if sweep_due else 0
     estimated = (len(set(deal_issns + doaj_primary + worldwide)) // OPENALEX_BATCH
                  + len(allow) + 40                       # publisher sweep
                  + cfg["inclusion"]["top_journals_by_citations"] // PER_PAGE

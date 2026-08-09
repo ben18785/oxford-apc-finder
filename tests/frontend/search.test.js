@@ -943,6 +943,33 @@ chain.then(function () {
         s.indexOf("usage-strip-link") !== -1);
       check("it says when counting began, in words",
         /Since 8 August 2026/.test(s), s);
+      /* Once the site is older than the window the two periods differ, and
+       * both must be shown and labelled — side by side they would read as one
+       * long list of numbers with no way to tell which is which. */
+      payload.all_time.since = "2025-01-15";
+      el("#usage-strip").hidden = true;
+      return loadUsageStrip().then(function () {
+        var two = el("#usage-strip").innerHTML;
+        check("both periods appear once they cover different spans",
+          two.indexOf("2,600") !== -1 && two.indexOf("340") !== -1, two);
+        check("and each is labelled with its period",
+          /Since 15 January 2025/.test(two) && /Last 90 days/.test(two), two);
+        check("they are separate lines, not one run of numbers",
+          (two.match(/usage-line/g) || []).length === 2);
+        payload.all_time.since = "2026-08-08";
+        el("#usage-strip").hidden = true;
+        return loadUsageStrip();
+      }).then(function () {
+        /* While the site is younger than the window they are the same stretch
+         * of time, and identical rows twice read as a bug. */
+        var one = el("#usage-strip").innerHTML;
+        check("a site younger than the window shows one period, not two",
+          (one.match(/usage-line/g) || []).length === 1, one);
+        check("and says why there is only one",
+          /whole life so far/.test(one), one);
+        return null;
+      }).then(function () {
+
       /* A counter that recorded nothing should show nothing rather than a row
        * of zeroes. */
       payload.all_time = { since: null, page_loads: 0, interactions: 0,
@@ -956,6 +983,7 @@ chain.then(function () {
         el("#usage-strip").hidden === true);
       globalThis.fetch = realFetch;
       STATE.config.usage_available = savedFlag;
+      });
     });
 
     /* A build with no usage data must degrade to a message, not an error. */

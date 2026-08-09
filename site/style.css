@@ -389,6 +389,13 @@ body {
 .usage-strip {
   margin: 12px 0 0; font-size: .82rem; color: var(--muted);
 }
+/* Two periods, stacked and labelled. Side by side they read as one long list
+   of numbers with no way to tell which belongs to which. */
+.usage-line { display: block; }
+.usage-line b {
+  display: inline-block; min-width: 10.5rem; font-weight: 600; color: var(--text);
+}
+@media (max-width: 560px) { .usage-line b { min-width: 0; margin-right: 6px; } }
 .usage-strip strong { color: var(--text); font-weight: 600; }
 .usage-strip a { color: var(--oxford); }
 

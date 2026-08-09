@@ -1354,3 +1354,35 @@ def test_a_rate_limited_call_omits_the_count_rather_than_reporting_zero():
 def test_all_time_page_loads_exclude_events_too():
     b = totals_block([], {"total": 24, "total_events": 16})
     assert b["page_loads"] == 8 and b["interactions"] == 16
+
+
+def test_an_oversized_subfield_is_split_across_filters(monkeypatch):
+    """OpenAlex rejects an OR-filter with more than 100 values. Five subfields
+    exceed it and all five failed the first live sweep — three of them Social
+    Sciences, which is exactly what this route exists to reach."""
+    import fetch_metadata as fm
+    seen_filters = []
+
+    def fake(cfg, manifest, session, url, key, params):
+        if "topics" in url:                       # the topic listing
+            return {"results": [{"id": f"https://openalex.org/T{i}",
+                                 "subfield": {"id": "https://openalex.org/subfields/3312"}}
+                                for i in range(224)], "meta": {}}
+        seen_filters.append(params["filter"])
+        return {"results": [{"id": "https://openalex.org/S1", "issn_l": "1234-5678",
+                             "display_name": "X", "issn": ["1234-5678"]}], "meta": {}}
+
+    monkeypatch.setattr(fm, "openalex_get", fake)
+    monkeypatch.setattr(fm.time, "sleep", lambda *_: None)
+    out = fm.fetch_openalex_top_by_subfield(
+        {"sources": {"openalex_api": "https://x"}}, None, None, 250)
+
+    assert out["failed"] == [], "224 topics must not fail any more"
+    assert len(seen_filters) == 3, f"224 topics should split into 3, got {len(seen_filters)}"
+    for f in seen_filters:
+        values = f.split("topics.id:")[1].split(",type:journal")[0].split("|")
+        assert len(values) <= fm.OPENALEX_MAX_OR_VALUES, f"{len(values)} exceeds the cap"
+    # Every topic still gets asked about — splitting must not drop any.
+    asked = {v for f in seen_filters
+             for v in f.split("topics.id:")[1].split(",type:journal")[0].split("|")}
+    assert len(asked) == 224

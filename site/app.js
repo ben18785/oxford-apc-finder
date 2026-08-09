@@ -97,6 +97,26 @@ function prettyDate(iso) {
   return `${Number(m[3])} ${months[Number(m[2]) - 1]} ${m[1]}`;
 }
 
+function usageBits(block) {
+  const n = (x) => (x || 0).toLocaleString();
+  const bits = [];
+  if (block.journal_views) {
+    bits.push(`<strong>${n(block.journal_views)}</strong> journal lookup${block.journal_views === 1 ? "" : "s"}`);
+  }
+  if (block.distinct_journals_viewed) {
+    bits.push(`<strong>${n(block.distinct_journals_viewed)}</strong> different journals`);
+  }
+  if (block.page_loads) bits.push(`<strong>${n(block.page_loads)}</strong> page loads`);
+  return bits;
+}
+
+/* Days between an ISO date and today, or null if it cannot be read. */
+function daysSince(iso) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || "");
+  if (!m) return null;
+  return Math.floor((Date.now() - Date.UTC(+m[1], +m[2] - 1, +m[3])) / 86400000);
+}
+
 async function loadUsageStrip() {
   const strip = $("#usage-strip");
   if (!strip || !STATE.config.usage_available) return;
@@ -104,25 +124,31 @@ async function loadUsageStrip() {
   try {
     u = await (await fetch("data/usage.json")).json();
   } catch { return; }
-  // All time, not the rolling window: "how much has this been used at all" is
-  // the question a figure at the top of the page answers, and a 90-day number
-  // answers it wrongly the moment the tool is older than 90 days.
-  const a = u.all_time || u.totals || {};
-  const n = (x) => (x || 0).toLocaleString();
-  // Only the counts that mean something to a reader. Page loads are the least
-  // interesting of them, so they come last.
-  const bits = [];
-  if (a.journal_views) {
-    bits.push(`<strong>${n(a.journal_views)}</strong> journal lookup${a.journal_views === 1 ? "" : "s"}`);
+
+  const win = u.window_days || 90;
+  const all = u.all_time || {};
+  const allBits = usageBits(all), recentBits = usageBits(u.totals || {});
+  if (!allBits.length && !recentBits.length) return;   // nothing worth reporting
+
+  const since = prettyDate(all.since);
+  const age = daysSince(all.since);
+  // While the site is younger than the window, the two periods are the same
+  // stretch of time. Printing identical rows twice reads as a bug rather than
+  // as two measurements, so say so instead and let them separate once there is
+  // a difference to show.
+  const sameSpan = age !== null && age <= win;
+
+  const rows = [];
+  if (allBits.length) {
+    rows.push(`<span class="usage-line"><b>${since ? "Since " + esc(since) : "Since launch"}</b>
+      ${allBits.join(" · ")}${sameSpan ? " — the site's whole life so far" : ""}</span>`);
   }
-  if (a.distinct_journals_viewed) {
-    bits.push(`<strong>${n(a.distinct_journals_viewed)}</strong> different journals`);
+  if (recentBits.length && !sameSpan) {
+    rows.push(`<span class="usage-line"><b>Last ${esc(String(win))} days</b>
+      ${recentBits.join(" · ")}</span>`);
   }
-  if (a.page_loads) bits.push(`<strong>${n(a.page_loads)}</strong> page loads`);
-  if (!bits.length) return;              // counted nothing worth reporting
-  const since = prettyDate(a.since);
-  strip.innerHTML = `${since ? `Since ${esc(since)}` : "So far"}:
-    ${bits.join(" · ")}. <a href="#" id="usage-strip-link">How this site is used</a>`;
+  strip.innerHTML = rows.join("")
+    + `<a href="#" id="usage-strip-link">How this site is used</a>`;
   strip.hidden = false;
   $("#usage-strip-link").addEventListener("click", (e) => {
     e.preventDefault(); showUsage();
