@@ -1220,3 +1220,32 @@ def test_a_disputed_discount_is_no_safer_than_a_disputed_zero():
     assert not check_cost_claims({"journals": [
         {"id": "1234-5678", "cost": {"kind": "uncertain"},
          "deal": disputed_discount}]})
+
+
+def test_a_failing_subfield_does_not_discard_the_others(monkeypatch):
+    """The first live run died 34 subfields in and threw away all 34 subfields'
+    work — 68 paid-for requests kept nothing, because one bad response ended
+    the whole sweep. A bad response for organic chemistry must not cost us law."""
+    import fetch_metadata as fm
+    calls = {"n": 0}
+
+    def flaky(cfg, manifest, session, url, key, params):
+        calls["n"] += 1
+        if "topics" in url:
+            return {"results": [{"id": "https://openalex.org/T1",
+                                 "subfield": {"id": "https://openalex.org/subfields/1100"}},
+                                {"id": "https://openalex.org/T2",
+                                 "subfield": {"id": "https://openalex.org/subfields/1200"}}],
+                    "meta": {}}
+        if "_1100_" in key:
+            raise RuntimeError("upstream hiccup")
+        return {"results": [{"id": "https://openalex.org/S9", "issn_l": "1234-5678",
+                             "display_name": "Survivor", "issn": ["1234-5678"]}],
+                "meta": {}}
+
+    monkeypatch.setattr(fm, "openalex_get", flaky)
+    monkeypatch.setattr(fm.time, "sleep", lambda *_: None)
+    out = fm.fetch_openalex_top_by_subfield(
+        {"sources": {"openalex_api": "https://x"}}, None, None, 250)
+    assert out["failed"] == ["1100"]
+    assert "1234-5678" in out["journals"], "the healthy subfield's work was kept"

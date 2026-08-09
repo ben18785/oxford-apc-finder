@@ -49,13 +49,25 @@ El.prototype.addEventListener = function () {};
 El.prototype.querySelectorAll = function () { return { forEach: function () {} }; };
 El.prototype.focus = function () {};
 El.prototype.appendChild = function (c) { return c; };
-El.prototype.setAttribute = function () {};
+El.prototype.setAttribute = function (k, v) { this[k] = v; };
+El.prototype.matches = function () { return false; };
 
 var ELS = {};
 function el(sel) { if (!ELS[sel]) { ELS[sel] = new El(sel); } return ELS[sel]; }
 
+/* A registry of stubbed elements that document.querySelectorAll can return, so
+ * code walking the DOM (star buttons, popovers) behaves rather than throwing.
+ * Same reason head and window are stubbed: a browser always has these, so the
+ * omission shows up as an unrelated-looking failure three steps later. */
+var QUERYABLE = [];
 globalThis.document = {
-  querySelector: el, addEventListener: function () {},
+  querySelector: el,
+  querySelectorAll: function (sel) {
+    var hits = QUERYABLE.filter(function (e) { return e.matches(sel); });
+    hits.forEach = Array.prototype.forEach;
+    return hits;
+  },
+  addEventListener: function () {},
   // head is stubbed for the same reason window is: a browser always has it, so
   // code that touches it looks fine in review and then silently rejects the
   // whole boot promise here, surfacing as unrelated-looking failures.
@@ -72,6 +84,12 @@ globalThis.window = {
 };
 globalThis.document.body.appendChild = function (c) { return c; };
 globalThis.document.createElement = function () { return new El("created"); };
+var STORE = {};
+globalThis.localStorage = {
+  getItem: function (k) { return Object.prototype.hasOwnProperty.call(STORE, k) ? STORE[k] : null; },
+  setItem: function (k, v) { STORE[k] = String(v); },
+  removeItem: function (k) { delete STORE[k]; },
+};
 globalThis.setTimeout = function (fn) { fn(); return 0; };
 globalThis.clearTimeout = function () {};
 /* Mirrors the parts of the fetch Response the app uses: a missing file must
@@ -604,6 +622,97 @@ chain.then(function () {
 
     check("switching back to best match restores the original order",
       search("").map(function (r) { return r.id; }).join(",") === relOrder);
+
+  /* --------------------------------------- starring, compare, export */
+  }).then(function () {
+    var a = STATE.index[0], b = STATE.index[1], c = STATE.index[2];
+
+    setStarred([]);
+    check("nothing is starred to begin with", starredIds().length === 0);
+
+    toggleStar(a.id);
+    toggleStar(b.id);
+    check("starring persists", starredIds().length === 2);
+    /* GitHub Pages user sites all share one origin, so ben18785.github.io/
+     * oxford-apc-finder and ben18785.github.io/ai-sci-resources read the same
+     * localStorage — an unnamespaced key would collide across the two. */
+    check("the storage key is namespaced to this site",
+      STAR_KEY.indexOf("oxford-apc-finder") === 0, STAR_KEY);
+    check("it is stored as plain ISSNs and nothing else",
+      JSON.parse(localStorage.getItem(STAR_KEY)).every(function (x) {
+        return /^\d{4}-\d{3}[\dX]$/i.test(x);
+      }), localStorage.getItem(STAR_KEY));
+
+    toggleStar(a.id);
+    check("starring toggles off again",
+      starredIds().length === 1 && starredIds()[0] === b.id);
+
+    setStarred([a.id, a.id, b.id]);
+    check("duplicates cannot accumulate", starredIds().length === 2);
+
+    var many = STATE.index.slice(0, 40).map(function (r) { return r.id; });
+    setStarred(many.concat(many));
+    check("the list is capped so the share link cannot grow unbounded",
+      starredIds().length <= 40);
+
+    /* Ordering: the question a shortlist answers is "which is cheapest", so
+     * that is what the comparison leads with. */
+    setStarred([a.id, b.id, c.id]);
+    var rows = compareRows([a.id, b.id, c.id]);
+    var costs = rows.map(function (r) {
+      return typeof r.g === "number" ? r.g : Infinity; });
+    check("the comparison is ordered by cost",
+      costs.every(function (g, i) { return !i || costs[i-1] <= g; }),
+      JSON.stringify(costs));
+    check("an unknown id is dropped rather than rendering an empty row",
+      compareRows([a.id, "0000-0000"]).length === 1);
+
+    /* The share link is the answer to "localStorage is per-device": it carries
+     * the list, so moving it to a phone and sending it to a colleague are the
+     * same action. It must carry the list and nothing else. */
+    var link = shareLink([a.id, b.id]);
+    check("the share link round-trips the list",
+      link.indexOf("#compare=" + a.id + "," + b.id) !== -1, link);
+    check("the share link carries no identity",
+      !/starred|user|session|token|email/i.test(link), link);
+
+    var esacs = new Map([[a.id, "els2026jisc"]]);
+    var text = compareText(rows, esacs);
+    ["ISSN", "Oxford deal", "Open access cost", "Unofficial"].forEach(function (s) {
+      check("the text export states " + s.toLowerCase(), text.indexOf(s) !== -1);
+    });
+    check("the text export quotes the agreement identifier",
+      text.indexOf("els2026jisc") !== -1);
+
+    var mail = bodleianMail(rows, esacs);
+    check("the email goes to the open access team",
+      mail.indexOf("mailto:" + STATE.config.contact) === 0, mail.slice(0, 60));
+    var decoded = decodeURIComponent(mail);
+    check("the email quotes the agreement identifier, so it can be answered",
+      decoded.indexOf("els2026jisc") !== -1);
+    check("the email asks a specific question rather than being blank",
+      decoded.indexOf("corresponding author") !== -1
+      && decoded.indexOf("confirm") !== -1);
+    check("the email says the figures are unofficial and dated",
+      decoded.indexOf("unofficial") !== -1 && /generated \d{4}-\d{2}/.test(decoded));
+
+    setStarred([]);
+    return showCompare([]).then(function () {
+      check("an empty list explains how to build one",
+        el("#detail-body").innerHTML.indexOf("Nothing starred") !== -1);
+      return showCompare([a.id, b.id]);
+    }).then(function () {
+      var html = el("#detail-body").innerHTML;
+      // One star button per journal row; counting <tr> would include the header.
+      check("the comparison renders a row per journal",
+        (html.match(/data-star=/g) || []).length === 2,
+        (html.match(/data-star=/g) || []).length + " rows");
+      check("it offers the email, a copy, and a share link",
+        html.indexOf("compare-mail") !== -1 && html.indexOf("compare-copy") !== -1
+        && html.indexOf("share-url") !== -1);
+      check("it says plainly that nothing leaves the browser",
+        /nothing is sent anywhere/i.test(html));
+    });
 
   /* ------------------------------------------------- usage monitoring */
   }).then(function () {

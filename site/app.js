@@ -72,10 +72,23 @@ async function boot() {
   showStalenessWarning(idx.generated);
   STATE.index.forEach((r, n) => { r.n = n; });   // position in the keyword arrays
   STATE.loaded = true;
+  STATE.starred = new Set(starredIds());
   wireUI();
   initAnalytics();
   runSearch();
   loadKeywords();
+  openSharedList();
+}
+
+/* A shared link carries a list of ISSNs in the hash. It is shown immediately,
+ * but deliberately does NOT overwrite whatever the reader has already starred —
+ * arriving from a colleague's link should not silently discard your own
+ * shortlist. */
+function openSharedList() {
+  const m = (location.hash || "").match(/^#compare=([\d\-X,]+)$/i);
+  if (!m) return;
+  const ids = m[1].split(",").filter(Boolean);
+  if (ids.length) showCompare(ids);
 }
 
 /* Subject keywords are ~75% of the index by size, so they arrive separately
@@ -592,7 +605,7 @@ function renderResults(list, total, nominalCount, hidden) {
       return `${brk}
         <tr data-id="${esc(r.id)}">
           <td>
-            <button class="jtitle">${esc(r.t)}</button>
+            ${starButton(r.id)}<button class="jtitle">${esc(r.t)}</button>
             <div class="jmeta">${esc(r.p || "Publisher unknown")} · ${esc(r.i[0] || "")}</div>
             ${flags ? `<div class="flags">${flags}</div>` : ""}
           </td>
@@ -616,9 +629,11 @@ function renderResults(list, total, nominalCount, hidden) {
   });
   // The title is the real control, so keyboard users get one stop per row;
   // clicking anywhere else in the row is a convenience for mouse users.
+  updateStarUI();
   box.querySelectorAll("tr[data-id]").forEach((tr) => {
     tr.addEventListener("click", (e) => {
       if (e.target.closest(".why")) return;
+      if (e.target.closest(".star")) return;   // starring is not navigation
       openDetail(tr.dataset.id);
     });
   });
@@ -767,7 +782,7 @@ async function openDetail(id) {
 
   const body = `
     <div class="detail-head">
-      <h2 id="detail-title">${esc(j.title)}</h2>
+      <h2 id="detail-title">${starButton(id)}${esc(j.title)}</h2>
       <p class="pub">${esc(j.publisher || "Publisher unknown")}</p>
       <p class="detail-issn">ISSN: ${j.issns.map(esc).join(" · ")}</p>
       <div class="badge-row">${badge(j.deal.status, j.in_doaj, j.deal.disputed, j.deal.expired, j.oa_status)}
@@ -838,6 +853,7 @@ async function openDetail(id) {
   $("#detail-body").innerHTML = body;
   $("#detail-modal").hidden = false;
   document.body.style.overflow = "hidden";
+  updateStarUI();
 
   // Live-update the report link with whatever the user types.
   const ta = $("#report-text"), submit = $("#report-submit");
@@ -1157,6 +1173,238 @@ function showAbout() {
   $("#modal-close").focus();
 }
 
+/* ---------------- starred journals ----------------
+ *
+ * Kept in localStorage: no account, no server, nothing sent anywhere. The list
+ * is a handful of ISSNs and it stays on the machine that made it.
+ *
+ * What that costs is honest to state rather than hide: the list is per browser
+ * and per device, and clearing site data clears it. The share link below is the
+ * answer to both — it carries the list in the URL, so moving a shortlist to a
+ * phone and sending it to a colleague are the same action.
+ *
+ * The key is namespaced because every GitHub Pages user site shares one origin:
+ * ben18785.github.io/oxford-apc-finder and ben18785.github.io/ai-sci-resources
+ * read the same localStorage, so a bare "starred" key would collide. */
+const STAR_KEY = "oxford-apc-finder:starred";
+
+function starredIds() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(STAR_KEY) || "[]");
+    return Array.isArray(raw) ? raw.filter((x) => typeof x === "string") : [];
+  } catch {
+    return [];               // private browsing, or someone else's junk
+  }
+}
+
+function setStarred(ids) {
+  // De-duplicated and capped: the comparison is unreadable past a dozen or so,
+  // and an unbounded list would eventually outgrow both localStorage and the
+  // share link.
+  const unique = [...new Set(ids)].slice(0, 40);
+  try { localStorage.setItem(STAR_KEY, JSON.stringify(unique)); } catch { /* full or blocked */ }
+  STATE.starred = new Set(unique);
+  updateStarUI();
+  return unique;
+}
+
+function toggleStar(id) {
+  const now = starredIds();
+  setStarred(now.includes(id) ? now.filter((x) => x !== id) : now.concat(id));
+}
+
+/* Reflect the count in the toolbar and the pressed state of every visible star,
+ * without re-running the search — starring must not reshuffle the list you are
+ * reading. */
+function updateStarUI() {
+  const n = (STATE.starred || new Set()).size;
+  const btn = $("#starred-open");
+  if (btn) {
+    btn.hidden = n === 0;
+    btn.textContent = `Compare ${n} starred journal${n === 1 ? "" : "s"}`;
+  }
+  document.querySelectorAll("button.star[data-star]").forEach((b) => {
+    const on = STATE.starred.has(b.dataset.star);
+    b.setAttribute("aria-pressed", on ? "true" : "false");
+    b.textContent = on ? "★" : "☆";
+    b.title = on ? "Remove from your comparison list" : "Add to your comparison list";
+  });
+}
+
+function starButton(id) {
+  return `<button class="star" data-star="${esc(id)}" aria-pressed="false"
+    aria-label="Add this journal to your comparison list">☆</button>`;
+}
+
+/* ---------------- comparison and export ----------------
+ *
+ * Journals are rows, not columns: a genuine side-by-side falls apart past three
+ * or four titles and is unreadable on a phone, whereas rows stay legible at
+ * forty and collapse cleanly.
+ *
+ * Ordered by cost so the cheapest option is the first thing read — that is the
+ * question a shortlist exists to answer. */
+function compareRows(ids) {
+  const byId = new Map(STATE.index.map((r) => [r.id, r]));
+  return ids.map((id) => byId.get(id)).filter(Boolean)
+    .sort((a, b) => {
+      const ga = typeof a.g === "number" ? a.g : Infinity;
+      const gb = typeof b.g === "number" ? b.g : Infinity;
+      return ga - gb || (a.v || 0) - (b.v || 0)
+             || (a.t || "").localeCompare(b.t || "");
+    });
+}
+
+/* The agreement identifier lives in the detail shard, not the index, and it is
+ * the single most useful thing to quote to the open access team — it tells them
+ * exactly which contract to look up. Worth a few small fetches. */
+async function agreementIds(rows) {
+  const out = new Map();
+  await Promise.all(rows.map(async (r) => {
+    try {
+      const shard = await loadShard(r.id);
+      const esac = ((shard[r.id] || {}).deal || {}).esac_id;
+      if (esac) out.set(r.id, esac);
+    } catch { /* the comparison is still useful without it */ }
+  }));
+  return out;
+}
+
+function shareLink(ids) {
+  const base = location.href.split("#")[0];
+  return `${base}#compare=${ids.join(",")}`;
+}
+
+/* Plain text rather than a file download: it is going into an email or a chat
+ * message, and a .csv nobody opens helps no one. */
+function compareText(rows, esacs) {
+  const lines = ["Journals I am considering, and what the Oxford APC Finder says:", ""];
+  rows.forEach((r, i) => {
+    const [label] = STATUS_LABEL[r.s] || STATUS_LABEL.none;
+    const model = (MODEL_LABEL[r.o] || [""])[0];
+    lines.push(`${i + 1}. ${r.t}  (ISSN ${r.i[0] || "unknown"})`);
+    lines.push(`   Publisher: ${r.p || "unknown"}${model ? " · " + model : ""}`);
+    lines.push(`   Oxford deal: ${label}`);
+    // costFigure, not the full summary: the line above already names the deal,
+    // and r.c repeats it ("Covered by Oxford deal — £0 if eligible — covered
+    // by Oxford deal").
+    lines.push(`   Open access cost: ${costFigure(r).text}`);
+    if (esacs.get(r.id)) lines.push(`   Agreement: ${esacs.get(r.id)}`);
+    lines.push("");
+  });
+  lines.push(`Compiled with ${shareLink(rows.map((r) => r.id))}`);
+  lines.push(`Unofficial tool; data generated ${(STATE.generated || "").slice(0, 10)}.`);
+  return lines.join("\n");
+}
+
+/* A pre-structured enquiry, not a blank email. The open access team get the
+ * same shape of question every time, with the agreement identifiers already
+ * quoted — which is the difference between a query they can answer and one they
+ * have to research from scratch. */
+function bodleianMail(rows, esacs) {
+  const body = [
+    "Dear Open Access team,",
+    "",
+    "I am considering submitting to the journals below, and would like to confirm",
+    "what Oxford's agreements would cover for me as corresponding author.",
+    "",
+  ];
+  rows.forEach((r, i) => {
+    const [label] = STATUS_LABEL[r.s] || STATUS_LABEL.none;
+    body.push(`${i + 1}. ${r.t} (ISSN ${r.i[0] || "unknown"})`);
+    body.push(`   Publisher: ${r.p || "unknown"}`);
+    body.push(`   The APC Finder shows: ${label} — ${costFigure(r).text}`);
+    if (esacs.get(r.id)) body.push(`   Agreement identifier: ${esacs.get(r.id)}`);
+    body.push("");
+  });
+  body.push("Could you confirm whether the APC would be covered in each case,");
+  body.push("and flag anything I should be aware of before submitting?");
+  body.push("");
+  body.push("Many thanks,");
+  body.push("");
+  body.push("---");
+  body.push("Compiled with the Oxford APC Finder, an unofficial tool:");
+  body.push(shareLink(rows.map((r) => r.id)));
+  body.push(`Its figures are automated and may be out of date (data generated ${(STATE.generated || "").slice(0, 10)}).`);
+  const subject = `Open access coverage query — ${rows.length} journal${rows.length === 1 ? "" : "s"}`;
+  return `mailto:${STATE.config.contact}?subject=${encodeURIComponent(subject)}`
+         + `&body=${encodeURIComponent(body.join("\n"))}`;
+}
+
+// Long mailto bodies are silently truncated by some clients, so past this many
+// journals the email is offered as a clipboard copy instead of a broken link.
+const MAILTO_MAX_JOURNALS = 8;
+
+async function showCompare(ids) {
+  const rows = compareRows(ids);
+  if (!rows.length) {
+    return showModal(`<h2 id="detail-title">Nothing starred yet</h2>
+      <p class="cost-note">Use the ☆ beside a journal to add it here, then come
+        back to compare them side by side and send the list to the open access
+        team.</p>`);
+  }
+  const esacs = await agreementIds(rows);
+  const body = rows.map((r) => {
+    const fig = costFigure(r);
+    const [label] = STATUS_LABEL[r.s] || STATUS_LABEL.none;
+    return `<tr>
+      <td>${starButton(r.id)}<strong>${esc(r.t)}</strong>
+        <div class="jmeta">${esc(r.p || "Publisher unknown")} · ${esc(r.i[0] || "")}</div></td>
+      <td>${modelBadge(r.o)}</td>
+      <td>${esc(label)}</td>
+      <td class="num cost-cell ${fig.cls}">${esc(fig.text)}</td>
+    </tr>`;
+  }).join("");
+
+  const tooLong = rows.length > MAILTO_MAX_JOURNALS;
+  $("#detail-body").innerHTML = `
+    <h2 id="detail-title">Your shortlist</h2>
+    <p class="cost-note">Ordered by cost, cheapest first. Starring is stored in
+      this browser only — nothing is sent anywhere and there is no account. Use
+      the link below to move the list to another device or send it to someone.</p>
+    <table class="compare-table">
+      <thead><tr><th>Journal</th><th>Model</th><th>Oxford deal</th>
+        <th class="num">Open access cost</th></tr></thead>
+      <tbody>${body}</tbody>
+    </table>
+    <div class="compare-actions">
+      ${tooLong ? "" : `<a class="btn" id="compare-mail" href="${esc(bodleianMail(rows, esacs))}">Email the open access team ↗</a>`}
+      <button class="btn secondary" id="compare-copy">Copy as text</button>
+      <button class="btn secondary" id="compare-clear">Clear the list</button>
+    </div>
+    ${tooLong ? `<p class="cost-note">With more than ${MAILTO_MAX_JOURNALS} journals
+      the pre-filled email would be truncated by some mail clients, so copy the
+      text instead and paste it into a message to ${esc(STATE.config.contact)}.</p>` : ""}
+    <div class="detail-section">
+      <h4>Share this list</h4>
+      <p class="cost-note">Opening this link anywhere shows the same comparison.
+        It carries only the ISSNs — no identity, nothing about you.</p>
+      <input class="share-box" id="share-url" readonly
+             value="${esc(shareLink(rows.map((r) => r.id)))}">
+    </div>`;
+  $("#detail-modal").hidden = false;
+  document.body.style.overflow = "hidden";
+
+  const copyText = compareText(rows, esacs);
+  $("#compare-copy").addEventListener("click", (e) => {
+    const done = () => { e.target.textContent = "Copied"; };
+    try {
+      if (navigator.clipboard) navigator.clipboard.writeText(copyText).then(done, done);
+      else done();
+    } catch { done(); }
+  });
+  $("#compare-clear").addEventListener("click", () => {
+    setStarred([]);
+    closeModal();
+    runSearch();
+  });
+  const share = $("#share-url");
+  if (share && share.addEventListener) {
+    share.addEventListener("focus", () => share.select && share.select());
+  }
+  $("#modal-close").focus();
+}
+
 /* ---------------- usage monitoring ----------------
  *
  * Cookieless and aggregate-only. GoatCounter sets no cookie, stores no IP
@@ -1231,12 +1479,19 @@ function wireUI() {
   $("#deal-only").addEventListener("change", runSearch);
   $("#free-only").addEventListener("change", runSearch);
   $("#sort").addEventListener("change", runSearch);
+  $("#starred-open").addEventListener("click", () => showCompare(starredIds()));
   $("#modal-close").addEventListener("click", closeModal);
   $("#detail-modal").addEventListener("click", e => { if (e.target.id === "detail-modal") closeModal(); });
   document.addEventListener("keydown", e => {
     if (e.key === "Escape") { closeWhy(); closeModal(); }
   });
   document.addEventListener("click", e => {
+    const star = e.target.closest(".star");
+    if (star) {
+      e.preventDefault(); e.stopPropagation();
+      toggleStar(star.dataset.star);
+      return;
+    }
     const btn = e.target.closest(".why");
     if (btn) {
       e.preventDefault(); e.stopPropagation();

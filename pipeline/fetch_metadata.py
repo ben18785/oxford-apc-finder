@@ -237,7 +237,7 @@ def fetch_openalex_top_by_subfield(cfg, manifest, session, per_subfield: int) ->
     out: dict[str, dict] = {}
     if per_subfield <= 0:
         print("  subfield sweep disabled (top_journals_per_subfield: 0)")
-        return out
+        return {"journals": out, "failed": [], "subfields": 0}
     base = cfg["sources"]["openalex_api"]
 
     # 1. every topic, grouped by its subfield
@@ -258,29 +258,51 @@ def fetch_openalex_top_by_subfield(cfg, manifest, session, per_subfield: int) ->
         time.sleep(0.15)
     print(f"  {len(subfields)} subfields over {sum(len(v) for v in subfields.values())} topics")
 
-    # 2. the leading journals inside each
+    # 2. the leading journals inside each.
+    #
+    # Errors are caught PER SUBFIELD, not for the sweep as a whole. The first
+    # live run of this stage died 34 subfields in and the whole sweep was
+    # discarded — 68 requests paid for and nothing kept, because one failure
+    # threw away 251 other subfields' work. There is no reason a bad response
+    # for organic chemistry should cost us law.
+    failed: list[str] = []
     for n, (sub, topics) in enumerate(sorted(subfields.items()), 1):
         seen, cursor, page = 0, "*", 0
-        while cursor and seen < per_subfield:
-            data = openalex_get(
-                cfg, manifest, session, base + "/sources",
-                f"openalex_subfield_{sub}_p{page}",
-                {"filter": "topics.id:" + "|".join(topics) + ",type:journal",
-                 "sort": "cited_by_count:desc",
-                 "per-page": min(PER_PAGE, per_subfield - seen), "cursor": cursor})
-            results = data.get("results", [])
-            for src in results:
-                rec = compact_openalex(src)
-                if rec["issn_l"]:
-                    out.setdefault(rec["issn_l"], rec)
-            seen += len(results)
-            cursor = (data.get("meta") or {}).get("next_cursor")
-            page += 1
-            time.sleep(0.15)
+        try:
+            while cursor and seen < per_subfield:
+                data = openalex_get(
+                    cfg, manifest, session, base + "/sources",
+                    f"openalex_subfield_{sub}_p{page}",
+                    {"filter": "topics.id:" + "|".join(topics) + ",type:journal",
+                     "sort": "cited_by_count:desc",
+                     "per-page": min(PER_PAGE, per_subfield - seen), "cursor": cursor})
+                results = data.get("results", [])
+                for src in results:
+                    rec = compact_openalex(src)
+                    if rec["issn_l"]:
+                        out.setdefault(rec["issn_l"], rec)
+                seen += len(results)
+                cursor = (data.get("meta") or {}).get("next_cursor")
+                page += 1
+                time.sleep(0.15)
+        except DailyQuotaExhausted:
+            # Out of budget: every remaining subfield would fail the same way,
+            # so stop sweeping and keep what we have rather than burning the
+            # rest of the run discovering that 218 more times.
+            print(f"  daily allowance exhausted at subfield {n}/{len(subfields)}; "
+                  f"keeping the {len(out):,} journals found so far")
+            failed.extend(sorted(subfields)[n - 1:])
+            break
+        except Exception as exc:                        # noqa: BLE001
+            failed.append(sub)
+            print(f"    subfield {sub} failed ({exc}); continuing")
         if n % 50 == 0:
             print(f"    subfields {n}/{len(subfields)}: {len(out)} journals so far")
+    if failed:
+        print(f"  {len(failed)} of {len(subfields)} subfields could not be fetched: "
+              + ", ".join(failed[:8]) + ("…" if len(failed) > 8 else ""))
     print(f"  top-{per_subfield}-per-subfield: {len(out)} distinct journals")
-    return out
+    return {"journals": out, "failed": failed, "subfields": len(subfields)}
 
 
 def resolve_publisher_ids(cfg, manifest, session, names: list[str]) -> dict[str, str]:
@@ -582,13 +604,27 @@ def main() -> None:
     if sweep_due:
         print("Fetching the leading journals in each subfield …")
         try:
-            by_subfield = fetch_openalex_top_by_subfield(
+            sweep = fetch_openalex_top_by_subfield(
                 cfg, manifest, session, per_subfield)
-            write_json(SWEEP_MARKER, {
-                "last_run": today.isoformat(),
-                "per_subfield": per_subfield,
-                "journals": len(by_subfield),
-            })
+            by_subfield = sweep["journals"]
+            # Record the sweep only if it substantially completed. A run that
+            # covered a tenth of the disciplines has not answered the question
+            # "which journals lead each field", and marking it done would sit
+            # on that partial answer for a quarter. Whatever it did find is
+            # still kept and still enters known_journals.tsv.
+            covered = sweep["subfields"] - len(sweep["failed"])
+            if sweep["subfields"] and covered >= 0.9 * sweep["subfields"]:
+                write_json(SWEEP_MARKER, {
+                    "last_run": today.isoformat(),
+                    "per_subfield": per_subfield,
+                    "journals": len(by_subfield),
+                    "subfields": sweep["subfields"],
+                    "failed_subfields": len(sweep["failed"]),
+                })
+            else:
+                print(f"  only {covered}/{sweep['subfields']} subfields completed — "
+                      "not recording this as the quarterly sweep; the next run "
+                      "will try again.")
         except DailyQuotaExhausted:
             raise            # a real budget problem; the run should stop
         except Exception as exc:                        # noqa: BLE001

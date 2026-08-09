@@ -338,3 +338,35 @@ body {
   background: var(--card); border: 1px solid var(--line);
   border-radius: 6px; padding: 3px 6px;
 }
+
+/* ---- starring -----------------------------------------------------------
+   A quiet control until used: an outline star carries no meaning to someone
+   who has not starred anything, so it should not compete with the title. */
+.star {
+  all: unset; cursor: pointer; color: var(--muted); font-size: 1rem;
+  line-height: 1; margin-right: 7px; padding: 2px;
+}
+.star:hover { color: var(--discount); }
+.star[aria-pressed="true"] { color: var(--discount); }
+.star:focus-visible { outline: 3px solid #9cc3e6; outline-offset: 2px; border-radius: 3px; }
+
+.starred-open {
+  font: inherit; font-family: var(--serif); font-size: .84rem;
+  background: #fbeeda; color: var(--discount); border: 1px solid #f0d9b4;
+  border-radius: 999px; padding: 4px 12px; cursor: pointer;
+}
+.starred-open:hover { background: #f7e3c6; }
+
+.compare-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: .88rem; }
+.compare-table th, .compare-table td {
+  text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.compare-table th { color: var(--muted); font-weight: 600; font-size: .8rem; white-space: nowrap; }
+.compare-table td.num { font-variant-numeric: tabular-nums; }
+.compare-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+.share-box {
+  width: 100%; font: inherit; font-size: .82rem; font-family: var(--serif);
+  padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px;
+  margin-top: 8px; background: var(--bg);
+}
