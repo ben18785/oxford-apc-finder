@@ -175,7 +175,7 @@ def test_cost_never_invents_a_number():
 @pytest.mark.parametrize("kind,journal,expected_fragment", [
     ("covered", {"cost": {"kind": "covered"}}, "£0"),
     ("diamond", {"cost": {"kind": "diamond"}}, "£0"),
-    ("no_apc", {"cost": {"kind": "no_apc"}}, "No APC"),
+    ("no_apc", {"cost": {"kind": "no_apc"}}, "£0 — no APC"),
     ("unknown", {"cost": {"kind": "unknown"}}, "unknown"),
 ])
 def test_cost_summary_strings(kind, journal, expected_fragment):
@@ -798,7 +798,7 @@ def test_ordinary_pageviews_are_not_counted_as_journal_lookups():
     put a phantom entry at the top of the chart and skew every share below."""
     u = summarise([{"path": "/", "title": "home", "count": 900},
                    {"path": "/j/covered/all/1111-2222", "title": "Nature", "count": 10}],
-                  [], {"total": 910}, CORPUS, USAGE_CFG)
+                  [], {"total": 910, "total_events": 10}, CORPUS, USAGE_CFG)
     assert u["totals"]["journal_views"] == 10
     assert u["totals"]["distinct_journals_viewed"] == 1
 
@@ -841,11 +841,27 @@ def test_no_traffic_does_not_divide_by_zero():
 
 def test_totals_survive_the_api_renaming_its_fields():
     """GoatCounter has changed how it reports totals between releases. Guessing
-    one name and getting a zero would be published to readers as '0 visitors',
+    one name and getting a zero would be published to readers as a real count,
     which is worse than publishing nothing."""
-    assert _first_int({"total_unique": 7}, "total_unique", "unique") == 7
-    assert _first_int({"unique": 7}, "total_unique", "unique") == 7
-    assert _first_int({}, "total_unique", "unique") == 0
+    assert _first_int({"total_utc": 7}, "total", "total_utc") == 7
+    assert _first_int({"total": 7}, "total", "total_utc") == 7
+    assert _first_int({}, "total", "total_utc") == 0
+
+
+def test_regression_no_visitor_count_is_invented():
+    """GoatCounter's /stats/total returns only total, total_events and
+    total_utc — there is no unique-visitor figure in the API. A lookup for one
+    fell through to 0, and the page printed "0 visitors" beside "18 sessions"."""
+    u = summarise([], [], {"total": 21, "total_events": 13}, CORPUS, USAGE_CFG)
+    assert "visitors" not in u["totals"], "a figure the API does not provide"
+
+
+def test_page_loads_exclude_the_events_that_inflate_the_total():
+    """`total` counts events too, so every journal opened and every missed
+    search was being reported as a session."""
+    u = summarise([], [], {"total": 21, "total_events": 13}, CORPUS, USAGE_CFG)
+    assert u["totals"]["page_loads"] == 8
+    assert u["totals"]["interactions"] == 13
 
 
 def test_regression_coverage_share_ignores_views_made_under_the_deal_filter():
@@ -1292,3 +1308,15 @@ def test_regression_an_unreadable_answer_is_not_read_as_no():
     the same "missing is not the same as free" rule the cost logic follows."""
     assert jct_verdict({"unexpected": "shape"}) is None
     assert jct_verdict({"unexpected": "shape"}) is not False
+
+
+def test_both_unconditional_zeros_are_written_the_same_way():
+    """diamond and no_apc are the only two states where the figure depends on
+    nothing about the author. Writing one as "£0" and the other as "No APC"
+    invited readers to look for a difference that is not there — the models are
+    different, the price is identically nothing."""
+    diamond = cost_summary({"cost": {"kind": "diamond"}})
+    no_apc = cost_summary({"cost": {"kind": "no_apc"}})
+    assert diamond.startswith("£0") and no_apc.startswith("£0")
+    # ...while still saying which is which, since the reason differs.
+    assert "diamond" in diamond and "APC" in no_apc

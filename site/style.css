@@ -370,3 +370,24 @@ body {
   padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px;
   margin-top: 8px; background: var(--bg);
 }
+
+/* The enquiry, shown as well as copyable: it goes to a librarian in the
+   reader's name, so they should be able to read it before sending. */
+.enquiry-box {
+  width: 100%; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .78rem; line-height: 1.5; padding: 10px 12px;
+  border: 1px solid var(--line); border-radius: 6px; background: var(--bg);
+  color: var(--text); resize: vertical;
+}
+.mailto-address { font-size: .88rem; margin: 10px 0 6px; }
+.mailto-address a { font-weight: 600; }
+.btn.tiny { font-size: .76rem; padding: 2px 9px; margin-left: 8px; }
+
+/* Usage summary. Sits under the disclaimer and stays quiet: how many people
+   used the tool is interesting, but nobody came here to find that out, and it
+   must not compete with the warning above it. */
+.usage-strip {
+  margin: 12px 0 0; font-size: .82rem; color: var(--muted);
+}
+.usage-strip strong { color: var(--text); font-weight: 600; }
+.usage-strip a { color: var(--oxford); }

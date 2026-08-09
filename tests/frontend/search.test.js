@@ -528,7 +528,7 @@ chain.then(function () {
       return /but confirm|^Not confirmed/.test(r.c || "");
     });
     var safeZero = STATE.index.filter(function (r) {
-      return /^£0 — diamond|^No APC/.test(r.c || "");
+      return /^£0 — diamond|^£0 — no APC/.test(r.c || "");
     });
     check("the fixture build contains journals in a weakened state",
       riskyRecs.length > 0, "otherwise the checks below pass vacuously");
@@ -709,14 +709,19 @@ chain.then(function () {
       !/starred|user|session|token|email/i.test(link), link);
 
     var esacs = new Map([[a.id, "els2026jisc"]]);
-    var text = compareText(rows, esacs);
-    ["ISSN", "Oxford deal", "Open access cost", "Unofficial"].forEach(function (s) {
-      check("the text export states " + s.toLowerCase(), text.indexOf(s) !== -1);
+    /* One text, two destinations. It used to be built twice — once for the
+     * clipboard and once for the mailto — which is two chances to drift and
+     * tell the same reader different things. */
+    var text = enquiryText(rows, esacs);
+    ["ISSN", "Publisher", "APC Finder shows", "unofficial"].forEach(function (s) {
+      check("the enquiry states " + s.toLowerCase(), text.indexOf(s) !== -1);
     });
-    check("the text export quotes the agreement identifier",
+    check("the enquiry quotes the agreement identifier",
       text.indexOf("els2026jisc") !== -1);
 
     var mail = bodleianMail(rows, esacs);
+    check("the mailto body is that same text, not a second version of it",
+      decodeURIComponent(mail.split("&body=")[1]) === text);
     check("the email goes to the open access team",
       mail.indexOf("mailto:" + STATE.config.contact) === 0, mail.slice(0, 60));
     var decoded = decodeURIComponent(mail);
@@ -742,6 +747,15 @@ chain.then(function () {
       check("it offers the email, a copy, and a share link",
         html.indexOf("compare-mail") !== -1 && html.indexOf("compare-copy") !== -1
         && html.indexOf("share-url") !== -1);
+      /* mailto: silently does nothing when no mail client is registered, so
+       * the address and the full text must both be on the page. */
+      check("the Bodleian address is shown, not just linked from a button",
+        html.indexOf(STATE.config.contact) !== -1);
+      check("the enquiry text is readable before it is sent",
+        html.indexOf("enquiry-text") !== -1
+        && html.indexOf("Dear Open Access team") !== -1);
+      check("and the address itself can be copied",
+        html.indexOf("copy-address") !== -1);
       check("it says plainly that nothing leaves the browser",
         /nothing is sent anywhere/i.test(html));
     });
@@ -842,7 +856,7 @@ chain.then(function () {
       return Promise.resolve({ ok: true, status: 200, json: function () {
         return Promise.resolve({
           generated: "2026-08-08T00:00:00Z", window_days: 90,
-          totals: { pageviews: 1200, visitors: 310, journal_views: 77,
+          totals: { page_loads: 1200, interactions: 77, journal_views: 77,
                     distinct_journals_viewed: 5, countries: 2 },
           coverage: { covered_journal_share: 0.4, corpus_share: 0.27,
                       sample_journals: 5, sample_views: 20 },
@@ -858,7 +872,11 @@ chain.then(function () {
     return showUsage().then(function () {
       var u = el("#detail-body").innerHTML;
       check("usage view renders the headline counts",
-        u.indexOf("310") !== -1 && u.indexOf("visitors") !== -1);
+        u.indexOf("1,200") !== -1 && u.indexOf("page loads") !== -1);
+      /* The counter publishes no unique-visitor figure, so the page must not
+       * imply one — it printed "0 visitors" when a lookup fell through. */
+      check("usage view claims no visitor count it cannot source",
+        !/\bvisitors\b/.test(u), u.slice(0, 0) || "");
       check("usage view draws a bar per journal",
         (u.match(/bar-fill/g) || []).length === 2,
         (u.match(/bar-fill/g) || []).length + " bars");
@@ -877,9 +895,51 @@ chain.then(function () {
         u.indexOf("no cookies") !== -1 && u.indexOf("no IP addresses") !== -1);
       /* The counts are browser-side estimates. Presenting them as a headcount
        * would be the one genuinely misleading thing this view could do. */
-      check("usage view does not present visitors as a count of people",
-        /not\s+counts of people/.test(u));
+      check("usage view does not present its counts as people",
+        /not of\s+people/.test(u));
       globalThis.fetch = realFetch;
+    });
+
+    /* The strip at the top of the page. Never blocks first paint, and never
+     * appears at all unless a build published figures. */
+  }).then(function () {
+    var realFetch = globalThis.fetch, savedFlag = STATE.config.usage_available;
+    var payload = { window_days: 90,
+      totals: { page_loads: 1200, interactions: 77, journal_views: 340,
+                distinct_journals_viewed: 88, countries: 4 } };
+    globalThis.fetch = function (path) {
+      if (path.indexOf("usage.json") === -1) return realFetch(path);
+      return Promise.resolve({ ok: true, status: 200,
+        json: function () { return Promise.resolve(payload); } });
+    };
+
+    STATE.config.usage_available = false;
+    el("#usage-strip").hidden = true;
+    return loadUsageStrip().then(function () {
+      check("no usage strip when a build published nothing",
+        el("#usage-strip").hidden === true);
+      STATE.config.usage_available = true;
+      return loadUsageStrip();
+    }).then(function () {
+      var s = el("#usage-strip").innerHTML;
+      check("the strip appears once there are figures",
+        el("#usage-strip").hidden === false);
+      check("it leads with journal lookups, not page loads",
+        s.indexOf("340") < s.indexOf("1,200"), s);
+      check("it links through to the full breakdown",
+        s.indexOf("usage-strip-link") !== -1);
+      check("it says what period it covers", /last 90 days/.test(s));
+      /* A counter that recorded nothing should show nothing rather than a row
+       * of zeroes. */
+      payload.totals = { page_loads: 0, journal_views: 0,
+                         distinct_journals_viewed: 0, countries: 0 };
+      el("#usage-strip").hidden = true;
+      return loadUsageStrip();
+    }).then(function () {
+      check("an empty counter shows no strip rather than zeroes",
+        el("#usage-strip").hidden === true);
+      globalThis.fetch = realFetch;
+      STATE.config.usage_available = savedFlag;
     });
 
     /* A build with no usage data must degrade to a message, not an error. */

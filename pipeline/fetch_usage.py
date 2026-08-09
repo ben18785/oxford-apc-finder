@@ -145,9 +145,18 @@ def summarise(hits: list[dict], locations: list[dict], totals: dict,
     return {
         "generated": utcnow(),
         "window_days": cfg.get("window_days", 90),
+        # GoatCounter's /stats/total returns `total`, `total_events` and
+        # `total_utc` — and nothing else. There is no unique-visitor figure in
+        # the API, so none is published: a lookup that fell through to 0 printed
+        # "0 visitors" next to "18 sessions", which is worse than saying nothing.
+        #
+        # `total` also COUNTS the events, so it is not a page-load count either:
+        # every journal opened and every missed search inflates it. Page loads
+        # are the difference.
         "totals": {
-            "pageviews": _first_int(totals, "total", "total_utc", "pageviews"),
-            "visitors": _first_int(totals, "total_unique", "unique", "visitors"),
+            "page_loads": max(0, _first_int(totals, "total", "total_utc")
+                              - _first_int(totals, "total_events")),
+            "interactions": _first_int(totals, "total_events"),
             "journal_views": total_views,
             "distinct_journals_viewed": len(ranked),
             "countries": len(locations),
@@ -234,13 +243,13 @@ def main() -> None:
     # A site that has counted nothing yet has nothing to say. Publishing zeros
     # would put a "How this site is used" link in the footer leading to a page
     # of noughts, which reads as a broken feature rather than a new one.
-    if not usage["totals"]["pageviews"] and not usage["totals"]["journal_views"]:
+    if not usage["totals"]["page_loads"] and not usage["totals"]["journal_views"]:
         print("No traffic counted yet — not publishing a usage page.")
         return
 
     write_json(OUT / "usage.json", usage)
     t = usage["totals"]
-    print(f"Usage: {t['visitors']:,} visitors, {t['pageviews']:,} pageviews, "
+    print(f"Usage: {t['page_loads']:,} page loads, {t['interactions']:,} interactions, "
           f"{t['distinct_journals_viewed']:,} journals looked up "
           f"({usage['withheld']['journals']} below the publication floor)")
 

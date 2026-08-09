@@ -77,7 +77,44 @@ async function boot() {
   initAnalytics();
   runSearch();
   loadKeywords();
+  loadUsageStrip();
   openSharedList();
+}
+
+/* A quiet line of usage near the top, linking to the full breakdown.
+ *
+ * Deliberately below the disclaimer and in muted type: how many people used a
+ * tool is interesting, but it is not what someone came here to find out, and it
+ * must not compete with the warning above it.
+ *
+ * Fetched after first paint and never awaited — if it fails, the strip simply
+ * does not appear. */
+async function loadUsageStrip() {
+  const strip = $("#usage-strip");
+  if (!strip || !STATE.config.usage_available) return;
+  let u;
+  try {
+    u = await (await fetch("data/usage.json")).json();
+  } catch { return; }
+  const t = u.totals || {};
+  const n = (x) => (x || 0).toLocaleString();
+  // Only the counts that mean something to a reader. Page loads are the least
+  // interesting of them, so they come last.
+  const bits = [];
+  if (t.journal_views) {
+    bits.push(`<strong>${n(t.journal_views)}</strong> journal lookup${t.journal_views === 1 ? "" : "s"}`);
+  }
+  if (t.distinct_journals_viewed) {
+    bits.push(`<strong>${n(t.distinct_journals_viewed)}</strong> different journals`);
+  }
+  if (t.page_loads) bits.push(`<strong>${n(t.page_loads)}</strong> page loads`);
+  if (!bits.length) return;              // counted nothing worth reporting
+  strip.innerHTML = `In the last ${esc(String(u.window_days || 90))} days:
+    ${bits.join(" · ")}. <a href="#" id="usage-strip-link">How this site is used</a>`;
+  strip.hidden = false;
+  $("#usage-strip-link").addEventListener("click", (e) => {
+    e.preventDefault(); showUsage();
+  });
 }
 
 /* A shared link carries a list of ISSNs in the hash. It is shown immediately,
@@ -535,7 +572,6 @@ function costFigure(rec) {
   if (/^£0/.test(c)) return { text: "£0", cls: "free" };
   const m = c.match(/^~?([\d,]+\s+[A-Z]{3})/);
   if (m) return { text: (c.startsWith("~") ? "≈ " : "") + m[1], cls: "" };
-  if (/^No APC/i.test(c)) return { text: "no charge", cls: "free" };
   if (/discount/i.test(c)) return { text: c.replace(/\s*\(.*\)$/, ""), cls: "" };
   return { text: "not published", cls: "none" };
 }
@@ -647,7 +683,7 @@ function costBlock(j) {
   switch (c.kind) {
     case "covered": main = "£0 to you"; break;
     case "diamond": main = "£0 — diamond OA"; break;
-    case "no_apc": main = "No APC"; break;
+    case "no_apc": main = "£0 — the journal charges no APC"; break;
     case "discount":
       main = `~${priceStr(c.estimated)}`;
       calc = `List price ${priceStr(c.list)} − ${c.pct}% Oxford discount`;
@@ -950,8 +986,7 @@ async function showUsage() {
       updated ${esc((u.generated || "").replace("T", " ").slice(0, 16))} UTC.</p>
 
     <div class="stat-grid">
-      <div class="stat"><div class="n">${n(t.visitors)}</div><div class="l">visitors</div></div>
-      <div class="stat"><div class="n">${n(t.pageviews)}</div><div class="l">sessions</div></div>
+      <div class="stat"><div class="n">${n(t.page_loads)}</div><div class="l">page loads</div></div>
       <div class="stat"><div class="n">${n(t.journal_views)}</div><div class="l">journals looked up</div></div>
       <div class="stat"><div class="n">${n(t.distinct_journals_viewed)}</div><div class="l">different journals</div></div>
       <div class="stat"><div class="n">${esc(pct(cov.covered_journal_share))}</div><div class="l">of those have a deal</div></div>
@@ -1006,9 +1041,11 @@ async function showUsage() {
         to another site. Recorded: that a journal page was opened, and the country a
         request came from. Not recorded: who you are, what you searched for when the
         search worked, or anything you go on to do.</p>
-      <p class="cost-note">“Visitors” and “sessions” are browser-side estimates, not
-        counts of people — one person on a laptop and a phone is two, and a shared
-        machine may be one. Treat them as an order of magnitude.</p>
+      <p class="cost-note">These are counts of <em>page interactions</em>, not of
+        people. The counter publishes no unique-visitor figure, so none is shown
+        here rather than a guess: one person on a laptop and a phone would be two
+        page loads, and a shared machine might be one. Treat them as an order of
+        magnitude.</p>
     </div>`;
   $("#detail-modal").hidden = false;
   document.body.style.overflow = "hidden";
@@ -1275,34 +1312,15 @@ function shareLink(ids) {
   return `${base}#compare=${ids.join(",")}`;
 }
 
-/* Plain text rather than a file download: it is going into an email or a chat
- * message, and a .csv nobody opens helps no one. */
-function compareText(rows, esacs) {
-  const lines = ["Journals I am considering, and what the Oxford APC Finder says:", ""];
-  rows.forEach((r, i) => {
-    const [label] = STATUS_LABEL[r.s] || STATUS_LABEL.none;
-    const model = (MODEL_LABEL[r.o] || [""])[0];
-    lines.push(`${i + 1}. ${r.t}  (ISSN ${r.i[0] || "unknown"})`);
-    lines.push(`   Publisher: ${r.p || "unknown"}${model ? " · " + model : ""}`);
-    lines.push(`   Oxford deal: ${label}`);
-    // costFigure, not the full summary: the line above already names the deal,
-    // and r.c repeats it ("Covered by Oxford deal — £0 if eligible — covered
-    // by Oxford deal").
-    lines.push(`   Open access cost: ${costFigure(r).text}`);
-    if (esacs.get(r.id)) lines.push(`   Agreement: ${esacs.get(r.id)}`);
-    lines.push("");
-  });
-  lines.push(`Compiled with ${shareLink(rows.map((r) => r.id))}`);
-  lines.push(`Unofficial tool; data generated ${(STATE.generated || "").slice(0, 10)}.`);
-  return lines.join("\n");
-}
-
-/* A pre-structured enquiry, not a blank email. The open access team get the
- * same shape of question every time, with the agreement identifiers already
- * quoted — which is the difference between a query they can answer and one they
- * have to research from scratch. */
-function bodleianMail(rows, esacs) {
-  const body = [
+/* One enquiry, three destinations: the mail client, the clipboard, and the
+ * screen. It used to be built twice — once for "copy as text" and once for the
+ * mailto — which is two chances for them to drift apart and say different
+ * things to the same reader.
+ *
+ * Shown on screen as well as copied, because this goes to a librarian in the
+ * reader's name: they should be able to see exactly what it says first. */
+function enquiryText(rows, esacs) {
+  const lines = [
     "Dear Open Access team,",
     "",
     "I am considering submitting to the journals below, and would like to confirm",
@@ -1311,24 +1329,34 @@ function bodleianMail(rows, esacs) {
   ];
   rows.forEach((r, i) => {
     const [label] = STATUS_LABEL[r.s] || STATUS_LABEL.none;
-    body.push(`${i + 1}. ${r.t} (ISSN ${r.i[0] || "unknown"})`);
-    body.push(`   Publisher: ${r.p || "unknown"}`);
-    body.push(`   The APC Finder shows: ${label} — ${costFigure(r).text}`);
-    if (esacs.get(r.id)) body.push(`   Agreement identifier: ${esacs.get(r.id)}`);
-    body.push("");
+    lines.push(`${i + 1}. ${r.t} (ISSN ${r.i[0] || "unknown"})`);
+    lines.push(`   Publisher: ${r.p || "unknown"}`);
+    // costFigure, not the full summary: the line above already names the deal,
+    // and r.c repeats it.
+    lines.push(`   The APC Finder shows: ${label} — ${costFigure(r).text}`);
+    if (esacs.get(r.id)) lines.push(`   Agreement identifier: ${esacs.get(r.id)}`);
+    lines.push("");
   });
-  body.push("Could you confirm whether the APC would be covered in each case,");
-  body.push("and flag anything I should be aware of before submitting?");
-  body.push("");
-  body.push("Many thanks,");
-  body.push("");
-  body.push("---");
-  body.push("Compiled with the Oxford APC Finder, an unofficial tool:");
-  body.push(shareLink(rows.map((r) => r.id)));
-  body.push(`Its figures are automated and may be out of date (data generated ${(STATE.generated || "").slice(0, 10)}).`);
+  lines.push("Could you confirm whether the APC would be covered in each case,");
+  lines.push("and flag anything I should be aware of before submitting?");
+  lines.push("");
+  lines.push("Many thanks,");
+  lines.push("");
+  lines.push("---");
+  lines.push("Compiled with the Oxford APC Finder, an unofficial tool:");
+  lines.push(shareLink(rows.map((r) => r.id)));
+  lines.push(`Its figures are automated and may be out of date (data generated ${(STATE.generated || "").slice(0, 10)}).`);
+  return lines.join("\n");
+}
+
+/* A pre-structured enquiry, not a blank email. The open access team get the
+ * same shape of question every time, with the agreement identifiers already
+ * quoted — which is the difference between a query they can answer and one they
+ * have to research from scratch. */
+function bodleianMail(rows, esacs) {
   const subject = `Open access coverage query — ${rows.length} journal${rows.length === 1 ? "" : "s"}`;
   return `mailto:${STATE.config.contact}?subject=${encodeURIComponent(subject)}`
-         + `&body=${encodeURIComponent(body.join("\n"))}`;
+         + `&body=${encodeURIComponent(enquiryText(rows, esacs))}`;
 }
 
 // Long mailto bodies are silently truncated by some clients, so past this many
@@ -1369,12 +1397,24 @@ async function showCompare(ids) {
     </table>
     <div class="compare-actions">
       ${tooLong ? "" : `<a class="btn" id="compare-mail" href="${esc(bodleianMail(rows, esacs))}">Email the open access team ↗</a>`}
-      <button class="btn secondary" id="compare-copy">Copy as text</button>
+      <button class="btn secondary" id="compare-copy">Copy the text instead</button>
       <button class="btn secondary" id="compare-clear">Clear the list</button>
     </div>
-    ${tooLong ? `<p class="cost-note">With more than ${MAILTO_MAX_JOURNALS} journals
-      the pre-filled email would be truncated by some mail clients, so copy the
-      text instead and paste it into a message to ${esc(STATE.config.contact)}.</p>` : ""}
+    <div class="detail-section">
+      <h4>Or send it yourself</h4>
+      <p class="cost-note">${tooLong
+        ? `With more than ${MAILTO_MAX_JOURNALS} journals a pre-filled email gets
+           truncated by some mail clients, so there is no button for it — copy the
+           text below instead.`
+        : `If the button above does nothing, your browser has no mail client
+           registered. Copy the text below and send it yourself.`}
+        It is worth reading first: it goes to a librarian in your name.</p>
+      <p class="mailto-address">Address:
+        <a href="mailto:${esc(STATE.config.contact)}">${esc(STATE.config.contact)}</a>
+        <button class="btn tiny" id="copy-address">Copy address</button></p>
+      <textarea class="enquiry-box" id="enquiry-text" readonly rows="12"
+        aria-label="The enquiry text, ready to copy">${esc(enquiryText(rows, esacs))}</textarea>
+    </div>
     <div class="detail-section">
       <h4>Share this list</h4>
       <p class="cost-note">Opening this link anywhere shows the same comparison.
@@ -1385,14 +1425,23 @@ async function showCompare(ids) {
   $("#detail-modal").hidden = false;
   document.body.style.overflow = "hidden";
 
-  const copyText = compareText(rows, esacs);
-  $("#compare-copy").addEventListener("click", (e) => {
-    const done = () => { e.target.textContent = "Copied"; };
+  // Clipboard access is blocked in some contexts and absent in others, so the
+  // textarea is always there as the fallback that cannot fail.
+  const copy = (text, el) => {
+    const done = () => { el.textContent = "Copied"; };
     try {
-      if (navigator.clipboard) navigator.clipboard.writeText(copyText).then(done, done);
+      if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, done);
       else done();
     } catch { done(); }
-  });
+  };
+  const enquiry = enquiryText(rows, esacs);
+  $("#compare-copy").addEventListener("click", (e) => copy(enquiry, e.target));
+  $("#copy-address").addEventListener("click",
+    (e) => copy(STATE.config.contact, e.target));
+  const box = $("#enquiry-text");
+  if (box && box.addEventListener) {
+    box.addEventListener("focus", () => box.select && box.select());
+  }
   $("#compare-clear").addEventListener("click", () => {
     setStarred([]);
     closeModal();

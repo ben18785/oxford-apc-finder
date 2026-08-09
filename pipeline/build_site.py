@@ -83,8 +83,12 @@ def cost_summary(j: dict) -> str:
     # The only two states where £0 depends on nothing about the author.
     if kind == "diamond":
         return "£0 — diamond OA"
+    # "£0", not "No APC": this is one of the two states where the figure
+    # depends on nothing about the author, and the other one already reads
+    # "£0". Two different words for the same unconditional zero invites the
+    # reader to look for a difference that isn't there.
     if kind == "no_apc":
-        return "No APC"
+        return "£0 — no APC"
     if kind == "discount":
         est = c["estimated"]
         return f"~{est['price']:,} {est['currency']} after {c['pct']}% Oxford discount"
