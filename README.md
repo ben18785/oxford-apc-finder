@@ -25,9 +25,9 @@ agreement data does not carry, e.g. percentage discounts, diamond schemes, funde
 restrictions, annual caps, each taken from the Bodleian's deals page and
 recorded with a link back to it.
 
-Costs are worked out by simple arithmetic on published prices, never guessed: a
+Costs are worked out only by simple arithmetic on published prices: a
 percentage discount is subtracted from the list price the sources publish, and
-where no price is held the site says so rather than estimating one.
+where no price is held the site reports this.
 
 Our decision about what monetary value to show is governed by the following:
 
@@ -53,9 +53,7 @@ withdrawn from DOAJ for misconduct-type reasons are excluded outright.
 
 Every one of our decisions is made by hard-coded rules and no language model
 is involved anywhere in producing the data; however, it is true that CLAUDE did contribute most of the infrastructure.
-The pipeline is a set of Python scripts applying explicit conditions to the sources above: string matching on
-ISSNs, date comparisons, a curated YAML file of Oxford-specific facts, and
-templated sentences. The site is
+The pipeline is a set of Python scripts applying explicit conditions to the sources above. The site is
 rebuilt automatically each week, with the previous dataset kept for comparison
 so changes are recorded.
 
