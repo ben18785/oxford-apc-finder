@@ -203,3 +203,38 @@ def normalise_issn(raw: str | None) -> str | None:
         if core[:7].isdigit() and (core[7].isdigit() or core[7] == "X"):
             return s
     return None
+
+
+def jct_verdict(payload):
+    """True / False / None from a JCT /ta response body.
+
+    The third state matters. Reading an unparseable response as "not covered"
+    would manufacture over-claims out of an API hiccup and fail the build for
+    the wrong reason; reading it as "covered" would mask a real one. Neither is
+    a verdict, so it is not reported as one.
+
+    Two shapes have actually come back from this endpoint and are handled
+    rather than assumed away:
+
+      * "no agreement" arrives as HTTP 200 with a bare `404` integer body — not
+        a list, not an HTTP error;
+      * `result` is normally an object but has been seen as a list, which
+        crashed a refresh with "'list' object has no attribute 'get'".
+
+    Anything else is inconclusive rather than fatal. This lives at module level
+    so it can be tested against those shapes without a network round trip — it
+    was a closure when it crashed, which is why nothing caught it.
+    """
+    if payload == 404:                         # documented "no agreement"
+        return False
+    if not isinstance(payload, list):
+        return None
+    verdicts = []
+    for r in payload:
+        if not isinstance(r, dict):
+            continue
+        res = r.get("result")
+        for entry in (res if isinstance(res, list) else [res]):
+            if isinstance(entry, dict):
+                verdicts.append(entry.get("compliant") == "yes")
+    return any(verdicts) if verdicts else None

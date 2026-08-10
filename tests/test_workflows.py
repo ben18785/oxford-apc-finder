@@ -207,3 +207,14 @@ def test_alerts_hold_no_secret_in_this_repo():
         body = wf.read_text()
         assert "RESEND_API_KEY" not in body, f"{wf.name} references the mail key"
         assert "ALERTS" not in body or "alerts/" in body, f"{wf.name} touches the alert store"
+
+
+def test_the_api_verdicts_baseline_is_committed():
+    """The circuit breaker falls back to the previous run's verdicts when the
+    JCT API looks broken. CI checks out a fresh tree every run, so unless this
+    file is committed there is never a previous run to fall back to, and the
+    breaker degrades to "keep nothing" — which is the outage behaviour it was
+    written to prevent."""
+    body = REFRESH.read_text()
+    assert "data/state/jct_api_verdicts.json" in body, \
+        "the refresh does not commit the JCT API verdicts baseline"

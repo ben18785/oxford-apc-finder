@@ -11,8 +11,14 @@ CC BY 4.0, https://journalcheckertool.org/transformative-agreements/):
   3. An agreement applies to Oxford iff an institution row has our ROR and no
      "Institution Last Seen" date (a Last Seen date means it left the list).
   4. Collect that agreement's journals the same way (no "Journal Last Seen").
+  5. Ask JCT's own live API whether it agrees. It has been observed not to:
+     for BMJ and Thieme the agreement CSV lists Oxford as a current
+     participant while the API reports no coverage for any journal in the
+     agreement. Neither side can be preferred, so merge states no price for
+     those. See verify_against_api.
 
-Output: data/out/deals.json
+Output: data/out/deals.json (with an api_verdicts block)
+        data/state/jct_api_verdicts.json
 Fixture mode (APC_FIXTURES=1): reads data/fixtures/deals.json instead.
 """
 from __future__ import annotations
@@ -23,13 +29,29 @@ import time
 import requests
 
 from common import (DATA, FIXTURES, FIXTURES_MODE, Manifest, OUT, fetch_csv,
-                    load_config, read_json, utcnow, write_json, normalise_issn)
+                    http_get, jct_verdict, load_config, read_json, utcnow,
+                    write_json, normalise_issn)
 
 # Agreements Oxford was in at the last successful run.
 KNOWN_OXFORD = DATA / "state" / "oxford_agreements.json"
+# Last run's answers from the JCT API, kept so a bad API day cannot rewrite the
+# site's claims (see verify_against_api).
+API_VERDICTS = DATA / "state" / "jct_api_verdicts.json"
 # Transient Google Docs timeouts are normal at this volume; a large number of
 # them is not, and means the source itself is unwell.
 MAX_TOLERATED_FAILURES = 15
+
+# How many journals to ask about before concluding an agreement is contradicted.
+# The first "no" is usually enough to be interesting but not enough to be sure:
+# a single journal can be renamed, or split, or simply absent from the API's
+# index, and condemning a whole agreement on one answer would be reckless.
+# Three consecutive noes is a property of the agreement, not of a journal.
+PROBES_PER_AGREEMENT = 3
+# Above this share of contradicted agreements, believe the API is unwell rather
+# than believing Oxford lost most of its deals overnight. Mass-downgrading the
+# whole site to "we cannot tell" on the strength of an outage would be its own
+# kind of wrong answer, and a far more visible one.
+CIRCUIT_BREAKER_SHARE = 0.25
 
 
 def unfetchable_verdict(failed: list[str], known_oxford: set[str],
@@ -96,6 +118,106 @@ def agreement_journals(rows: list[dict]) -> list[dict]:
         journals.append({"name": name,
                          "issns": [i for i in (p_issn, e_issn) if i]})
     return journals
+
+
+def probe_agreement(journals, api, ror, session=None, probes=PROBES_PER_AGREEMENT):
+    """Does the JCT API agree that this agreement covers Oxford?
+
+    Returns "agrees", "contradicts", or "unknown", plus the evidence.
+
+    JCT publishes two things that can disagree: the agreement CSVs, which are
+    the input to this pipeline, and the live API, which is what a researcher
+    consults. They have been observed to contradict each other for an entire
+    agreement at once — Oxford listed as a current participant in the CSV,
+    while the API reports no coverage for every journal in it. Both cannot be
+    right, and we cannot tell which is, so the honest output is neither.
+
+    One "yes" ends the probe: coverage anywhere in the agreement means the API
+    knows about it, and the disagreement is then per-journal, which is normal
+    (renamed titles, ISSN changes) and not what this is looking for.
+    """
+    seen, checked = [], []
+    for issn in journals:
+        if len(checked) >= probes:
+            break
+        if not issn or issn in seen:
+            continue
+        seen.append(issn)
+        try:
+            resp = http_get(f"{api}/ta", params={"issn": issn, "ror": ror},
+                            session=session, retries=2)
+            verdict = jct_verdict(resp.json()) if resp.status_code == 200 else None
+        except Exception:                      # noqa: BLE001 - never fatal here
+            verdict = None
+        checked.append({"issn": issn, "covered": verdict})
+        if verdict is True:
+            return "agrees", checked
+    if not checked or all(c["covered"] is None for c in checked):
+        return "unknown", checked           # asked, got no usable answer
+    if any(c["covered"] is None for c in checked):
+        return "unknown", checked           # a partial no is not a verdict
+    return "contradicts", checked
+
+
+def verify_against_api(agreements, cfg, session=None):
+    """Cross-check every Oxford agreement against the live JCT API.
+
+    This is deliberately a FETCH stage and not a validation one. A
+    contradiction is not a reason to refuse to publish: the previous build
+    carries the same claim, so halting freezes a site that is already wrong
+    while blocking every unrelated improvement in the run. It is a reason to
+    publish something weaker — merge turns a contradicted agreement's journals
+    into `uncertain`, which shows both claims and asserts no price.
+
+    Costs one call per agreement in the normal case (~42), which is less than
+    the sampled oracle in validate.py already spends.
+    """
+    api = cfg["sources"]["jct_api"]
+    ror = cfg["institution_ror"]
+    previous = (read_json(API_VERDICTS) or {}).get("agreements", {}) \
+        if API_VERDICTS.exists() else {}
+
+    verdicts, calls = {}, 0
+    print("Cross-checking agreements against the live JCT API …")
+    for a in agreements:
+        issns = [i for j in a["journals"] for i in (j.get("issns") or [])]
+        verdict, evidence = probe_agreement(issns, api, ror, session)
+        calls += len(evidence)
+        verdicts[a["esac_id"]] = {"verdict": verdict, "checked": utcnow(),
+                                  "evidence": evidence}
+        if verdict != "agrees":
+            print(f"  {verdict.upper():12} {a['esac_id']} "
+                  f"({a['journal_count']} journals)")
+        time.sleep(0.2)
+
+    decided = [v for v in verdicts.values() if v["verdict"] != "unknown"]
+    bad = [v for v in decided if v["verdict"] == "contradicts"]
+    share = len(bad) / len(decided) if decided else 0.0
+    tripped = share > CIRCUIT_BREAKER_SHARE
+
+    if tripped:
+        # Keep last run's answers rather than acting on this run's. Falling
+        # back to "agrees" would republish every over-claim; acting on the
+        # readings would blank the site. The previous verdicts are the only
+        # option that is wrong in neither direction.
+        print(f"  CIRCUIT BREAKER: {len(bad)} of {len(decided)} agreements look "
+              f"contradicted ({share:.0%}), which is not credible. Treating this "
+              "as a JCT API fault and keeping the previous run's verdicts.",
+              file=sys.stderr)
+        for esac, prev in previous.items():
+            if esac in verdicts:
+                verdicts[esac] = dict(prev, stale=True)
+        for v in verdicts.values():
+            v.setdefault("stale", True)
+
+    write_json(API_VERDICTS, {"generated": utcnow(),
+                              "circuit_breaker_tripped": tripped,
+                              "agreements": verdicts})
+    counts = {k: sum(1 for v in verdicts.values() if v["verdict"] == k)
+              for k in ("agrees", "contradicts", "unknown")}
+    print(f"  {counts['agrees']} agree, {counts['contradicts']} contradict, "
+          f"{counts['unknown']} no answer ({calls} API calls)")
+    return verdicts, tripped
 
 
 def main() -> None:
@@ -215,9 +337,13 @@ def main() -> None:
     write_json(KNOWN_OXFORD, {"generated": utcnow(),
                               "esac_ids": sorted({a["esac_id"] for a in agreements})})
 
+    api_verdicts, breaker = verify_against_api(agreements, cfg, session)
+
     deals = {
         "generated": utcnow(),
         "institution_ror": ror,
+        "api_verdicts": api_verdicts,
+        "api_circuit_breaker_tripped": breaker,
         "source": {"index_csv": index_url,
                    "documentation": cfg["sources"]["jct_ta_docs"],
                    "license": "CC BY 4.0"},

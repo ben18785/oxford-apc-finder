@@ -1074,6 +1074,24 @@
    "apc_usd": null,
    "apc_prices": [],
    "topics": []
+  },
+  "9990-0004": {
+   "openalex_id": "https://openalex.org/S99900004",
+   "issn_l": "9990-0004",
+   "issns": [
+    "9990-0004"
+   ],
+   "title": "Fixture Journal The JCT API Disowns",
+   "alternate_titles": [],
+   "publisher": "Fixture Press",
+   "homepage": "https://example.invalid/contradicted",
+   "is_in_doaj": false,
+   "is_oa": false,
+   "type": "journal",
+   "works_count": 10,
+   "apc_usd": null,
+   "apc_prices": [],
+   "topics": []
   }
  },
  "doaj": {

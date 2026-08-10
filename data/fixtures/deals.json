@@ -87,6 +87,83 @@
      ]
     }
    ]
+  },
+  {
+   "esac_id": "thie2026jisc",
+   "end_date": "2026-12-31",
+   "corresponding_author_only": true,
+   "data_url": "https://example.invalid/agreement",
+   "journals": [
+    {
+     "issns": [
+      "9990-0004"
+     ]
+    }
+   ],
+   "journal_count": 1
   }
- ]
+ ],
+ "api_verdicts": {
+  "bmj2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T00:00:00Z",
+   "evidence": [
+    {
+     "issn": "9990-0004",
+     "covered": false
+    }
+   ]
+  },
+  "els2020jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T00:00:00Z",
+   "evidence": [
+    {
+     "issn": "9990-0004",
+     "covered": false
+    }
+   ]
+  },
+  "aip2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T00:00:00Z",
+   "evidence": [
+    {
+     "issn": "9990-0004",
+     "covered": false
+    }
+   ]
+  },
+  "mdpi2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T00:00:00Z",
+   "evidence": [
+    {
+     "issn": "9990-0004",
+     "covered": false
+    }
+   ]
+  },
+  "wiley2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T00:00:00Z",
+   "evidence": [
+    {
+     "issn": "9990-0004",
+     "covered": false
+    }
+   ]
+  },
+  "thie2026jisc": {
+   "verdict": "contradicts",
+   "checked": "2026-08-10T00:00:00Z",
+   "evidence": [
+    {
+     "issn": "9990-0004",
+     "covered": false
+    }
+   ]
+  }
+ },
+ "api_circuit_breaker_tripped": false
 }

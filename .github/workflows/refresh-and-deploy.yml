@@ -174,6 +174,7 @@ jobs:
                  data/cache/manifest.json data/state/journal_state.tsv
                  data/state/oxford_agreements.json data/state/known_journals.tsv
                  data/state/fx_rates.json data/state/subfield_sweep.json
+                 data/state/jct_api_verdicts.json
                  CHANGELOG-data.md"
 
           for attempt in 1 2 3; do

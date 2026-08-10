@@ -431,6 +431,17 @@ def main() -> None:
     universal_criteria = overrides.get("universal_criteria") or []
     caveat_entries = [e for e in overrides["entries"] if e["kind"] == "caveat"]
     conflict_entries = [e for e in overrides["entries"] if e["kind"] == "conflict"]
+    # Agreements where JCT's own live API contradicts JCT's own agreement data
+    # (fetch_jct.verify_against_api). Curated conflict entries cover sources
+    # that disagree with EACH OTHER — the Bodleian page versus JCT — and need a
+    # human to write down what each side says. This one needs no human: the
+    # same organisation is saying two things, and neither can be preferred.
+    api_contradicts = {esac for esac, v in (deals.get("api_verdicts") or {}).items()
+                       if v.get("verdict") == "contradicts"}
+    if api_contradicts:
+        print(f"  {len(api_contradicts)} agreement(s) contradicted by the JCT "
+              f"API — their journals will state no price: "
+              f"{', '.join(sorted(api_contradicts))}")
     other_entries = [e for e in overrides["entries"]
                      if e["kind"] not in ("caveat", "conflict")]
     bodleian_url = overrides["meta"]["source"]
@@ -592,6 +603,31 @@ def main() -> None:
                 deal_sources.append({"label": "Bodleian publisher deals page",
                                      "url": e.get("source_extra") or bodleian_url})
                 break
+
+        # A curated entry wins if one exists: a human has read both pages and
+        # written down what each side actually claims, which is more use to a
+        # reader than "the API said no".
+        if disputed is None and esac_id and esac_id in api_contradicts:
+            disputed = {
+                "publisher": rec.get("publisher"),
+                "note": ("The Journal Checker Tool's published agreement data "
+                         "and its own live API disagree about this journal. The "
+                         "agreement file lists Oxford as a current participant; "
+                         "the API, which is what the tool itself answers with, "
+                         "reports no coverage. Because both come from the same "
+                         "organisation we cannot tell which is current, so no "
+                         "cost is stated here. Confirm with the open access "
+                         "team before assuming the APC is paid."),
+                "jct_says": (f"Listed in transformative agreement {esac_id} with "
+                             "Oxford recorded as a current participant."),
+                # Not the Bodleian this time: both sides of this disagreement
+                # are JCT. The field is still filled, because a warning that
+                # names only one side tells the reader nothing they can act on.
+                "bodleian_says": None,
+                "api_says": ("The Journal Checker Tool's live API reports no "
+                             "agreement covering Oxford for this journal."),
+                "source": "jct_api_cross_check",
+            }
 
         in_doaj = rec.get("is_in_doaj") or bool(doaj_rec)
 

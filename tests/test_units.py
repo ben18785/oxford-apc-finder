@@ -1487,3 +1487,163 @@ def test_the_site_collects_no_email_address():
         "app.js asks for an email address"
     built = (_ROOT / "pipeline" / "build_site.py").read_text()
     assert "alerts_endpoint" not in built, "build_site.py publishes an alerts endpoint"
+
+
+# ------------------------------- JCT contradicting itself (API cross-check)
+import json as _json  # noqa: E402
+from fetch_jct import (CIRCUIT_BREAKER_SHARE, probe_agreement,  # noqa: E402
+                       verify_against_api)
+from validate import check_api_contradictions_are_applied  # noqa: E402
+
+
+class _FakeResp:
+    def __init__(self, payload, status=200):
+        self._p, self.status_code = payload, status
+
+    def json(self):
+        return self._p
+
+
+def _api(answers):
+    """http_get stub: maps ISSN -> payload. 404 is JCT's 'no agreement'."""
+    calls = []
+
+    def get(url, *, params=None, session=None, retries=0, **kw):
+        calls.append(params["issn"])
+        return _FakeResp(answers.get(params["issn"], 404))
+    get.calls = calls
+    return get
+
+
+COVERED = [{"result": {"compliant": "yes",
+                       "log": [{"code": "TA.Exists",
+                                "parameters": {"ta_id": ["x2026jisc"]}}]}}]
+
+
+def test_one_yes_ends_the_probe(monkeypatch):
+    """Coverage anywhere means the API knows the agreement, so the rest of the
+    journals are not worth asking about — and a per-journal mismatch after that
+    is a renamed title, which is normal and not what this looks for."""
+    stub = _api({"1111-1111": COVERED})
+    monkeypatch.setattr("fetch_jct.http_get", stub)
+    verdict, evidence = probe_agreement(["1111-1111", "2222-2222", "3333-3333"],
+                                        "http://api", "ror")
+    assert verdict == "agrees"
+    assert stub.calls == ["1111-1111"], "kept asking after a yes"
+
+
+def test_a_single_no_is_not_enough_to_condemn_an_agreement(monkeypatch):
+    """One journal can be renamed, split, or simply missing from the API's
+    index. Condemning 2,467 Wiley journals on one answer would be reckless."""
+    stub = _api({"2222-2222": COVERED})
+    monkeypatch.setattr("fetch_jct.http_get", stub)
+    verdict, _ = probe_agreement(["1111-1111", "2222-2222", "3333-3333"],
+                                 "http://api", "ror")
+    assert verdict == "agrees"
+    assert len(stub.calls) == 2
+
+
+def test_three_consecutive_noes_is_a_contradiction(monkeypatch):
+    """This is the BMJ and Thieme case: the agreement CSV lists Oxford as a
+    current participant while the API reports no coverage for every journal."""
+    monkeypatch.setattr("fetch_jct.http_get", _api({}))
+    verdict, evidence = probe_agreement(["1111-1111", "2222-2222", "3333-3333",
+                                         "4444-4444"], "http://api", "ror")
+    assert verdict == "contradicts"
+    assert len(evidence) == 3, "probed more journals than needed"
+
+
+def test_an_unreadable_answer_is_not_a_no(monkeypatch):
+    """Reading an API hiccup as 'not covered' would manufacture contradictions
+    out of an outage and blank real coverage."""
+    def flaky(url, *, params=None, **kw):
+        raise RuntimeError("connection reset")
+    monkeypatch.setattr("fetch_jct.http_get", flaky)
+    verdict, _ = probe_agreement(["1111-1111"], "http://api", "ror")
+    assert verdict == "unknown"
+
+
+def test_a_partial_answer_is_not_a_verdict(monkeypatch):
+    """Two noes and one unreadable is not three noes."""
+    def half(url, *, params=None, **kw):
+        if params["issn"] == "3333-3333":
+            raise RuntimeError("timeout")
+        return _FakeResp(404)
+    monkeypatch.setattr("fetch_jct.http_get", half)
+    verdict, _ = probe_agreement(["1111-1111", "2222-2222", "3333-3333"],
+                                 "http://api", "ror")
+    assert verdict == "unknown"
+
+
+def _agreement(esac, n=2):
+    return {"esac_id": esac, "journal_count": n,
+            "journals": [{"issns": [f"{i}{i}{i}{i}-{i}{i}{i}{i}"]}
+                         for i in range(1, n + 1)]}
+
+
+def test_the_circuit_breaker_keeps_the_previous_verdicts(monkeypatch, tmp_path):
+    """A JCT outage looks exactly like every agreement being cancelled at once.
+    Believing it would blank the site; ignoring it would republish over-claims.
+    Last run's answers are the only option wrong in neither direction."""
+    monkeypatch.setattr("fetch_jct.http_get", _api({}))     # everything says no
+    monkeypatch.setattr("fetch_jct.time", type("T", (), {"sleep": staticmethod(lambda s: None)}))
+    state = tmp_path / "verdicts.json"
+    state.write_text(_json.dumps({"agreements": {
+        f"a{i}": {"verdict": "agrees", "checked": "2026-01-01"} for i in range(8)}}))
+    monkeypatch.setattr("fetch_jct.API_VERDICTS", state)
+    monkeypatch.setattr("fetch_jct.write_json", lambda p, o: None)
+    cfg = {"sources": {"jct_api": "http://api"}, "institution_ror": "ror"}
+    verdicts, tripped = verify_against_api([_agreement(f"a{i}") for i in range(8)],
+                                           cfg, None)
+    assert tripped, f"breaker did not trip on 100% contradiction (limit {CIRCUIT_BREAKER_SHARE:.0%})"
+    assert all(v["verdict"] == "agrees" for v in verdicts.values())
+    assert all(v.get("stale") for v in verdicts.values())
+
+
+def test_a_couple_of_contradictions_do_not_trip_the_breaker(monkeypatch, tmp_path):
+    """Two of forty-two is the real, observed state — BMJ and Thieme. The
+    breaker exists for an outage, not for the thing it is meant to catch."""
+    monkeypatch.setattr("fetch_jct.http_get",
+                        _api({f"1111-1111": COVERED, "2222-2222": COVERED}))
+    monkeypatch.setattr("fetch_jct.time", type("T", (), {"sleep": staticmethod(lambda s: None)}))
+    monkeypatch.setattr("fetch_jct.API_VERDICTS", tmp_path / "v.json")
+    monkeypatch.setattr("fetch_jct.write_json", lambda p, o: None)
+    cfg = {"sources": {"jct_api": "http://api"}, "institution_ror": "ror"}
+    ags = [_agreement(f"ok{i}") for i in range(9)] + [
+        {"esac_id": "bad", "journal_count": 3,
+         "journals": [{"issns": ["9999-9999"]}, {"issns": ["8888-8888"]},
+                      {"issns": ["7777-7777"]}]}]
+    verdicts, tripped = verify_against_api(ags, cfg, None)
+    assert not tripped
+    assert verdicts["bad"]["verdict"] == "contradicts"
+    assert verdicts["ok0"]["verdict"] == "agrees"
+
+
+def test_a_contradicted_agreement_may_not_still_quote_a_price():
+    """The downgrade lives in merge.py, three files from the fetch stage that
+    discovers the contradiction. Drift between them is silent and expensive."""
+    data = {"journals": [
+        {"id": "1111-1111", "title": "Still Claiming",
+         "deal": {"esac_id": "bad2026jisc", "status": "covered"},
+         "cost": {"kind": "covered"}}]}
+    deals = {"api_verdicts": {"bad2026jisc": {"verdict": "contradicts"}}}
+    errors = check_api_contradictions_are_applied(data, deals)
+    assert errors and "not being applied" in errors[0]
+
+    data["journals"][0]["cost"]["kind"] = "uncertain"
+    assert check_api_contradictions_are_applied(data, deals) == []
+
+
+def test_a_stuck_circuit_breaker_fails_the_build():
+    """Running on remembered verdicts is right for one bad API day and wrong as
+    a standing state — otherwise the cross-check quietly stops happening."""
+    deals = {"api_verdicts": {"a": {"verdict": "agrees"}},
+             "api_circuit_breaker_tripped": True}
+    errors = check_api_contradictions_are_applied({"journals": []}, deals)
+    assert any("circuit breaker" in e for e in errors)
+
+
+def test_no_cross_check_at_all_is_a_failure():
+    """A missing block means the stage silently did not run."""
+    errors = check_api_contradictions_are_applied({"journals": []}, {})
+    assert errors and "no agreement was cross-checked" in errors[0]

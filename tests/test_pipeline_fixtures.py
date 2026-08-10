@@ -163,7 +163,13 @@ def test_disputed_journals_explain_themselves(built):
     for j in disputed:
         d = j["deal"]["disputed"]
         assert d["note"], f"{j['id']} disputed with no explanation"
-        assert d.get("jct_says") and d.get("bodleian_says")
+        # Both sides must be named. For a curated conflict the other side is
+        # the Bodleian page; for one the JCT API found, both sides are JCT and
+        # the counter-claim is api_says. A warning that quotes only one source
+        # gives the reader nothing to act on either way.
+        assert d.get("jct_says"), f"{j['id']} does not say what JCT claims"
+        assert d.get("bodleian_says") or d.get("api_says"), \
+            f"{j['id']} names no counter-claim"
 
 
 def test_counts_match_the_journal_list(built):
@@ -500,3 +506,32 @@ def test_no_risky_journal_reaches_the_site_claiming_a_settled_zero(built):
                 f"{rec['t']} renders as ordinary coverage despite a known risk"
             assert rec["c"].startswith("£0 if eligible — but confirm") \
                 or rec["c"].startswith("Not confirmed"), rec["c"]
+
+
+def test_an_agreement_the_jct_api_disowns_states_no_price(built):
+    """The end-to-end version of the BMJ and Thieme case.
+
+    JCT's agreement file lists Oxford as a current participant; JCT's own live
+    API reports no coverage. The pipeline must publish the journal — removing
+    it would hide the disagreement — while stating no price and showing both
+    claims. Getting this wrong tells someone publishing is free when nobody
+    can establish that it is.
+    """
+    j = next(x for x in built["journals"]["journals"] if x["id"] == "9990-0004")
+    assert j["cost"]["kind"] == "uncertain", \
+        f"a contradicted agreement still quotes {j['cost']['kind']}"
+    assert "gbp" not in j["cost"], "an unresolvable claim was given a sortable price"
+    d = j["deal"]["disputed"]
+    assert d["source"] == "jct_api_cross_check"
+    assert d["jct_says"] and d["api_says"], "only one side of the disagreement is shown"
+    # The reader is told what to do about it, not merely that something is odd.
+    assert "open access team" in d["note"]
+
+
+def test_agreements_the_api_confirms_are_left_alone(built):
+    """The cross-check must not be a blunt instrument: 40 of 42 real agreements
+    check out, and downgrading those would make the site useless."""
+    covered = [x for x in built["journals"]["journals"]
+               if (x.get("deal") or {}).get("esac_id") == "wiley2026jisc"]
+    assert covered, "fixture drift: no wiley journals left"
+    assert all(x["cost"]["kind"] == "covered" for x in covered)

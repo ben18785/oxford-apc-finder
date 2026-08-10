@@ -19,8 +19,12 @@ import re
 import sys
 from datetime import datetime, timezone
 
-from common import (FIXTURES_MODE, OUT, ROOT, http_get, load_config,
-                    read_json)
+from common import (FIXTURES_MODE, OUT, ROOT, http_get, jct_verdict,
+                    load_config, read_json)
+
+# Re-exported: jct_verdict moved to common.py when fetch_jct.py began using it
+# too, and tests and callers still reach for it here.
+__all__ = ["jct_verdict"]
 
 ISSN_RX = r"^\d{4}-\d{3}[\dX]$"
 
@@ -243,41 +247,6 @@ def check_must_include(data: dict, must: dict | None = None) -> list[str]:
               "data/curated/must_include.yaml."]
 
 
-def jct_verdict(payload):
-    """True / False / None from a JCT /ta response body.
-
-    The third state matters. Reading an unparseable response as "not covered"
-    would manufacture over-claims out of an API hiccup and fail the build for
-    the wrong reason; reading it as "covered" would mask a real one. Neither is
-    a verdict, so it is not reported as one.
-
-    Two shapes have actually come back from this endpoint and are handled
-    rather than assumed away:
-
-      * "no agreement" arrives as HTTP 200 with a bare `404` integer body — not
-        a list, not an HTTP error;
-      * `result` is normally an object but has been seen as a list, which
-        crashed a refresh with "'list' object has no attribute 'get'".
-
-    Anything else is inconclusive rather than fatal. This lives at module level
-    so it can be tested against those shapes without a network round trip — it
-    was a closure when it crashed, which is why nothing caught it.
-    """
-    if payload == 404:                         # documented "no agreement"
-        return False
-    if not isinstance(payload, list):
-        return None
-    verdicts = []
-    for r in payload:
-        if not isinstance(r, dict):
-            continue
-        res = r.get("result")
-        for entry in (res if isinstance(res, list) else [res]):
-            if isinstance(entry, dict):
-                verdicts.append(entry.get("compliant") == "yes")
-    return any(verdicts) if verdicts else None
-
-
 def check_oracle(data: dict, cfg: dict) -> list[str]:
     if FIXTURES_MODE:
         print("  [fixtures] oracle check skipped (no network)")
@@ -398,6 +367,46 @@ def check_oracle(data: dict, cfg: dict) -> list[str]:
     return errors
 
 
+def check_api_contradictions_are_applied(data: dict, deals: dict | None = None) -> list[str]:
+    """An agreement the JCT API contradicts must not still be quoting a price.
+
+    The downgrade happens in merge.py, three files away from the fetch stage
+    that discovers the contradiction. If the two ever drift apart the result is
+    silent and expensive: the site keeps saying £0 for journals we have already
+    established we cannot vouch for, and nothing anywhere reports an error.
+
+    Also fails when the circuit breaker is stuck. A tripped breaker means the
+    site is running on remembered verdicts, which is correct for one bad API
+    day and not correct as a standing state.
+    """
+    if deals is None:
+        deals = read_json(OUT / "deals.json")
+    verdicts = (deals or {}).get("api_verdicts") or {}
+    bad = {e for e, v in verdicts.items() if v.get("verdict") == "contradicts"}
+    errors = []
+    if not verdicts and not FIXTURES_MODE:
+        return ["deals.json carries no api_verdicts block, so no agreement was "
+                "cross-checked against the live JCT API this run."]
+    for j in data["journals"]:
+        deal = j.get("deal") or {}
+        if deal.get("esac_id") in bad and j["cost"]["kind"] != "uncertain":
+            errors.append(
+                f"{j['id']} {j.get('title','')}: agreement {deal['esac_id']} is "
+                f"contradicted by the JCT API but the journal still states "
+                f"cost={j['cost']['kind']}. The downgrade in merge.py is not "
+                "being applied.")
+            if len(errors) >= 3:
+                break
+    if (deals or {}).get("api_circuit_breaker_tripped"):
+        errors.append(
+            "The JCT API cross-check circuit breaker tripped: too many "
+            "agreements looked contradicted at once to be believable, so this "
+            "build is running on the previous run's verdicts. Fine once; if it "
+            "repeats, the API contract has changed and probe_agreement needs "
+            "rewriting.")
+    return errors
+
+
 def main() -> None:
     cfg = load_config()
     data = read_json(OUT / "journals.json")
@@ -406,6 +415,7 @@ def main() -> None:
                 + check_thresholds(data, cfg)
                 + check_source_minimums(data, cfg)
                 + check_overlay_is_live(data)
+                + check_api_contradictions_are_applied(data)
                 + check_must_include(data)
                 + check_oracle(data, cfg))
     if failures:
