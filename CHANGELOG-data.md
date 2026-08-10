@@ -5,6 +5,114 @@ What the site said, and when it changed. Generated automatically by
 
 ## 2026-08-10
 
+- **0** journals added, **0** removed, **494** changed.
+
+### Deal status changes (494)
+
+- Journal of Gerontology and Geriatrics (0017-0305): `covered` → `none`
+- Scientia Pharmaceutica (0036-8709): `covered` → `none`
+- Journal of theoretical and applied electronic commerce research (0718-1876): `covered` → `none`
+- International Journal of Orofacial Myology (0735-0120): `covered` → `none`
+- Pathophysiology (0928-4680): `covered` → `none`
+- Medicina (1010-660X): `covered` → `none`
+- Entropy (1099-4300): `covered` → `none`
+- Current Oncology (1198-0052): `covered` → `none`
+- Mathematical and Computational Applications (1300-686X): `covered` → `none`
+- Molecules (1420-3049): `covered` → `none`
+- Molbank (1422-8599): `covered` → `none`
+- Diversity (1424-2818): `covered` → `none`
+- Sensors (1424-8220): `covered` → `none`
+- Pharmaceuticals (1424-8247): `covered` → `none`
+- Current Issues in Molecular Biology (1467-3037): `covered` → `none`
+- Limnological Review (1642-5952): `covered` → `none`
+- Marine Drugs (1660-3397): `covered` → `none`
+- International Journal of Environmental Research and Public Health (1660-4601): `covered` → `none`
+- Nutraceuticals (1661-3821): `covered` → `none`
+- Cardiovascular Medicine (1664-2031): `covered` → `none`
+- Journal of risk and financial management (1911-8066): `covered` → `none`
+- Journal of the American Podiatric Medical Association (1930-8264): `covered` → `none`
+- Craniomaxillofacial Trauma & Reconstruction (1943-3875): `covered` → `discount`
+- Journal of Eye Movement Research (1995-8692): `covered` → `none`
+- Energies (1996-1073): `covered` → `none`
+- Algorithms (1999-4893): `covered` → `none`
+- Viruses (1999-4915): `covered` → `none`
+- Pharmaceutics (1999-4923): `covered` → `none`
+- Future Internet (1999-5903): `covered` → `none`
+- Journal of Market Access & Health Policy (2001-6689): `covered` → `none`
+- World Electric Vehicle Journal (2032-6653): `covered` → `none`
+- Cardiogenetics (2035-8148): `covered` → `none`
+- Neurology International (2035-8377): `covered` → `none`
+- Gastroenterology Insights (2036-7414): `covered` → `none`
+- Infectious Disease Reports (2036-7430): `covered` → `none`
+- Microbiology Research (2036-7473): `covered` → `none`
+- Pediatric Reports (2036-749X): `covered` → `none`
+- International Journal of Plant Biology (2037-0156): `covered` → `none`
+- Hematology Reports (2038-8322): `covered` → `none`
+- Surgical Techniques Development (2038-9574): `covered` → `none`
+- Audiology Research (2039-4330): `covered` → `none`
+- Thalassemia Reports (2039-4357): `covered` → `none`
+- Nursing Reports (2039-439X): `covered` → `none`
+- Journal of Xenobiotics (2039-4705): `covered` → `none`
+- Clinics and Practice (2039-7275): `covered` → `none`
+- Remote Sensing (2072-4292): `covered` → `none`
+- Toxins (2072-6651): `covered` → `none`
+- Micromachines (2072-666X): `covered` → `none`
+- Computers (2073-431X): `covered` → `none`
+- Games (2073-4336): `covered` → `none`
+- Crystals (2073-4352): `covered` → `none`
+- Agronomy (2073-4395): `covered` → `none`
+- Cells (2073-4409): `covered` → `none`
+- Atmosphere (2073-4433): `covered` → `none`
+- Land (2073-445X): `covered` → `none`
+- Antibodies (2073-4468): `covered` → `none`
+- Axioms (2075-1680): `covered` → `none`
+- Machines (2075-1702): `covered` → `none`
+- Life (2075-1729): `covered` → `none`
+- Diagnostics (2075-4418): `covered` → `none`
+- Galaxies (2075-4434): `covered` → `none`
+- Lubricants (2075-4442): `covered` → `none`
+- Insects (2075-4450): `covered` → `none`
+- Epigenomes (2075-4655): `covered` → `none`
+- Sports (2075-4663): `covered` → `none`
+- Societies (2075-4698): `covered` → `none`
+- Metals (2075-4701): `covered` → `none`
+- Laws (2075-471X): `covered` → `none`
+- Buildings (2075-5309): `covered` → `none`
+- Arts (2076-0752): `covered` → `none`
+- Social Sciences (2076-0760): `covered` → `none`
+- Humanities (2076-0787): `covered` → `none`
+- Pathogens (2076-0817): `covered` → `none`
+- Actuators (2076-0825): `covered` → `none`
+- Microorganisms (2076-2607): `covered` → `none`
+- Animals (2076-2615): `covered` → `none`
+- Geosciences (2076-3263): `covered` → `none`
+- Medical Sciences (2076-3271): `covered` → `none`
+- Behavioral Sciences (2076-328X): `covered` → `none`
+- Administrative Sciences (2076-3387): `covered` → `none`
+- Applied Sciences (2076-3417): `covered` → `none`
+- Brain Sciences (2076-3425): `covered` → `none`
+- Antioxidants (2076-3921): `covered` → `none`
+- Vaccines (2076-393X): `covered` → `none`
+- Membranes (2077-0375): `covered` → `none`
+- Agriculture (2077-0472): `covered` → `none`
+- Journal of Marine Science and Engineering (2077-1312): `covered` → `none`
+- Religions (2077-1444): `covered` → `none`
+- Challenges (2078-1547): `covered` → `none`
+- Information (2078-2489): `covered` → `none`
+- Computation (2079-3197): `covered` → `none`
+- Journal of Intelligence (2079-3200): `covered` → `none`
+- Journal of Functional Biomaterials (2079-4983): `covered` → `none`
+- Nanomaterials (2079-4991): `covered` → `none`
+- Biosensors (2079-6374): `covered` → `none`
+- Antibiotics (2079-6382): `covered` → `none`
+- Coatings (2079-6412): `covered` → `none`
+- Fibers (2079-6439): `covered` → `none`
+- Colorants (2079-6447): `covered` → `discount`
+- Biology (2079-7737): `covered` → `none`
+- …and 394 more (see `data/out/changes.json` in the run artifact).
+
+## 2026-08-10
+
 - **9** journals added, **4** removed, **70** changed.
 
 ### Deal status changes (3)

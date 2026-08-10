@@ -1472,7 +1472,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0016-9862	Gifted Child Quarterly	covered	covered			
 0017-0011	Ginekologia Polska	none	list_price	600	EUR	
 0017-0070	Giornale botanico italiano	none	unknown			
-0017-0305	Journal of Gerontology and Geriatrics	covered	uncertain			1
+0017-0305	Journal of Gerontology and Geriatrics	none	unknown			
 0017-0445	Giornale Italiano di Chemioterapia	none	unknown			
 0017-0895	Glasgow Mathematical Journal	covered	covered			
 0017-0933	Glasnik Advokatske komore Vojvodine	none	no_apc			
@@ -3434,7 +3434,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0036-8539	Social Studies of Science	covered	covered			
 0036-8555	The Science Teacher	none	unknown			
 0036-861X	The Sciences	none	unknown			
-0036-8709	Scientia Pharmaceutica	covered	uncertain			1
+0036-8709	Scientia Pharmaceutica	none	list_price	1000	CHF	
 0036-8733	Scientific American	none	unknown			
 0036-8792	Industrial Lubrication and Tribology	none	unknown			
 0036-9225	Scottish Geographical Magazine	none	unknown			
@@ -10934,7 +10934,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0718-1213	Revista Chilena de Educación Matemática	none	no_apc			
 0718-1299	Revista INVI	none	no_apc			
 0718-1612	Ts. Cuadernos de trabajo social	none	no_apc			
-0718-1876	Journal of theoretical and applied electronic commerce research	covered	uncertain			1
+0718-1876	Journal of theoretical and applied electronic commerce research	none	list_price	1000	CHF	
 0718-2058	Anuario de Derechos Humanos	none	no_apc			
 0718-2430	RChD creación y pensamiento	none	no_apc			
 0718-2724	Journal of technology management & innovation	none	no_apc			
@@ -11235,7 +11235,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0734-9750	Biotechnology Advances	covered	covered			
 0735-0007	Contemporary policy issues	none	unknown			
 0735-0015	Journal of Business and Economic Statistics	covered	covered			
-0735-0120	International Journal of Orofacial Myology	covered	uncertain			1
+0735-0120	International Journal of Orofacial Myology	none	unknown			
 0735-0147	Journal of the World Mariculture Society	none	unknown			
 0735-0198	Rhetoric Review	covered	covered			
 0735-0414	Alcohol and Alcoholism	covered	covered			
@@ -13144,7 +13144,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0928-4249	Veterinary Research	discount	discount	1479	GBP	
 0928-4257	Journal of Physiology-Paris	none	unknown			
 0928-4346	International Hepatology Communications	none	unknown			
-0928-4680	Pathophysiology	covered	uncertain			1
+0928-4680	Pathophysiology	none	list_price	1400	CHF	
 0928-4869	Simulation Practice and Theory	none	unknown			
 0928-4931	Materials Science and Engineering C	none	list_price	3560	USD	
 0928-5040	Review of Economic Design	covered	covered			
@@ -15010,7 +15010,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1010-5395	Asia Pacific Journal of Public Health	covered	covered			
 1010-6030	Journal of Photochemistry and Photobiology A Chemistry	covered	covered			
 1010-6049	Geocarto International	covered	covered			
-1010-660X	Medicina	covered	uncertain			1
+1010-660X	Medicina	none	list_price	1800	CHF	
 1010-7940	European Journal of Cardio-Thoracic Surgery	covered	covered			
 1010-8270	De Ratione	none	unknown			
 1010-867X	Erdem	none	no_apc			
@@ -17318,7 +17318,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1099-1107	International Insolvency Review	covered	covered			
 1099-2340	International Journal of Tourism Research	covered	covered			
 1099-2871	Heat Transfer-Asian Research	none	list_price	2500	USD	
-1099-4300	Entropy	covered	uncertain			1
+1099-4300	Entropy	none	list_price	2600	CHF	
 1099-4734	Proceedings - IEEE International Symposium on Applications of Ferroelectrics/Proceedings of the ... IEEE International Symposium on Applications of Ferroelectrics	none	unknown			
 1099-498X	The Journal of Gene Medicine	covered	covered			
 1099-5129	EP Europace	covered	covered			
@@ -18033,7 +18033,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1195-6860	Ecoscience	covered	covered			
 1196-1198	Theatre Research in Canada	none	unknown			
 1196-1961	Canadian Journal of Experimental Psychology/Revue canadienne de psychologie expérimentale	covered	covered_conditional			
-1198-0052	Current Oncology	covered	uncertain			1
+1198-0052	Current Oncology	none	list_price	2200	CHF	
 1198-2241	Canadian Respiratory Journal	covered	covered			
 1198-3493	Canadian Jewish Studies / Études juives canadiennes	none	no_apc			
 1198-743X	Clinical Microbiology and Infection	covered	covered			
@@ -18595,7 +18595,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1300-6320	Turkish Journal of Parasitology	none	no_apc			
 1300-6525	kulak burun boğaz ve baş boyun cerrahisi dergisi	none	list_price	250	USD	
 1300-6738	Turkish Journal of Trauma and Emergency Surgery	none	unknown			
-1300-686X	Mathematical and Computational Applications	covered	uncertain			1
+1300-686X	Mathematical and Computational Applications	none	list_price	1400	CHF	
 1300-7041	European Journal of Biology	none	no_apc			
 1300-7416	SDÜ Tıp Fakültesi Dergisi	none	no_apc			
 1300-7432	Turkish International Journal of Special Education and Guidance & Counselling (TIJSEG) ISSN: 1300-7432	none	no_apc			
@@ -20529,7 +20529,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1420-2026	Environmental Modeling & Assessment	covered	covered			
 1420-2530	Psychologie du Travail et des Organisations	covered	covered			
 1420-3030	Audiology and Neurotology	none	unknown			
-1420-3049	Molecules	covered	uncertain			1
+1420-3049	Molecules	none	list_price	2700	CHF	
 1420-326X	Indoor and Built Environment	covered	covered			
 1420-3723	Medialex	none	no_apc			
 1420-4096	Kidney & Blood Pressure Research	none	list_price	2660	EUR	
@@ -20547,11 +20547,11 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1422-6405	Cells Tissues Organs	none	unknown			
 1422-6928	Journal of Mathematical Fluid Mechanics	covered	covered			
 1422-6944	Physics in Perspective	covered	covered			
-1422-8599	Molbank	covered	uncertain			1
+1422-8599	Molbank	none	list_price	500	CHF	
 1422-9528	Heart Drug	none	unknown			
 1424-0637	Annales Henri Poincaré	covered	covered			
 1424-1250	The International Journal on Media Management	covered	covered			
-1424-2818	Diversity	covered	uncertain			1
+1424-2818	Diversity	none	list_price	2600	CHF	
 1424-3199	Journal of Evolution Equations	covered	covered			
 1424-3636	MedienPädagogik Zeitschrift für Theorie und Praxis der Medienbildung	none	no_apc			
 1424-3903	Pancreatology	covered	covered			
@@ -20559,8 +20559,8 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1424-4896	Studies in Communication Sciences	discount	no_apc			
 1424-7364	Complementary Medicine Research	none	unknown			
 1424-7755	Swiss Political Science Review	covered	covered			
-1424-8220	Sensors	covered	uncertain			1
-1424-8247	Pharmaceuticals	covered	uncertain			1
+1424-8220	Sensors	none	list_price	2600	CHF	
+1424-8247	Pharmaceuticals	none	list_price	2900	CHF	
 1424-859X	Cytogenetic and Genome Research	none	unknown			
 1424-862X	Neurosignals	none	list_price	1500	EUR	
 1424-8832	Pathophysiology of Haemostasis and Thrombosis	none	unknown			
@@ -21189,7 +21189,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1467-2960	Fish and Fisheries	covered	covered			
 1467-2987	Veterinary Anaesthesia and Analgesia	none	list_price	3000	USD	
 1467-3010	Nutrition Bulletin	covered	covered			
-1467-3037	Current Issues in Molecular Biology	covered	uncertain			1
+1467-3037	Current Issues in Molecular Biology	none	list_price	2200	CHF	
 1467-3584	Tourism and Hospitality Research	covered	covered			
 1467-4866	Geochemical Transactions	discount	discount	926	GBP	
 1467-5463	Briefings in Bioinformatics	covered	covered			
@@ -24303,7 +24303,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1642-4530	Almanach Historyczny	none	no_apc			
 1642-5650	Studia Bobolanum	none	no_apc			
 1642-5758	Anaesthesiology Intensive Therapy	none	list_price	470	EUR	
-1642-5952	Limnological Review	covered	uncertain			1
+1642-5952	Limnological Review	none	list_price	1000	CHF	
 1642-686X	Journal of Research and Applications in Agricultural Engineering	none	no_apc			
 1642-9893	Bohemistyka	none	no_apc			
 1643-0700	Biuletyn Szadkowski	none	no_apc			
@@ -24508,9 +24508,9 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1660-2129	Nephron Experimental Nephrology	none	unknown			
 1660-2137	Nephron Physiology	none	unknown			
 1660-2854	Neurodegenerative Diseases	none	unknown			
-1660-3397	Marine Drugs	covered	uncertain			1
+1660-3397	Marine Drugs	none	list_price	2900	CHF	
 1660-3796	Transfusion Medicine and Hemotherapy	none	list_price	1600	EUR	
-1660-4601	International Journal of Environmental Research and Public Health	covered	uncertain			1
+1660-4601	International Journal of Environmental Research and Public Health	none	list_price	2500	CHF	
 1660-5403	Hermeneutische Blätter	none	no_apc			
 1660-5446	Mediterranean Journal of Mathematics	covered	covered			
 1660-6426	palliative ch	discount	discount_unknown_base			
@@ -24522,7 +24522,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1660-9379	Revue Médicale Suisse	none	unknown			
 1661-3406	Neuroembryology and Aging	none	unknown			
 1661-3791	Breast Care	none	unknown			
-1661-3821	Nutraceuticals	covered	uncertain			1
+1661-3821	Nutraceuticals	none	list_price	1000	CHF	
 1661-4747	Zeitschrift für Psychiatrie Psychologie und Psychotherapie	discount	discount_unknown_base			
 1661-4941	Articulo – revue de sciences humaines	none	no_apc			
 1661-5425	Sexual Development	none	unknown			
@@ -24589,7 +24589,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1664-042X	Frontiers in Physiology	discount	discount	2835	CHF	
 1664-0640	Frontiers in Psychiatry	discount	discount	2835	CHF	
 1664-1078	Frontiers in Psychology	discount	discount	2835	CHF	
-1664-2031	Cardiovascular Medicine	covered	uncertain			1
+1664-2031	Cardiovascular Medicine	none	unknown			
 1664-2201	Alpine Botany	covered	covered			
 1664-2295	Frontiers in Neurology	discount	discount	2835	CHF	
 1664-235X	Analysis and Mathematical Physics	covered	covered			
@@ -28791,7 +28791,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1911-4788	Studies in Social Justice	none	no_apc			
 1911-6470	Canadian Urological Association Journal	none	unknown			
 1911-7469	Culture and Local Governance	none	no_apc			
-1911-8066	Journal of risk and financial management	covered	uncertain			1
+1911-8066	Journal of risk and financial management	none	list_price	1400	CHF	
 1911-9593	Partnership The Canadian Journal of Library and Information Practice and Research	none	no_apc			
 1912-0362	Revue Gouvernance	none	no_apc			
 1913-1844	Modern Applied Science	none	unknown			
@@ -28902,7 +28902,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1930-6253	Transcultural Studies	none	unknown			
 1930-627X	Virginia law & business review	none	unknown			
 1930-7381	Obesity	covered	covered			
-1930-8264	Journal of the American Podiatric Medical Association	covered	uncertain			1
+1930-8264	Journal of the American Podiatric Medical Association	none	unknown			
 1930-8299	College Teaching	covered	covered			
 1930-8337	Inverse Problems and Imaging	none	unknown			
 1930-8418	The Social History of Alcohol and Drugs	none	unknown			
@@ -29337,7 +29337,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1943-1848	Search	none	unknown			
 1943-2879	Physics	none	unknown			
 1943-3867	The Law and Development Review	none	unknown			
-1943-3875	Craniomaxillofacial Trauma & Reconstruction	covered	uncertain			1
+1943-3875	Craniomaxillofacial Trauma & Reconstruction	discount	discount	1200	CHF	
 1943-3921	Attention Perception & Psychophysics	covered	covered			
 1943-4162	Journal of Legal Affairs and Dispute Resolution in Engineering and Construction	none	unknown			
 1943-4472	Behavioral Sciences of Terrorism and Political Aggression	covered	covered			
@@ -30136,7 +30136,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1995-8226	Petroleum Science	discount	no_apc			
 1995-8463	Maǧallaẗ ǧāmiʻaẗ al-Anbār li-l-ʻulūm al-insāniyyaẗ/Maǧallaẗ ǧāmiʻaẗ al-anbār li-l-ʻulūm al-insāniyyaẗ	none	list_price	100	USD	
 1995-848X	Studia Slavica et Balcanica Petropolitana	none	no_apc			
-1995-8692	Journal of Eye Movement Research	covered	uncertain			1
+1995-8692	Journal of Eye Movement Research	none	list_price	1000	CHF	
 1995-9494	Revista Médica del Centro Hospital "Arnaldo Milián Castro"	none	no_apc			
 1996-0042	Protokole zur Bibel/Protokolle zur Bibel	none	no_apc			
 1996-0522	Sotsium i vlast/Society and Power	none	no_apc			
@@ -30148,7 +30148,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1996-0824	African Journal of Plant Science	none	unknown			
 1996-0840	African Journal of Pure and Applied Chemistry	none	unknown			
 1996-0875	Journal of Medicinal Plants Research	none	unknown			
-1996-1073	Energies	covered	uncertain			1
+1996-1073	Energies	none	list_price	2600	CHF	
 1996-1421	Jàmbá Journal of Disaster Risk Studies	none	list_price	14966	ZAR	
 1996-1553	Journal für Gynäkologische Endokrinologie/Österreich	none	list_price	3090	USD	
 1996-1642	Diá-logos	none	no_apc			
@@ -30225,15 +30225,15 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1999-4079	Amurian Zoological Journal	none	no_apc			
 1999-4125	Вестник Кузбасского государственного технического университета	none	unknown			
 1999-4508	Water sector of Russia problems technologies management	none	no_apc			
-1999-4893	Algorithms	covered	uncertain			1
-1999-4915	Viruses	covered	uncertain			1
-1999-4923	Pharmaceutics	covered	uncertain			1
+1999-4893	Algorithms	none	list_price	1600	CHF	
+1999-4915	Viruses	none	list_price	2600	CHF	
+1999-4923	Pharmaceutics	none	list_price	2900	CHF	
 1999-494X	Journal of Siberian Federal University Engineering & Technologies	none	unknown			
 1999-5407	Челябинский гуманитарий	none	no_apc			
 1999-5555	Safety and Reliability of Power Industry	none	unknown			
 1999-5571	Вестник гражданских инженеров	none	unknown			
 1999-5717	Bulletin of Kharkiv National University of Internal Affairs	none	no_apc			
-1999-5903	Future Internet	covered	uncertain			1
+1999-5903	Future Internet	none	list_price	1600	CHF	
 1999-6195	Yazyk i kul tura	none	unknown			
 1999-6527	Al-Anbar Journal of Veterinary Sciences	none	list_price	100	USD	
 1999-6640	University Management Practice and Analysis	none	no_apc			
@@ -30282,7 +30282,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2001-5909	Lindbergia	none	no_apc			
 2001-5992	Valuation Studies	none	no_apc			
 2001-6220	Advances in Cellular and Molecular Otolaryngology	none	unknown			
-2001-6689	Journal of Market Access & Health Policy	covered	uncertain			1
+2001-6689	Journal of Market Access & Health Policy	none	list_price	1500	CHF	
 2001-6824	Journal of Assistive Rehabilitative & Therapeutic Technologies	none	unknown			
 2001-7022	Translational Developmental Psychiatry	none	unknown			
 2001-7405	Scandinavian Journal of Public Administration	none	no_apc			
@@ -30765,7 +30765,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2032-0418	Facts Views and Vision in ObGyn	none	no_apc			
 2032-2844	New Journal of European Criminal Law	covered	covered			
 2032-3913	Plant Ecology and Evolution	none	no_apc			
-2032-6653	World Electric Vehicle Journal	covered	uncertain			1
+2032-6653	World Electric Vehicle Journal	none	list_price	1400	CHF	
 2032-6904	The Journal of Internationalization and Localization	none	unknown			
 2032-9253	ICST Transactions on e-Education and e-Learning	none	no_apc			
 2032-9407	ICST Transactions on Scalable Information Systems	none	list_price	400	USD	
@@ -30793,9 +30793,9 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2035-7362	Doctor Virtualis	none	no_apc			
 2035-7680	Altre Modernità	none	no_apc			
 2035-7982	EdA Esempi di Architettura	none	no_apc			
-2035-8148	Cardiogenetics	covered	uncertain			1
+2035-8148	Cardiogenetics	none	list_price	1400	CHF	
 2035-8164	Orthopedic Reviews	none	list_price	1200	USD	
-2035-8377	Neurology International	covered	uncertain			1
+2035-8377	Neurology International	none	list_price	1600	CHF	
 2035-8466	Aisthesis Pratiche linguaggi e saperi dell’estetico	none	no_apc			
 2035-9411	Journal of Medicine and the Person	none	unknown			
 2035-9969	Journal of Endometriosis and Pelvic Pain Disorders	covered	covered			
@@ -30815,13 +30815,13 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2036-5845	KASKAL	none	no_apc			
 2036-6558	Lo Sguardo	none	no_apc			
 2036-7392	Dermatology Reports	none	list_price	500	EUR	
-2036-7414	Gastroenterology Insights	covered	uncertain			1
-2036-7430	Infectious Disease Reports	covered	uncertain			1
+2036-7414	Gastroenterology Insights	none	list_price	1600	CHF	
+2036-7430	Infectious Disease Reports	none	list_price	1800	CHF	
 2036-7457	Mental Illness	covered	covered			
-2036-7473	Microbiology Research	covered	uncertain			1
-2036-749X	Pediatric Reports	covered	uncertain			1
+2036-7473	Microbiology Research	none	list_price	1600	CHF	
+2036-749X	Pediatric Reports	none	list_price	1600	CHF	
 2036-8992	Filologia Germanica	none	no_apc			
-2037-0156	International Journal of Plant Biology	covered	uncertain			1
+2037-0156	International Journal of Plant Biology	none	list_price	1200	CHF	
 2037-0830	Research on Education and Media	none	no_apc			
 2037-2426	ENTHYMEMA	none	no_apc			
 2037-3597	Italiano LinguaDue	none	no_apc			
@@ -30843,10 +30843,10 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2038-4394	OADI: Rivista dell'Osservatorio per le Arti Decorative in Italia	none	no_apc			
 2038-5498	Economia aziendale online	none	no_apc			
 2038-7709	Traces in Time	none	no_apc			
-2038-8322	Hematology Reports	covered	uncertain			1
+2038-8322	Hematology Reports	none	list_price	1600	CHF	
 2038-8411	Ricerche di s/Confine	none	no_apc			
 2038-9442	EDUCATION SCIENCES AND SOCIETY	none	unknown			
-2038-9574	Surgical Techniques Development	covered	uncertain			1
+2038-9574	Surgical Techniques Development	none	list_price	1400	CHF	
 2038-9698	Veterinary Science Development	none	unknown			
 2038-9922	Journal of Public Health in Africa	none	list_price	1104	ZAR	
 2039-0114	Parole rubate	none	no_apc			
@@ -30858,14 +30858,14 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2039-2281	Antropologia e teatro	none	no_apc			
 2039-2362	Il Capitale culturale	none	no_apc			
 2039-4039	Rivista CQIA	none	no_apc			
-2039-4330	Audiology Research	covered	uncertain			1
-2039-4357	Thalassemia Reports	covered	uncertain			1
-2039-439X	Nursing Reports	covered	uncertain			1
+2039-4330	Audiology Research	none	list_price	1400	CHF	
+2039-4357	Thalassemia Reports	none	list_price	1000	CHF	
+2039-439X	Nursing Reports	none	list_price	1800	CHF	
 2039-4667	Rivista internazionale di filosofia e psicologia	none	no_apc			
-2039-4705	Journal of Xenobiotics	covered	uncertain			1
+2039-4705	Journal of Xenobiotics	none	list_price	1600	CHF	
 2039-4985	Historikà/Historika	none	no_apc			
 2039-6597	Between	none	no_apc			
-2039-7275	Clinics and Practice	covered	uncertain			1
+2039-7275	Clinics and Practice	none	list_price	1600	CHF	
 2039-9251	Itinera	none	no_apc			
 2039-9715	Musica docta	none	no_apc			
 2039-9898	EQA - International Journal of Environmental Quality	none	no_apc			
@@ -31974,14 +31974,14 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2072-3040	Известия высших учебных заведений. Поволжский регион. Физико-математические науки	none	no_apc			
 2072-3059	Известия высших учебных заведений. Поволжский регион. Технические науки	none	no_apc			
 2072-3857	مجلة الفرات للعلوم الزراعية	none	list_price	50	USD	
-2072-4292	Remote Sensing	covered	uncertain			1
+2072-4292	Remote Sensing	none	list_price	2700	CHF	
 2072-4659	NUST Journal of Natural Sciences	none	no_apc			
 2072-4756	Journal of Arabic Language and Literature	none	list_price	100000	IQD	
 2072-5981	Magnetic resonance in solids	none	no_apc			
 2072-6023	Legal regulation in veterinary medicine	none	unknown			
 2072-6414	Economy of Regions	none	list_price	50000	RUB	
-2072-6651	Toxins	covered	uncertain			1
-2072-666X	Micromachines	covered	uncertain			1
+2072-6651	Toxins	none	list_price	2700	CHF	
+2072-666X	Micromachines	none	list_price	2600	CHF	
 2072-6732	Journal Infectology	none	no_apc			
 2072-6805	Nepalese Journal of Ophthalmology	none	list_price	1500	NPR	
 2072-7593	Experimental Psychology (Russia)	none	no_apc			
@@ -32008,15 +32008,15 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2073-2929	EURASIAN INTEGRATION economics law politics	none	no_apc			
 2073-3046	Epidemiology and Vaccinal Prevention	none	no_apc			
 2073-3771	The Journal of V N Karazin Kharkiv National University Series Physics	none	no_apc			
-2073-431X	Computers	covered	uncertain			1
-2073-4336	Games	covered	uncertain			1
-2073-4352	Crystals	covered	uncertain			1
+2073-431X	Computers	none	list_price	1800	CHF	
+2073-4336	Games	none	list_price	1600	CHF	
+2073-4352	Crystals	none	list_price	2600	CHF	
 2073-4379	Teaching languages at higher institutions	none	list_price	500	UAH	
-2073-4395	Agronomy	covered	uncertain			1
-2073-4409	Cells	covered	uncertain			1
-2073-4433	Atmosphere	covered	uncertain			1
-2073-445X	Land	covered	uncertain			1
-2073-4468	Antibodies	covered	uncertain			1
+2073-4395	Agronomy	none	list_price	2600	CHF	
+2073-4409	Cells	none	list_price	2700	CHF	
+2073-4433	Atmosphere	none	list_price	2400	CHF	
+2073-445X	Land	none	list_price	2600	CHF	
+2073-4468	Antibodies	none	list_price	1800	CHF	
 2073-4662	The Medical and Ecological Problems	none	list_price	490	UAH	
 2073-4794	Food Industry Science and Technology	none	unknown			
 2073-4859	The R Journal	none	unknown			
@@ -32079,9 +32079,9 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2075-1117	Russian Journal of Biological Invasions	none	unknown			
 2075-1133	Inorganic Materials Applied Research	none	unknown			
 2075-1508	Ribogospodarsʹka nauka Ukraïni	none	no_apc			
-2075-1680	Axioms	covered	uncertain			1
-2075-1702	Machines	covered	uncertain			1
-2075-1729	Life	covered	uncertain			1
+2075-1680	Axioms	none	list_price	2400	CHF	
+2075-1702	Machines	none	list_price	2400	CHF	
+2075-1729	Life	none	list_price	2600	CHF	
 2075-1753	Consilium Medicum	none	no_apc			
 2075-1893	Geographical Education and Cartography	none	no_apc			
 2075-1990	Financial Journal	none	no_apc			
@@ -32091,18 +32091,18 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2075-3470	Counseling Psychology and Psychotherapy	none	no_apc			
 2075-3810	Biophysical Bulletin	none	no_apc			
 2075-4124	International Journal of Academic Research	none	unknown			
-2075-4418	Diagnostics	covered	uncertain			1
-2075-4434	Galaxies	covered	uncertain			1
-2075-4442	Lubricants	covered	uncertain			1
-2075-4450	Insects	covered	uncertain			1
-2075-4655	Epigenomes	covered	uncertain			1
-2075-4663	Sports	covered	uncertain			1
-2075-4698	Societies	covered	uncertain			1
-2075-4701	Metals	covered	uncertain			1
-2075-471X	Laws	covered	uncertain			1
+2075-4418	Diagnostics	none	list_price	2600	CHF	
+2075-4434	Galaxies	none	list_price	1400	CHF	
+2075-4442	Lubricants	none	list_price	2600	CHF	
+2075-4450	Insects	none	list_price	2600	CHF	
+2075-4655	Epigenomes	none	list_price	1500	CHF	
+2075-4663	Sports	none	list_price	1800	CHF	
+2075-4698	Societies	none	list_price	1400	CHF	
+2075-4701	Metals	none	list_price	2600	CHF	
+2075-471X	Laws	none	list_price	1400	CHF	
 2075-4914	Journal of Engineering Science	none	no_apc			
 2075-5279	Physical Education of Students	none	list_price	270	USD	
-2075-5309	Buildings	covered	uncertain			1
+2075-5309	Buildings	none	list_price	2600	CHF	
 2075-5457	The Journal of V N Karazin Kharkiv National University Series Biology	none	no_apc			
 2075-5473	Annals of Clinical and Experimental Neurology	none	no_apc			
 2075-6291	Journal of Islamic Business and Management	none	no_apc			
@@ -32119,26 +32119,26 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2076-0531	Población y desarrollo	none	no_apc			
 2076-0612	Photobiology and Photomedicine	none	no_apc			
 2076-0655	Tehnika i tehnologiâ silikatov.	none	unknown			
-2076-0752	Arts	covered	uncertain			1
-2076-0760	Social Sciences	covered	uncertain			1
-2076-0787	Humanities	covered	uncertain			1
-2076-0817	Pathogens	covered	uncertain			1
-2076-0825	Actuators	covered	uncertain			1
+2076-0752	Arts	none	list_price	1400	CHF	
+2076-0760	Social Sciences	none	list_price	1800	CHF	
+2076-0787	Humanities	none	list_price	1400	CHF	
+2076-0817	Pathogens	none	list_price	2700	CHF	
+2076-0825	Actuators	none	list_price	2400	CHF	
 2076-1171	Journal of Kufa for Mathematics and Computer	none	list_price	85000	IQD	
 2076-2429	Odes’kyi Politechnichnyi Universytet Pratsi	none	list_price	15	EUR	
 2076-2577	Финно-угорский мир	none	no_apc			
-2076-2607	Microorganisms	covered	uncertain			1
-2076-2615	Animals	covered	uncertain			1
+2076-2607	Microorganisms	none	list_price	2700	CHF	
+2076-2615	Animals	none	list_price	2400	CHF	
 2076-2674	Desde el Sur Revista de Ciencias Humanas y Sociales de la Universidad Científica del Sur	none	no_apc			
 2076-3093	Creative Surgery and Oncology	none	no_apc			
-2076-3263	Geosciences	covered	uncertain			1
-2076-3271	Medical Sciences	covered	uncertain			1
-2076-328X	Behavioral Sciences	covered	uncertain			1
-2076-3387	Administrative Sciences	covered	uncertain			1
-2076-3417	Applied Sciences	covered	uncertain			1
-2076-3425	Brain Sciences	covered	uncertain			1
-2076-3921	Antioxidants	covered	uncertain			1
-2076-393X	Vaccines	covered	uncertain			1
+2076-3263	Geosciences	none	list_price	1800	CHF	
+2076-3271	Medical Sciences	none	list_price	1400	CHF	
+2076-328X	Behavioral Sciences	none	list_price	2200	CHF	
+2076-3387	Administrative Sciences	none	list_price	1400	CHF	
+2076-3417	Applied Sciences	none	list_price	2400	CHF	
+2076-3425	Brain Sciences	none	list_price	2200	CHF	
+2076-3921	Antioxidants	none	list_price	2900	CHF	
+2076-393X	Vaccines	none	list_price	2700	CHF	
 2076-4162	Penitentiary Science	none	no_apc			
 2076-4243	Современные технологии в медицине	none	unknown			
 2076-5533	SinoELE	none	no_apc			
@@ -32157,13 +32157,13 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2076-8915	Problems of Territory s Development / Проблемы развития территории	none	no_apc			
 2076-9172	Rambam Maimonides Medical Journal	none	no_apc			
 2076-944X	Adaptive Medicine	none	unknown			
-2077-0375	Membranes	covered	uncertain			1
-2077-0472	Agriculture	covered	uncertain			1
+2077-0375	Membranes	none	list_price	2700	CHF	
+2077-0472	Agriculture	none	list_price	2600	CHF	
 2077-0995	Научные принципы регулирования развития АПК предложения и механизмы реализации	none	unknown			
 2077-1177	Reference materials	none	no_apc			
 2077-1304	Metal and Casting of Ukraine	none	no_apc			
-2077-1312	Journal of Marine Science and Engineering	covered	uncertain			1
-2077-1444	Religions	covered	uncertain			1
+2077-1312	Journal of Marine Science and Engineering	none	list_price	2600	CHF	
+2077-1444	Religions	none	list_price	1800	CHF	
 2077-172X	UCV - SCIENTIA	none	no_apc			
 2077-1770	Sovremennye issledovaniya sotsialnykh problem	none	list_price	80	USD	
 2077-1886	Journal of Economics Finance and Administrative Science	none	no_apc			
@@ -32200,10 +32200,10 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2078-1059	Zeitschrift für Europarecht Int Privatrecht und RechtsvergleichungZeitschrift für Europarecht Int Privatrecht und Rechtsvergleichung	none	unknown			
 2078-1458	Bangladesh Journal of Bioethics	none	no_apc			
 2078-1520	Achievements in the Life Sciences	none	unknown			
-2078-1547	Challenges	covered	uncertain			1
+2078-1547	Challenges	none	list_price	1400	CHF	
 2078-1962	Bulletin of Rehabilitation Medicine	none	no_apc			
 2078-2454	Insurance Markets and Companies	none	list_price	995	EUR	
-2078-2489	Information	covered	uncertain			1
+2078-2489	Information	none	list_price	1600	CHF	
 2078-256X	Ateroscleroz	none	no_apc			
 2078-399X	Reportes científicos de la FACEN	none	no_apc			
 2078-4457	Apuntes de bioética	none	no_apc			
@@ -32237,24 +32237,24 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2079-1747	Engineering	none	no_apc			
 2079-2115	Iranica Journal of Energy and Environment	none	no_apc			
 2079-2581	IEA energy papers	none	unknown			
-2079-3197	Computation	covered	uncertain			1
-2079-3200	Journal of Intelligence	covered	uncertain			1
+2079-3197	Computation	none	list_price	1800	CHF	
+2079-3200	Journal of Intelligence	none	list_price	2600	CHF	
 2079-3634	Derecho & Sociedad	none	no_apc			
 2079-3715	Academicus International Scientific Journal	none	no_apc			
 2079-3871	IASPM Journal	none	no_apc			
 2079-3928	Nature Management	none	unknown			
 2079-4665	MIR (Modernization Innovation Research)	none	no_apc			
-2079-4983	Journal of Functional Biomaterials	covered	uncertain			1
-2079-4991	Nanomaterials	covered	uncertain			1
+2079-4983	Journal of Functional Biomaterials	none	list_price	2700	CHF	
+2079-4991	Nanomaterials	none	list_price	2900	CHF	
 2079-5696	GYNECOLOGY	none	list_price	300	EUR	
 2079-5912	THE KAZAN SOCIALLY-HUMANITARIAN BULLETIN	none	no_apc			
 2079-5971	Oñati Socio-legal Series	none	no_apc			
 2079-6021	Current Issues in Philology and Pedagogical Linguistics	none	no_apc			
-2079-6374	Biosensors	covered	uncertain			1
-2079-6382	Antibiotics	covered	uncertain			1
-2079-6412	Coatings	covered	uncertain			1
-2079-6439	Fibers	covered	uncertain			1
-2079-6447	Colorants	covered	uncertain			1
+2079-6374	Biosensors	none	list_price	2700	CHF	
+2079-6382	Antibiotics	none	list_price	2900	CHF	
+2079-6412	Coatings	none	list_price	2200	CHF	
+2079-6439	Fibers	none	list_price	2000	CHF	
+2079-6447	Colorants	discount	discount	800	CHF	
 2079-6552	Agroindustrial science	none	list_price	200	PEN	
 2079-6617	National Psychological Journal	none	no_apc			
 2079-6641	Вестник КРАУНЦ Физико-математические науки	none	no_apc			
@@ -32263,7 +32263,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2079-7362	East Asian Journal on Applied Mathematics	none	unknown			
 2079-7567	Plato Journal	none	no_apc			
 2079-7680	Bhutan Journal for Business and Management	none	no_apc			
-2079-7737	Biology	covered	uncertain			1
+2079-7737	Biology	none	list_price	2700	CHF	
 2079-7850	Pediatrician (St Petersburg)	none	unknown			
 2079-7877	Географический вестник = Geographical bulletin	none	unknown			
 2079-8156	Proceedings of the Institute for System Programming of RAS	none	no_apc			
@@ -32273,12 +32273,12 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2079-8482	The New Research of Tuva	none	list_price	60000	RUB	
 2079-8555	Baltic Region	none	no_apc			
 2079-8725	Grain Economy of Russia	none	list_price	8000	RUB	
-2079-8954	Systems	covered	uncertain			1
-2079-9268	Journal of Low Power Electronics and Applications	covered	uncertain			1
-2079-9276	Resources	covered	uncertain			1
-2079-9284	Cosmetics	covered	uncertain			1
+2079-8954	Systems	none	list_price	2400	CHF	
+2079-9268	Journal of Low Power Electronics and Applications	none	list_price	1800	CHF	
+2079-9276	Resources	none	list_price	1600	CHF	
+2079-9284	Cosmetics	none	list_price	1800	CHF	
 2079-9705	Regional Research of Russia	none	unknown			
-2079-9721	Diseases	covered	uncertain			1
+2079-9721	Diseases	none	list_price	1800	CHF	
 2079-9780	Review Journal of Chemistry	none	unknown			
 2080-0150	Journal of Intercultural Management	none	unknown			
 2080-0886	Central European Journal of Economic Modelling and Econometrics	none	no_apc			
@@ -33957,7 +33957,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2174-7245	Normas	none	no_apc			
 2174-7563	ASRI: Arte y sociedad. Revista de investigación	none	no_apc			
 2174-8063	Cuadernos de Prehistoria y Arqueología de la Universidad de Granada	none	no_apc			
-2174-8144	European Journal of Investigation in Health Psychology and Education	covered	uncertain			1
+2174-8144	European Journal of Investigation in Health Psychology and Education	none	list_price	1400	CHF	
 2174-8454	EU-topías Revista de interculturalidad comunicación y estudios europeos	none	no_apc			
 2174-8659	Territorios en formación	none	no_apc			
 2174-9515	GIGAPP Estudios Working Papers	none	no_apc			
@@ -35105,11 +35105,11 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2218-0230	ZANCO Journal of Pure and Applied Sciences	none	no_apc			
 2218-0761	CUADERNOS DE LA ALFAL	none	no_apc			
 2218-1172	Мембраны и Мембранные технологии	none	unknown			
-2218-1989	Metabolites	covered	uncertain			1
-2218-1997	Universe	covered	uncertain			1
-2218-2004	Atoms	covered	uncertain			1
+2218-1989	Metabolites	none	list_price	2700	CHF	
+2218-1997	Universe	none	list_price	2400	CHF	
+2218-2004	Atoms	none	list_price	1500	CHF	
 2218-2705	Journal of Management and Research	none	no_apc			
-2218-273X	Biomolecules	covered	uncertain			1
+2218-273X	Biomolecules	none	list_price	2700	CHF	
 2218-2926	Cognition communication discourse	none	no_apc			
 2218-3159	International Journal of Transactional Analysis Research & Practice	none	no_apc			
 2218-3639	Anuario ...	none	no_apc			
@@ -35121,7 +35121,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2218-5615	African Journal of Governance and Development (AJGD)	none	list_price	6000	ZAR	
 2218-5836	World Journal of Orthopedics	discount	discount_unknown_base			
 2218-6050	Open Veterinary Journal	none	list_price	450	USD	
-2218-6581	Robotics	covered	uncertain			1
+2218-6581	Robotics	none	list_price	1800	CHF	
 2218-6751	Translational Lung Cancer Research	none	unknown			
 2218-676X	Translational Cancer Research	none	unknown			
 2218-6867	Proceedings of OilGasScientificResearchProjects Institute SOCAR	none	unknown			
@@ -35166,7 +35166,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2220-8879	Network Biology	none	no_apc			
 2220-9212	Boletín de la Unión de Ornitólogos del Perú	none	no_apc			
 2220-9506	Devices and Methods of Measurements	none	no_apc			
-2220-9964	ISPRS International Journal of Geo-Information	covered	uncertain			1
+2220-9964	ISPRS International Journal of Geo-Information	none	list_price	1700	CHF	
 2221-0482	Kirkuk University Journal For Agricultural Sciences	none	list_price	100	USD	
 2221-1381	Вестник института геологии Коми научного центра Уральского отделения РАН	none	unknown			
 2221-1691	Asian Pacific Journal of Tropical Biomedicine	none	no_apc			
@@ -35177,7 +35177,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2221-2795	Общество социология психология педагогика	none	list_price	42000	RUB	
 2221-3198	Геология и геофизика Юга России	none	no_apc			
 2221-3279	Comparative Politics Russia	none	no_apc			
-2221-3759	Journal of Developmental Biology	covered	uncertain			1
+2221-3759	Journal of Developmental Biology	none	list_price	1800	CHF	
 2221-4070	Educational Research for Social Change	none	list_price	7500	ZAR	
 2221-5239	Islamic Banking and Finance Review	none	list_price	20000	PKR	
 2221-5514	Геотехника	none	unknown			
@@ -35240,7 +35240,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2223-6775	Ukrainian Journal of Occupational Health	none	unknown			
 2223-7674	South African Journal of Childhood Education	none	list_price	16767	ZAR	
 2223-7690	Friction	discount	discount	1360	EUR	
-2223-7747	Plants	covered	uncertain			1
+2223-7747	Plants	none	list_price	2700	CHF	
 2223-7852	Journal of Construction Project Management and Innovation	none	no_apc			
 2223-814X	African Journal of Hospitality Tourism and Leisure	none	no_apc			
 2223-859X	International Review of Law	none	no_apc			
@@ -35265,7 +35265,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2224-168X	Epizootology Immunobiology Pharmacology Sanitation	none	unknown			
 2224-235X	Correspondencias & Análisis	none	no_apc			
 2224-2643	Didasc@lia: didáctica y educación	none	no_apc			
-2224-2708	Journal of Sensor and Actuator Networks	covered	uncertain			1
+2224-2708	Journal of Sensor and Actuator Networks	none	list_price	2000	CHF	
 2224-3534	Research in Hospitality Management	covered	covered			
 2224-4018	Journal of Translational Internal Medicine	none	unknown			
 2224-4255	Arthropods	none	no_apc			
@@ -35284,7 +35284,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2224-9923	Вестник Пермского национального исследовательского политехнического университета Геология Нефтегазовое и горное дело	none	unknown			
 2224-9982	Perm National Research Polytechnic University Aerospace Engineering Bulletin	none	unknown			
 2225-0719	Journal of Clinical and Translational Hepatology	none	unknown			
-2225-1146	Econometrics	covered	uncertain			1
+2225-1146	Econometrics	none	list_price	1400	CHF	
 2225-1243	Journal of integrative nephrology and andrology	none	unknown			
 2225-1685	Eurasian heart journal	none	no_apc			
 2225-2002	African Journal of Laboratory Medicine	none	no_apc			
@@ -35317,11 +35317,11 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2226-3780	Technology audit and production reserves	none	list_price	70	EUR	
 2226-4051	Aesthetics and Ethics of Pedagogical Action	none	list_price	1125	UAH	
 2226-4108	Journal of Advanced Ceramics	discount	discount	1870	EUR	
-2226-4310	Aerospace	covered	uncertain			1
+2226-4310	Aerospace	none	list_price	2400	CHF	
 2226-4442	Physical and Chemical Aspects of the Study of Clusters Nanostructures and Nanomaterials	none	no_apc			
 2226-4701	Botanica Pacifica	none	no_apc			
-2226-471X	Languages	covered	uncertain			1
-2226-4787	Pharmacy	covered	uncertain			1
+2226-471X	Languages	none	list_price	1400	CHF	
+2226-4787	Pharmacy	none	list_price	1800	CHF	
 2226-5538	Momentum Quarterly - Zeitschrift für sozialen Fortschritt	none	no_apc			
 2226-5856	Journal of Urban Management	discount	discount	2125	USD	
 2226-6089	EMBnet journal	none	unknown			
@@ -35356,26 +35356,26 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2227-6688	Journal of Enam Medical College	none	unknown			
 2227-684X	Gland Surgery	none	unknown			
 2227-6858	ВЕСТНИК ИНЖЕНЕРНОЙ ШКОЛЫ ДВФУ	none	unknown			
-2227-7072	International Journal of Financial Studies	covered	uncertain			1
-2227-7080	Technologies	covered	uncertain			1
-2227-7099	Economies	covered	uncertain			1
-2227-7102	Education Sciences	covered	uncertain			1
+2227-7072	International Journal of Financial Studies	none	list_price	1800	CHF	
+2227-7080	Technologies	none	list_price	1600	CHF	
+2227-7099	Economies	none	list_price	1800	CHF	
+2227-7102	Education Sciences	none	list_price	1800	CHF	
 2227-7242	Anthropological Measurements of Philosophical Research	none	list_price	3751	UAH	
 2227-7277	Kommunikation.medien	none	no_apc			
-2227-7382	Proteomes	covered	uncertain			1
-2227-7390	Mathematics	covered	uncertain			1
+2227-7382	Proteomes	none	list_price	1800	CHF	
+2227-7390	Mathematics	none	list_price	2600	CHF	
 2227-779X	OECD/IEA climate change expert group papers	none	unknown			
 2227-8486	Models systems networks in economics technology nature and society	none	no_apc			
 2227-8761	Revista Ingeniería Agrícola	none	no_apc			
 2227-8834	PROCEEDINGS ON APPLIED BOTANY GENETICS AND BREEDING	none	no_apc			
-2227-9040	Chemosensors	covered	uncertain			1
-2227-9059	Biomedicines	covered	uncertain			1
-2227-9067	Children	covered	uncertain			1
-2227-9091	Risks	covered	uncertain			1
+2227-9040	Chemosensors	none	list_price	2700	CHF	
+2227-9059	Biomedicines	none	list_price	2600	CHF	
+2227-9067	Children	none	list_price	2400	CHF	
+2227-9091	Risks	none	list_price	1800	CHF	
 2227-930X	International Journal of Advanced Studies	none	list_price	6400	RUB	
 2227-9601	Yemeni Journal For Medical Sciences	none	no_apc			
-2227-9709	Informatics	covered	uncertain			1
-2227-9717	Processes	covered	uncertain			1
+2227-9709	Informatics	none	list_price	1800	CHF	
+2227-9717	Processes	none	list_price	2000	CHF	
 2228-0588	TalTech Journal of European Studies	none	no_apc			
 2228-2009	Acta Baltica Historiae et Philosophiae Scientiarum	none	no_apc			
 2228-5091	Complementary Medicine Journal	none	no_apc			
@@ -35672,7 +35672,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2247-8701	Apulum. Series Archaeologica & Anthropologica	none	no_apc			
 2248-1354	BUSINESS EXCELLENCE AND MANAGEMENT	none	no_apc			
 2248-2547	Studii de lingvistică	none	no_apc			
-2248-2997	GERMS	covered	uncertain			1
+2248-2997	GERMS	none	unknown			
 2248-3527	PedActa	none	no_apc			
 2248-5759	Revista Salud Bosque	none	no_apc			
 2248-6518	Alad	none	no_apc			
@@ -36244,7 +36244,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2296-2360	Frontiers in Pediatrics	discount	discount	2835	CHF	
 2296-2565	Frontiers in Public Health	discount	discount	2835	CHF	
 2296-2646	Frontiers in Chemistry	discount	discount	2835	CHF	
-2296-3529	Dermatopathology	covered	uncertain			1
+2296-3529	Dermatopathology	none	list_price	1200	CHF	
 2296-3766	Gastrointestinal Tumors	none	list_price	1500	USD	
 2296-4185	Frontiers in Bioengineering and Biotechnology	discount	discount	2835	CHF	
 2296-424X	Frontiers in Physics	discount	discount	2295	CHF	
@@ -36298,10 +36298,10 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2297-6469	Zeitschrift für Religionskunde	none	no_apc			
 2297-6809	Zwitscher-Maschine	none	no_apc			
 2297-6965	Psychiatrische Pflege	discount	discount_unknown_base			
-2297-6981	Swiss Archives of Neurology Psychiatry and Psychotherapy	covered	uncertain			1
+2297-6981	Swiss Archives of Neurology Psychiatry and Psychotherapy	none	unknown			
 2297-7775	Frontiers in Sociology	discount	discount	1058	CHF	
 2297-8224	sozialpolitik ch	none	no_apc			
-2297-8739	Separations	covered	uncertain			1
+2297-8739	Separations	none	list_price	2600	CHF	
 2297-900X	Frontiers in Communication	discount	discount	1058	CHF	
 2297-9239	Matters Select	none	unknown			
 2298-0997	European Journal of Transformation Studies	none	unknown			
@@ -36559,12 +36559,12 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2304-5817	Children s Readings Studies in Children s Literature	none	no_apc			
 2304-6201	Bulletin of V N Karazin Kharkiv National University series «Mathematical modeling Information technology Automated control systems»	none	no_apc			
 2304-6309	Railbound Rolling Stock	none	no_apc			
-2304-6732	Photonics	covered	uncertain			1
-2304-6740	Inorganics	covered	uncertain			1
-2304-6767	Dentistry Journal	covered	uncertain			1
-2304-6775	Publications	covered	uncertain			1
+2304-6732	Photonics	none	list_price	2400	CHF	
+2304-6740	Inorganics	none	list_price	2700	CHF	
+2304-6767	Dentistry Journal	none	list_price	2000	CHF	
+2304-6775	Publications	none	list_price	1400	CHF	
 2304-7437	Прикарпатський вісник наукового товариства імені Шевченка ПУЛЬС	none	list_price	2000	UAH	
-2304-8158	Foods	covered	uncertain			1
+2304-8158	Foods	none	list_price	2900	CHF	
 2304-8395	Journal of African Real Estate Research	none	no_apc			
 2304-8891	CIENCIA & DESARROLLO	none	unknown			
 2304-9359	Endovascular Neuroradiology	none	no_apc			
@@ -36586,15 +36586,15 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2305-5839	Annals of Translational Medicine	none	unknown			
 2305-5987	Technical and technological aspects of development and testing of new machinery and technologies for agriculture of Ukraine	none	list_price	1000	UAH	
 2305-6002	Basrah Arts Journal	none	list_price	100	USD	
-2305-6290	Logistics	covered	uncertain			1
-2305-6304	Toxics	covered	uncertain			1
-2305-6320	Medicines	covered	uncertain			1
+2305-6290	Logistics	none	list_price	1400	CHF	
+2305-6304	Toxics	none	list_price	2600	CHF	
+2305-6320	Medicines	none	list_price	1400	CHF	
 2305-6533	Journal of Research in Social Sciences	none	list_price	20000	PKR	
-2305-6703	Standards	covered	uncertain			1
+2305-6703	Standards	discount	discount	800	CHF	
 2305-6894	International Journal of Corrosion and Scale Inhibition	none	list_price	250	USD	
 2305-6932	Wasit Journal of Engineering Sciences	none	list_price	100	USD	
 2305-7068	Journal of Groundwater Science and Engineering	none	no_apc			
-2305-7084	ChemEngineering	covered	uncertain			1
+2305-7084	ChemEngineering	none	list_price	1600	CHF	
 2305-7394	ACRN Journal of Finance and Risk Perspectives	none	list_price	80	EUR	
 2305-7467	Conexión	none	no_apc			
 2305-7823	Global Cardiology Science and Practice	none	no_apc			
@@ -36619,12 +36619,12 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2306-4994	Financial and credit activity problems of theory and practice	none	list_price	860	USD	
 2306-5133	African Evaluation Journal	none	list_price	20240	ZAR	
 2306-5257	Financing SMEs and entrepreneurs	none	unknown			
-2306-5338	Hydrology	covered	uncertain			1
-2306-5354	Bioengineering	covered	uncertain			1
+2306-5338	Hydrology	none	list_price	1800	CHF	
+2306-5354	Bioengineering	none	list_price	2700	CHF	
 2306-5451	Jornal of Kryvyi Rih National University	none	no_apc			
-2306-5710	Beverages	covered	uncertain			1
-2306-5729	Data	covered	uncertain			1
-2306-7381	Veterinary Sciences	covered	uncertain			1
+2306-5710	Beverages	none	list_price	1600	CHF	
+2306-5729	Data	none	list_price	1600	CHF	
+2306-7381	Veterinary Sciences	none	list_price	2600	CHF	
 2306-7748	International Strategic Management Review	none	unknown			
 2306-8027	Pathologia	none	no_apc			
 2306-8094	Current issues in pharmacy and medicine science and practice	none	no_apc			
@@ -36685,8 +36685,8 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2308-2097	GASTROENTEROLOGY	none	list_price	500	EUR	
 2308-2151	EMS Surveys in Mathematical Sciences	none	no_apc			
 2308-2593	Pakistan Journal of Medicine and Dentistry	none	list_price	8000	PKR	
-2308-3417	Geriatrics	covered	uncertain			1
-2308-3425	Journal of Cardiovascular Development and Disease	covered	uncertain			1
+2308-3417	Geriatrics	none	list_price	1800	CHF	
+2308-3425	Journal of Cardiovascular Development and Disease	none	list_price	2700	CHF	
 2308-4081	Comparative Professional Pedagogy	none	unknown			
 2308-4758	Наука. Инновации. Технологии	none	no_apc			
 2308-4855	Humanities science current issues	none	unknown			
@@ -36701,7 +36701,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2308-829X	Nauka Kultura Obshestvo	none	no_apc			
 2308-8303	Journal of organic and pharmaceutical chemistry	none	list_price	1200	UAH	
 2308-944X	Review of Business and Economics Studies	none	no_apc			
-2309-107X	Sinusitis	covered	uncertain			1
+2309-107X	Sinusitis	none	list_price	1000	CHF	
 2309-1428	Musical Art and Education	none	list_price	3000	RUB	
 2309-1606	Filosofiya osvity Philosophy of Education	none	no_apc			
 2309-1797	PSYCHOLINGUISTICS	none	list_price	300	USD	
@@ -36716,7 +36716,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2309-4923	«System analysis and applied information science»	none	no_apc			
 2309-5199	Journal of Kerbala for Agricultural Sciences	none	list_price	70	USD	
 2309-5784	Annales Africaines de Medecine	none	no_apc			
-2309-608X	Journal of Fungi	covered	uncertain			1
+2309-608X	Journal of Fungi	none	list_price	2600	CHF	
 2309-6373	Visión Antataura	none	no_apc			
 2309-7981	Journal of Pioneering Medical Science	none	unknown			
 2309-8570	ACC CIETNA Revista de la Escuela de Enfermería	none	no_apc			
@@ -36734,7 +36734,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2310-2144	Archaeoastronomy and Ancient Technologies	none	no_apc			
 2310-2152	Africa’s Public Service Delivery and Performance Review	none	list_price	18630	ZAR	
 2310-2594	Revista Científica Odontológica	none	no_apc			
-2310-2861	Gels	covered	uncertain			1
+2310-2861	Gels	none	list_price	2600	CHF	
 2310-2977	International Journal of Advanced Chemistry	none	unknown			
 2310-340X	Cooperativismo y Desarrollo: COODES	none	no_apc			
 2310-3469	Revista Cubana de Ciencias Forestales: CFORES	none	no_apc			
@@ -36781,15 +36781,15 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2311-4738	Bulletin of NTU KhPI Series Strategic Management Portfolio Program and Project Management	none	no_apc			
 2311-5122	Universum Technical sciences	none	unknown			
 2311-5491	Naukowyi Chasopys National Pedagogical Dragomanov University Series 5 Pedagogical sciences reality and perspectives	none	unknown			
-2311-5521	Fluids	covered	uncertain			1
-2311-553X	Non-Coding RNA	covered	uncertain			1
-2311-5629	C – Journal of Carbon Research	covered	uncertain			1
-2311-5637	Fermentation	covered	uncertain			1
+2311-5521	Fluids	none	list_price	1800	CHF	
+2311-553X	Non-Coding RNA	none	list_price	1800	CHF	
+2311-5629	C – Journal of Carbon Research	none	list_price	1600	CHF	
+2311-5637	Fermentation	none	list_price	2600	CHF	
 2311-6382	The Scientific Issues of Ternopil Volodymyr Hnatiuk National Pedagogical University Series pedagogy	none	list_price	1400	UAH	
 2311-6420	Public administration aspects	none	no_apc			
 2311-7052	Social Psychology and Society	none	no_apc			
 2311-7249	Сучасні інформаційні технології у сфері безпеки та оборони	none	no_apc			
-2311-7524	Horticulturae	covered	uncertain			1
+2311-7524	Horticulturae	none	list_price	2200	CHF	
 2311-7710	Journal of Advanced Veterinary and Animal Research	none	list_price	1250	USD	
 2311-7729	Russian Journal of Clinical Ophthalmology	none	no_apc			
 2311-7761	Journal of Plastination	none	unknown			
@@ -36830,7 +36830,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2312-6590	Gіrnichі budіvelnі dorozhnі ta melіorativnі mashini	none	list_price	20	EUR	
 2312-6809	The Problems of Contemporary Literary Studies	none	no_apc			
 2312-7007	Archive of Clinical Medicine	none	no_apc			
-2312-7481	Magnetochemistry	covered	uncertain			1
+2312-7481	Magnetochemistry	none	list_price	2700	CHF	
 2312-7562	Devenir - Revista de estudios sobre patrimonio edificado	none	no_apc			
 2312-7821	Safety and Risk of Pharmacotherapy	none	no_apc			
 2312-797X	RUDN Journal of Agronomy and Animal Industries	none	no_apc			
@@ -36851,7 +36851,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2312-9433	Journal of Gandhara Medical and Dental Science	none	list_price	20000	PKR	
 2312-9557	Dnipro University Mathematics Bulletin	none	list_price	100	UAH	
 2312-9735	Вестник Российского университета дружбы народов. Серия: Математика, информатика, физика	none	no_apc			
-2313-0105	Batteries	covered	uncertain			1
+2313-0105	Batteries	none	list_price	2700	CHF	
 2313-013X	Conjeturas Sociológicas	none	no_apc			
 2313-0245	RUDN Journal of Medicine	none	no_apc			
 2313-0660	Vestnik RUDN International Relations	none	no_apc			
@@ -36868,17 +36868,17 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2313-2337	Вестник Российского университета дружбы народов. Серия: Юридические науки	none	no_apc			
 2313-2396	The Journal of V N Karazin Kharkiv National University series Medicine	none	no_apc			
 2313-3171	REBIOL	none	no_apc			
-2313-4321	Recycling	covered	uncertain			1
-2313-433X	Journal of Imaging	covered	uncertain			1
+2313-4321	Recycling	none	list_price	1800	CHF	
+2313-433X	Journal of Imaging	none	list_price	1800	CHF	
 2313-478X	Grain Products and Mixed Fodder’s	none	no_apc			
 2313-4895	Kyiv-Mohyla Humanities Journal	none	no_apc			
 2313-5069	International Journal of African Higher Education	none	no_apc			
 2313-5131	Journal of Citrus Pathology	none	unknown			
 2313-545X	МИНЕРАЛОГИЯ (MINERALOGY)	none	no_apc			
 2313-5727	Polytechnic Journal	none	no_apc			
-2313-576X	Safety	covered	uncertain			1
-2313-5778	Genealogy	covered	uncertain			1
-2313-5786	Allergies	covered	uncertain			1
+2313-576X	Safety	none	list_price	1800	CHF	
+2313-5778	Genealogy	none	list_price	1400	CHF	
+2313-5786	Allergies	none	list_price	1000	CHF	
 2313-612X	Crimean Historical Review	none	no_apc			
 2313-6286	ScienceRise	none	list_price	50	EUR	
 2313-6669	Science and construction	none	unknown			
@@ -36886,7 +36886,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2313-7053	V M BEKHTEREV REVIEW OF PSYCHIATRY AND MEDICAL PSYCHOLOGY	none	no_apc			
 2313-7177	Journal of Biochemistry and Molecular Biology Research	none	unknown			
 2313-7347	Obstetrics Gynecology and Reproduction	none	list_price	15000	RUB	
-2313-7673	Biomimetics	covered	uncertain			1
+2313-7673	Biomimetics	none	list_price	2200	CHF	
 2313-8246	THE ACTUAL PROBLEMS OF REGIONAL ECONOMY DEVELOPMENT	none	no_apc			
 2313-8734	Supercomputing Frontiers and Innovations	none	no_apc			
 2313-8920	Post-Soviet Issues	none	no_apc			
@@ -38546,7 +38546,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2378-962X	ACM Transactions on Cyber-Physical Systems	covered	covered			
 2378-9689	Sustainable and Resilient Infrastructure	covered	covered			
 2379-0539	Journal of Clinical & Academic Ophthalmology	none	unknown			
-2379-1381	Tomography	covered	uncertain			1
+2379-1381	Tomography	discount	discount	1920	CHF	
 2379-2868	Translational Journal of the American College of Sports Medicine	covered	covered			
 2379-2949	Area Development and Policy	covered	covered			
 2379-2981	Management Teaching Review	covered	covered			
@@ -38753,7 +38753,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2392-473X	Journal of Nepal Physical Society	none	unknown			
 2392-6252	International Journal of Social and Educational Innovation	none	list_price	100	EUR	
 2392-7054	Journal of Legal Studies	none	no_apc			
-2392-7674	Journal of Mind and Medical Sciences	covered	uncertain			1
+2392-7674	Journal of Mind and Medical Sciences	none	list_price	1200	CHF	
 2392-8344	The Journal of School and University Medicine	none	no_apc			
 2392-8441	Romanian Journal of Applied Psychology	none	no_apc			
 2392-862X	Anastasis Research in Medieval Culture and Art	none	no_apc			
@@ -39085,7 +39085,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2409-3416	Cuadernos Iberoamericanos	none	no_apc			
 2409-3459	Ciencia Tecnologí­a y Salud	none	no_apc			
 2409-3696	Revista de Estudios Teóricos y Epistemológicos en Política Educativa	none	no_apc			
-2409-515X	International Journal of Neonatal Screening	covered	uncertain			1
+2409-515X	International Journal of Neonatal Screening	none	list_price	1600	CHF	
 2409-5370	REGION	none	no_apc			
 2409-5400	Revista Científica Universidad Odontológica Dominicana	none	no_apc			
 2409-5516	Энергетическая политика	none	unknown			
@@ -39101,9 +39101,9 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2409-8892	Galician economic journal	none	list_price	960	UAH	
 2409-904X	Chinese Studies	none	no_apc			
 2409-9058	BRICS Law Journal	none	no_apc			
-2409-9252	Histories	covered	uncertain			1
-2409-9279	Methods and Protocols	covered	uncertain			1
-2409-9287	Philosophies	covered	uncertain			1
+2409-9252	Histories	none	list_price	1000	CHF	
+2409-9279	Methods and Protocols	none	list_price	1800	CHF	
+2409-9287	Philosophies	none	list_price	1400	CHF	
 2409-952X	Youth in Central and Eastern Europe	none	no_apc			
 2409-9708	EAI Endorsed Transactions on Creative Technologies	none	no_apc			
 2409-9961	Zeitschrift für Praktische Philosophie	none	no_apc			
@@ -39124,10 +39124,10 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2410-2547	Strength of Materials and Theory of Structures	none	unknown			
 2410-2601	Doxa	none	no_apc			
 2410-339X	Geochemical Perspectives Letters	none	no_apc			
-2410-387X	Cryptography	covered	uncertain			1
-2410-3888	Fishes	covered	uncertain			1
-2410-3896	Condensed Matter	covered	uncertain			1
-2410-390X	Instruments	covered	uncertain			1
+2410-387X	Cryptography	none	list_price	1600	CHF	
+2410-3888	Fishes	none	list_price	2600	CHF	
+2410-3896	Condensed Matter	none	list_price	1600	CHF	
+2410-390X	Instruments	none	list_price	1400	CHF	
 2410-4507	Lavai - International Journal of Education	none	no_apc			
 2410-5325	Culture of Ukraine	none	no_apc			
 2410-5333	Visnyk of Kharkiv State Academy of Culture	none	no_apc			
@@ -39145,7 +39145,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2410-7980	Revista Iberoamericana de Bioeconomía y Cambio Climático	none	no_apc			
 2410-9290	Biotika	none	list_price	125	USD	
 2410-9681	Contemporary Chinese political economy and strategic relations	none	no_apc			
-2410-9789	Literature	covered	uncertain			1
+2410-9789	Literature	discount	discount	800	CHF	
 2411-1317	Ukrainian Educational Journal	none	list_price	1500	UAH	
 2411-1465	Revista Derecho	none	no_apc			
 2411-1473	Sovremennye informacionnye tehnologii i IT-obrazovanie.	none	no_apc			
@@ -39156,10 +39156,10 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2411-3336	Journal of Mining Institute	none	no_apc			
 2411-4073	European Journal of Economics and Business Studies	none	unknown			
 2411-5096	Journal of Sharif Medical & Dental College	none	list_price	15000	PKR	
-2411-5118	Sexes	covered	uncertain			1
-2411-5134	Inventions	covered	uncertain			1
-2411-5142	Journal of Functional Morphology and Kinesiology	covered	uncertain			1
-2411-5150	Vision	covered	uncertain			1
+2411-5118	Sexes	none	list_price	1000	CHF	
+2411-5134	Inventions	none	list_price	1800	CHF	
+2411-5142	Journal of Functional Morphology and Kinesiology	none	list_price	1600	CHF	
+2411-5150	Vision	none	list_price	1600	CHF	
 2411-5703	Vestnik MIRBIS.	none	unknown			
 2411-5711	journal dawat	none	no_apc			
 2411-5940	Interacciones Revista de Avances en Psicología	none	no_apc			
@@ -39169,7 +39169,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2411-7684	Kurdistan Journal of Applied Research	none	list_price	115	USD	
 2411-8028	Energy Engineering and Control Systems	none	no_apc			
 2411-9636	Solar Energy and Sustainable Development	none	no_apc			
-2411-9660	Designs	covered	uncertain			1
+2411-9660	Designs	none	list_price	1600	CHF	
 2411-989X	Journal of Cancer & Allied Specialties	none	no_apc			
 2412-0464	Revista de Iniciación Científica	none	no_apc			
 2412-0731	R-Economy	none	no_apc			
@@ -39182,8 +39182,8 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2412-2963	Yachay - Revista Científico Cultural	none	no_apc			
 2412-3196	Medieval Worlds	none	no_apc			
 2412-3285	Revista Multi-Ensayos	none	no_apc			
-2412-3811	Infrastructures	covered	uncertain			1
-2412-382X	Quantum Beam Science	covered	uncertain			1
+2412-3811	Infrastructures	none	list_price	1800	CHF	
+2412-382X	Quantum Beam Science	none	list_price	1600	CHF	
 2412-4036	Therapy	none	unknown			
 2412-5105	A3manos	none	no_apc			
 2412-6446	Slavic World in the Third Millennium	none	no_apc			
@@ -39203,7 +39203,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2413-2829	Vestnik of the Plekhanov Russian University of Economics	none	no_apc			
 2413-2993	Bhutan Health Journal	none	no_apc			
 2413-3639	Contemporary Mathematics Fundamental Directions	none	no_apc			
-2413-4155	Sci	covered	uncertain			1
+2413-4155	Sci	none	list_price	1200	CHF	
 2413-4201	Scientific Notes Kazan Bauman State Academy of Veterinary Medicine	none	unknown			
 2413-4341	Revista Paraguaya de Reumatología	none	no_apc			
 2413-4910	Saudi Journal of Medical and Pharmaceutical Sciences	none	unknown			
@@ -39226,7 +39226,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2413-8584	Economics Profession Business	none	no_apc			
 2413-8681	Central Asian Journal of Medical Sciences	none	list_price	250	USD	
 2413-8800	Наукові записки Сумського державного педагогічного університету ім. А.С. Макаренка. Географічні науки	none	list_price	500	UAH	
-2413-8851	Urban Science	covered	uncertain			1
+2413-8851	Urban Science	none	list_price	1600	CHF	
 2413-9181	Mobile culture studies. The journal	none	no_apc			
 2413-9203	Transportation systems and technology	none	unknown			
 2413-9270	Journal of Studies in Social Sciences and Humanities	none	list_price	105	USD	
@@ -39248,7 +39248,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2414-3782	Juvenis scientia	none	no_apc			
 2414-3812	Pain medicine	none	no_apc			
 2414-3952	Ural mathematical journal	none	no_apc			
-2414-4088	Multimodal Technologies and Interaction	covered	uncertain			1
+2414-4088	Multimodal Technologies and Interaction	none	list_price	1600	CHF	
 2414-438X	Theory and practice of meat processing	none	no_apc			
 2414-4630	Journal of Spine Surgery	none	unknown			
 2414-4681	Ekotemas	none	no_apc			
@@ -39257,7 +39257,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2414-584X	Agricultural and Resource Economics International Scientific E-Journal	none	list_price	400	EUR	
 2414-5955	Environmental Problems	none	no_apc			
 2414-6064	Iraqi Geological Journal	none	list_price	175	USD	
-2414-6366	Tropical Medicine and Infectious Disease	covered	uncertain			1
+2414-6366	Tropical Medicine and Infectious Disease	none	list_price	2700	CHF	
 2414-6641	Current Issues in Sport Science (CISS)	none	no_apc			
 2414-8822	Revista Científica UNTRM Ciencias Naturales e Ingeniería	none	unknown			
 2414-8938	Academo Revista de Investigación en Ciencias Sociales y Humanidades	none	no_apc			
@@ -39649,7 +39649,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2451-3849	Zoophilologica	none	no_apc			
 2451-4098	Polish Journal of Criminology	none	unknown			
 2451-4160	Studia Celtica Posnaniensia	none	unknown			
-2451-4934	Advances in respiratory medicine	covered	uncertain			1
+2451-4934	Advances in respiratory medicine	discount	discount	1040	CHF	
 2451-4993	Studia Środkowoeuropejskie i Bałkanistyczne	none	no_apc			
 2451-5124	Archives of Tourism Hospitality and Sport Science	none	unknown			
 2451-5930	Cuadernos de Extensión Universitaria	none	no_apc			
@@ -40452,21 +40452,21 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2503-4804	DIVERSI Jurnal Hukum	none	list_price	1000000	IDR	
 2504-0537	Frontiers in Research Metrics and Analytics	discount	discount	1058	CHF	
 2504-110X	Digital Biomarkers	none	list_price	930	EUR	
-2504-186X	International Journal of Turbomachinery Propulsion and Power	covered	uncertain			1
-2504-2289	Big Data and Cognitive Computing	covered	uncertain			1
+2504-186X	International Journal of Turbomachinery Propulsion and Power	none	list_price	1000	CHF	
+2504-2289	Big Data and Cognitive Computing	none	list_price	1800	CHF	
 2504-284X	Frontiers in Education	discount	discount	1755	CHF	
-2504-3110	Fractal and Fractional	covered	uncertain			1
-2504-3129	Nitrogen	covered	uncertain			1
+2504-3110	Fractal and Fractional	none	list_price	2700	CHF	
+2504-3129	Nitrogen	none	list_price	1000	CHF	
 2504-3137	Portuguese Journal of Public Health	none	list_price	250	EUR	
 2504-3889	Medical Cannabis and Cannabinoids	none	list_price	930	EUR	
-2504-3900	Proceedings	covered	uncertain			1
-2504-446X	Drones	covered	uncertain			1
-2504-4494	Journal of Manufacturing and Materials Processing	covered	uncertain			1
-2504-463X	Journal of Otorhinolaryngology Hearing and Balance Medicine	covered	uncertain			1
-2504-4990	Machine Learning and Knowledge Extraction	covered	uncertain			1
+2504-3900	Proceedings	none	no_apc			
+2504-446X	Drones	none	list_price	2600	CHF	
+2504-4494	Journal of Manufacturing and Materials Processing	none	list_price	1800	CHF	
+2504-463X	Journal of Otorhinolaryngology Hearing and Balance Medicine	none	list_price	1000	CHF	
+2504-4990	Machine Learning and Knowledge Extraction	none	list_price	1800	CHF	
 2504-5210	Didattica della matematica Dalla ricerca alle pratiche d’aula	none	no_apc			
 2504-5288	Case Reports in Acute Medicine	none	list_price	950	CHF	
-2504-5377	Colloids and Interfaces	covered	uncertain			1
+2504-5377	Colloids and Interfaces	none	list_price	1600	CHF	
 2506-6587	Journal of European Periodical Studies	none	no_apc			
 2506-6730	Journal for the History of Environment and Society	none	list_price	900	EUR	
 2506-8016	European Journal of Engineering and Technology Research	none	unknown			
@@ -40564,7 +40564,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2513-9886	Personality Neuroscience	covered	covered			
 2514-1708	Journal of Open Hardware	none	no_apc			
 2514-1775	Rheumatology Advances in Practice	covered	covered			
-2514-183X	Clinical and Translational Neuroscience	covered	uncertain			1
+2514-183X	Clinical and Translational Neuroscience	discount	discount	800	CHF	
 2514-2070	RoundTable	none	no_apc			
 2514-2119	European Heart Journal - Case Reports	covered	covered			
 2514-2135	International Journal of Public Legal Education	none	no_apc			
@@ -41214,7 +41214,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2532-683X	Agathón	none	list_price	600	EUR	
 2532-6848	Axon	none	no_apc			
 2532-750X	Fuori Luogo	none	no_apc			
-2532-7518	Journal of Interdisciplinary Research Applied to Medicine	covered	uncertain			1
+2532-7518	Journal of Interdisciplinary Research Applied to Medicine	none	unknown			
 2532-7925	Journal of Biomedical Practitioners	none	no_apc			
 2532-8549	Sinappsi	none	no_apc			
 2532-8816	Umanistica Digitale	none	no_apc			
@@ -41734,7 +41734,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2563-3570	JMIR Bioinformatics and Biotechnology	covered	covered			
 2563-6308	Journal of L M Montgomery Studies	none	no_apc			
 2563-6316	JMIRx Med	covered	covered			
-2563-6499	Société Internationale d’Urologie Journal	covered	uncertain			1
+2563-6499	Société Internationale d’Urologie Journal	discount	no_apc			
 2563-660X	Percées Explorations en arts vivants	none	no_apc			
 2563-6960	Journal of the Academy of Business and Emerging Markets	none	no_apc			
 2563-7320	Discourse and Writing/Rédactologie	none	no_apc			
@@ -41789,25 +41789,25 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2570-4206	ChemSystemsChem	covered	covered			
 2570-5857	Journal of Nationalism Memory & Language Politics	none	unknown			
 2570-6179	Listy klinické logopedie	none	no_apc			
-2571-550X	Quaternary	covered	uncertain			1
-2571-5577	Applied System Innovation	covered	uncertain			1
+2571-550X	Quaternary	none	list_price	1600	CHF	
+2571-5577	Applied System Innovation	none	list_price	1400	CHF	
 2571-581X	Frontiers in Sustainable Food Systems	discount	discount	1755	CHF	
-2571-6131	Ceramics	covered	uncertain			1
-2571-6182	Plasma	covered	uncertain			1
-2571-6255	Fire	covered	uncertain			1
-2571-631X	Vibration	covered	uncertain			1
+2571-6131	Ceramics	none	list_price	1600	CHF	
+2571-6182	Plasma	none	list_price	1400	CHF	
+2571-6255	Fire	none	list_price	2400	CHF	
+2571-631X	Vibration	none	list_price	1600	CHF	
 2571-6522	Dubai Medical Journal	none	no_apc			
-2571-6980	Neuroglia	covered	uncertain			1
-2571-712X	Particles	covered	uncertain			1
+2571-6980	Neuroglia	none	list_price	1000	CHF	
+2571-712X	Particles	none	list_price	1600	CHF	
 2571-7936	Genre Éducation Formation	none	no_apc			
-2571-841X	Reports — Medical Cases Images and Videos	covered	uncertain			1
-2571-8789	Soil Systems	covered	uncertain			1
-2571-8797	Clean Technologies	covered	uncertain			1
-2571-8800	J — Multidisciplinary Scientific Journal	covered	uncertain			1
-2571-905X	Stats	covered	uncertain			1
-2571-9394	Forecasting	covered	uncertain			1
-2571-9408	Heritage	covered	uncertain			1
-2571-9637	Surfaces	covered	uncertain			1
+2571-841X	Reports — Medical Cases Images and Videos	none	list_price	1400	CHF	
+2571-8789	Soil Systems	none	list_price	1800	CHF	
+2571-8797	Clean Technologies	none	list_price	1600	CHF	
+2571-8800	J — Multidisciplinary Scientific Journal	none	list_price	1200	CHF	
+2571-905X	Stats	none	list_price	1600	CHF	
+2571-9394	Forecasting	none	list_price	1800	CHF	
+2571-9408	Heritage	none	list_price	1600	CHF	
+2571-9637	Surfaces	none	list_price	1600	CHF	
 2571-9874	Journal de la faculté de médecine d Oran	none	no_apc			
 2572-0317	Muthanna Journal of Engineering and Technology	none	list_price	85	USD	
 2572-1143	JOR Spine	covered	covered			
@@ -43085,27 +43085,27 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2623-6575	Glasilo Future	none	unknown			
 2623-7911	Odgojno-obrazovne teme	none	no_apc			
 2623-9469	MemorabiLika	none	no_apc			
-2624-5175	Clocks & Sleep	covered	uncertain			1
-2624-5558	Corrosion and Materials Degradation	covered	uncertain			1
-2624-5647	Gastrointestinal Disorders	covered	uncertain			1
-2624-599X	Acoustics	covered	uncertain			1
-2624-6120	Signals	covered	uncertain			1
-2624-6511	Smart Cities	covered	uncertain			1
-2624-7402	AgriEngineering	covered	uncertain			1
-2624-781X	Reactions	covered	uncertain			1
+2624-5175	Clocks & Sleep	none	list_price	1600	CHF	
+2624-5558	Corrosion and Materials Degradation	none	list_price	1000	CHF	
+2624-5647	Gastrointestinal Disorders	none	list_price	1200	CHF	
+2624-599X	Acoustics	none	list_price	1600	CHF	
+2624-6120	Signals	none	list_price	1000	CHF	
+2624-6511	Smart Cities	none	list_price	2000	CHF	
+2624-7402	AgriEngineering	none	list_price	1600	CHF	
+2624-781X	Reactions	none	list_price	1000	CHF	
 2624-7852	Frontiers in Blockchain	discount	discount	1058	CHF	
-2624-795X	GeoHazards	covered	uncertain			1
-2624-800X	Journal of Cybersecurity and Privacy	covered	uncertain			1
-2624-8174	Physics	covered	uncertain			1
+2624-795X	GeoHazards	none	list_price	1000	CHF	
+2624-800X	Journal of Cybersecurity and Privacy	none	list_price	1000	CHF	
+2624-8174	Physics	none	list_price	1400	CHF	
 2624-8212	Frontiers in Artificial Intelligence	discount	discount	1755	CHF	
-2624-831X	IoT	covered	uncertain			1
-2624-845X	Journal of Nanotheranostics	covered	uncertain			1
+2624-831X	IoT	none	list_price	1200	CHF	
+2624-845X	Journal of Nanotheranostics	none	list_price	1000	CHF	
 2624-8468	Kompass Autoimmun	none	unknown			
-2624-8549	Chemistry	covered	uncertain			1
+2624-8549	Chemistry	none	list_price	1800	CHF	
 2624-8557	Antibody Reports	none	list_price	300	CHF	
 2624-8611	Psych	none	list_price	1200	CHF	
-2624-862X	Dairy	covered	uncertain			1
-2624-8921	Vehicles	covered	uncertain			1
+2624-862X	Dairy	none	list_price	1200	CHF	
+2624-8921	Vehicles	none	list_price	1600	CHF	
 2624-893X	Frontiers in Forests and Global Change	discount	discount	1755	CHF	
 2624-9065	Kompass Neumología	none	unknown			
 2624-9081	Roadsides	none	no_apc			
@@ -43114,7 +43114,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2624-9367	Frontiers in Sports and Active Living	discount	discount	1755	CHF	
 2624-9375	Frontiers in Water	discount	discount	1058	CHF	
 2624-9553	Frontiers in Climate	discount	discount	2295	CHF	
-2624-960X	Quantum Reports	covered	uncertain			1
+2624-960X	Quantum Reports	none	list_price	1400	CHF	
 2624-9634	Frontiers in Sustainable Cities	discount	discount	1058	CHF	
 2624-9898	Frontiers in Computer Science	discount	discount	1058	CHF	
 2624-9987	Frontiers in probability and the statistical sciences	none	unknown			
@@ -44312,11 +44312,11 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2672-9733	Journal of Humanities and Social Sciences Mahasarakham University	none	list_price	4000	THB	
 2673-1665	Microbial Physiology	none	list_price	930	EUR	
 2673-1738	Dubai Diabetes and Endocrinology Journal	none	no_apc			
-2673-1924	Oceans	covered	uncertain			1
-2673-1991	European Burn Journal	covered	uncertain			1
+2673-1924	Oceans	none	list_price	1600	CHF	
+2673-1991	European Burn Journal	none	list_price	900	EUR	
 2673-2092	healthbook TIMES Oncology Hematology	none	no_apc			
 2673-253X	Frontiers in Digital Health	discount	discount	2295	CHF	
-2673-2688	AI	covered	uncertain			1
+2673-2688	AI	none	list_price	1600	CHF	
 2673-2718	Frontiers in Chemical Engineering	discount	discount	1755	CHF	
 2673-2726	Frontiers in Human Dynamics	discount	discount	1058	CHF	
 2673-298X	Complex Psychiatry	none	unknown			
@@ -44325,204 +44325,204 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2673-3129	Frontiers in Medical Technology	discount	discount	1755	CHF	
 2673-3145	Frontiers in Political Science	discount	discount	1058	CHF	
 2673-3153	Frontiers in Reproductive Health	discount	discount	2295	CHF	
-2673-3161	Applied Mechanics	covered	uncertain			1
+2673-3161	Applied Mechanics	none	list_price	1200	CHF	
 2673-3218	Frontiers in Agronomy	discount	discount	2295	CHF	
-2673-3269	Optics	covered	uncertain			1
-2673-3293	Electrochem	covered	uncertain			1
+2673-3269	Optics	none	list_price	1200	CHF	
+2673-3293	Electrochem	none	list_price	1000	CHF	
 2673-3439	Frontiers in Genome Editing	discount	discount	2295	CHF	
-2673-3501	Applied Nano	covered	uncertain			1
+2673-3501	Applied Nano	none	list_price	1000	CHF	
 2673-3625	Glomerular Diseases	none	list_price	930	EUR	
-2673-3846	Hearts	covered	uncertain			1
-2673-3897	Reproductive Medicine	covered	uncertain			1
-2673-3943	Transplantology	covered	uncertain			1
-2673-3951	Modelling—International Open Access Journal of Modelling in Engineering Science	covered	uncertain			1
-2673-396X	Endocrines	covered	uncertain			1
-2673-3978	Electronic Materials	covered	uncertain			1
-2673-3986	Epidemiologia	covered	uncertain			1
-2673-3994	Fuels	covered	uncertain			1
-2673-4001	Telecom	covered	uncertain			1
-2673-401X	Organics	covered	uncertain			1
-2673-4036	Osteology	covered	uncertain			1
-2673-4052	Automation	covered	uncertain			1
-2673-4060	World	covered	uncertain			1
-2673-4079	Sustainable Chemistry	covered	uncertain			1
-2673-4087	NeuroSci	covered	uncertain			1
-2673-4095	Surgeries	covered	uncertain			1
-2673-4109	CivilEng	covered	uncertain			1
-2673-4117	Eng—Advances in Engineering	covered	uncertain			1
-2673-4125	Biophysica	covered	uncertain			1
-2673-4133	Ecologies	covered	uncertain			1
-2673-4141	Hydrogen	covered	uncertain			1
-2673-4168	Obesities	covered	uncertain			1
-2673-4176	Polysaccharides	covered	uncertain			1
-2673-4184	Women	covered	uncertain			1
+2673-3846	Hearts	none	list_price	1000	CHF	
+2673-3897	Reproductive Medicine	none	list_price	1000	CHF	
+2673-3943	Transplantology	none	list_price	1000	CHF	
+2673-3951	Modelling—International Open Access Journal of Modelling in Engineering Science	none	list_price	1000	CHF	
+2673-396X	Endocrines	none	list_price	1000	CHF	
+2673-3978	Electronic Materials	none	list_price	1000	CHF	
+2673-3986	Epidemiologia	none	list_price	1200	CHF	
+2673-3994	Fuels	none	list_price	1000	CHF	
+2673-4001	Telecom	none	list_price	1200	CHF	
+2673-401X	Organics	none	list_price	1000	CHF	
+2673-4036	Osteology	none	list_price	1000	CHF	
+2673-4052	Automation	none	list_price	1000	CHF	
+2673-4060	World	none	list_price	1000	CHF	
+2673-4079	Sustainable Chemistry	none	list_price	1000	CHF	
+2673-4087	NeuroSci	none	list_price	1000	CHF	
+2673-4095	Surgeries	none	list_price	1000	CHF	
+2673-4109	CivilEng	none	list_price	1200	CHF	
+2673-4117	Eng—Advances in Engineering	none	list_price	1200	CHF	
+2673-4125	Biophysica	none	list_price	1000	CHF	
+2673-4133	Ecologies	none	list_price	1000	CHF	
+2673-4141	Hydrogen	none	list_price	1000	CHF	
+2673-4168	Obesities	none	list_price	1000	CHF	
+2673-4176	Polysaccharides	none	list_price	1000	CHF	
+2673-4184	Women	none	list_price	1000	CHF	
 2673-4192	Frontiers in Virtual Reality	discount	discount	1755	CHF	
 2673-4273	Judaica Neue digitale Folge	none	no_apc			
 2673-4354	Manazir Journal	none	no_apc			
-2673-4362	Journal of Nuclear Engineering	covered	uncertain			1
-2673-4389	Livers	covered	uncertain			1
-2673-4397	Uro	covered	uncertain			1
+2673-4362	Journal of Nuclear Engineering	none	list_price	1000	CHF	
+2673-4389	Livers	none	list_price	1000	CHF	
+2673-4397	Uro	none	list_price	1000	CHF	
 2673-4486	Frontiers in Environmental Chemistry	discount	discount	1755	CHF	
 2673-4524	Frontiers in Sustainability	discount	discount	1058	CHF	
-2673-4532	Analytica—A Journal of Analytical Chemistry and Chemical Analysis	covered	uncertain			1
-2673-4540	Diabetology	covered	uncertain			1
-2673-4583	Chemistry Proceedings	covered	uncertain			1
-2673-4591	Engineering Proceedings	covered	uncertain			1
-2673-4605	Materials Proceedings	covered	uncertain			1
+2673-4532	Analytica—A Journal of Analytical Chemistry and Chemical Analysis	none	list_price	1000	CHF	
+2673-4540	Diabetology	none	list_price	1200	CHF	
+2673-4583	Chemistry Proceedings	none	no_apc			
+2673-4591	Engineering Proceedings	none	no_apc			
+2673-4605	Materials Proceedings	none	no_apc			
 2673-4664	Gesellschaft – Individuum – Sozialisation Zeitschrift für Sozialisationsforschung	none	no_apc			
-2673-4672	Pollutants	covered	uncertain			1
-2673-4826	Electricity	covered	uncertain			1
-2673-4834	Earth	covered	uncertain			1
+2673-4672	Pollutants	none	list_price	1000	CHF	
+2673-4826	Electricity	none	list_price	1000	CHF	
+2673-4834	Earth	none	list_price	1200	CHF	
 2673-4842	Frontiers in Oral Health	discount	discount	2295	CHF	
 2673-4915	Frontiers in Dental Medicine	discount	discount	1755	CHF	
 2673-5059	Frontiers in Global Women s Health	discount	discount	2295	CHF	
 2673-5067	Frontiers in Sensors	discount	discount	1755	CHF	
 2673-5075	Frontiers in Space Technologies	discount	discount	1755	CHF	
-2673-5172	Journalism and Media	covered	uncertain			1
+2673-5172	Journalism and Media	none	list_price	1000	CHF	
 2673-5180	Kompass Nutrition & Dietetics	none	unknown			
 2673-5202	La Revue LEeE	none	no_apc			
 2673-5210	Frontiers in Future Transportation	discount	discount	1755	CHF	
-2673-5261	Journal of Molecular Pathology	covered	uncertain			1
-2673-527X	Journal of Respiration	covered	uncertain			1
+2673-5261	Journal of Molecular Pathology	none	list_price	1000	CHF	
+2673-527X	Journal of Respiration	none	list_price	1000	CHF	
 2673-530X	Frontiers in Communications and Networks	discount	discount	1755	CHF	
-2673-5318	Psychiatry International	covered	uncertain			1
-2673-5601	Immuno	covered	uncertain			1
+2673-5318	Psychiatry International	none	list_price	1000	CHF	
+2673-5601	Immuno	none	list_price	1000	CHF	
 2673-561X	Frontiers in Pain Research	discount	discount	2295	CHF	
-2673-5628	Gases	covered	uncertain			1
-2673-5636	Journal of Zoological and Botanical Gardens	covered	uncertain			1
-2673-5768	Tourism and Hospitality	covered	uncertain			1
+2673-5628	Gases	none	list_price	1000	CHF	
+2673-5636	Journal of Zoological and Botanical Gardens	none	list_price	1000	CHF	
+2673-5768	Tourism and Hospitality	none	list_price	1200	CHF	
 2673-5857	Frontiers in Electronics	discount	discount	1755	CHF	
 2673-5903	European Journal of Health Communication	none	no_apc			
-2673-592X	Radiation	covered	uncertain			1
-2673-6004	Birds	covered	uncertain			1
+2673-592X	Radiation	none	list_price	1000	CHF	
+2673-6004	Birds	none	list_price	1200	CHF	
 2673-6101	Frontiers in Allergy	discount	discount	2295	CHF	
 2673-611X	Frontiers in Conservation Science	discount	discount	1755	CHF	
 2673-6128	Frontiers in Fungal Biology	discount	discount	1755	CHF	
 2673-6136	Saudi Journal of Health Systems Research	none	no_apc			
-2673-6179	Dermato	covered	uncertain			1
+2673-6179	Dermato	discount	discount	800	CHF	
 2673-6187	Frontiers in Remote Sensing	discount	discount	2295	CHF	
 2673-6195	Frontiers in Neuroergonomics	discount	discount	1755	CHF	
-2673-6209	Macromol—A Journal of Macromolecular Research	covered	uncertain			1
+2673-6209	Macromol—A Journal of Macromolecular Research	none	list_price	1000	CHF	
 2673-6217	Frontiers in Aging	discount	discount	2295	CHF	
 2673-6225	Frontiers in Animal Science	discount	discount	1755	CHF	
 2673-6268	Frontiers in Control Engineering	discount	discount	1755	CHF	
-2673-6284	BioTech	covered	uncertain			1
-2673-6357	Hemato	covered	uncertain			1
-2673-6373	Oral	covered	uncertain			1
-2673-6411	BioChem	covered	uncertain			1
-2673-6470	Digital	covered	uncertain			1
-2673-6489	Mining	covered	uncertain			1
-2673-6497	Solids	covered	uncertain			1
-2673-6500	Taxonomy	covered	uncertain			1
+2673-6284	BioTech	none	list_price	1600	CHF	
+2673-6357	Hemato	none	list_price	1000	CHF	
+2673-6373	Oral	none	list_price	1000	CHF	
+2673-6411	BioChem	none	list_price	1000	CHF	
+2673-6470	Digital	discount	discount	800	CHF	
+2673-6489	Mining	none	list_price	1000	CHF	
+2673-6497	Solids	none	list_price	1000	CHF	
+2673-6500	Taxonomy	none	list_price	1000	CHF	
 2673-6616	Frontiers in Clinical Diabetes and Healthcare	discount	discount	1755	CHF	
-2673-6756	Forensic Sciences	covered	uncertain			1
-2673-6772	Parasitologia	covered	uncertain			1
+2673-6756	Forensic Sciences	discount	discount	800	CHF	
+2673-6772	Parasitologia	discount	discount	800	CHF	
 2673-6853	Frontiers in Photonics	discount	discount	1755	CHF	
 2673-6861	Frontiers in Rehabilitation Sciences	discount	discount	1755	CHF	
-2673-687X	Nanomanufacturing	covered	uncertain			1
-2673-6918	Compounds	covered	uncertain			1
-2673-7051	Adolescents	covered	uncertain			1
-2673-706X	Nanoenergy Advances	covered	uncertain			1
-2673-7078	Biomechanics	covered	uncertain			1
-2673-7086	Geographies	covered	uncertain			1
-2673-7094	Geotechnics	covered	uncertain			1
-2673-7108	Construction Materials	covered	uncertain			1
-2673-7116	Businesses	covered	uncertain			1
-2673-7140	Stresses	covered	uncertain			1
-2673-7159	Conservation	covered	uncertain			1
-2673-7167	Physchem	covered	uncertain			1
-2673-7248	Textiles	covered	uncertain			1
-2673-7256	Photochem	covered	uncertain			1
-2673-7264	Thermo	covered	uncertain			1
-2673-7272	Disabilities	covered	uncertain			1
-2673-7418	Geomatics	covered	uncertain			1
-2673-7426	BioMedInformatics	covered	uncertain			1
+2673-687X	Nanomanufacturing	discount	discount	800	CHF	
+2673-6918	Compounds	discount	discount	800	CHF	
+2673-7051	Adolescents	none	list_price	1000	CHF	
+2673-706X	Nanoenergy Advances	discount	discount	800	CHF	
+2673-7078	Biomechanics	discount	discount	800	CHF	
+2673-7086	Geographies	discount	discount	800	CHF	
+2673-7094	Geotechnics	none	list_price	1000	CHF	
+2673-7108	Construction Materials	discount	discount	800	CHF	
+2673-7116	Businesses	discount	discount	800	CHF	
+2673-7140	Stresses	none	list_price	1000	CHF	
+2673-7159	Conservation	none	list_price	1000	CHF	
+2673-7167	Physchem	none	list_price	1000	CHF	
+2673-7248	Textiles	none	list_price	1000	CHF	
+2673-7256	Photochem	discount	discount	800	CHF	
+2673-7264	Thermo	none	list_price	1000	CHF	
+2673-7272	Disabilities	discount	discount	800	CHF	
+2673-7418	Geomatics	none	list_price	1000	CHF	
+2673-7426	BioMedInformatics	discount	discount	800	CHF	
 2673-7515	Frontiers in Tropical Diseases	discount	discount	1755	CHF	
-2673-7523	Onco	covered	uncertain			1
-2673-7590	Future Transportation	covered	uncertain			1
+2673-7523	Onco	discount	discount	800	CHF	
+2673-7590	Future Transportation	none	list_price	1000	CHF	
 2673-7647	Frontiers in Bioinformatics	discount	discount	2295	CHF	
-2673-7655	Crops	covered	uncertain			1
+2673-7655	Crops	discount	discount	800	CHF	
 2673-7841	Frontiers in Catalysis	discount	discount	1755	CHF	
-2673-8007	Applied Microbiology	covered	uncertain			1
-2673-8015	Liquids	covered	uncertain			1
-2673-8023	Micro	covered	uncertain			1
-2673-8104	Merits	covered	uncertain			1
-2673-8112	COVID	covered	uncertain			1
+2673-8007	Applied Microbiology	discount	discount	800	CHF	
+2673-8015	Liquids	discount	discount	800	CHF	
+2673-8023	Micro	discount	discount	800	CHF	
+2673-8104	Merits	discount	discount	800	CHF	
+2673-8112	COVID	discount	discount	800	CHF	
 2673-818X	Frontiers in Virology	discount	discount	1755	CHF	
 2673-8198	Frontiers in Signal Processing	discount	discount	1755	CHF	
-2673-8236	Kidney and Dialysis	covered	uncertain			1
-2673-8244	Metrology	covered	uncertain			1
-2673-8392	Encyclopedia	covered	uncertain			1
+2673-8236	Kidney and Dialysis	discount	discount	800	CHF	
+2673-8244	Metrology	discount	discount	800	CHF	
+2673-8392	Encyclopedia	none	list_price	1000	CHF	
 2673-8406	healthbook TIMES Das Schweizer Ärztejournal Journal Des Médecins Suisses	none	no_apc			
-2673-8430	BioMed	covered	uncertain			1
-2673-8449	Biologics	covered	uncertain			1
+2673-8430	BioMed	discount	discount	800	CHF	
+2673-8449	Biologics	none	list_price	1000	CHF	
 2673-8600	Frontiers in Insect Science	discount	discount	2295	CHF	
 2673-8619	Frontiers in Soil Science	discount	discount	1755	CHF	
 2673-8627	European Journal of Psychology Open	discount	discount	1462	EUR	
-2673-866X	Trauma Care	covered	uncertain			1
-2673-8716	Dynamics	covered	uncertain			1
-2673-8724	Magnetism	covered	uncertain			1
-2673-8732	Network	covered	uncertain			1
+2673-866X	Trauma Care	none	list_price	1000	CHF	
+2673-8716	Dynamics	discount	discount	800	CHF	
+2673-8724	Magnetism	discount	discount	800	CHF	
+2673-8732	Network	none	list_price	1000	CHF	
 2673-8740	Frontiers in Radiology	discount	discount	1755	CHF	
-2673-8783	Biomass	covered	uncertain			1
+2673-8783	Biomass	discount	discount	800	CHF	
 2673-8813	Journal of Quantitative Description Digital Media	none	no_apc			
-2673-8856	DNA	covered	uncertain			1
+2673-8856	DNA	discount	discount	800	CHF	
 2673-8880	Frontiers in Nuclear Medicine	discount	discount	1755	CHF	
-2673-8929	Microplastics	covered	uncertain			1
-2673-8937	International Journal of Translational Medicine	covered	uncertain			1
-2673-8945	Architecture	covered	uncertain			1
-2673-9259	Journal of Ageing and Longevity	covered	uncertain			1
+2673-8929	Microplastics	discount	discount	800	CHF	
+2673-8937	International Journal of Translational Medicine	none	list_price	1000	CHF	
+2673-8945	Architecture	discount	discount	800	CHF	
+2673-9259	Journal of Ageing and Longevity	discount	discount	800	CHF	
 2673-9283	Frontiers in Analytical Science	discount	discount	1755	CHF	
-2673-9321	Foundations	covered	uncertain			1
-2673-933X	Ruminants	covered	uncertain			1
-2673-9410	Phycology	covered	uncertain			1
-2673-9461	Humans	covered	uncertain			1
-2673-947X	Hygiene	covered	uncertain			1
-2673-9488	Physiologia	covered	uncertain			1
-2673-9496	Aquaculture Journal	covered	uncertain			1
-2673-9585	Knowledge	covered	uncertain			1
-2673-9623	AppliedChem	covered	uncertain			1
-2673-964X	Coasts	covered	uncertain			1
-2673-9801	Oxygen	covered	uncertain			1
+2673-9321	Foundations	discount	discount	800	CHF	
+2673-933X	Ruminants	discount	discount	800	CHF	
+2673-9410	Phycology	discount	discount	800	CHF	
+2673-9461	Humans	discount	discount	800	CHF	
+2673-947X	Hygiene	discount	discount	800	CHF	
+2673-9488	Physiologia	discount	discount	800	CHF	
+2673-9496	Aquaculture Journal	discount	discount	800	CHF	
+2673-9585	Knowledge	discount	discount	800	CHF	
+2673-9623	AppliedChem	discount	discount	800	CHF	
+2673-964X	Coasts	discount	discount	800	CHF	
+2673-9801	Oxygen	discount	discount	800	CHF	
 2673-9828	Frontiers in Urology	discount	discount	1755	CHF	
-2673-9879	Future Pharmacology	covered	uncertain			1
+2673-9879	Future Pharmacology	discount	discount	800	CHF	
 2673-9895	Frontiers in Electronic Materials	discount	discount	1755	CHF	
-2673-9909	AppliedMath	covered	uncertain			1
-2673-9917	Hydrobiology	covered	uncertain			1
-2673-9941	Solar	covered	uncertain			1
-2673-995X	Youth	covered	uncertain			1
-2673-9976	Biology and Life Sciences Forum	covered	uncertain			1
-2673-9984	Physical Sciences Forum	covered	uncertain			1
-2673-9992	Medical Sciences Forum	covered	uncertain			1
+2673-9909	AppliedMath	discount	discount	800	CHF	
+2673-9917	Hydrobiology	discount	discount	800	CHF	
+2673-9941	Solar	discount	discount	800	CHF	
+2673-995X	Youth	discount	discount	800	CHF	
+2673-9976	Biology and Life Sciences Forum	discount	no_apc			
+2673-9984	Physical Sciences Forum	discount	no_apc			
+2673-9992	Medical Sciences Forum	discount	no_apc			
 2674-0001	Advances in Drug and Alcohol Research	discount	discount	2250	USD	
 2674-0052	Sports Psychiatry	discount	discount	1462	EUR	
 2674-0095	Frontiers in Molecular Medicine	discount	discount	1755	CHF	
 2674-0109	Frontiers in Network Physiology	discount	discount	1755	CHF	
 2674-029X	Diffusion Foundations and Materials Applications	none	unknown			
-2674-0311	Dietetics	covered	uncertain			1
-2674-032X	Wind	covered	uncertain			1
+2674-0311	Dietetics	none	list_price	1000	CHF	
+2674-032X	Wind	discount	discount	800	CHF	
 2674-0338	Frontiers in Drug Discovery	discount	discount	1755	CHF	
-2674-0346	Astronomy	covered	uncertain			1
-2674-0389	Methane	covered	uncertain			1
-2674-0494	Meteorology	covered	uncertain			1
-2674-0516	Powders	covered	uncertain			1
-2674-0583	SynBio	covered	uncertain			1
-2674-0621	Rheumato	covered	uncertain			1
-2674-063X	Alloys	covered	uncertain			1
+2674-0346	Astronomy	none	list_price	1000	CHF	
+2674-0389	Methane	none	list_price	1000	CHF	
+2674-0494	Meteorology	discount	discount	800	CHF	
+2674-0516	Powders	discount	discount	800	CHF	
+2674-0583	SynBio	discount	discount	800	CHF	
+2674-0621	Rheumato	none	list_price	1000	CHF	
+2674-063X	Alloys	discount	discount	800	CHF	
 2674-0702	Frontiers in Systems Biology	discount	discount	1755	CHF	
-2674-0710	Venereology	covered	uncertain			1
-2674-0729	Chips	covered	uncertain			1
+2674-0710	Venereology	none	list_price	1000	CHF	
+2674-0729	Chips	none	list_price	1000	CHF	
 2674-0826	Frontiers in Ophthalmology	discount	discount	1755	CHF	
 2674-0850	Frontiers in Drug Delivery	discount	discount	1755	CHF	
 2674-0869	Frontiers in Drug Safety and Regulation	discount	discount	1755	CHF	
-2674-1024	Seeds	covered	uncertain			1
+2674-1024	Seeds	discount	discount	800	CHF	
 2674-1121	Frontiers in Food Science and Technology	discount	discount	1755	CHF	
-2674-113X	Software	covered	uncertain			1
-2674-1164	Poultry	covered	uncertain			1
-2674-1172	Organoids	covered	uncertain			1
+2674-113X	Software	discount	discount	800	CHF	
+2674-1164	Poultry	discount	discount	800	CHF	
+2674-1172	Organoids	none	list_price	1000	CHF	
 2674-1199	Frontiers in Epidemiology	discount	discount	1755	CHF	
 2674-1229	Construction technologies and architecture	none	unknown			
-2674-1334	Bacteria	covered	uncertain			1
+2674-1334	Bacteria	discount	discount	800	CHF	
 2674-5739	Revista da Defensoria Pública do Distrito Federal	none	no_apc			
 2674-5887	Geekerd	none	no_apc			
 2674-5968	Das Amazônias	none	no_apc			
@@ -47123,100 +47123,100 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2813-0057	Coimbra mathematical texts.	none	unknown			
 2813-0073	Immune system	none	unknown			
 2813-0146	Frontiers in Health Services	discount	discount	2295	CHF	
-2813-0227	Zoonotic Diseases	covered	uncertain			1
-2813-0324	Computer Sciences & Mathematics Forum	covered	uncertain			1
+2813-0227	Zoonotic Diseases	none	list_price	1000	CHF	
+2813-0324	Computer Sciences & Mathematics Forum	none	no_apc			
 2813-0359	Frontiers in Manufacturing Technology	discount	discount	1755	CHF	
-2813-0391	Waste	covered	uncertain			1
-2813-0405	Logics	covered	uncertain			1
-2813-0413	Muscles	covered	uncertain			1
+2813-0391	Waste	none	list_price	1000	CHF	
+2813-0405	Logics	discount	discount	800	CHF	
+2813-0413	Muscles	discount	discount	800	CHF	
 2813-0456	Frontiers in Thermal Engineering	discount	discount	1058	CHF	
-2813-0464	Applied Biosciences	covered	uncertain			1
+2813-0464	Applied Biosciences	none	list_price	1000	CHF	
 2813-0499	Frontiers in Soft Matter	discount	discount	1755	CHF	
-2813-0545	Anatomia	covered	uncertain			1
-2813-0618	Pharmacoepidemiology	covered	uncertain			1
+2813-0545	Anatomia	none	list_price	1000	CHF	
+2813-0618	Pharmacoepidemiology	discount	discount	800	CHF	
 2813-0626	Frontiers in Nephrology	discount	discount	1755	CHF	
 2813-0995	Engineering innovations	none	unknown			
 2813-1010	Frontiers in Membrane Science and Technology	discount	discount	1755	CHF	
-2813-1053	Journal of Clinical & Translational Ophthalmology	covered	uncertain			1
+2813-1053	Journal of Clinical & Translational Ophthalmology	none	list_price	1000	CHF	
 2813-1169	Frontiers in Gastroenterology	discount	discount	1755	CHF	
 2813-1193	Frontiers in Neuroimaging	discount	discount	1755	CHF	
-2813-141X	International Medical Education	covered	uncertain			1
-2813-1851	Psychoactives	covered	uncertain			1
+2813-141X	International Medical Education	none	list_price	1000	CHF	
+2813-1851	Psychoactives	none	list_price	1000	CHF	
 2813-1940	Cortica	none	no_apc			
-2813-2084	Virtual Worlds	covered	uncertain			1
+2813-2084	Virtual Worlds	none	list_price	1000	CHF	
 2813-2092	Journal of Abdominal Wall Surgery	discount	discount	1125	EUR	
 2813-2106	Dystonia	discount	discount	1350	USD	
 2813-2181	Frontiers in Quantum Science and Technology	discount	discount	1755	CHF	
-2813-2203	Analytics	covered	uncertain			1
+2813-2203	Analytics	none	list_price	1000	CHF	
 2813-2424	Frontiers in Parasitology	discount	discount	1755	CHF	
-2813-2432	Commodities	covered	uncertain			1
+2813-2432	Commodities	none	list_price	1000	CHF	
 2813-2440	Frontiers in Transplantation	discount	discount	1755	CHF	
 2813-2459	Frontiers in Metals and Alloys	discount	discount	1755	CHF	
 2813-2467	Frontiers in Antibiotics	discount	discount	1755	CHF	
-2813-2475	Journal of Vascular Diseases	covered	uncertain			1
-2813-2564	Receptors	covered	uncertain			1
+2813-2475	Journal of Vascular Diseases	none	list_price	1000	CHF	
+2813-2564	Receptors	none	list_price	1000	CHF	
 2813-2602	Frontiers in Natural Products	discount	discount	1755	CHF	
 2813-2815	Frontiers in Sustainable Tourism	discount	discount	1058	CHF	
 2813-2823	Frontiers in Environmental Economics	discount	discount	1058	CHF	
 2813-2831	Frontiers in Aerospace Engineering	discount	discount	1755	CHF	
-2813-2882	Future	covered	uncertain			1
+2813-2882	Future	none	list_price	1000	CHF	
 2813-2890	Frontiers in Sleep	discount	discount	1755	CHF	
-2813-2998	Drugs and Drug Candidates	covered	uncertain			1
+2813-2998	Drugs and Drug Candidates	none	list_price	1000	CHF	
 2813-3005	Frontiers in Sustainable Resource Management	discount	discount	1755	CHF	
 2813-3056	Frontiers in Stroke	discount	discount	1755	CHF	
-2813-3064	Sclerosis	covered	uncertain			1
+2813-3064	Sclerosis	none	list_price	1000	CHF	
 2813-3110	Frontiers in the Internet of Things	discount	discount	1755	CHF	
-2813-3137	Targets	covered	uncertain			1
-2813-3145	Agrochemicals	covered	uncertain			1
-2813-3307	Lymphatics	covered	uncertain			1
+2813-3137	Targets	none	list_price	1000	CHF	
+2813-3145	Agrochemicals	none	list_price	1000	CHF	
+2813-3307	Lymphatics	none	list_price	1000	CHF	
 2813-3315	Frontiers in Imaging	discount	discount	1755	CHF	
-2813-3323	Arthropoda	covered	uncertain			1
+2813-3323	Arthropoda	none	list_price	1000	CHF	
 2813-3412	Frontiers in Nuclear Engineering	discount	discount	1755	CHF	
-2813-3463	Grasses	covered	uncertain			1
+2813-3463	Grasses	none	list_price	1000	CHF	
 2813-3595	Frontiers in Horticulture	discount	discount	1755	CHF	
 2813-3749	Frontiers in Biomaterials Science	discount	discount	1755	CHF	
-2813-3757	Kinases and Phosphatases	covered	uncertain			1
+2813-3757	Kinases and Phosphatases	none	list_price	1000	CHF	
 2813-3862	Frontiers in Lab on a Chip Technologies	discount	discount	1755	CHF	
 2813-3870	Frontiers in Bird Science	discount	discount	1755	CHF	
 2813-3919	Frontiers in Dementia	discount	discount	1755	CHF	
 2813-3935	Frontiers in Hematology	discount	discount	1755	CHF	
 2813-415X	Sedimentologika	none	no_apc			
-2813-4168	Air	covered	uncertain			1
-2813-4176	Platforms	covered	uncertain			1
+2813-4168	Air	none	list_price	1000	CHF	
+2813-4176	Platforms	none	list_price	1000	CHF	
 2813-4184	AЯGOS	none	no_apc			
 2813-4192	Frontiers in Carbon	discount	discount	1755	CHF	
 2813-4311	Frontiers in Smart Grids	discount	discount	1755	CHF	
 2813-432X	Frontiers in Environmental Archaeology	discount	discount	1755	CHF	
 2813-4338	Frontiers in Microbiomes	discount	discount	1755	CHF	
-2813-4346	Trends in Higher Education	covered	uncertain			1
+2813-4346	Trends in Higher Education	none	list_price	1000	CHF	
 2813-4370	Journal of Ethics in Higher Education	none	no_apc			
-2813-446X	Spectroscopy Journal	covered	uncertain			1
-2813-4524	Hospitals	covered	uncertain			1
+2813-446X	Spectroscopy Journal	none	list_price	1000	CHF	
+2813-4524	Hospitals	none	list_price	1000	CHF	
 2813-4532	Frontiers in Cognition	discount	discount	1755	CHF	
 2813-4540	Frontiers in Child and Adolescent Psychiatry	discount	discount	1755	CHF	
-2813-4583	Gout Urate and Crystal Deposition Disease	covered	uncertain			1
+2813-4583	Gout Urate and Crystal Deposition Disease	none	list_price	1000	CHF	
 2813-4605	Frontiers in Language Sciences	discount	discount	1755	CHF	
-2813-4648	Journal of Experimental and Theoretical Analyses	covered	uncertain			1
+2813-4648	Journal of Experimental and Theoretical Analyses	none	list_price	1000	CHF	
 2813-4680	Frontiers in Antennas and Propagation	discount	discount	1755	CHF	
 2813-4699	Frontiers in Mammal Science	discount	discount	1755	CHF	
-2813-477X	NDT	covered	uncertain			1
+2813-477X	NDT	none	list_price	1000	CHF	
 2813-480X	Frontiers in Anesthesiology	discount	discount	1755	CHF	
-2813-4966	Complications	covered	uncertain			1
+2813-4966	Complications	none	list_price	1000	CHF	
 2813-4974	Frontiers in Batteries and Electrochemistry	discount	discount	1755	CHF	
 2813-4982	Frontiers in Sustainable Energy Policy	discount	discount	1755	CHF	
 2813-5067	Frontiers in Environmental Engineering	discount	discount	1755	CHF	
-2813-5075	Aerobiology	covered	uncertain			1
+2813-5075	Aerobiology	none	list_price	1000	CHF	
 2813-5083	Frontiers in Arachnid Science	discount	discount	1755	CHF	
 2813-5091	Frontiers in Ethology	discount	discount	1755	CHF	
-2813-513X	Gastronomy	covered	uncertain			1
+2813-513X	Gastronomy	none	list_price	1000	CHF	
 2813-5229	Swiss Journal of Sociocultural Anthropology	none	no_apc			
-2813-5288	Blockchains	covered	uncertain			1
+2813-5288	Blockchains	none	list_price	1000	CHF	
 2813-5296	Frontiers in Behavioral Economics	discount	discount	1058	CHF	
 2813-530X	Frontiers in Chemical Biology	discount	discount	1755	CHF	
 2813-5334	Frontiers in Aquaculture	discount	discount	1755	CHF	
 2813-5563	Frontiers in Cell Death	discount	discount	1755	CHF	
 2813-558X	Frontiers in Environmental Health	discount	discount	1755	CHF	
-2813-5806	Anesthesia Research	covered	uncertain			1
+2813-5806	Anesthesia Research	none	list_price	1000	CHF	
 2813-5911	Frontiers in Bee Science	discount	discount	1755	CHF	
 2813-5962	Frontiers in Geochemistry	discount	discount	1755	CHF	
 2813-6047	Frontiers in Industrial Engineering	discount	discount	1755	CHF	
@@ -47226,17 +47226,17 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2813-6187	Frontiers in Complex Systems	discount	discount	1755	CHF	
 2813-6209	Aerospace Research Communications	discount	discount	1080	USD	
 2813-6217	Frontiers in Fuels	discount	discount	1755	CHF	
-2813-6284	Fossil Studies	covered	uncertain			1
+2813-6284	Fossil Studies	none	list_price	1000	CHF	
 2813-6330	Frontiers in Science	discount	no_apc			
 2813-6527	Engineering chemistry	none	unknown			
-2813-6640	Hardware	covered	uncertain			1
+2813-6640	Hardware	none	list_price	1000	CHF	
 2813-6780	Frontiers in Amphibian and Reptile Science	discount	discount	1755	CHF	
 2813-6799	Frontiers in Energy Efficiency	discount	discount	1755	CHF	
 2813-6861	Frontiers in Coatings Dyes and Interface Engineering	discount	discount	1755	CHF	
 2813-687X	Frontiers in Medical Engineering	discount	discount	1755	CHF	
 2813-6934	Frontiers in Lupus	discount	discount	1755	CHF	
 2813-706X	Frontiers in Epigenetics and Epigenomics	discount	discount	1755	CHF	
-2813-7086	Lipidology	covered	uncertain			1
+2813-7086	Lipidology	none	unknown			
 2813-7116	Frontiers in RNA Research	discount	discount	1755	CHF	
 2813-7124	Frontiers in Freshwater Science	discount	discount	1755	CHF	
 2813-7183	Frontiers in Biophysics	discount	discount	1755	CHF	
@@ -47250,10 +47250,10 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2813-7809	Frontiers in Industrial Microbiology	discount	discount	1755	CHF	
 2813-7868	Frontiers in Tuberculosis	discount	discount	1755	CHF	
 2813-7876	Frontiers in Social Psychology	discount	discount	1755	CHF	
-2813-7914	Emergency Care and Medicine	covered	uncertain			1
+2813-7914	Emergency Care and Medicine	none	list_price	1000	CHF	
 2813-8031	Frontiers in Detector Science and Technology	discount	discount	1755	CHF	
 2813-8082	Frontiers in Acoustics	discount	discount	1755	CHF	
-2813-8090	Real Estate	covered	uncertain			1
+2813-8090	Real Estate	none	list_price	1000	CHF	
 2813-818X	Frontiers in Synthetic Biology	discount	discount	1755	CHF	
 2813-821X	Frontiers in Plant Physiology	discount	discount	1755	CHF	
 2813-8228	Frontiers in Photobiology	discount	discount	1755	CHF	
@@ -47262,21 +47262,21 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2813-835X	Frontiers in Cancer Control and Society	discount	discount	1755	CHF	
 2813-849X	Frontiers in Protistology	discount	discount	1755	CHF	
 2813-8589	Frontiers in Adolescent Medicine	discount	discount	1755	CHF	
-2813-8740	Glacies	covered	uncertain			1
-2813-8759	Journal of the Oman Medical Association	covered	uncertain			1
+2813-8740	Glacies	none	unknown			
+2813-8759	Journal of the Oman Medical Association	none	unknown			
 2813-883X	Frontiers in Musculoskeletal Disorders	discount	discount	1755	CHF	
-2813-8856	Laboratories	covered	uncertain			1
+2813-8856	Laboratories	none	unknown			
 2813-8996	Maternal and Children s Health	none	list_price	1060	EUR	
-2813-9038	LabMed	covered	uncertain			1
-2813-9054	Acta Microbiologica Hellenica	covered	uncertain			1
+2813-9038	LabMed	none	list_price	1000	CHF	
+2813-9054	Acta Microbiologica Hellenica	discount	discount	960	CHF	
 2813-9097	Frontiers in Fish Science	discount	discount	1755	CHF	
 2813-9151	Endocrinology Insights	none	list_price	750	EUR	
-2813-9372	Pets	covered	uncertain			1
-2813-9380	Journal of Pharmaceutical and BioTech Industry	covered	uncertain			1
-2813-9526	Time and space	covered	uncertain			1
-2813-9542	International Journal of Topology	covered	uncertain			1
-2813-9844	Psychology International	covered	uncertain			1
-2813-9909	Therapeutics	covered	uncertain			1
+2813-9372	Pets	discount	discount	800	CHF	
+2813-9380	Journal of Pharmaceutical and BioTech Industry	none	unknown			
+2813-9526	Time and space	none	unknown			
+2813-9542	International Journal of Topology	discount	discount	800	CHF	
+2813-9844	Psychology International	discount	discount	960	CHF	
+2813-9909	Therapeutics	none	unknown			
 2814-1822	UMYU Journal of Microbiology Research (UJMR)	none	list_price	25	USD	
 2814-4376	Finnish Journal of Linguistics	none	no_apc			
 2815-2751	Bulgarian Journal of International Economics and Politics	none	no_apc			
@@ -48952,72 +48952,72 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3041-9921	Journal of Preventive and Complementary Medicine	none	no_apc			
 3041-9964	آموزه‌های حقوق کیفری کشورهای اسلامی	none	no_apc			
 3042-3201	Comprehensive Plant Biology	none	no_apc			
-3042-4011	Energy storage and applications	covered	uncertain			1
-3042-402X	Geometry	covered	uncertain			1
+3042-4011	Energy storage and applications	none	unknown			
+3042-402X	Geometry	none	list_price	1000	CHF	
 3042-4046	Language Policy in Africa	none	no_apc			
-3042-4372	Populations	covered	uncertain			1
-3042-4518	Journal of dementia and Alzheimer's disease	covered	uncertain			1
-3042-4526	Wild	covered	uncertain			1
-3042-4658	Regional science and environmental economics	covered	uncertain			1
-3042-4720	Intelligent infrastructure and construction	covered	uncertain			1
+3042-4372	Populations	none	list_price	1000	CHF	
+3042-4518	Journal of dementia and Alzheimer's disease	discount	discount	800	CHF	
+3042-4526	Wild	none	list_price	1000	CHF	
+3042-4658	Regional science and environmental economics	none	list_price	1000	CHF	
+3042-4720	Intelligent infrastructure and construction	none	unknown			
 3042-478X	Historical thinking, culture, and education	none	no_apc			
-3042-4860	Cryo	covered	uncertain			1
-3042-5034	Modern mathematical physics	covered	uncertain			1
-3042-5042	Metrics	covered	uncertain			1
-3042-5158	Clinical bioenergetics	covered	uncertain			1
-3042-5344	Microelectronics	covered	uncertain			1
-3042-5689	Journal of parks	covered	uncertain			1
-3042-5697	Microwave	covered	uncertain			1
+3042-4860	Cryo	none	unknown			
+3042-5034	Modern mathematical physics	none	unknown			
+3042-5042	Metrics	none	list_price	1000	CHF	
+3042-5158	Clinical bioenergetics	none	unknown			
+3042-5344	Microelectronics	none	unknown			
+3042-5689	Journal of parks	none	unknown			
+3042-5697	Microwave	none	unknown			
 3042-5727	The Hive - Musculoskeletal Journal	none	list_price	500	EUR	
-3042-5832	Green Health	covered	uncertain			1
-3042-5999	AI Sensors	covered	uncertain			1
-3042-6081	Adhesives	covered	uncertain			1
-3042-6111	Biosphere	covered	uncertain			1
-3042-6197	Purification	covered	uncertain			1
-3042-6308	Multimedia	covered	uncertain			1
+3042-5832	Green Health	none	unknown			
+3042-5999	AI Sensors	none	unknown			
+3042-6081	Adhesives	none	unknown			
+3042-6111	Biosphere	none	unknown			
+3042-6197	Purification	none	unknown			
+3042-6308	Multimedia	none	unknown			
 3042-6359	Organ Donation and Transplantation	none	unknown			
-3042-6448	Complexities	covered	uncertain			1
-3042-6529	Peace Studies	covered	uncertain			1
-3042-6553	AppliedPhys	covered	uncertain			1
-3042-6618	Accounting and Auditing	covered	uncertain			1
-3042-6693	Family Sciences	covered	uncertain			1
-3042-6707	AI in Medicine	covered	uncertain			1
-3042-6715	AI Materials	covered	uncertain			1
-3042-6723	AI Chemistry	covered	uncertain			1
-3042-6774	Journal of Aesthetic Medicine	covered	uncertain			1
-3042-6987	Journal of CardioRenal Medicine	covered	uncertain			1
-3042-7126	Theoretical and Applied Ergonomics	covered	uncertain			1
-3042-7576	Astronautics	covered	uncertain			1
-3042-7592	Entropic and Disordered Matter	covered	uncertain			1
-3042-7614	Precision Oncology	covered	uncertain			1
-3042-7681	International Journal of Environmental Medicine	covered	uncertain			1
-3042-7886	Lights	covered	uncertain			1
-3042-8084	International Journal of Cognitive Sciences	covered	uncertain			1
-3042-8092	Bioresources and Bioproducts	covered	uncertain			1
-3042-8130	AI in Education	covered	uncertain			1
-3042-8165	Culture	covered	uncertain			1
-3042-8181	Trends in Public Health	covered	uncertain			1
-3042-8424	Journal of Genome Biotechnology and Genetics	covered	uncertain			1
-3042-8432	Hydropower	covered	uncertain			1
-3042-8491	Analog	covered	uncertain			1
-3042-8629	Journal of Innovation	covered	uncertain			1
-3042-8637	Occupational Health	covered	uncertain			1
-3042-8807	Neuroimaging	covered	uncertain			1
-3042-8831	AI for Engineering	covered	uncertain			1
-3042-884X	Stratigraphy and Sedimentology	covered	uncertain			1
-3042-8890	International Journal of Medical Devices	covered	uncertain			1
-3042-9013	Semiconductors and Heterogeneous Integration	covered	uncertain			1
-3042-9021	Industries	covered	uncertain			1
-3042-903X	Environmental Remediation	covered	uncertain			1
-3042-9242	Green	covered	uncertain			1
-3042-9250	Journal of Phytomedicine	covered	uncertain			1
-3042-9315	Digital Health and Innovation	covered	uncertain			1
-3042-9323	Pandemics	covered	uncertain			1
-3042-934X	Low-Altitude Economy	covered	uncertain			1
-3042-9897	Primary and Hospital Care	covered	uncertain			1
-3043-0097	Journal of Superintelligence	covered	uncertain			1
-3043-0348	Inflammation Journal	covered	uncertain			1
-3043-0550	Future Collections Libraries Archives and Museums	covered	uncertain			1
+3042-6448	Complexities	none	unknown			
+3042-6529	Peace Studies	none	unknown			
+3042-6553	AppliedPhys	none	unknown			
+3042-6618	Accounting and Auditing	none	unknown			
+3042-6693	Family Sciences	none	unknown			
+3042-6707	AI in Medicine	none	unknown			
+3042-6715	AI Materials	none	unknown			
+3042-6723	AI Chemistry	none	unknown			
+3042-6774	Journal of Aesthetic Medicine	none	unknown			
+3042-6987	Journal of CardioRenal Medicine	none	unknown			
+3042-7126	Theoretical and Applied Ergonomics	none	unknown			
+3042-7576	Astronautics	none	unknown			
+3042-7592	Entropic and Disordered Matter	none	unknown			
+3042-7614	Precision Oncology	none	unknown			
+3042-7681	International Journal of Environmental Medicine	none	unknown			
+3042-7886	Lights	none	unknown			
+3042-8084	International Journal of Cognitive Sciences	none	unknown			
+3042-8092	Bioresources and Bioproducts	none	unknown			
+3042-8130	AI in Education	none	unknown			
+3042-8165	Culture	none	unknown			
+3042-8181	Trends in Public Health	none	unknown			
+3042-8424	Journal of Genome Biotechnology and Genetics	none	unknown			
+3042-8432	Hydropower	none	unknown			
+3042-8491	Analog	none	unknown			
+3042-8629	Journal of Innovation	none	unknown			
+3042-8637	Occupational Health	none	unknown			
+3042-8807	Neuroimaging	none	unknown			
+3042-8831	AI for Engineering	none	unknown			
+3042-884X	Stratigraphy and Sedimentology	none	unknown			
+3042-8890	International Journal of Medical Devices	none	unknown			
+3042-9013	Semiconductors and Heterogeneous Integration	none	unknown			
+3042-9021	Industries	none	unknown			
+3042-903X	Environmental Remediation	none	unknown			
+3042-9242	Green	none	unknown			
+3042-9250	Journal of Phytomedicine	none	unknown			
+3042-9315	Digital Health and Innovation	none	unknown			
+3042-9323	Pandemics	none	unknown			
+3042-934X	Low-Altitude Economy	none	unknown			
+3042-9897	Primary and Hospital Care	none	unknown			
+3043-0097	Journal of Superintelligence	none	unknown			
+3043-0348	Inflammation Journal	none	unknown			
+3043-0550	Future Collections Libraries Archives and Museums	none	unknown			
 3043-4262	African Science Frontiers Initiatives Research Journal  ASFIRJ	none	list_price	100	USD	
 3043-4459	International Journal of Sub-Saharan African Research	none	list_price	100	USD	
 3043-4475	ABUAD Journal of the Humanities-AGIDIGBO	none	list_price	20000	NGN	
@@ -49486,7 +49486,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3090-7314	Journal of Applied Taxation and Policy	none	list_price	8	USD	
 3090-8175	Indonesian Journal of Sharia and Socio-Legal Studies	none	no_apc			
 3090-9694	Revista Română de istorie a secolului XX	none	no_apc			
-3091-101X	Romanian Journal of Preventive Medicine	covered	uncertain			1
+3091-101X	Romanian Journal of Preventive Medicine	none	unknown			
 3091-2784	npj Digital Public Health	none	unknown			
 3091-2806	npj Digital Surgery	none	unknown			
 3091-2903	Ethnobotany and Economic Botany	covered	covered			
