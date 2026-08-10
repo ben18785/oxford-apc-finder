@@ -431,6 +431,16 @@ def main() -> None:
     universal_criteria = overrides.get("universal_criteria") or []
     caveat_entries = [e for e in overrides["entries"] if e["kind"] == "caveat"]
     conflict_entries = [e for e in overrides["entries"] if e["kind"] == "conflict"]
+    # Corrections are the one thing that can overrule JCT outright.
+    #
+    # A `conflict` says "our sources disagree and we cannot tell who is right",
+    # and produces silence. A `correction` says "we asked, and Oxford told us".
+    # The library is definitive about what Oxford has actually bought in a way
+    # no third-party register can be, so a correction removes the agreement
+    # rather than merely flagging it — otherwise the site keeps hedging about a
+    # question that has been settled, and 516 MDPI journals show "we cannot
+    # tell you" when the true answer is "20% off".
+    correction_entries = [e for e in overrides["entries"] if e["kind"] == "correction"]
     # Agreements where JCT's own live API contradicts JCT's own agreement data
     # (fetch_jct.verify_against_api). Curated conflict entries cover sources
     # that disagree with EACH OTHER — the Bodleian page versus JCT — and need a
@@ -443,7 +453,7 @@ def main() -> None:
               f"API — their journals will state no price: "
               f"{', '.join(sorted(api_contradicts))}")
     other_entries = [e for e in overrides["entries"]
-                     if e["kind"] not in ("caveat", "conflict")]
+                     if e["kind"] not in ("caveat", "conflict", "correction")]
     bodleian_url = overrides["meta"]["source"]
 
     today = datetime.date.today()
@@ -475,6 +485,18 @@ def main() -> None:
 
         # --- deal resolution
         deal = next((deal_lookup[i] for i in issns if i in deal_lookup), None)
+
+        # A correction drops the agreement before anything is derived from it,
+        # so the overlay's own entry for the publisher — a discount, usually —
+        # applies as it would have if JCT had never listed the deal.
+        correction = None
+        if deal:
+            for e in correction_entries:
+                prefix = e.get("match_esac_prefix")
+                if prefix and deal["esac_id"].startswith(prefix):
+                    correction, deal = e, None
+                    break
+
         status, discount_pct, caveats, deal_sources = "none", None, [], []
         esac_id, expired = None, None
         # Journal-specific risks that stop a coverage claim becoming a flat £0.
@@ -629,6 +651,15 @@ def main() -> None:
                 "source": "jct_api_cross_check",
             }
 
+        if correction:
+            # Say so on the record. A reader who checks the Journal Checker
+            # Tool will see a transformative agreement we are not honouring,
+            # and an unexplained contradiction reads as a bug in this site.
+            caveats.append(correction["note"])
+            deal_sources.append({"label": correction.get("source_label")
+                                          or "Bodleian Libraries, by email",
+                                 "url": correction.get("source_extra") or bodleian_url})
+
         in_doaj = rec.get("is_in_doaj") or bool(doaj_rec)
 
         # --- inclusion policy
@@ -689,6 +720,12 @@ def main() -> None:
             "deal": {"status": status, "esac_id": esac_id,
                      "discount_pct": discount_pct, "caveats": caveats,
                      "disputed": disputed, "expired": expired,
+                     # What JCT claimed and why we are not repeating it.
+                     "correction": ({"publisher": correction.get("publisher_label"),
+                                     "jct_says": correction.get("jct_says"),
+                                     "oxford_says": correction.get("oxford_says"),
+                                     "confirmed": correction.get("confirmed")}
+                                    if correction else None),
                      # Persisted, not just used and discarded. These are two of
                      # the four inputs that decide whether a £0 may be stated
                      # as settled, and a rule enforced against the *output*

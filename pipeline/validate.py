@@ -198,6 +198,14 @@ def check_overlay_is_live(data: dict, overrides: dict | None = None) -> list[str
                        if (j["deal"].get("esac_id") or "").startswith(prefix))
         elif kind == "conflict":
             hits = sum(1 for j in journals if j["deal"].get("disputed"))
+        elif kind == "correction":
+            # A correction that matches nothing is the most dangerous dead
+            # entry of the lot: it means JCT's coverage claim is standing
+            # unchallenged, and the site is asserting a deal the library has
+            # explicitly told us does not exist.
+            prefix = entry["match_esac_prefix"]
+            hits = sum(1 for j in journals if (j["deal"].get("correction") or {})
+                       .get("publisher") == entry.get("publisher_label"))
         else:
             issns = set(entry.get("match_issns") or [])
             rx = entry.get("match_publisher_regex")

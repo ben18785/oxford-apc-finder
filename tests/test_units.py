@@ -1647,3 +1647,80 @@ def test_no_cross_check_at_all_is_a_failure():
     """A missing block means the stage silently did not run."""
     errors = check_api_contradictions_are_applied({"journals": []}, {})
     assert errors and "no agreement was cross-checked" in errors[0]
+
+
+# ------------------------------------------- corrections (the library wins)
+def test_a_correction_removes_the_agreement_a_conflict_only_flags_it():
+    """The two kinds answer different questions and must not be conflated.
+
+    `conflict` = "our sources disagree and we cannot tell who is right" ->
+    silence. `correction` = "we asked Oxford and Oxford told us" -> act on it.
+    Treating a correction as a conflict leaves 516 MDPI journals saying "we
+    cannot tell you" when the answer is known to be 20% off.
+    """
+    import yaml
+    from common import CURATED
+    ov = yaml.safe_load((CURATED / "oxford_overrides.yaml").read_text())
+    kinds = {e["kind"] for e in ov["entries"]}
+    assert "correction" in kinds, "the MDPI correction has gone"
+    corr = [e for e in ov["entries"] if e["kind"] == "correction"]
+    for e in corr:
+        # A correction overrules a published source, so it may only exist with
+        # a date and a record of who said so.
+        assert e.get("confirmed"), f"{e['publisher_label']} correction has no date"
+        assert e.get("oxford_says") and e.get("jct_says"), \
+            f"{e['publisher_label']} correction does not record both claims"
+        assert e.get("source_label"), f"{e['publisher_label']} cites no source"
+
+
+def test_mdpi_is_a_discount_not_an_agreement():
+    """Confirmed by the open access team on 2026-08-10. If this reverts, the
+    site is quoting a read-and-publish deal Oxford has said it does not have."""
+    import yaml
+    from common import CURATED
+    ov = yaml.safe_load((CURATED / "oxford_overrides.yaml").read_text())
+    mdpi = [e for e in ov["entries"] if e.get("publisher_label") == "MDPI"]
+    kinds = {e["kind"] for e in mdpi}
+    assert kinds == {"correction", "discount"}, kinds
+    discount = next(e for e in mdpi if e["kind"] == "discount")
+    assert discount["pct"] == 20
+    assert not discount.get("expect_no_match"), \
+        "the MDPI discount is still marked unreachable, so it will never apply"
+
+
+def test_frontiers_claims_no_full_coverage():
+    """Removed 2026-08-10: "All MDPI and Frontiers journals receive their
+    respective discounts (not full coverage)." A £0 claim the library says does
+    not exist is the worst thing this file can carry."""
+    import yaml
+    from common import CURATED
+    ov = yaml.safe_load((CURATED / "oxford_overrides.yaml").read_text())
+    fr = next(e for e in ov["entries"] if e.get("publisher_label") == "Frontiers")
+    assert "funders_covered_full" not in fr
+    assert not any("full" in c.lower() and "coverage" in c.lower()
+                   for c in fr.get("caveats", []))
+
+
+def test_bmj_keeps_its_funder_restriction():
+    """Asked "funded authors, Standard Collection, or both?", the team answered
+    "the standard collection" and said nothing about funders. Silence is not
+    permission: dropping the restriction would widen a coverage claim on an
+    ambiguous reply, which is the one direction this file must not move."""
+    import yaml
+    from common import CURATED
+    ov = yaml.safe_load((CURATED / "oxford_overrides.yaml").read_text())
+    bmj = next(e for e in ov["entries"]
+               if e["kind"] == "caveat" and e.get("publisher_label") == "BMJ")
+    assert bmj.get("funders_only"), "BMJ's funder restriction was dropped"
+
+
+def test_bmj_remains_unresolved():
+    """The team confirmed a deal exists but did not address why JCT's own API
+    denies it. A deal the publisher-facing checker will not confirm still
+    cannot be priced at zero."""
+    import yaml
+    from common import CURATED
+    ov = yaml.safe_load((CURATED / "oxford_overrides.yaml").read_text())
+    assert any(e["kind"] == "conflict" and e.get("publisher_label") == "BMJ"
+               for e in ov["entries"]), \
+        "BMJ was resolved to a correction, but the API contradiction stands"

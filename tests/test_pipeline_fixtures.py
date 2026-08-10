@@ -535,3 +535,36 @@ def test_agreements_the_api_confirms_are_left_alone(built):
                if (x.get("deal") or {}).get("esac_id") == "wiley2026jisc"]
     assert covered, "fixture drift: no wiley journals left"
     assert all(x["cost"]["kind"] == "covered" for x in covered)
+
+
+def test_a_correction_replaces_the_agreement_with_what_oxford_actually_holds(built):
+    """MDPI, end to end.
+
+    JCT lists a read-and-publish agreement; Oxford's open access team confirmed
+    on 2026-08-10 that what Oxford holds is a 20% discount. The journal must
+    come out as a discount — not as covered (which would promise £0 the library
+    says is not on offer) and not as uncertain (which would keep hedging about
+    a question that has been answered).
+    """
+    j = next(x for x in built["journals"]["journals"] if x["id"] == "0017-0305")
+    assert j["deal"]["status"] == "discount", j["deal"]["status"]
+    assert j["deal"]["discount_pct"] == 20
+    assert j["deal"]["esac_id"] is None, "the overruled agreement is still attached"
+    assert j["cost"]["kind"] in ("discount", "discount_unknown_base")
+
+    # A reader who checks JCT will see an agreement we are not honouring, so
+    # the record has to say why, and cite who told us.
+    c = j["deal"]["correction"]
+    assert c and c["confirmed"] == "2026-08-10"
+    assert c["jct_says"] and c["oxford_says"]
+    assert any("open access team" in cav for cav in j["deal"]["caveats"])
+
+
+def test_a_correction_never_silently_widens_a_claim(built):
+    """A correction removes an agreement. It must never be able to invent one:
+    the only statuses it can produce are whatever the overlay says on its own."""
+    for j in built["journals"]["journals"]:
+        if (j["deal"].get("correction")):
+            assert j["deal"]["status"] != "covered", \
+                f"{j['id']}: a correction produced a coverage claim"
+            assert j["cost"]["kind"] not in ("covered", "covered_conditional")

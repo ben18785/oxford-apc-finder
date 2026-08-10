@@ -1,12 +1,20 @@
 # Hand-curated overlay: Oxford-specific deal facts NOT carried by the JCT
 # transformative-agreement data. Curated from the Bodleian publisher-deals page:
 #   https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals
-# (retrieved 2026-08-06). watch_bodleian.py diffs that page weekly and opens a
+# (retrieved 2026-08-06; MDPI, Frontiers and BMJ entries confirmed by email
+# with the open access team on 2026-08-10). watch_bodleian.py diffs that page
+# weekly and opens a
 # needs-review issue when it changes, so edits to this file happen in a PR with
 # the page diff as evidence.
 #
 # Entry kinds:
 #   caveat      — annotate a JCT-covered agreement (matched by esac_id prefix)
+#   conflict    — sources disagree and we cannot tell who is right; the site
+#                 states no cost and shows both claims
+#   correction  — Oxford has told us JCT is wrong. Removes the agreement so the
+#                 overlay's own rule (usually a discount) applies instead. Only
+#                 use with `confirmed:` and a citable answer from the library:
+#                 this is the one kind that can overrule a published source.
 #   discount    — % off list APC for Oxford authors (matched by publisher regex
 #                 against OpenAlex host_organization_name, or explicit ISSNs)
 #   diamond     — free-to-publish arrangements Oxford supports
@@ -51,7 +59,13 @@ entries:
     match_esac_prefix: "bmj"
     publisher_label: "BMJ"
     caveats:
-      - "Only covers eligible FUNDED original research articles in BMJ's Standard Collection of subscription journals."
+      - "Limited to BMJ's Standard Collection, and to the article types listed in BMJ's Read & Publish pamphlet (confirmed by Oxford's open access team, 10 August 2026)."
+      # Retained deliberately. Asked whether the deal was restricted to funded
+      # authors, to the Standard Collection, or both, the team answered
+      # "limited to the standard collection" and said nothing about funders.
+      # That is not the same as saying the funder restriction is gone, and
+      # dropping it would WIDEN a coverage claim on an ambiguous reply — the
+      # one direction this file must never move without evidence.
       - "Eligible funders: UKRI, Wellcome Trust, British Heart Foundation, Blood Cancer UK, Cancer Research UK, Parkinson's UK, Versus Arthritis."
     funders_only: ["UKRI", "Wellcome Trust", "British Heart Foundation",
                    "Blood Cancer UK", "Cancer Research UK", "Parkinson's UK",
@@ -181,27 +195,39 @@ entries:
     match_esac_prefix: "bmj"
     publisher_label: "BMJ"
     jct_says: "Listed in transformative agreement bmj2026jisc (36 journals, running to 2026-12-31) with Oxford recorded as a current participant."
-    bodleian_says: "A BMJ deal is listed, but only for eligible FUNDED original research articles in BMJ's Standard Collection."
+    bodleian_says: "Oxford's deal with BMJ is limited to BMJ's Standard Collection, and to the article types listed in BMJ's Read & Publish pamphlet (confirmed by the open access team, 10 August 2026)."
     note: >-
       The Journal Checker Tool's published agreement data and its own live API
       disagree about Oxford and BMJ: the agreement file lists Oxford as a
       participant, while the API reports no coverage for any of the 36 journals
-      in it. Because the two sides are the same organisation, we cannot tell
-      which is current. Confirm with the open access team before assuming the
-      APC is paid.
-    source_extra: "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+      in it. Oxford's open access team confirmed on 10 August 2026 that a BMJ
+      deal exists but is limited to the Standard Collection and to eligible
+      article types; they did not address why the Journal Checker Tool's own
+      API denies coverage. A deal the publisher-facing checker will not confirm
+      is not something this site can price at zero, so check with the open
+      access team before submitting.
+    source_label: "BMJ Read & Publish agreement article types"
+    source_extra: "https://info.bmj.com/view/981541556/"
 
-  - kind: conflict
+  # Was a `conflict` (JCT said read-and-publish, the page said 20% discount,
+  # and we could not tell which was current). The open access team answered by
+  # email on 2026-08-10: "We only offer a 20% discount for MDPI deals, I'm
+  # afraid." That settles it — the library is definitive about what Oxford has
+  # bought in a way a third-party register is not — so this stops being a
+  # disagreement and becomes a correction, and the discount below applies.
+  - kind: correction
     match_esac_prefix: "mdpi"
     publisher_label: "MDPI"
+    confirmed: "2026-08-10"
     jct_says: "Covered by an Oxford transformative agreement (mdpi2026jisc), running to 2027-12-31, across 516 journals."
-    bodleian_says: "Listed only under 'Other publisher deals' as a 20% discount on APCs — not as a read-and-publish deal."
+    oxford_says: "Oxford has a 20% APC discount with MDPI, not a read-and-publish agreement."
     note: >-
-      Oxford's own page and the Journal Checker Tool disagree about MDPI. The
-      Bodleian's discount table was last updated 1 September 2025, before the
-      2026 agreement JCT records, so the page may simply be out of date — but
-      this has not been confirmed. Check with the open access team before
-      relying on either figure.
+      The Journal Checker Tool lists an Oxford transformative agreement with
+      MDPI. Oxford's open access team confirmed by email on 10 August 2026 that
+      what Oxford actually holds is a 20% APC discount, not read-and-publish,
+      so the discount is what this site applies. Check with them before
+      relying on the Journal Checker Tool's answer for MDPI.
+    source_label: "Bodleian Libraries open access team, by email (10 August 2026)"
     source_extra: "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
 
   # ---- discount schemes (not transformative agreements, not in JCT) ----
@@ -211,20 +237,20 @@ entries:
     pct: 20
     caveats:
       - "20% APC discount for Oxford corresponding authors on all accepted articles."
-    # Currently unreachable: JCT records a full MDPI agreement (mdpi2026jisc),
-    # so every MDPI journal resolves as `covered` and never falls through to
-    # this discount. Kept, because the conflict entry above says the two
-    # sources disagree — if the Bodleian page turns out to be right, this is
-    # the rule that should apply. Remove the flag when the conflict resolves.
-    expect_no_match: true
+    # Reachable since 2026-08-10: the correction above removes JCT's MDPI
+    # agreement, so these journals fall through to the discount as they should.
 
   - kind: discount
     publisher_label: "Frontiers"
     match_publisher_regex: "(?i)^Frontiers"
     pct: 10
     caveats:
-      - "10% APC discount; full APC coverage for UKRI, Wellcome, CRUK or BHF funded authors."
-    funders_covered_full: ["UKRI", "Wellcome", "Cancer Research UK", "British Heart Foundation"]
+      - "10% APC discount for Oxford corresponding authors."
+    # `funders_covered_full` removed 2026-08-10. It claimed full APC coverage
+    # for UKRI, Wellcome, CRUK and BHF authors; the open access team wrote:
+    # "All MDPI and Frontiers journals receive their respective discounts (not
+    # full coverage)." A £0 claim that the library says does not exist is the
+    # single worst thing this file can carry, so it is gone rather than hedged.
 
   - kind: discount
     publisher_label: "AAAS — Science Advances"
