@@ -454,10 +454,21 @@ def test_a_capped_allowance_survives_the_whole_pipeline(built):
     assert "allowance" in " ".join(j["cost"]["reasons"])
 
 
-def test_a_funder_restriction_survives_the_whole_pipeline(built):
+def test_a_conflict_outranks_a_funder_restriction(built):
+    """This fixture rides the BMJ agreement, which now carries BOTH a funder
+    restriction and a source conflict — JCT's agreement file lists Oxford as a
+    participant while JCT's own API reports no coverage for any of its 36
+    journals.
+
+    The conflict must win. "£0 if eligible, but confirm your funder" still
+    asserts there is a deal; when we cannot establish that there is one at all,
+    the honest answer is no figure. merge.effective_cost encodes that
+    precedence and this pins it end to end. (funders_only on its own is covered
+    by test_a_funder_restriction_is_not_a_zero in the unit suite.)"""
     j = _by_title(built, "Restricted By Funder")
-    assert j["deal"]["conditions"]["funders_only"]
-    assert j["cost"]["kind"] == "covered_conditional"
+    assert j["deal"]["conditions"]["funders_only"], "the funder flag still reaches the record"
+    assert j["deal"]["disputed"], "and so does the conflict"
+    assert j["cost"]["kind"] == "uncertain"
 
 
 def test_an_expired_agreement_survives_the_whole_pipeline(built):

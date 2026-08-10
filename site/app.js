@@ -110,13 +110,6 @@ function usageBits(block) {
   return bits;
 }
 
-/* Days between an ISO date and today, or null if it cannot be read. */
-function daysSince(iso) {
-  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || "");
-  if (!m) return null;
-  return Math.floor((Date.now() - Date.UTC(+m[1], +m[2] - 1, +m[3])) / 86400000);
-}
-
 async function loadUsageStrip() {
   const strip = $("#usage-strip");
   if (!strip || !STATE.config.usage_available) return;
@@ -131,19 +124,12 @@ async function loadUsageStrip() {
   if (!allBits.length && !recentBits.length) return;   // nothing worth reporting
 
   const since = prettyDate(all.since);
-  const age = daysSince(all.since);
-  // While the site is younger than the window, the two periods are the same
-  // stretch of time. Printing identical rows twice reads as a bug rather than
-  // as two measurements, so say so instead and let them separate once there is
-  // a difference to show.
-  const sameSpan = age !== null && age <= win;
-
   const rows = [];
   if (allBits.length) {
     rows.push(`<span class="usage-line"><b>${since ? "Since " + esc(since) : "Since launch"}</b>
-      ${allBits.join(" · ")}${sameSpan ? " — the site's whole life so far" : ""}</span>`);
+      ${allBits.join(" · ")}</span>`);
   }
-  if (recentBits.length && !sameSpan) {
+  if (recentBits.length) {
     rows.push(`<span class="usage-line"><b>Last ${esc(String(win))} days</b>
       ${recentBits.join(" · ")}</span>`);
   }
@@ -1324,6 +1310,175 @@ function starButton(id) {
     aria-label="Add this journal to your comparison list">☆</button>`;
 }
 
+/* ---------------- your own publication record ----------------
+ *
+ * An ORCID iD is a public identifier, so this needs no account and no sign-in:
+ * you paste it in, it sits in localStorage beside your starred journals, and
+ * nothing about you is sent anywhere by this site.
+ *
+ * Google Scholar cannot be used for this. It has no API and its robots.txt
+ * forbids /citations outright, so a "paste your Scholar link" box would be a
+ * field we could display and never read. ORCID resolves through OpenAlex,
+ * which this site already depends on, so it costs no new data source.
+ *
+ * The one real trade-off: your browser talks to OpenAlex directly. Until now
+ * the page made no third-party data requests at all, so this is stated on the
+ * panel rather than slipped in. */
+const ORCID_KEY = "oxford-apc-finder:orcid";
+// Two pages is 400 works — plenty to see where somebody publishes, and a hard
+// bound on what one click can cost.
+const ORCID_MAX_PAGES = 2;
+
+/* ORCID iDs carry a MOD 11-2 check digit. Validating locally turns a mistyped
+ * digit into an instant, specific error instead of a request that comes back
+ * empty and looks like "we have nothing about you". */
+function validOrcid(raw) {
+  const d = (raw || "").replace(/^https?:\/\/orcid\.org\//i, "")
+    .replace(/[\s-]/g, "").toUpperCase();
+  if (!/^\d{15}[\dX]$/.test(d)) return null;
+  let total = 0;
+  for (const c of d.slice(0, 15)) total = (total + Number(c)) * 2;
+  const remainder = (12 - (total % 11)) % 11;
+  if ((remainder === 10 ? "X" : String(remainder)) !== d[15]) return null;
+  return `${d.slice(0, 4)}-${d.slice(4, 8)}-${d.slice(8, 12)}-${d.slice(12)}`;
+}
+
+function storedOrcid() {
+  try { return localStorage.getItem(ORCID_KEY) || ""; } catch { return ""; }
+}
+
+/* Where this author has published, as {issn_l: count}. */
+async function orcidVenues(orcid) {
+  const venues = new Map(), unmatchedNames = new Map();
+  let cursor = "*";
+  for (let page = 0; page < ORCID_MAX_PAGES && cursor; page++) {
+    const url = "https://api.openalex.org/works?filter=author.orcid:"
+      + encodeURIComponent(orcid)
+      + "&per-page=200&select=primary_location&cursor=" + encodeURIComponent(cursor);
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`OpenAlex returned ${resp.status}`);
+    const data = await resp.json();
+    for (const w of data.results || []) {
+      const src = ((w.primary_location || {}).source) || {};
+      if (!src.issn_l) continue;
+      venues.set(src.issn_l, (venues.get(src.issn_l) || 0) + 1);
+      unmatchedNames.set(src.issn_l, src.display_name || "");
+    }
+    cursor = (data.meta || {}).next_cursor;
+  }
+  return { venues, names: unmatchedNames };
+}
+
+async function showOrcid() {
+  const saved = storedOrcid();
+  const form = (message) => `
+    <h2 id="detail-title">Journals you publish in</h2>
+    <p>Give your <a href="https://orcid.org" target="_blank" rel="noopener">ORCID iD</a>
+      and this page will show what Oxford's deals mean for the journals you
+      actually publish in — read from your public ORCID record.</p>
+    ${message ? `<p class="warn">${esc(message)}</p>` : ""}
+    <p><input class="share-box" id="orcid-input" style="max-width:22rem"
+        placeholder="0000-0002-1825-0097" value="${esc(saved)}">
+      <button class="btn" id="orcid-go">Look it up</button></p>
+    <p class="cost-note">No account and no sign-in: an ORCID iD is public, and
+      yours is kept in this browser only. One thing worth knowing — looking it
+      up means your browser contacts
+      <a href="https://openalex.org" target="_blank" rel="noopener">OpenAlex</a>
+      directly, which is the only request this site makes to anyone but itself.</p>`;
+
+  const render = (html) => {
+    $("#detail-body").innerHTML = html;
+    $("#detail-modal").hidden = false;
+    document.body.style.overflow = "hidden";
+    const go = $("#orcid-go");
+    if (go && go.addEventListener) {
+      go.addEventListener("click", () => {
+        const id = validOrcid($("#orcid-input").value);
+        if (!id) return render(form("That does not look like an ORCID iD. They "
+          + "are sixteen digits, like 0000-0002-1825-0097 — check for a typo."));
+        try { localStorage.setItem(ORCID_KEY, id); } catch { /* private mode */ }
+        lookup(id);
+      });
+    }
+  };
+
+  async function lookup(id) {
+    render(`<h2 id="detail-title">Journals you publish in</h2>
+      <p class="cost-note">Reading your ORCID record…</p>`);
+    let found;
+    try {
+      found = await orcidVenues(id);
+    } catch (err) {
+      return render(form(`Could not read that record (${err.message}). `
+        + "It may be a temporary problem at OpenAlex — try again shortly."));
+    }
+    const byId = new Map(STATE.index.map((r) => [r.id, r]));
+    const known = [], unknown = [];
+    for (const [issn, count] of found.venues) {
+      const rec = byId.get(issn);
+      (rec ? known : unknown).push({ issn, count, rec, name: found.names.get(issn) });
+    }
+    if (!known.length && !unknown.length) {
+      return render(form("No published works are attached to that ORCID iD in "
+        + "OpenAlex. That is common for a new record."));
+    }
+    known.sort((a, b) => b.count - a.count);
+    const rows = known.map(({ issn, count, rec }) => {
+      const fig = costFigure(rec);
+      const [label] = STATUS_LABEL[rec.s] || STATUS_LABEL.none;
+      return `<tr>
+        <td>${starButton(rec.id)}<strong>${esc(rec.t)}</strong>
+          <div class="jmeta">${esc(rec.p || "Publisher unknown")} · ${esc(issn)}</div></td>
+        <td class="num">${count}</td>
+        <td>${esc(label)}</td>
+        <td class="num cost-cell ${fig.cls}">${esc(fig.text)}</td>
+      </tr>`;
+    }).join("");
+    const covered = known.filter((k) => k.rec.s !== "none").length;
+
+    render(`
+      <h2 id="detail-title">Journals you publish in</h2>
+      <p>${known.length} of the journals in your ORCID record are on this site,
+        and <strong>${covered}</strong> of those carry an Oxford deal.</p>
+      ${rows ? `<table class="compare-table">
+        <thead><tr><th>Journal</th><th class="num">Papers</th><th>Oxford deal</th>
+          <th class="num">Open access cost</th></tr></thead>
+        <tbody>${rows}</tbody></table>` : ""}
+      <div class="compare-actions">
+        <button class="btn" id="orcid-star">Star all of these</button>
+        <button class="btn secondary" id="orcid-forget">Forget my ORCID</button>
+      </div>
+      ${unknown.length ? `<div class="detail-section">
+        <h4>${unknown.length} not on this site</h4>
+        <p class="cost-note">These appear in your record but fall outside what
+          this site covers. That is usually a gap in the inclusion rules rather
+          than a judgement about the journal — worth telling us about.</p>
+        <ul class="wanted-list">${unknown.slice(0, 15).map((u) =>
+          `<li>${esc(u.name || u.issn)} <code>${esc(u.issn)}</code></li>`).join("")}</ul>
+      </div>` : ""}
+      <p class="cost-note">Read from your public ORCID record via OpenAlex. Your
+        iD is stored in this browser only.</p>`);
+
+    const star = $("#orcid-star");
+    if (star && star.addEventListener) {
+      star.addEventListener("click", (e) => {
+        setStarred(starredIds().concat(known.map((k) => k.rec.id)));
+        e.target.textContent = "Starred";
+      });
+    }
+    const forget = $("#orcid-forget");
+    if (forget && forget.addEventListener) {
+      forget.addEventListener("click", () => {
+        try { localStorage.removeItem(ORCID_KEY); } catch { /* ignore */ }
+        render(form(""));
+      });
+    }
+  }
+
+  if (saved) return lookup(saved);
+  render(form(""));
+}
+
 /* ---------------- comparison and export ----------------
  *
  * Journals are rows, not columns: a genuine side-by-side falls apart past three
@@ -1466,6 +1621,7 @@ async function showCompare(ids) {
       <textarea class="enquiry-box" id="enquiry-text" readonly rows="12"
         aria-label="The enquiry text, ready to copy">${esc(enquiryText(rows, esacs))}</textarea>
     </div>
+
     <div class="detail-section">
       <h4>Share this list</h4>
       <p class="cost-note">Opening this link anywhere shows the same comparison.
@@ -1580,6 +1736,7 @@ function wireUI() {
   $("#free-only").addEventListener("change", runSearch);
   $("#sort").addEventListener("change", runSearch);
   $("#starred-open").addEventListener("click", () => showCompare(starredIds()));
+  $("#orcid-open").addEventListener("click", e => { e.preventDefault(); showOrcid(); });
   $("#modal-close").addEventListener("click", closeModal);
   $("#detail-modal").addEventListener("click", e => { if (e.target.id === "detail-modal") closeModal(); });
   document.addEventListener("keydown", e => {

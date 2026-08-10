@@ -187,3 +187,23 @@ def test_the_site_deploy_verifies_what_it_built():
     """A cached dataset predating a schema change renders a broken site with no
     error. The frontend suite is the only thing that would notice."""
     assert "tests/frontend/search.test.js" in DEPLOY.read_text()
+
+
+def test_unshipped_groundwork_is_still_tested():
+    """alerts/ is not wired into the site, but it is in the repository and it
+    decides what would land in somebody's inbox. Untested dormant code is how
+    you get a nasty surprise on the day it is switched on. It runs in the test
+    workflow only — deploy-site.yml renders the site, and digest.js is not in
+    the site."""
+    assert "digest.test.js" in (WORKFLOWS / "tests.yml").read_text()
+    assert "digest.test.js" not in DEPLOY.read_text(), \
+        "the site deploy runs a test for code the site does not contain"
+
+
+def test_alerts_hold_no_secret_in_this_repo():
+    """The whole point of putting alerts in a Worker is that email addresses
+    and the sending key never enter this repository or its Actions."""
+    for wf in WORKFLOWS.glob("*.yml"):
+        body = wf.read_text()
+        assert "RESEND_API_KEY" not in body, f"{wf.name} references the mail key"
+        assert "ALERTS" not in body or "alerts/" in body, f"{wf.name} touches the alert store"

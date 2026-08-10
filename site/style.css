@@ -395,6 +395,9 @@ body {
 .usage-line b {
   display: inline-block; min-width: 10.5rem; font-weight: 600; color: var(--text);
 }
+/* The link sits on its own line under the two rows; a little air stops it
+   crowding the numbers above. */
+.usage-strip a { display: inline-block; margin-top: 3px; }
 @media (max-width: 560px) { .usage-line b { min-width: 0; margin-right: 6px; } }
 .usage-strip strong { color: var(--text); font-weight: 600; }
 .usage-strip a { color: var(--oxford); }

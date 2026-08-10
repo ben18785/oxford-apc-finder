@@ -1386,3 +1386,104 @@ def test_an_oversized_subfield_is_split_across_filters(monkeypatch):
     asked = {v for f in seen_filters
              for v in f.split("topics.id:")[1].split(",type:journal")[0].split("|")}
     assert len(asked) == 224
+
+
+def test_a_journal_that_asserts_nothing_cannot_over_claim():
+    """The oracle compares what the SITE claims. A journal whose cost is
+    `uncertain` shows no figure and both sources' claims side by side — JCT
+    disagreeing is precisely the thing it is already telling the reader, so it
+    is not an over-claim. `covered_conditional` still counts as claiming: "£0
+    if eligible, but confirm" is a hedged assertion, and if JCT says there is
+    no agreement at all, the hedge is not what is wrong."""
+    import validate, inspect
+    src = inspect.getsource(validate.check_oracle)
+    assert 'j["cost"]["kind"] != "uncertain"' in src
+    assert "covered_conditional" not in src.split("ours = ")[1].split("\n\n")[0], \
+        "a conditional coverage claim is still a claim"
+
+
+def test_the_oracle_samples_every_agreement(monkeypatch):
+    """A uniform sample of 25 from 12,537 covered journals gave BMJ's 36 titles
+    a ~3% chance of being checked in any week — so an agreement-wide over-claim
+    could sit in the data for months. Faults are rarely per-journal: an
+    agreement gets parsed wrongly, or JCT changes its mind about a whole deal.
+    One journal per agreement catches that on the next run."""
+    import validate
+    asked = []
+    monkeypatch.setattr(validate, "http_get",
+                        lambda url, **kw: type("R", (), {
+                            "status_code": 200,
+                            "json": staticmethod(lambda: 404),
+                            "url": asked.append(kw.get("params", {}).get("issn")) or url})())
+    journals = []
+    for a in range(30):                       # 30 agreements, 100 journals each
+        for k in range(100):
+            journals.append({"id": f"{a:04d}-{k:04d}", "title": f"J{a}-{k}",
+                             "issns": [f"{a:04d}-{k:04d}"],
+                             "deal": {"status": "covered", "esac_id": f"esac{a}",
+                                      "disputed": None, "expired": None},
+                             "cost": {"kind": "covered"}})
+    journals.append({"id": "9999-9999", "title": "Uncovered", "issns": ["9999-9999"],
+                     "deal": {"status": "none", "esac_id": None,
+                              "disputed": None, "expired": None},
+                     "cost": {"kind": "unknown"}})
+    cfg = {"institution_ror": "052gg0110", "sources": {"jct_api": "https://x"},
+           "validation": {"oracle_sample_size": 2, "max_oracle_under_claims": 99}}
+    validate.check_oracle({"journals": journals}, cfg)
+    # The uncovered journal is in the sample too, so count only the agreements.
+    sampled = {i.split("-")[0] for i in asked if i} - {"9999"}
+    missed = {f"{a:04d}" for a in range(30)} - sampled
+    assert not missed, f"{len(missed)} agreements went unchecked: {sorted(missed)[:5]}"
+    assert "9999" in {i.split("-")[0] for i in asked if i}, \
+        "uncovered journals must still be sampled — that is where under-claims show"
+
+
+# ------------------------------------------------------------------- alerts
+import re as _re  # noqa: E402
+import yaml as _yaml  # noqa: E402
+from pathlib import Path as _Path  # noqa: E402
+
+_ROOT = _Path(__file__).resolve().parent.parent
+ALERTS = _ROOT / "alerts"
+
+
+def test_the_alerts_worker_holds_no_credential():
+    """wrangler.toml is committed. A sending key or a subscriber address in it
+    would put in the repository exactly what the Worker exists to keep out."""
+    body = (ALERTS / "wrangler.toml").read_text()
+    assert "RESEND_API_KEY" not in body or "wrangler secret put" in body
+    assert not _re.search(r"re_[A-Za-z0-9_]{20,}", body), "a Resend key is in the config"
+    assert "@" not in body.split("[vars]")[0], "an address appears above [vars]"
+
+
+def test_the_worker_binding_matches_the_deployment_config():
+    """A KV binding named in wrangler.toml but not used by worker.js — or the
+    reverse — deploys cleanly and then throws on the first subscriber."""
+    toml = (ALERTS / "wrangler.toml").read_text()
+    worker = (ALERTS / "worker.js").read_text()
+    binding = _re.search(r'binding\s*=\s*"([^"]+)"', toml).group(1)
+    assert f"env.{binding}" in worker, f"worker.js never reads env.{binding}"
+    assert "PUBLIC_ORIGIN" in toml and "PUBLIC_ORIGIN" in worker
+
+
+def test_the_alerts_cron_does_not_race_the_data_refresh():
+    """The digest reads changes.json from the published site. Firing while a
+    refresh is mid-deploy would email a half-written diff, or last week's."""
+    toml = (ALERTS / "wrangler.toml").read_text()
+    cron = _re.search(r'crons\s*=\s*\["([^"]+)"\]', toml).group(1)
+    day = cron.split()[-1]
+    assert day != "0", "the digest fires on the same day as the refresh"
+
+
+def test_the_site_collects_no_email_address():
+    """alerts/ is groundwork that is deliberately not wired up. Shipping the
+    subscribe form would make the maintainer a data controller for other
+    people's addresses, which is a decision to take on purpose and not by
+    leaving a config key lying around."""
+    cfg_text = (_ROOT / "config.yaml").read_text()
+    assert "alerts:" not in cfg_text, "config.yaml has an alerts endpoint again"
+    app = (_ROOT / "site" / "app.js").read_text()
+    assert "alerts_endpoint" not in app and 'type="email"' not in app, \
+        "app.js asks for an email address"
+    built = (_ROOT / "pipeline" / "build_site.py").read_text()
+    assert "alerts_endpoint" not in built, "build_site.py publishes an alerts endpoint"

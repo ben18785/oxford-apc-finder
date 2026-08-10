@@ -655,6 +655,74 @@ chain.then(function () {
     check("the usage link is revealed", el("#foot-usage-wrap").hidden === false);
     STATE.config.usage_available = saved;
 
+  /* ------------------------------------------- ORCID: your own record */
+  }).then(function () {
+    /* The check digit turns a mistyped iD into an instant, specific error
+     * rather than a request that comes back empty and reads as "we have
+     * nothing about you". */
+    check("a real ORCID iD validates", validOrcid("0000-0002-1825-0097") === "0000-0002-1825-0097");
+    check("the X check digit is handled", validOrcid("0000-0002-1694-233X") !== null);
+    check("a full orcid.org URL is accepted",
+      validOrcid("https://orcid.org/0000-0002-1825-0097") === "0000-0002-1825-0097");
+    check("digits without hyphens are accepted",
+      validOrcid("0000000218250097") === "0000-0002-1825-0097");
+    check("one transposed digit is rejected", validOrcid("0000-0002-1825-0098") === null);
+    check("nonsense is rejected",
+      validOrcid("not-an-orcid") === null && validOrcid("") === null);
+
+    /* Nothing about the reader is sent anywhere by this site; the iD lives in
+     * the same local store as the starred journals. */
+    check("the ORCID store is namespaced like the rest",
+      ORCID_KEY.indexOf("oxford-apc-finder") === 0, ORCID_KEY);
+
+    var realFetch = globalThis.fetch;
+    var asked = [];
+    globalThis.fetch = function (path) {
+      if (path.indexOf("openalex.org") === -1) return realFetch(path);
+      asked.push(path);
+      var a = STATE.index[0], b = STATE.index[1];
+      return Promise.resolve({ ok: true, status: 200, json: function () {
+        return Promise.resolve({ results: [
+          { primary_location: { source: { issn_l: a.id, display_name: a.t } } },
+          { primary_location: { source: { issn_l: a.id, display_name: a.t } } },
+          { primary_location: { source: { issn_l: b.id, display_name: b.t } } },
+          { primary_location: { source: { issn_l: "9999-9998",
+                                          display_name: "Not On This Site" } } },
+        ], meta: {} });
+      } });
+    };
+    try { localStorage.removeItem(ORCID_KEY); } catch (e) {}
+    return showOrcid().then(function () {
+      check("with no iD stored it asks for one",
+        el("#detail-body").innerHTML.indexOf("orcid-input") !== -1);
+      check("and says plainly that no account is needed",
+        /No account and no sign-in/.test(el("#detail-body").innerHTML));
+      /* Until now the page made no third-party data requests at all, so this
+       * is stated rather than slipped in. */
+      check("and discloses that the browser will contact OpenAlex",
+        /browser contacts/.test(el("#detail-body").innerHTML));
+      try { localStorage.setItem(ORCID_KEY, "0000-0002-1825-0097"); } catch (e) {}
+      return showOrcid();
+    }).then(function () {
+      var h = el("#detail-body").innerHTML;
+      check("a stored iD goes straight to the results", asked.length > 0);
+      check("it filters by the ORCID, not by name",
+        asked[0].indexOf("author.orcid") !== -1, asked[0]);
+      check("venues are ranked by how often you publish there",
+        h.indexOf("<td class=\"num\">2</td>") !== -1, h.slice(0, 200));
+      check("each journal carries its deal and cost",
+        h.indexOf("Oxford deal") !== -1 && h.indexOf("Open access cost") !== -1);
+      /* A venue we do not carry is a gap in the inclusion rules, not a
+       * judgement about the journal — so it is surfaced, not hidden. */
+      check("venues missing from this site are surfaced as a coverage gap",
+        h.indexOf("not on this site") !== -1 && h.indexOf("9999-9998") !== -1);
+      check("the whole list can be starred at once",
+        h.indexOf("orcid-star") !== -1);
+      check("and the iD can be forgotten", h.indexOf("orcid-forget") !== -1);
+      globalThis.fetch = realFetch;
+      try { localStorage.removeItem(ORCID_KEY); } catch (e) {}
+    });
+
   /* --------------------------------------- starring, compare, export */
   }).then(function () {
     var a = STATE.index[0], b = STATE.index[1], c = STATE.index[2];
@@ -756,6 +824,12 @@ chain.then(function () {
         && html.indexOf("Dear Open Access team") !== -1);
       check("and the address itself can be copied",
         html.indexOf("copy-address") !== -1);
+      /* The site asks for no email address anywhere. alerts/ holds unshipped
+       * groundwork for that, and this is the check that it stays unshipped:
+       * the moment a build renders a field for an address, the site is
+       * collecting personal data and needs a privacy notice to match. */
+      check("the site asks for nobody's email address",
+        html.indexOf("alert-subscribe") === -1 && html.indexOf('type="email"') === -1);
       check("it says plainly that nothing leaves the browser",
         /nothing is sent anywhere/i.test(html));
     });
@@ -932,41 +1006,31 @@ chain.then(function () {
       var s = el("#usage-strip").innerHTML;
       check("the strip appears once there are figures",
         el("#usage-strip").hidden === false);
-      /* All time, not the rolling window: "how much has this been used at
-       * all" is what a figure at the top of the page answers, and a 90-day
-       * number answers it wrongly once the tool is older than 90 days. */
-      check("the strip reports all time, not the rolling window",
-        s.indexOf("2,600") !== -1 && s.indexOf("340") === -1, s);
+      /* Both periods, always. Lifetime answers "is this used at all"; the
+       * rolling window answers "is it used now", and neither substitutes for
+       * the other. */
+      check("both periods are reported",
+        s.indexOf("2,600") !== -1 && s.indexOf("340") !== -1, s);
+      check("lifetime comes first",
+        s.indexOf("2,600") < s.indexOf("340"), s);
+      check("they are separate labelled lines, not one run of numbers",
+        (s.match(/usage-line/g) || []).length === 2
+        && /Last 90 days/.test(s), s);
       check("it leads with journal lookups, not page loads",
         s.indexOf("2,600") < s.indexOf("4,100"), s);
       check("it links through to the full breakdown",
         s.indexOf("usage-strip-link") !== -1);
       check("it says when counting began, in words",
         /Since 8 August 2026/.test(s), s);
-      /* Once the site is older than the window the two periods differ, and
-       * both must be shown and labelled — side by side they would read as one
-       * long list of numbers with no way to tell which is which. */
+      /* A long-running site: the two periods diverge, and both still show. */
       payload.all_time.since = "2025-01-15";
       el("#usage-strip").hidden = true;
       return loadUsageStrip().then(function () {
         var two = el("#usage-strip").innerHTML;
-        check("both periods appear once they cover different spans",
-          two.indexOf("2,600") !== -1 && two.indexOf("340") !== -1, two);
-        check("and each is labelled with its period",
-          /Since 15 January 2025/.test(two) && /Last 90 days/.test(two), two);
-        check("they are separate lines, not one run of numbers",
-          (two.match(/usage-line/g) || []).length === 2);
+        check("a site older than the window still shows both periods",
+          (two.match(/usage-line/g) || []).length === 2
+          && /Since 15 January 2025/.test(two) && /Last 90 days/.test(two), two);
         payload.all_time.since = "2026-08-08";
-        el("#usage-strip").hidden = true;
-        return loadUsageStrip();
-      }).then(function () {
-        /* While the site is younger than the window they are the same stretch
-         * of time, and identical rows twice read as a bug. */
-        var one = el("#usage-strip").innerHTML;
-        check("a site younger than the window shows one period, not two",
-          (one.match(/usage-line/g) || []).length === 1, one);
-        check("and says why there is only one",
-          /whole life so far/.test(one), one);
         return null;
       }).then(function () {
 

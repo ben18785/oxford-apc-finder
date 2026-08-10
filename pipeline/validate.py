@@ -294,10 +294,28 @@ def check_oracle(data: dict, cfg: dict) -> list[str]:
     n = cfg["validation"]["oracle_sample_size"]
     covered = [j for j in data["journals"] if j["deal"]["status"] == "covered"]
     uncovered = [j for j in data["journals"] if j["deal"]["status"] != "covered"]
-    # Stratified: an unstratified sample is almost all uncovered journals, so
-    # it would barely exercise the coverage logic that matters most.
-    sample = (rng.sample(covered, min(n // 2, len(covered)))
-              + rng.sample(uncovered, min(n - n // 2, len(uncovered))))
+
+    # Stratified BY AGREEMENT, one journal from each.
+    #
+    # A uniform sample of 25 from 12,537 covered journals gave BMJ's 36 titles
+    # about a 3% chance of being looked at in any given week — so when every
+    # one of them turned out to be an over-claim, the fault could have sat in
+    # the data for months before a sample happened to land on it. Faults are
+    # almost never per-journal: an agreement is parsed wrongly, or JCT changes
+    # its mind about a whole deal. Sampling per agreement matches the shape of
+    # the failure, and catches an agreement-wide fault on the very next run.
+    #
+    # Costs one request per agreement (~42) rather than ~12. The JCT API is
+    # free and this runs once a week.
+    by_agreement: dict[str, list] = {}
+    for j in covered:
+        by_agreement.setdefault(j["deal"].get("esac_id") or "(none)", []).append(j)
+    sample = [rng.choice(sorted(group, key=lambda x: x["id"]))
+              for _, group in sorted(by_agreement.items())]
+    # Plus uncovered journals, which is where under-claims show up.
+    sample += rng.sample(uncovered, min(n // 2, len(uncovered)))
+    print(f"  oracle: 1 journal from each of {len(by_agreement)} agreements "
+          f"+ {min(n // 2, len(uncovered))} uncovered")
 
     def jct_covers(issn: str):
         resp = http_get(f"{api}/ta", params={"issn": issn, "ror": ror}, retries=2)
@@ -322,7 +340,16 @@ def check_oracle(data: dict, cfg: dict) -> list[str]:
     #                                   the new journal.
     over_claims, under_claims, inconclusive = [], [], []
     for j in sample:
-        ours = j["deal"]["status"] == "covered"
+        # What the SITE claims, not what the status field says. A journal whose
+        # cost is `uncertain` shows no figure and both sources' claims side by
+        # side — it is already telling the reader that JCT and Oxford disagree,
+        # so JCT disagreeing is the thing it says, not an over-claim.
+        #
+        # `covered_conditional` still counts as claiming coverage: "£0 if
+        # eligible, but confirm" is a hedged assertion, and if JCT says there
+        # is no agreement at all then the hedge is not the problem.
+        ours = (j["deal"]["status"] == "covered"
+                and j["cost"]["kind"] != "uncertain")
         # JCT indexes an agreement's journals under the specific ISSN the
         # agreement lists — often the online one. Querying only the first ISSN
         # reports a false mismatch for any journal listed under another. Ask

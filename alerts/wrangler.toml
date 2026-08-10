@@ -1,0 +1,37 @@
+# Deployment config for the alerts Worker. Deployed by hand with `wrangler
+# deploy` from this directory — deliberately NOT wired into GitHub Actions,
+# because the whole point of the Worker is that no credential able to read
+# subscribers' email addresses is ever held by this repository.
+#
+# Two things must be filled in before the first deploy; both are marked TODO.
+
+name = "oxford-apc-alerts"
+main = "worker.js"
+compatibility_date = "2026-01-01"
+
+# The Worker's own public URL, used to build the unsubscribe link in every
+# email. It has to be a var rather than derived from the request, because the
+# cron run has no request to derive it from.
+#
+# TODO: set this after the first deploy, when the URL is known, and deploy
+# again. Until then buildEmail still emits an unsubscribe line, but pointing at
+# a relative path — which is useless in an inbox.
+[vars]
+PUBLIC_ORIGIN = "https://oxford-apc-alerts.YOUR-SUBDOMAIN.workers.dev"
+
+# Subscribers live here and nowhere else: no repository, no build artefact, no
+# Actions log. Deleting this namespace deletes every address held.
+#
+# TODO: run `wrangler kv namespace create ALERTS` and paste the id it prints.
+[[kv_namespaces]]
+binding = "ALERTS"
+id = "TODO_RUN_WRANGLER_KV_NAMESPACE_CREATE_ALERTS"
+
+# Monday 09:00 UTC. The data refresh runs Sunday, so changes.json is a day old
+# and settled by the time the digest reads it — a cron that raced the refresh
+# would email either yesterday's news or a half-written file.
+[triggers]
+crons = ["0 9 * * 1"]
+
+# RESEND_API_KEY is a secret, not a var: `wrangler secret put RESEND_API_KEY`.
+# Never put it in this file — it is committed.

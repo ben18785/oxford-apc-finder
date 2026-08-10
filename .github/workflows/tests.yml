@@ -63,6 +63,11 @@ jobs:
       - name: Run the search tests
         run: node tests/frontend/search.test.js
 
+      # Decides what lands in somebody's inbox, and is pure — so it runs here
+      # rather than only being exercised by deploying the Worker.
+      - name: Run the alert digest tests
+        run: node tests/frontend/digest.test.js
+
   # ------------------------------------------------------- live source shapes
   contracts:
     name: Upstream source contracts

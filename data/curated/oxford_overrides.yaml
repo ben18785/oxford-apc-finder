@@ -166,6 +166,31 @@ entries:
   #
   # Add an entry here whenever a refresh surfaces a disagreement; remove it
   # once the Bodleian confirms which source is right.
+  # Unlike the MDPI case, this is JCT contradicting ITSELF. The agreement CSV
+  # lists Oxford as a current participant in bmj2026jisc (first seen 2026-05-26,
+  # no end) across 36 journals; the live JCT API — the same tool, and the one a
+  # researcher actually consults — reports Oxford as not covered for every one
+  # of them. The single BMJ title the API does clear, Medical Humanities, it
+  # clears through sn2026jisc.Hybrid, a different agreement entirely.
+  #
+  # This is the failure mode the oracle exists to catch, and it caught it: the
+  # build stopped rather than telling 36 journals' worth of authors that
+  # publishing open access is paid for. Until someone confirms which side is
+  # right, the site states no cost for these.
+  - kind: conflict
+    match_esac_prefix: "bmj"
+    publisher_label: "BMJ"
+    jct_says: "Listed in transformative agreement bmj2026jisc (36 journals, running to 2026-12-31) with Oxford recorded as a current participant."
+    bodleian_says: "A BMJ deal is listed, but only for eligible FUNDED original research articles in BMJ's Standard Collection."
+    note: >-
+      The Journal Checker Tool's published agreement data and its own live API
+      disagree about Oxford and BMJ: the agreement file lists Oxford as a
+      participant, while the API reports no coverage for any of the 36 journals
+      in it. Because the two sides are the same organisation, we cannot tell
+      which is current. Confirm with the open access team before assuming the
+      APC is paid.
+    source_extra: "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+
   - kind: conflict
     match_esac_prefix: "mdpi"
     publisher_label: "MDPI"
