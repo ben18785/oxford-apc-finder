@@ -1,4 +1,4 @@
-# Oxford Journal APC Finder
+# Oxford Journal article processing charge (APC) Finder
 
 **[ben18785.github.io/oxford-apc-finder](https://ben18785.github.io/oxford-apc-finder/)**
 
