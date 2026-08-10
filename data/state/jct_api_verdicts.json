@@ -1,0 +1,402 @@
+{
+ "generated": "2026-08-10T14:52:01Z",
+ "circuit_breaker_tripped": false,
+ "agreements": {
+  "degruy2024jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:47Z",
+   "evidence": [
+    {
+     "issn": "1865-8717",
+     "covered": true
+    }
+   ]
+  },
+  "bup2025jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:47Z",
+   "evidence": [
+    {
+     "issn": "2752-8499",
+     "covered": true
+    }
+   ]
+  },
+  "jbp2025jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:47Z",
+   "evidence": [
+    {
+     "issn": "1461-0213",
+     "covered": true
+    }
+   ]
+  },
+  "acm2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:48Z",
+   "evidence": [
+    {
+     "issn": "3068-8590",
+     "covered": true
+    }
+   ]
+  },
+  "aps2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:48Z",
+   "evidence": [
+    {
+     "issn": "2469-9926",
+     "covered": true
+    }
+   ]
+  },
+  "iop2024jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:48Z",
+   "evidence": [
+    {
+     "issn": "2053-1583",
+     "covered": true
+    }
+   ]
+  },
+  "bmj2026jisc": {
+   "verdict": "contradicts",
+   "checked": "2026-08-10T14:51:49Z",
+   "evidence": [
+    {
+     "issn": "1743-0593",
+     "covered": false
+    },
+    {
+     "issn": "1468-2052",
+     "covered": false
+    },
+    {
+     "issn": "1468-2044",
+     "covered": false
+    }
+   ]
+  },
+  "oxf2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:49Z",
+   "evidence": [
+    {
+     "issn": "1938-808X",
+     "covered": true
+    }
+   ]
+  },
+  "brill2023jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:49Z",
+   "evidence": [
+    {
+     "issn": "2213-8609",
+     "covered": true
+    }
+   ]
+  },
+  "cam2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:50Z",
+   "evidence": [
+    {
+     "issn": "0924-2708",
+     "covered": true
+    }
+   ]
+  },
+  "ams2025jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:50Z",
+   "evidence": [
+    {
+     "issn": "2769-7525",
+     "covered": true
+    }
+   ]
+  },
+  "mdpi2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:50Z",
+   "evidence": [
+    {
+     "issn": "3042-6618",
+     "covered": true
+    }
+   ]
+  },
+  "sfn2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:51Z",
+   "evidence": [
+    {
+     "issn": "0270-6474",
+     "covered": true
+    }
+   ]
+  },
+  "sage2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:52Z",
+   "evidence": [
+    {
+     "issn": "0011-3255",
+     "covered": true
+    }
+   ]
+  },
+  "sn2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:53Z",
+   "evidence": [
+    {
+     "issn": "2190-5738",
+     "covered": true
+    }
+   ]
+  },
+  "compbio2025jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:53Z",
+   "evidence": [
+    {
+     "issn": "0950-1991",
+     "covered": true
+    }
+   ]
+  },
+  "cshl2025jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:53Z",
+   "evidence": [
+    {
+     "issn": "0890-9369",
+     "covered": true
+    }
+   ]
+  },
+  "microbio2025jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:54Z",
+   "evidence": [
+    {
+     "issn": "2516-8290",
+     "covered": true
+    }
+   ]
+  },
+  "opg2025jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:54Z",
+   "evidence": [
+    {
+     "issn": "1943-8206",
+     "covered": true
+    }
+   ]
+  },
+  "thie2025jisc": {
+   "verdict": "contradicts",
+   "checked": "2026-08-10T14:51:55Z",
+   "evidence": [
+    {
+     "issn": "0735-1631",
+     "covered": false
+    },
+    {
+     "issn": "1098-8785",
+     "covered": false
+    },
+    {
+     "issn": "2194-9379",
+     "covered": false
+    }
+   ]
+  },
+  "acs2025jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:55Z",
+   "evidence": [
+    {
+     "issn": "0001-4842",
+     "covered": true
+    }
+   ]
+  },
+  "biosci2025jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:55Z",
+   "evidence": [
+    {
+     "issn": "1351-0088",
+     "covered": true
+    }
+   ]
+  },
+  "brill2023shedl": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:56Z",
+   "evidence": [
+    {
+     "issn": "2213-8609",
+     "covered": true
+    }
+   ]
+  },
+  "els2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:56Z",
+   "evidence": [
+    {
+     "issn": "1876-2859",
+     "covered": true
+    }
+   ]
+  },
+  "apa2024jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:56Z",
+   "evidence": [
+    {
+     "issn": "0002-9432",
+     "covered": true
+    }
+   ]
+  },
+  "aip2026jisc2": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:56Z",
+   "evidence": [
+    {
+     "issn": "2158-3226",
+     "covered": true
+    }
+   ]
+  },
+  "gsl2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:57Z",
+   "evidence": [
+    {
+     "issn": "2634-730X",
+     "covered": true
+    }
+   ]
+  },
+  "jmir2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:57Z",
+   "evidence": [
+    {
+     "issn": "2373-6658",
+     "covered": true
+    }
+   ]
+  },
+  "portpress2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:57Z",
+   "evidence": [
+    {
+     "issn": "1470-8728",
+     "covered": true
+    }
+   ]
+  },
+  "rsc2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:58Z",
+   "evidence": [
+    {
+     "issn": "0003-2654",
+     "covered": true
+    }
+   ]
+  },
+  "rup2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:58Z",
+   "evidence": [
+    {
+     "issn": "0021-9525",
+     "covered": true
+    }
+   ]
+  },
+  "trs2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:58Z",
+   "evidence": [
+    {
+     "issn": "1744-957X",
+     "covered": true
+    }
+   ]
+  },
+  "lww2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:59Z",
+   "evidence": [
+    {
+     "issn": "2575-3126",
+     "covered": true
+    }
+   ]
+  },
+  "aphys2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:59Z",
+   "evidence": [
+    {
+     "issn": "1522-1229",
+     "covered": true
+    }
+   ]
+  },
+  "iwa2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:51:59Z",
+   "evidence": [
+    {
+     "issn": "2709-8028",
+     "covered": true
+    }
+   ]
+  },
+  "ers2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:52:00Z",
+   "evidence": [
+    {
+     "issn": "2312-0541",
+     "covered": true
+    }
+   ]
+  },
+  "wiley2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:52:00Z",
+   "evidence": [
+    {
+     "issn": "1467-6281",
+     "covered": true
+    }
+   ]
+  },
+  "tf2026jisc": {
+   "verdict": "agrees",
+   "checked": "2026-08-10T14:52:00Z",
+   "evidence": [
+    {
+     "issn": "0898-9575",
+     "covered": true
+    }
+   ]
+  }
+ }
+}

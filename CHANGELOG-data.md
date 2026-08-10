@@ -3,6 +3,27 @@
 What the site said, and when it changed. Generated automatically by
 `pipeline/changelog.py` on every refresh — newest entry first.
 
+## 2026-08-10
+
+- **9** journals added, **4** removed, **70** changed.
+
+### Deal status changes (3)
+
+- Bioscience Nanotechnology (3004-8648): `none` → `discount`
+- Discover Ecology (3005-1843): `none` → `discount`
+- BMC Artificial Intelligence (3005-1924): `none` → `discount`
+
+### Price changes (1)
+
+- Etikk i praksis - Nordic Journal of Applied Ethics (1890-3991): 6500 → 7000
+
+### Removed (4)
+
+- Lingua Franca Jurnal Bahasa Sastra dan Pengajarannya (2302-5778)
+- TAMAN VOKASI (2338-1825)
+- INKLUSI (2355-8954)
+- JPPUMA Jurnal Ilmu Pemerintahan dan Sosial Politik Universitas Medan Area (2549-1660)
+
 ## 2026-08-09
 
 - **0** journals added, **0** removed, **0** changed.

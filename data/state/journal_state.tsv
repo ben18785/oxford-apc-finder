@@ -449,7 +449,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0003-9853	Archives of American Art Journal	none	unknown			
 0003-9861	Archives of Biochemistry and Biophysics	covered	covered			
 0003-987X	Archives of Dermatology	none	unknown			
-0003-9888	Archives of Disease in Childhood	covered	covered_conditional			
+0003-9888	Archives of Disease in Childhood	covered	uncertain			1
 0003-9896	Archives of Environmental Health An International Journal	none	unknown			
 0003-990X	Archives of General Psychiatry	none	unknown			
 0003-9926	Archives of Internal Medicine	none	unknown			
@@ -698,13 +698,13 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0007-1021	British Journal of Experimental Pathology	none	unknown			
 0007-1048	British Journal of Haematology	covered	covered			
 0007-1064	British Journal of Hospital Medicine	none	unknown			
-0007-1072	Occupational and Environmental Medicine	covered	covered_conditional			
+0007-1072	Occupational and Environmental Medicine	covered	uncertain			1
 0007-1080	British Journal of Industrial Relations	covered	covered			
 0007-1102	British Journal of Mathematical and Statistical Psychology	covered	covered			
 0007-1129	British Journal of Medical Psychology	none	unknown			
 0007-1137	British journal of non-destructive testing	none	unknown			
 0007-1145	British Journal Of Nutrition	covered	covered			
-0007-1161	British Journal of Ophthalmology	covered	covered_conditional			
+0007-1161	British Journal of Ophthalmology	covered	uncertain			1
 0007-117X	British Journal of Oral Surgery	none	unknown			
 0007-1188	British Journal of Pharmacology	covered	covered			
 0007-1226	British Journal of Plastic Surgery	none	unknown			
@@ -716,7 +716,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0007-1315	British Journal of Sociology	covered	covered			
 0007-1323	British journal of surgery	covered	covered			
 0007-1331	British Journal of Urology	none	unknown			
-0007-134X	Sexually Transmitted Infections	covered	covered_conditional			
+0007-134X	Sexually Transmitted Infections	covered	uncertain			1
 0007-1420	British Medical Bulletin	covered	covered			
 0007-1447	BMJ	none	unknown			
 0007-151X	The British Museum Quarterly	none	unknown			
@@ -1125,7 +1125,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0012-5016	Doklady Physical Chemistry	none	unknown			
 0012-5806	The Downside Review	covered	covered			
 0012-5962	The Drama Review TDR	none	unknown			
-0012-6543	Drug and Therapeutics Bulletin	covered	covered_conditional			
+0012-6543	Drug and Therapeutics Bulletin	covered	uncertain			1
 0012-656X	Drug Information Bulletin	none	unknown			
 0012-6578	Annals of Pharmacotherapy	covered	covered			
 0012-6667	Drugs	none	list_price	5290	USD	
@@ -1202,7 +1202,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0013-7006	L Encéphale	covered	covered			
 0013-7219	Endocrinologia Japonica	none	unknown			
 0013-7227	Endocrinology	covered	covered			
-0013-726X	Endoscopy	covered	covered			
+0013-726X	Endoscopy	covered	uncertain			1
 0013-7448	Journal of Energy - Energija	none	no_apc			
 0013-7480	Energy Conversion	none	unknown			
 0013-7545	Enfance	none	unknown			
@@ -1488,7 +1488,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0017-467X	Ground Water	covered	covered			
 0017-4815	Growth and Change	covered	covered			
 0017-4947	Gruppenpsychotherapie und Gruppendynamik	none	unknown			
-0017-5749	Gut	covered	covered_conditional			
+0017-5749	Gut	covered	uncertain			1
 0017-5986	Gynecologic Investigation	none	unknown			
 0017-5994	Der Gynäkologe	none	list_price	3090	USD	
 0017-6001	Gynäkologische Rundschau	none	unknown			
@@ -1558,7 +1558,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0018-4306	L Homme et la société	none	unknown			
 0018-442X	HOMO	discount	discount	1266	EUR	
 0018-4888	Hoppe-Seyler´s Zeitschrift für physiologische Chemie	none	unknown			
-0018-5043	Hormone and Metabolic Research	covered	covered			
+0018-5043	Hormone and Metabolic Research	covered	uncertain			1
 0018-5051	Hormones	none	unknown			
 0018-506X	Hormones and Behavior	covered	covered			
 0018-5345	HortScience	none	list_price	3000	USD	
@@ -1995,7 +1995,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0021-969X	Journal of Church and State	covered	covered			
 0021-972X	The Journal of Clinical Endocrinology & Metabolism	covered	covered			
 0021-9738	Journal of Clinical Investigation	none	list_price	5700	USD	
-0021-9746	Journal of Clinical Pathology	covered	covered_conditional			
+0021-9746	Journal of Clinical Pathology	covered	uncertain			1
 0021-9754	The Journal of Clinical Pharmacology	covered	covered			
 0021-9762	Journal of Clinical Psychology	covered	covered			
 0021-9797	Journal of Colloid and Interface Science	covered	covered			
@@ -2169,7 +2169,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0022-2542	Journal of Mechanical Engineering Science	none	unknown			
 0022-2569	Journal of Mechanisms	none	unknown			
 0022-2585	Journal of Medical Entomology	covered	covered			
-0022-2593	Journal of Medical Genetics	covered	covered_conditional			
+0022-2593	Journal of Medical Genetics	covered	uncertain			1
 0022-2615	Journal of Medical Microbiology	covered	covered			
 0022-2623	Journal of Medicinal Chemistry	covered	covered			
 0022-2631	The Journal of Membrane Biology	covered	covered			
@@ -2197,7 +2197,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0022-3026	Journal of Neuro-Visceral Relations	none	unknown			
 0022-3034	Journal of Neurobiology	none	unknown			
 0022-3042	Journal of Neurochemistry	covered	covered			
-0022-3050	Journal of Neurology Neurosurgery & Psychiatry	covered	covered_conditional			
+0022-3050	Journal of Neurology Neurosurgery & Psychiatry	covered	uncertain			1
 0022-3069	Journal of Neuropathology & Experimental Neurology	covered	covered			
 0022-3077	Journal of Neurophysiology	covered	covered			
 0022-3085	Journal of neurosurgery	none	unknown			
@@ -2582,7 +2582,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0026-1114	Meteoritics	none	unknown			
 0026-1149	Meteorological Magazine	none	unknown			
 0026-1165	Journal of the Meteorological Society of Japan Ser II	none	list_price	1390	GBP	
-0026-1270	Methods of Information in Medicine	covered	covered			
+0026-1270	Methods of Information in Medicine	covered	uncertain			1
 0026-1335	Metrika	covered	covered			
 0026-1386	Metroeconomica	covered	covered			
 0026-1394	Metrologia	covered	covered			
@@ -3024,7 +3024,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0032-0862	Plant Pathology	covered	covered			
 0032-0889	PLANT PHYSIOLOGY	covered	covered			
 0032-0935	Planta	covered	covered			
-0032-0943	Planta Medica	covered	covered			
+0032-0943	Planta Medica	covered	uncertain			1
 0032-1028	Plasma Physics	none	unknown			
 0032-1052	Plastic & Reconstructive Surgery	covered	covered			
 0032-1400	Platinum Metals Review	none	no_apc			
@@ -3667,7 +3667,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0039-7679	Symbolae Osloenses	covered	covered			
 0039-7709	Symposium A Quarterly Journal in Modern Literatures	covered	covered			
 0039-7857	Synthese	covered	covered			
-0039-7881	Synthesis	covered	covered			
+0039-7881	Synthesis	covered	uncertain			1
 0039-7911	Synthetic Communications	covered	covered			
 0039-7946	Syria	none	unknown			
 0039-7989	Systematic Zoology	none	unknown			
@@ -3724,7 +3724,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0040-6031	Thermochimica Acta	covered	covered			
 0040-6090	Thin Solid Films	covered	covered			
 0040-6325	The Thomist: A Speculative Quarterly Review	none	unknown			
-0040-6376	Thorax	covered	covered_conditional			
+0040-6376	Thorax	covered	uncertain			1
 0040-6457	Thought	none	unknown			
 0040-716X	Tidsskrift for samfunnsforskning	none	no_apc			
 0040-7453	Tijdschrift voor diergeneeskunde	none	unknown			
@@ -4816,7 +4816,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0094-5714	Synthesis and Reactivity in Inorganic and Metal-Organic Chemistry	none	unknown			
 0094-5765	Acta Astronautica	covered	covered			
 0094-582X	Latin American Perspectives	covered	covered			
-0094-6176	Seminars in Thrombosis and Hemostasis	covered	covered			
+0094-6176	Seminars in Thrombosis and Hemostasis	covered	uncertain			1
 0094-6214	Public Health Reports (1896-1970)	none	unknown			
 0094-6575	Emergency medical services	none	unknown			
 0094-730X	Journal of Fluency Disorders	covered	covered			
@@ -5741,7 +5741,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0141-6707	African Journal of Ecology	covered	covered			
 0141-6790	Art History	covered	covered			
 0141-7037	Journal of The British Contact Lens Association	none	unknown			
-0141-7681	Journal of Epidemiology & Community Health	covered	covered_conditional			
+0141-7681	Journal of Epidemiology & Community Health	covered	uncertain			1
 0141-7789	Feminist Review	covered	covered			
 0141-8033	The Journal of Social Welfare Law	none	unknown			
 0141-8130	International Journal of Biological Macromolecules	covered	covered			
@@ -6669,7 +6669,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0171-4538	Sozialpsychiatrische Informationen	none	unknown			
 0171-5445	Bauphysik	none	unknown			
 0171-5860	Analyse & Kritik	none	unknown			
-0171-6425	The Thoracic and Cardiovascular Surgeon	covered	covered			
+0171-6425	The Thoracic and Cardiovascular Surgeon	covered	uncertain			1
 0171-645X	Beiträge zur Hochschulforschung	none	no_apc			
 0171-6468	OR Spectrum	covered	covered			
 0171-7111	Haematology and blood transfusion	none	unknown			
@@ -6687,7 +6687,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0172-4029	STADION	none	unknown			
 0172-4606	Aktuelle Endokrinologie und Stoffwechsel	none	unknown			
 0172-4614	Ultraschall in der Medizin - European Journal of Ultrasound	none	unknown			
-0172-4622	International Journal of Sports Medicine	covered	covered			
+0172-4622	International Journal of Sports Medicine	covered	uncertain			1
 0172-5505	Musiktherapeutische Umschau	none	unknown			
 0172-5564	Zentralblatt für Bakteriologie I Abt Originale C Allgemeine angewandte und ökologische Mikrobiologie	none	unknown			
 0172-5599	Zentralblatt für Bakteriologie 1 Abt Originale A Medizinische Mikrobiologie Infektionskrankheiten und Parasitologie	none	unknown			
@@ -6719,8 +6719,8 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0174-2108	Informationsbrief Ausländerrecht	none	unknown			
 0174-2442	coloproctology	covered	covered			
 0174-3031	Zentralblatt für Bakteriologie Mikrobiologie und Hygiene 1 Abt Originale A Medizinische Mikrobiologie Infektionskrankheiten und Parasitologie	none	unknown			
-0174-304X	Neuropediatrics	covered	covered			
-0174-3082	European Journal of Pediatric Surgery	covered	covered			
+0174-304X	Neuropediatrics	covered	uncertain			1
+0174-3082	European Journal of Pediatric Surgery	covered	uncertain			1
 0174-3597	Helgoland Marine Research	none	list_price	2190	USD	
 0174-3635	Standort	covered	covered			
 0174-4399	Medien in Forschung + Unterricht. Serie A	none	unknown			
@@ -6741,7 +6741,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0176-1617	Journal of Plant Physiology	covered	covered			
 0176-1714	Social Choice and Welfare	covered	covered			
 0176-2680	European Journal of Political Economy	covered	covered			
-0176-3679	Pharmacopsychiatry	covered	covered			
+0176-3679	Pharmacopsychiatry	covered	uncertain			1
 0176-4225	Diachronica	covered	covered			
 0176-4268	Journal of Classification	covered	covered			
 0176-4276	Constructive Approximation	covered	covered			
@@ -6877,7 +6877,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0189-6016	African Journal of Traditional Complementary and Alternative Medicines	none	unknown			
 0189-6725	African Journal of Paediatric Surgery	none	list_price	250	USD	
 0189-7241	Nigerian Food Journal	none	unknown			
-0189-7860	Seminars in Musculoskeletal Radiology	covered	covered			
+0189-7860	Seminars in Musculoskeletal Radiology	covered	uncertain			1
 0189-8965	Journal of the Nigerian Mathematical Society	discount	discount_unknown_base			
 0189-9546	Nigerian Journal of Technological Development	none	list_price	25000	NGN	
 0189-9686	Nigerian Journal of Genetics	none	unknown			
@@ -8298,7 +8298,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0271-7352	American Journal of Reproductive Immunology	covered	covered			
 0271-7964	Yearbook of Emergency Medicine	none	unknown			
 0271-8057	Journal of Tissue Culture Methods	none	unknown			
-0271-8235	Seminars in Neurology	covered	covered			
+0271-8235	Seminars in Neurology	covered	uncertain			1
 0271-8294	Topics in Language Disorders	covered	covered			
 0271-9142	Journal of Clinical Immunology	covered	covered			
 0271-9517	NACADA Journal	none	unknown			
@@ -8349,7 +8349,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0272-7358	Clinical Psychology Review	covered	covered			
 0272-7714	Estuarine Coastal and Shelf Science	covered	covered			
 0272-7757	Economics of Education Review	covered	covered			
-0272-8087	Seminars in Liver Disease	covered	covered			
+0272-8087	Seminars in Liver Disease	covered	uncertain			1
 0272-8397	Polymer Composites	covered	covered			
 0272-8842	Ceramics International	covered	covered			
 0272-8893	Focus on learning problems in mathematics	none	unknown			
@@ -8985,7 +8985,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0306-3453	Metal Science	none	unknown			
 0306-3623	General Pharmacology The Vascular System	none	unknown			
 0306-3631	The Journal of Commonwealth & Comparative Politics	none	unknown			
-0306-3674	British Journal of Sports Medicine	covered	covered_conditional			
+0306-3674	British Journal of Sports Medicine	covered	uncertain			1
 0306-3747	Additives for Polymers	none	unknown			
 0306-3968	Race & Class	covered	covered			
 0306-4190	International Journal of Mechanical Engineering Education	covered	covered			
@@ -9003,7 +9003,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0306-5456	BJOG An International Journal of Obstetrics & Gynaecology	covered	covered			
 0306-6150	The Journal of Peasant Studies	covered	covered			
 0306-6304	Language Teaching & Linguistics Abstracts	none	unknown			
-0306-6800	Journal of Medical Ethics	covered	covered_conditional			
+0306-6800	Journal of Medical Ethics	covered	uncertain			1
 0306-686X	Journal of Business Finance & Accounting	covered	covered			
 0306-7297	Journal of human movement studies	none	unknown			
 0306-7319	International Journal of Environmental & Analytical Chemistry	covered	covered			
@@ -9304,6 +9304,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0329-8019	Zona Franca	none	no_apc			
 0329-8922	Revista de Ciencia y Tecnología	none	no_apc			
 0329-8930	Studium Filosofía y Teología	none	no_apc			
+0329-9546	El matadero	none	no_apc			
 0330-0080	INSTM Bulletin	none	no_apc			
 0331-5428	International Journal of applied Agricultural and apicultural research	none	unknown			
 0331-8443	Nigerian Journal of Technology	none	list_price	200	USD	
@@ -9404,7 +9405,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0340-6083	Göttinger Predigtmeditationen	none	unknown			
 0340-613X	Geschichte und Gesellschaft	none	unknown			
 0340-6199	European Journal of Pediatrics	covered	covered			
-0340-6245	Thrombosis and Haemostasis	covered	covered			
+0340-6245	Thrombosis and Haemostasis	covered	uncertain			1
 0340-6725	Zoomorphology	covered	covered			
 0340-6997	European Journal of Nuclear Medicine	none	unknown			
 0340-7004	Cancer Immunology Immunotherapy	covered	covered			
@@ -11016,7 +11017,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0720-048X	European Journal of Radiology	covered	covered			
 0720-1079	Kontext	none	unknown			
 0720-3373	Krankenhaus-Hygiene + Infektionsverhütung	none	list_price	2550	USD	
-0720-4299	Fortschritte der Neurologie · Psychiatrie	covered	covered			
+0720-4299	Fortschritte der Neurologie · Psychiatrie	covered	uncertain			1
 0720-5120	IG	none	unknown			
 0720-5775	Rhetorik	covered	covered			
 0720-6259	Pastoraltheologie	none	unknown			
@@ -11197,8 +11198,8 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0733-950X	Journal of Waterway Port Coastal and Ocean Engineering	none	unknown			
 0733-9542	New Vico Studies	none	unknown			
 0734-0168	Criminal Justice Review	covered	covered			
-0734-0451	Seminars in Hearing	covered	covered			
-0734-0478	Seminars in Speech and Language	covered	covered			
+0734-0451	Seminars in Hearing	covered	uncertain			1
+0734-0478	Seminars in Speech and Language	covered	uncertain			1
 0734-0664	Gerodontology	covered	covered			
 0734-0796	Text and Performance Quarterly	covered	covered			
 0734-1415	TAPPI Journal	none	unknown			
@@ -11241,7 +11242,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0735-0651	Gene Analysis Techniques	none	unknown			
 0735-0791	IEEE International Reliability Physics Symposium proceedings	none	unknown			
 0735-1097	Journal of the American College of Cardiology	none	list_price	6500	USD	
-0735-1631	American Journal of Perinatology	covered	covered			
+0735-1631	American Journal of Perinatology	covered	uncertain			1
 0735-1690	Psychoanalytic Inquiry	covered	covered			
 0735-1917	Water supply	none	unknown			
 0735-1933	International Communications in Heat and Mass Transfer	covered	covered			
@@ -11284,7 +11285,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0736-6299	Solvent Extraction and Ion Exchange	covered	covered			
 0736-6574	Journal of macromolecular science. Part C, Reviews in macromolecular chemistry and physics/Journal of macromolecular science. Reviews in macromolecular chemistry and physics	covered	covered			
 0736-6760	African urban studies	none	unknown			
-0736-6825	Facial Plastic Surgery	covered	covered			
+0736-6825	Facial Plastic Surgery	covered	uncertain			1
 0736-6892	ACM SIGUCCS Newsletter	none	unknown			
 0736-6906	ACM SIGCHI Bulletin	none	unknown			
 0736-6981	EDPACS	covered	covered			
@@ -11482,7 +11483,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0743-6637	Trauma Quarterly	none	unknown			
 0743-6661	Journal of Insurance Medicine	none	unknown			
 0743-6831	South Central Review	none	unknown			
-0743-684X	Journal of Reconstructive Microsurgery	covered	covered			
+0743-684X	Journal of Reconstructive Microsurgery	covered	uncertain			1
 0743-7315	Journal of Parallel and Distributed Computing	covered	covered			
 0743-7463	Langmuir	covered	covered			
 0743-782X	Proverbium	none	no_apc			
@@ -13296,11 +13297,11 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0935-6304	Journal of High Resolution Chromatography	none	unknown			
 0935-7335	Ethik in der Medizin	covered	covered			
 0935-8439	Monatshefte für Chemie. Supplementum	none	unknown			
-0935-8943	Laryngo-Rhino-Otologie	covered	covered			
+0935-8943	Laryngo-Rhino-Otologie	covered	uncertain			1
 0935-9648	Advanced Materials	covered	covered			
 0936-2835	Exceptionality	covered	covered			
 0936-3076	Journal of Neural Transmission - Parkinsons Disease and Dementia Section	none	unknown			
-0936-5214	Synlett	covered	covered			
+0936-5214	Synlett	covered	uncertain			1
 0936-577X	Climate Research	none	unknown			
 0936-5907	Cognitive Linguistics	none	no_apc			
 0936-5931	Medizinische Genetik	none	list_price	2760	USD	
@@ -13479,7 +13480,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0947-5745	Journal of Zoological Systematics & Evolutionary Research	none	list_price	1730	GBP	
 0947-6539	Chemistry - A European Journal	covered	covered			
 0947-7047	Ionics	covered	covered			
-0947-7349	Experimental and Clinical Endocrinology & Diabetes	covered	covered			
+0947-7349	Experimental and Clinical Endocrinology & Diabetes	covered	uncertain			1
 0947-7411	Heat and Mass Transfer	covered	covered			
 0947-7616	Flug- und Reisemedizin	none	unknown			
 0947-8396	Applied Physics A	covered	covered			
@@ -14116,7 +14117,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0964-3397	Intensive and Critical Care Nursing	covered	covered			
 0964-4008	German Politics	covered	covered			
 0964-4016	Environmental Politics	covered	covered			
-0964-4563	Tobacco Control	covered	covered_conditional			
+0964-4563	Tobacco Control	covered	uncertain			1
 0964-4733	Business Strategy and the Environment	covered	covered			
 0964-5284	Acupuncture in Medicine	covered	covered			
 0964-5292	Education Economics	covered	covered			
@@ -16494,7 +16495,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1069-1898	Journal of Statistics Education	none	list_price	925	GBP	
 1069-2509	Integrated Computer-Aided Engineering	covered	covered			
 1069-2533	Journal of Customer Service in Marketing & Management	none	unknown			
-1069-3424	Seminars in Respiratory and Critical Care Medicine	covered	covered			
+1069-3424	Seminars in Respiratory and Critical Care Medicine	covered	uncertain			1
 1069-3513	Izvestiya Physics of the Solid Earth	none	unknown			
 1069-3629	Groundwater Monitoring & Remediation	covered	covered			
 1069-417X	Antimicrobics and Infectious Diseases Newsletter	none	unknown			
@@ -17302,7 +17303,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1098-6111	Police Quarterly	covered	covered			
 1098-612X	Journal of Feline Medicine and Surgery	covered	covered			
 1098-7134	Journal of child and family nursing	none	unknown			
-1098-7339	Regional Anesthesia & Pain Medicine	covered	covered_conditional			
+1098-7339	Regional Anesthesia & Pain Medicine	covered	uncertain			1
 1098-7371	Book history	none	unknown			
 1098-7886	Journal for Nurses in Staff Development	none	unknown			
 1098-8068	Proceedings - International Database Engineering and Applications Symposium	none	unknown			
@@ -19209,7 +19210,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1351-0126	Journal of Psychiatric and Mental Health Nursing	covered	covered			
 1351-0347	Democratization	covered	covered			
 1351-0487	Constellations	covered	covered			
-1351-0622	Emergency Medicine Journal	covered	covered_conditional			
+1351-0622	Emergency Medicine Journal	covered	uncertain			1
 1351-0754	European Journal of Soil Science	covered	covered			
 1351-1610	Innovation The European Journal of Social Science Research	covered	covered			
 1351-3036	Benchmarking for Quality Management & Technology	none	unknown			
@@ -19269,7 +19270,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1353-7121	Israel Affairs	covered	covered			
 1353-7903	Journal of Contemporary Religion	covered	covered			
 1353-8020	Parkinsonism & Related Disorders	covered	covered			
-1353-8047	Injury Prevention	covered	covered_conditional			
+1353-8047	Injury Prevention	covered	uncertain			1
 1353-8292	Health & Place	covered	covered			
 1353-8322	Quality in Higher Education	covered	covered			
 1354-0602	Teachers and Teaching	covered	covered			
@@ -19327,7 +19328,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1355-557X	Aquaculture Research	covered	covered			
 1355-5626	Ambulatory Child Health	none	unknown			
 1355-5855	Asia Pacific Journal of Marketing and Logistics	none	unknown			
-1355-6037	Heart	covered	covered_conditional			
+1355-6037	Heart	covered	uncertain			1
 1355-6177	Journal of the International Neuropsychological Society	covered	covered			
 1355-6207	Journal of Architectural Conservation	covered	covered			
 1355-6215	Addiction Biology	covered	covered			
@@ -19357,7 +19358,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1356-3890	Evaluation	covered	covered			
 1356-4765	Res Publica	covered	covered			
 1356-5362	Microelectronics International	none	unknown			
-1356-5524	BMJ Evidence-Based Medicine	covered	covered_conditional			
+1356-5524	BMJ Evidence-Based Medicine	covered	uncertain			1
 1356-689X	Manual Therapy	none	unknown			
 1356-7500	Child & Family Social Work	covered	covered			
 1356-7667	Journal Of Vacation Marketing	covered	covered			
@@ -19420,7 +19421,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1359-1371	The Journal of Holocaust Education	none	unknown			
 1359-1789	Aggression and Violent Behavior	covered	covered			
 1359-1835	Journal of Material Culture	covered	covered			
-1359-2998	Archives of Disease in Childhood Fetal & Neonatal	covered	covered_conditional			
+1359-2998	Archives of Disease in Childhood Fetal & Neonatal	covered	uncertain			1
 1359-4117	Journal of Experimental Therapeutics and Oncology	none	unknown			
 1359-4184	Molecular Psychiatry	covered	covered			
 1359-4311	Applied Thermal Engineering	covered	covered			
@@ -19650,7 +19651,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1367-5788	Annual Reviews in Control	covered	covered			
 1367-5931	Current Opinion in Chemical Biology	covered	covered			
 1367-6261	Journal of Youth Studies	covered	covered			
-1367-6539	Evidence-Based Nursing	covered	covered_conditional			
+1367-6539	Evidence-Based Nursing	covered	uncertain			1
 1367-6679	The Journal of Sustainable Product Design	none	unknown			
 1367-7543	Progress in Neurology and Psychiatry	covered	covered			
 1367-8779	International Journal of Cultural Studies	covered	covered			
@@ -21213,7 +21214,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1468-1641	Field Mycology	none	unknown			
 1468-1749	Sexual & Relationship Therapy	covered	covered			
 1468-1811	Sex Education	covered	covered			
-1468-215X	Medical Humanities	covered	covered_conditional			
+1468-215X	Medical Humanities	covered	uncertain			1
 1468-2486	International Studies Review	covered	covered			
 1468-2702	Journal of Economic Geography	covered	covered			
 1468-2737	Hispanic Research Journal	covered	covered			
@@ -21490,7 +21491,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1474-7472	Journal of Pensions Economics and Finance	covered	covered			
 1474-7480	Journal of the Institute of Mathematics of Jussieu	covered	covered			
 1474-7731	Globalizations	covered	covered			
-1474-7758	Practical Neurology	covered	covered_conditional			
+1474-7758	Practical Neurology	covered	uncertain			1
 1474-7782	Ankara Papers	none	unknown			
 1474-8185	International Journal of Performance Analysis in Sport	covered	covered			
 1474-8460	London Review of Education	none	no_apc			
@@ -21522,7 +21523,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1475-357X	Child and Adolescent Mental Health	covered	covered			
 1475-3685	Review of Middle East Economics and Finance	covered	covered			
 1475-3820	Bulletin of Spanish Studies	covered	covered			
-1475-3898	BMJ Quality & Safety	covered	covered_conditional			
+1475-3898	BMJ Quality & Safety	covered	uncertain			1
 1475-4398	Strategic HR Review	none	unknown			
 1475-455X	Aluminium international today	none	unknown			
 1475-472X	International Journal of Aeroacoustics	covered	covered			
@@ -22262,7 +22263,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1526-3800	Global Environmental Politics	none	unknown			
 1526-3819	Grey Room	none	unknown			
 1526-4114	Caring for the Ages	none	unknown			
-1526-4564	Seminars in Reproductive Medicine	covered	covered			
+1526-4564	Seminars in Reproductive Medicine	covered	uncertain			1
 1526-4572	Seminars in Neurosurgery	none	unknown			
 1526-484X	International Journal of Sport Nutrition and Exercise Metabolism	none	unknown			
 1526-498X	Pest Management Science	covered	covered			
@@ -22661,7 +22662,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1538-7836	Journal of Thrombosis and Haemostasis	covered	covered			
 1538-7887	Journal of Statistical Theory and Applications	discount	discount	1054	GBP	
 1538-8220	Journal of School Violence	covered	covered			
-1538-8506	The Journal of Knee Surgery	covered	covered			
+1538-8506	The Journal of Knee Surgery	covered	uncertain			1
 1538-8786	BioProcessing Journal	none	unknown			
 1538-9472	Journal of Modern Applied Statistical Methods	none	unknown			
 1538-957X	Traffic Injury Prevention	covered	covered			
@@ -25832,7 +25833,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1742-9145	Journal of Plant Interactions	covered	covered			
 1742-9994	Frontiers in Zoology	discount	discount	1946	GBP	
 1743-0003	Journal of NeuroEngineering and Rehabilitation	discount	discount	2456	GBP	
-1743-0585	Archives of Disease in Childhood Education & Practice	covered	covered_conditional			
+1743-0585	Archives of Disease in Childhood Education & Practice	covered	uncertain			1
 1743-1050	Journal of Experimental & Clinical Assisted Reproduction	none	unknown			
 1743-2197	Cultural Politics an International Journal	none	unknown			
 1743-2200	Material Religion	covered	covered			
@@ -26625,7 +26626,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1759-7684	Wiley Interdisciplinary Reviews Developmental Biology	none	list_price	4200	USD	
 1759-7706	Thoracic Cancer	covered	covered			
 1759-8273	Journal of Poverty and Social Justice	covered	covered			
-1759-8478	Journal of NeuroInterventional Surgery	covered	covered_conditional			
+1759-8478	Journal of NeuroInterventional Surgery	covered	uncertain			1
 1759-8753	Mobile DNA	discount	discount	2032	GBP	
 1759-8885	Journal of Pharmaceutical Health Services Research	covered	covered			
 1759-8907	IDS Practice Papers	none	unknown			
@@ -28562,7 +28563,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1889-979X	Arte y Políticas de Identidad	none	no_apc			
 1890-2138	NORMA	covered	covered			
 1890-2936	Sykepleien Forskning	none	no_apc			
-1890-3991	Etikk i praksis - Nordic Journal of Applied Ethics	none	list_price	6500	NOK	
+1890-3991	Etikk i praksis - Nordic Journal of Applied Ethics	none	list_price	7000	NOK	
 1890-5900	Nordic Journal of Information Literacy in Higher Education	none	no_apc			
 1890-9167	Nordisk barnehageforskning	none	no_apc			
 1890-9515	FormAkademisk - forskningstidsskrift for design og designdidaktikk	none	no_apc			
@@ -28601,6 +28602,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1895-4308	Przegląd Badań Edukacyjnych	none	no_apc			
 1895-4588	Videosurgery and Other Miniinvasive Techniques	none	list_price	2300	EUR	
 1895-5088	Zarządzanie Innowacyjne w Gospodarce i Biznesie	none	no_apc			
+1895-5118	Annales Universitatis Paedagogicae Cracoviensis. Studia de Arte et Educatione/Annales Academiae Paedagogicae Cracoviensis. Studia de Arte et Educatione	none	no_apc			
 1895-5770	Gastroenterology Review	none	list_price	250	EUR	
 1895-6106	Lodz Papers in Pragmatics	covered	covered			
 1895-6912	Problemy Ekorozwoju	none	no_apc			
@@ -30959,7 +30961,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2041-3483	B A B P bulletin	none	unknown			
 2041-3866	Organizational Psychology Review	covered	covered			
 2041-4005	Transnational Legal Theory	covered	covered			
-2041-4137	Frontline Gastroenterology	covered	covered_conditional			
+2041-4137	Frontline Gastroenterology	covered	uncertain			1
 2041-4161	IMF Economic Review	none	unknown			
 2041-4196	International Journal of Protective Structures	covered	covered			
 2041-4501	Katherine Mansfield Studies	none	unknown			
@@ -31091,7 +31093,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2045-3701	Cell & Bioscience	discount	discount	1862	GBP	
 2045-3817	Global Constitutionalism	covered	covered			
 2045-4015	Israel Journal of Health Policy Research	discount	no_apc			
-2045-435X	BMJ Supportive & Palliative Care	covered	covered_conditional			
+2045-435X	BMJ Supportive & Palliative Care	covered	uncertain			1
 2045-4457	South Asian Journal of Global Business Research	none	unknown			
 2045-452X	Toxicology Research	covered	covered			
 2045-5216	C21 literature	none	no_apc			
@@ -31186,7 +31188,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2047-9700	International Journal of Healthcare Management	covered	covered			
 2047-9816	Acta Radiologica Open	covered	covered			
 2047-9867	Equine Health	none	unknown			
-2047-9956	European Journal of Hospital Pharmacy	covered	covered_conditional			
+2047-9956	European Journal of Hospital Pharmacy	covered	uncertain			1
 2047-9980	Journal of the American Heart Association	covered	covered			
 2048-0040	JRSM Cardiovascular Disease	covered	covered			
 2048-0792	The Comics Grid Journal of Comics Scholarship	none	no_apc			
@@ -31548,7 +31550,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2055-5911	Journal of Tourism Futures	none	no_apc			
 2055-6225	Journal of Service Theory and Practice	none	unknown			
 2055-6365	Journal of Psychologists and Counsellors in Schools	covered	covered			
-2055-642X	BMJ Innovations	covered	covered_conditional			
+2055-642X	BMJ Innovations	covered	uncertain			1
 2055-6640	Journal of Virus Eradication	discount	discount	2558	USD	
 2055-6683	Journal of Rehabilitation and Assistive Technologies Engineering	covered	covered			
 2055-6756	Nanoscale Horizons	covered	covered_conditional			
@@ -34279,8 +34281,8 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2193-5254	Orthopädie und Unfallchirurgie	none	unknown			
 2193-5807	Asian Journal of Organic Chemistry	covered	covered			
 2193-584X	XX Die Zeitschrift für Frauen in der Medizin	none	unknown			
-2193-6315	Journal of Neurological Surgery Part A Central European Neurosurgery	covered	covered			
-2193-6331	Journal of Neurological Surgery Part B Skull Base	covered	covered			
+2193-6315	Journal of Neurological Surgery Part A Central European Neurosurgery	covered	uncertain			1
+2193-6331	Journal of Neurological Surgery Part B Skull Base	covered	uncertain			1
 2193-6358	Journal of Neurological Surgery Reports	none	list_price	2875	EUR	
 2193-6382	Infectious Diseases and Therapy	none	list_price	5120	GBP	
 2193-651X	Pain and Therapy	none	list_price	5120	GBP	
@@ -34344,7 +34346,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2194-8976	Handchirurgie Scan	none	unknown			
 2194-9042	ISPRS annals of the photogrammetry, remote sensing and spatial information sciences	none	no_apc			
 2194-9174	ATZagenda	none	unknown			
-2194-9379	Drug Research	covered	covered			
+2194-9379	Drug Research	covered	uncertain			1
 2194-9719	Journal Club AINS	none	unknown			
 2194-9735	Journal Club Schmerzmedizin	none	unknown			
 2195-0156	Journal of Contemporary Drama in English	none	unknown			
@@ -35564,6 +35566,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2237-6658	Múltiplos Olhares em Ciência da Informação	none	no_apc			
 2237-6917	Perspectivas em Psicologia	none	no_apc			
 2237-6976	Revista Orbis Latina	none	no_apc			
+2237-7417	Revista de Casos e Consultoria	none	no_apc			
 2237-7956	Revista de Administração IMED	none	no_apc			
 2237-826X	AtoZ novas práticas em informação e conhecimento	none	no_apc			
 2237-8294	Revista Arqueologia Pública	none	no_apc			
@@ -36474,7 +36477,6 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2302-5190	Economica	none	list_price	150000	IDR	
 2302-528X	Jurnal Magister Hukum Udayana (Udayana Master Law Journal)	none	no_apc			
 2302-559X	Jurnal Teknik Pertanian Lampung (Journal of Agricultural Engineering)	none	list_price	400000	IDR	
-2302-5778	Lingua Franca Jurnal Bahasa Sastra dan Pengajarannya	none	no_apc			
 2302-6251	Assets Jurnal Akuntansi dan Pendidikan	none	list_price	1000000	IDR	
 2302-6383	Jurnal Pembangunan Pendidikan Fondasi dan Aplikasi	none	list_price	200000	IDR	
 2302-6464	Ovozoa Journal of Animal Reproduction	none	no_apc			
@@ -37507,7 +37509,6 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2338-1647	Journal of Indonesian Tourism and Development Studies	none	list_price	60	USD	
 2338-1663	Jurnal Rekayasa Mesin	none	list_price	250000	IDR	
 2338-1787	The Indonesian Green Technology Journal	none	no_apc			
-2338-1825	TAMAN VOKASI	none	no_apc			
 2338-199X	e-GIGI	none	unknown			
 2338-2066	Jurnal Ilmu Keperawatan Maternitas	none	list_price	300000	IDR	
 2338-2074	Jurnal Ilmu Keperawatan Anak	none	list_price	400000	IDR	
@@ -37717,6 +37718,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2346-1098	Questionar Investigación Específica	none	no_apc			
 2346-1780	Perseitas	none	no_apc			
 2346-3120	Anuario Iberoamericano Derecho Internacional Penal	none	no_apc			
+2346-3279	Revista En-contexto	none	no_apc			
 2346-3775	Tropical Grasslands - Forrajes Tropicales	none	no_apc			
 2346-3910	Revista Geon (Gestión Organizaciones y Negocios)	none	no_apc			
 2346-4747	Ricercare	none	no_apc			
@@ -38037,7 +38039,6 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2355-8717	Thariqah Ilmiah Jurnal ilmu-ilmu kependidikan dan Bahasa Arab	none	no_apc			
 2355-875X	CHEMICA Jurnal Teknik Kimia	none	list_price	500000	IDR	
 2355-8857	Journal of Health (JoH)	none	list_price	400000	IDR	
-2355-8954	INKLUSI	none	no_apc			
 2355-9152	Journal of Applied Food Technology	none	list_price	750000	IDR	
 2355-9217	Jurnal Farmasi UIN Alauddin Makassar	none	unknown			
 2355-9306	Indonesian Journal on Geoscience	none	no_apc			
@@ -38879,7 +38880,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2398-6247	Information Discovery and Delivery	none	unknown			
 2398-6263	Journal of Enabling Technologies	none	unknown			
 2398-628X	South Asian Journal of Business Studies	none	unknown			
-2398-631X	BMJ Leader	covered	covered_conditional			
+2398-631X	BMJ Leader	covered	uncertain			1
 2398-6352	npj Digital Medicine	discount	discount	2626	GBP	
 2398-6808	Journal of Gender-Based Violence	covered	covered			
 2398-7294	International Journal of Crowd Science	none	no_apc			
@@ -40593,7 +40594,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2515-1088	European Journal of Politics and Gender	covered	covered			
 2515-1274	Entrepreneurship Education and Pedagogy	covered	covered			
 2515-1355	Therapeutic Advances in Vaccines and Immunotherapy	covered	covered			
-2515-1991	BMJ Sexual & Reproductive Health	covered	covered_conditional			
+2515-1991	BMJ Sexual & Reproductive Health	covered	uncertain			1
 2515-2076	Le foucaldien	none	no_apc			
 2515-2084	Journal of the Canadian Association of Gastroenterology	covered	covered			
 2515-2211	Journal of Textiles and Fibrous Materials	none	unknown			
@@ -40603,7 +40604,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2515-2564	Contact	covered	covered			
 2515-2947	IET Smart Grid	covered	covered			
 2515-3080	Journal of the Global Power and Propulsion Society	none	list_price	750	CHF	
-2515-3919	Considerations in Medicine	covered	covered_conditional			
+2515-3919	Considerations in Medicine	covered	uncertain			1
 2515-396X	Clean Energy	covered	covered			
 2515-4184	Molecular Omics	covered	covered_conditional			
 2515-4826	HRB Open Research	none	list_price	1103	EUR	
@@ -41606,7 +41607,6 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2549-0389	IJIE (Indonesian Journal of Informatics Education)	none	no_apc			
 2549-0664	Jurnal Wawasan Yuridika	none	no_apc			
 2549-1245	Sustinere Journal of Environment and Sustainability	none	no_apc			
-2549-1660	JPPUMA Jurnal Ilmu Pemerintahan dan Sosial Politik Universitas Medan Area	none	no_apc			
 2549-1776	Jurnal Adabiya	none	no_apc			
 2549-1857	JURKAM Jurnal Konseling Andi Matappa	none	no_apc			
 2549-189X	Medical Technology and Public Health Journal	none	list_price	500000	IDR	
@@ -43271,7 +43271,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2633-2892	QRB Discovery	covered	covered			
 2633-304X	Emerald expert briefings	none	unknown			
 2633-3716	New Area Studies	none	no_apc			
-2633-3767	BMJ Military Health	covered	covered_conditional			
+2633-3767	BMJ Military Health	covered	uncertain			1
 2633-4046	LSE Public Policy Review	none	no_apc			
 2633-4062	Ecofeminism and Climate Change	none	unknown			
 2633-4259	Flow	covered	covered			
@@ -46092,7 +46092,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2755-371X	RSC Applied Polymers	none	no_apc			
 2755-385X	Geo-Bio Interfaces	covered	covered			
 2755-3957	Journal of Trade Science	none	no_apc			
-2755-6670	Lifestyle Medicine Advances	covered	covered_conditional			
+2755-6670	Lifestyle Medicine Advances	covered	uncertain			1
 2755-8150	Blood & Plasma	discount	discount	2400	USD	
 2755-8401	Fundamental Science in Wound Healing	none	unknown			
 2755-9637	European Heart Journal - Imaging Methods and Practice	covered	covered			
@@ -47981,6 +47981,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2954-3479	Nuevas Glosas Estudios Lingüísticos y Literarios	none	no_apc			
 2954-3878	Albores	none	no_apc			
 2954-4076	Nuevas Poligrafías Revista de Teoría Literaria y Literatura Comparada	none	no_apc			
+2954-4300	Bajo el volcán. Revista del posgrado de sociología. BUAP.	none	no_apc			
 2954-4378	Psicología, Educación & Sociedad	none	no_apc			
 2954-4947	Journal of Behavior and Feeding	none	no_apc			
 2954-5781	Revista Digital de Educación Discimus	none	no_apc			
@@ -48249,7 +48250,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2977-4454	Neuro-Oncology Pediatrics	covered	covered			
 2977-4748	Studies in Empowering Education	none	no_apc			
 2977-5876	BMJ Connections Immunology	none	unknown			
-2977-5884	BMJ Immunology	covered	covered_conditional			
+2977-5884	BMJ Immunology	covered	uncertain			1
 2977-5930	Free & Equal A Journal of Ethics and Public Affairs	none	no_apc			
 2977-6481	Design for Augmented Humanity	covered	covered			
 2977-6708	Cambridge Forum on Technology and Global Affairs	covered	covered			
@@ -48569,7 +48570,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3004-8613	Journal of Medical Imaging and Interventional Radiology	none	unknown			
 3004-8621	npj Advanced Manufacturing	none	unknown			
 3004-863X	npj Biological Physics and Mechanics.	none	unknown			
-3004-8648	Bioscience Nanotechnology	none	unknown			
+3004-8648	Bioscience Nanotechnology	discount	discount	1096	GBP	
 3004-8656	npj Biosensing	none	unknown			
 3004-8664	npj Sustainable Mobility and Transport	discount	discount	1692	GBP	
 3004-8672	npj Unconventional Computing	none	unknown			
@@ -48651,10 +48652,10 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3005-1746	Journal of Disaster Science and Management	none	unknown			
 3005-1754	Discover Informatics	none	unknown			
 3005-1835	Discover Pharmaceutical Sciences	discount	discount	799	GBP	
-3005-1843	Discover Ecology	none	unknown			
+3005-1843	Discover Ecology	discount	discount	799	GBP	
 3005-1851	Discover Sensors	discount	no_apc			
 3005-186X	South Asia's Geopolitical & Strategic Engagement.	none	unknown			
-3005-1924	BMC Artificial Intelligence	none	unknown			
+3005-1924	BMC Artificial Intelligence	discount	discount	1352	GBP	
 3005-1932	BMC Agriculture	none	unknown			
 3005-1940	npj Dementia	none	unknown			
 3005-1959	npj Health Systems	none	list_price	2190	GBP	
@@ -49541,6 +49542,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3103-3601	Journal of Digital Terminology and Lexicography	none	no_apc			
 3104-3798	الأستاذ	none	list_price	60	USD	
 3104-4719	Computing&AI Connect	none	no_apc			
+3105-0069	International Social Research Nexus (ISRN)	none	list_price	100	USD	
 3105-4005	Revista Paraguaya de Pedagogía	none	no_apc			
 3105-4242	Forensic Insights and Health Sciences Bulletin	none	list_price	500	USD	
 3105-4544	Wah Academia Journal of Global Religions	none	list_price	130	USD	
@@ -49564,6 +49566,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3108-5288	Altay Conference Proceedings in Mathematics	none	no_apc			
 3108-5903	Journal of the Music Research Association	none	no_apc			
 3108-964X	Journal of Islamic Finance and Economic Studies	none	list_price	3000000	IDR	
+3109-0702	Journal of Advances in Physics Education	none	list_price	30	USD	
 3109-1962	Indonesian Journal of Law and Syariah	none	list_price	60	USD	
 3109-2128	Teladan Jurnal Pendidikan Umum dan Karakter	none	no_apc			
 3109-287X	Journal of Islamic Law and Humanitarian Studies	none	list_price	3000000	IDR	
@@ -49626,6 +49629,8 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3120-4082	Creator and Influencer Studies	none	unknown			
 3120-4228	Rare Kidney Diseases	none	unknown			
 3120-4317	Saudi Journal of Food Security and Environmental Sustainability	none	unknown			
+3120-4910	Discover Condensed Matter	none	unknown			
+3120-4929	Discover Pediatrics	none	unknown			
 3121-2751	Journal of Emerging & Sustainable Smart Engineering	none	no_apc			
 3121-6412	International Journal of Business Dynamics and Management	none	list_price	50	USD	
 3121-6560	Verlumun Journal of AI, Gender and Cultural Studies	none	list_price	1075	GBP	
