@@ -3,6 +3,42 @@
 What the site said, and when it changed. Generated automatically by
 `pipeline/changelog.py` on every refresh — newest entry first.
 
+## 2026-08-17
+
+- **119** journals added, **2** removed, **151** changed.
+
+### Deal status changes (11)
+
+- Comptes Rendus Palevol (1631-0683): `discount` → `none`
+- Comptes Rendus Biologies (1631-0691): `discount` → `none`
+- Comptes Rendus Physique (1631-0705): `discount` → `none`
+- Comptes Rendus Géoscience (1631-0713): `discount` → `none`
+- Comptes Rendus Mathématique (1631-073X): `discount` → `none`
+- Comptes Rendus Chimie (1631-0748): `discount` → `none`
+- Comptes Rendus Mécanique (1873-7234): `discount` → `none`
+- European Journal of Radiology Artificial Intelligence (3050-5771): `none` → `discount`
+- Finance Research Open (3050-7006): `none` → `discount`
+- CVIR Oncology (3059-2003): `none` → `discount`
+- Communications Sustainability (3059-4308): `none` → `discount`
+
+### Price changes (10)
+
+- Revista do Colégio Brasileiro de Cirurgiões (0100-6991): 2000 → 500 USD
+- Fossil record (1860-1014): 550 → 1150
+- Leibniz transactions on embedded systems (2199-2002): 100 → 150
+- SLAS TECHNOLOGY (2472-6303): — → 2023 USD
+- Монголоведение (Монгол судлал) (2500-1523): — → 15000 RUB
+- مجلة کلیة التربیة النوعیة - جامعة بورسعید (2536-9253): 300 → —
+- Russian Journal of Education and Psychology (2658-4034): 80 → 15000 RUB
+- Jurnal Ilmiah Informatika dan Komputer (3047-4752): 250000 → —
+- JME Practical Bioethics (3049-8600): — → 2460 GBP
+- Library (3090-1928): 250000 → —
+
+### Removed (2)
+
+- European Journal of STEM Education (2468-1954)
+- Feminist Encounters A Journal of Critical Studies in Culture and Politics (2468-4414)
+
 ## 2026-08-10
 
 - **0** journals added, **0** removed, **494** changed.
