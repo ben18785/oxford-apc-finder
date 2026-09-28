@@ -3,6 +3,63 @@
 What the site said, and when it changed. Generated automatically by
 `pipeline/changelog.py` on every refresh — newest entry first.
 
+## 2026-09-28
+
+- **46** journals added, **13** removed, **33** changed.
+
+### Deal status changes (12)
+
+- Mucosal Immunology (1933-0219): `none` → `discount`
+- Journal of nanostructure in chemistry (2008-9244): `none` → `discount`
+- International nano letters. (2008-9295): `none` → `discount`
+- Women s Midlife Health (2054-2690): `discount` → `none`
+- Big Data Analytics (2058-6345): `discount` → `none`
+- Value in Health Regional Issues (2212-1099): `none` → `discount`
+- Neuroimmunology Reports (2667-257X): `none` → `discount`
+- Psychiatry Research Case Reports (2773-0212): `none` → `discount`
+- Blue Biotechnology (2948-2364): `none` → `discount`
+- Journal of Medicine Surgery and Public Health (2949-916X): `none` → `discount`
+- The Lancet Regional Health - Africa (3050-5011): `none` → `discount`
+- Agricultural Environment and Sustainability (3117-4094): `none` → `discount`
+
+### Price changes (19)
+
+- Berkala Penelitian Hayati (0852-6834): 1625000 → 1400000
+- International journal of biological and medical research (0976-6685): — → 100 USD
+- Recent Contributions to Physics (1563-0315): 5000 → 60000
+- Anbar Journal of Agricultural Sciences (1992-7479): 400000 → 650000
+- Al-Adab Journal (1994-473X): 200 → 250
+- Journal of Educational Cultural and Psychological Studies (ECPS Journal) (2037-7924): — → 200 USD
+- Indonesian Journal of Tropical and Infectious Disease (2085-1103): 75 → 96
+- JURNAL PENDIDIKAN JASMANI DAN OLAHRAGA (2085-6180): 1000000 → 1500000
+- The Journal of Experimental Life Sciences (2087-2852): 1200000 → 2000000
+- QScience Connect (2223-506X): 995 → —
+- Contemporary Art (2309-8813): 60 → —
+- Scientific Papers of the Vinnytsia Mykhailo Kotsyiubynskyi State Pedagogical University Series History (2411-2143): 60 → 300
+- Bulletin of Kemerovo State University Series Political Sociological and Economic sciences (2500-3372): 125 → 255
+- Bulletin of Kemerovo State University Series Humanities and Social Sciences (2542-1840): 125 → 380
+- Critical Literary Studies (2676-699X): 4000000 → 12000000
+- Journal of Metaverse (2792-0232): — → 1000 USD
+- Plant Trends (3006-5658): 85 → 130
+- Journal of Sustainability (3052-3761): 580 → 640
+- Metals Advances (3117-7220): — → 1530 USD
+
+### Removed (13)
+
+- Indonesian Journal of Geography (0024-9521)
+- Tecnura (0123-921X)
+- Yaşlı sorunları araştırma dergisi (1302-9622)
+- Jurnal Teknik Industri (1411-2485)
+- Geoid (1858-2281)
+- Intellect Innovations Investments (2077-7175)
+- Journal of Civil Engineering (2086-1206)
+- Journal of Marine and Island Cultures (2212-6821)
+- Clinical Endoscopy (2234-2400)
+- Journal of Degraded and Mining Lands Management (2339-076X)
+- Journal of Health Science and Medical Research (2586-9981)
+- Dil Konuşma ve Yutma Araştırmaları Dergisi (2651-2548)
+- Üsküdar Üniversitesi Tasavvuf Araştırmaları Enstitüsü Dergisi (2822-3829)
+
 ## 2026-09-21
 
 - **47** journals added, **15** removed, **46** changed.
