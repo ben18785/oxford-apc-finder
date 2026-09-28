@@ -72,6 +72,7 @@ REPO_FILES = [
     "pipeline/build_site.py", "pipeline/merge.py", "pipeline/fetch_jct.py",
     "pipeline/fetch_usage.py", "config.yaml",
     "data/curated/oxford_overrides.yaml", "data/curated/must_include.yaml",
+    "data/guidelines/9990-0001.json",
     ".github/workflows/refresh-and-deploy.yml",
     ".github/workflows/deploy-site.yml",
     "README.md", "tests/test_units.py",
@@ -92,6 +93,7 @@ def test_no_push_starts_both_deploy_workflows(path):
     ("site/app.js", "deploy"),
     ("site/style.css", "deploy"),
     ("pipeline/build_site.py", "deploy"),      # renders; never fetches
+    ("data/guidelines/9990-0001.json", "deploy"),  # read as-is, not fetched
     ("pipeline/merge.py", "refresh"),
     ("pipeline/fetch_jct.py", "refresh"),
     ("config.yaml", "refresh"),                # holds inclusion thresholds

@@ -1,0 +1,29 @@
+{
+  "journal": "General Relativity and Gravitation",
+  "publisher": "Springer",
+  "issn": {
+    "print": "0001-7701",
+    "electronic": null
+  },
+  "LLM": true,
+  "validated": false,
+  "date_scraped": "2026-09-23",
+  "article_types": [
+    {
+      "type": "Article",
+      "description": "General manuscript format -- the page documents no distinct named submission categories (no Research/Review/Letter split), just one general set of rules.",
+      "total_word_limit": {
+        "min": null,
+        "max": null,
+        "unit": "words",
+        "excludes": [],
+        "notes": "No overall word/page limit stated anywhere on the page (confirmed absence, consistent with this Springer template's usual pattern)."
+      },
+      "structure": "Title page (title, author info, ORCID if available), Abstract (150-250 words, no undefined abbreviations or unspecified references), Keywords (4-6), Statements and Declarations, References",
+      "figures_tables": null,
+      "source_urls": [
+        "https://link.springer.com/journal/10714/submission-guidelines"
+      ]
+    }
+  ]
+}

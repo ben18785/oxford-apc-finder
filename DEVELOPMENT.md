@@ -39,6 +39,17 @@ APC_FIXTURES=1 python pipeline/run_all.py   # build from bundled sample data
 ```
 
 Then open `_site/index.html` (via any static server, e.g. `python -m http.server -d _site`).
+`python pipeline/serve.py` serves it the same way, and also lets the journal
+word-limits form's "Save locally" write to `data/guidelines/<id>.json`.
+
+## Word limits and article types
+
+`data/guidelines/<issn>.json` holds per-journal article types and word limits,
+read as-is by `build_site.py` and matched to journals on any ISSN. Readers can
+submit corrections from the journal page: that opens a GitHub issue, and
+`guidelines-submission.yml` validates it and opens a PR (marked
+`validated: false`) for a maintainer to check. It needs *Settings → Actions →
+General → Allow GitHub Actions to create and approve pull requests*.
 
 ## Inclusion & anti-predatory policy
 
@@ -174,7 +185,7 @@ OpenAlex calls. There are now two workflows instead:
 
 | | `refresh-and-deploy.yml` | `deploy-site.yml` |
 |---|---|---|
-| Fires on | `pipeline/**`, `config.yaml`, `data/curated/**`, the weekly cron | `site/**`, `pipeline/build_site.py` |
+| Fires on | `pipeline/**`, `config.yaml`, `data/curated/**`, the weekly cron | `site/**`, `pipeline/build_site.py`, `data/guidelines/**` |
 | Does | fetch → merge → validate → changelog → build → deploy | restore cached dataset → build → deploy |
 | Takes | ~1 hour | ~2 minutes |
 | Can change the data | yes | **no** |

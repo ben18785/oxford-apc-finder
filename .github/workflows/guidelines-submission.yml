@@ -1,0 +1,98 @@
+name: Word-limits submission to pull request
+
+# The journal detail form on the site opens a pre-filled issue marked
+# <!-- guidelines-submission -->. This validates the JSON in it, merges it into
+# data/guidelines/<id>.json and opens (or, when the issue is edited, updates)
+# a pull request for a maintainer to review. Nothing reaches main unreviewed.
+#
+# Detected by the marker rather than a label: GitHub drops the `labels=` URL
+# parameter for anyone without triage access, which is nearly every reader.
+# The workflow applies the label itself.
+#
+# Requires Settings → Actions → General → "Allow GitHub Actions to create and
+# approve pull requests". PRs opened with GITHUB_TOKEN do not start other
+# workflows, so tests.yml will not run on them until someone pushes to the
+# branch or closes and reopens the PR.
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+# An issue edited twice in quick succession should land its latest version.
+concurrency:
+  group: guidelines-issue-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  to-pr:
+    if: >-
+      github.event.issue.state == 'open' &&
+      contains(github.event.issue.body, '<!-- guidelines-submission -->')
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ISSUE: ${{ github.event.issue.number }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Label the issue
+        run: |
+          gh label create guidelines-submission --color 0E8A16 \
+            --description "Word limits, structure and figures submitted from the site" --force
+          gh issue edit "$ISSUE" --add-label guidelines-submission
+
+      # The body is untrusted: passed through the environment, never
+      # interpolated into the script.
+      - name: Build the guidelines file
+        id: build
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+        run: python .github/scripts/guidelines_from_issue.py
+
+      - name: Open or update the pull request
+        id: pr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: guidelines/issue-${{ github.event.issue.number }}
+          add-paths: data/guidelines/*.json
+          commit-message: "Community: Guidelines for ${{ steps.build.outputs.id }} (from #${{ github.event.issue.number }})"
+          title: "Community: Guidelines for ${{ steps.build.outputs.journal }} (${{ steps.build.outputs.id }})"
+          labels: guidelines-submission
+          body: |
+            Submitted by @${{ github.event.issue.user.login }} from the site's word-limits form.
+
+            Closes #${{ github.event.issue.number }}
+
+            Before merging, check the word limits, structure and figures &
+            tables notes against the journal's own author guidelines. The file
+            is marked `validated: false`; set it to `true` if you have
+            confirmed it.
+
+      - name: Link the pull request from the issue
+        if: steps.pr.outputs.pull-request-operation == 'created' || steps.pr.outputs.pull-request-operation == 'updated'
+        env:
+          PR_URL: ${{ steps.pr.outputs.pull-request-url }}
+          OPERATION: ${{ steps.pr.outputs.pull-request-operation }}
+        run: |
+          gh issue comment "$ISSUE" --body "Thanks! Pull request ${OPERATION}: $PR_URL"
+
+      - name: Explain a rejected submission
+        if: failure() && steps.build.outcome == 'failure'
+        run: |
+          {
+            echo "This submission could not be turned into a pull request:"
+            echo
+            echo "> $(cat "$RUNNER_TEMP/guidelines-error.md")"
+            echo
+            echo "Edit the JSON in the issue to fix it and this will run again."
+          } > "$RUNNER_TEMP/comment.md"
+          gh issue comment "$ISSUE" --body-file "$RUNNER_TEMP/comment.md"

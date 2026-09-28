@@ -1,0 +1,29 @@
+{
+  "journal": "Journal of Cosmology and Astroparticle Physics (JCAP)",
+  "publisher": "IOP Publishing and SISSA Medialab (joint)",
+  "issn": {
+    "print": "1475-7516",
+    "electronic": null
+  },
+  "LLM": true,
+  "validated": false,
+  "date_scraped": "2026-09-23",
+  "article_types": [
+    {
+      "type": "Article",
+      "description": "General research submission -- theoretical, observational, and experimental cosmology and astroparticle physics. No distinct submission categories (Letter/Review/Comment) are documented; Errata and Addenda exist as a separate post-publication submission path, not an article type with its own formatting rules.",
+      "total_word_limit": {
+        "min": null,
+        "max": 50,
+        "unit": "pages",
+        "excludes": [],
+        "notes": "'JCAP papers do not normally exceed 50 pages' -- explicit editorial-discretion guidance, not a hard cap. The Editors may recommend shortening if length isn't justified by content; no fixed minimum target stated either."
+      },
+      "structure": "Title, authors, affiliations, e-mail addresses; Abstract (must fit on the first page; no formulae or references in title/abstract); 2-4 keywords from the JCAP keyword list",
+      "figures_tables": null,
+      "source_urls": [
+        "https://jcap.sissa.it/jcap/help/helpLoader.jsp?pgType=author"
+      ]
+    }
+  ]
+}

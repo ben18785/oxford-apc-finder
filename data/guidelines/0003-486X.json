@@ -1,0 +1,29 @@
+{
+  "journal": "Annals of Mathematics",
+  "publisher": "Princeton University (self-published)",
+  "issn": {
+    "print": "0003-486X",
+    "electronic": "1939-8980"
+  },
+  "LLM": true,
+  "validated": false,
+  "date_scraped": "2026-09-23",
+  "article_types": [
+    {
+      "type": "Article",
+      "description": "Original mathematics research papers -- the journal documents only one general submission format.",
+      "total_word_limit": {
+        "min": null,
+        "max": null,
+        "unit": "words",
+        "excludes": [],
+        "notes": "No word/page limit stated anywhere on the page (confirmed absence, common for pure maths journals where proof length is dictated by the mathematics, not an editorial target)."
+      },
+      "structure": "Abstract (~200 words or less, self-contained, no bibliography references), Bibliography",
+      "figures_tables": null,
+      "source_urls": [
+        "https://annals.math.princeton.edu/submission-guidelines"
+      ]
+    }
+  ]
+}

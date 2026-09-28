@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import pytest
 
-from build_site import cost_summary, shard_key
+from build_site import cost_summary, guidelines_for, shard_key
 from changelog import COLUMNS, state_row
 from collect_links import bucket_of
 from common import normalise_issn
@@ -240,6 +240,17 @@ def test_shard_key_spreads_load():
     downloads in full to open a single journal."""
     issns = [f"{p:04d}-0000" for p in range(1000, 3000)]
     assert len({shard_key(i) for i in issns}) == len(issns)
+
+
+def test_guidelines_match_any_issn_not_just_the_id():
+    """Guidelines files are named for whichever ISSN the scraper had, which
+    is not always the ISSN-L the site keys journals on (JHEP's file is
+    1126-6708; the site knows it as 1029-8479)."""
+    by_issn = {"1126-6708": {"journal": "JHEP"}, "0028-0836": {"journal": "Nature"}}
+    assert guidelines_for({"id": "0028-0836", "issns": []}, by_issn)["journal"] == "Nature"
+    assert guidelines_for({"id": "1029-8479", "issns": ["1029-8479", "1126-6708"]},
+                          by_issn)["journal"] == "JHEP"
+    assert guidelines_for({"id": "0000-0000", "issns": None}, by_issn) is None
 
 
 # ------------------------------------------------------------ link buckets

@@ -19,6 +19,9 @@ on:
     paths:
       - 'site/**'
       - 'pipeline/build_site.py'
+      # Word limits are read straight from the repo by build_site.py, not
+      # fetched, so a merged submission needs only a re-render.
+      - 'data/guidelines/**'
       - '.github/workflows/deploy-site.yml'
   workflow_dispatch:
 

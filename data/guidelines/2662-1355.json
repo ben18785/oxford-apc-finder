@@ -1,0 +1,156 @@
+{
+  "journal": "Nature Food",
+  "publisher": "Springer Nature",
+  "issn": {
+    "print": null,
+    "electronic": "2662-1355"
+  },
+  "LLM": true,
+  "validated": false,
+  "date_scraped": "2026-09-23",
+  "article_types": [
+    {
+      "type": "Article",
+      "description": "A substantial novel research study, often involving several techniques or approaches.",
+      "total_word_limit": {
+        "min": 3000,
+        "max": 3000,
+        "unit": "words",
+        "excludes": [
+          "abstract",
+          "methods",
+          "references",
+          "figure legends"
+        ],
+        "notes": null
+      },
+      "structure": "Abstract (≤150 words, unreferenced), Introduction (no heading), Results, Discussion, Methods",
+      "figures_tables": "≤6 display items (figures and/or tables).",
+      "source_urls": [
+        "https://www.nature.com/natfood/content"
+      ]
+    },
+    {
+      "type": "Analysis",
+      "description": "A new analysis of existing data, or new data obtained in a comparative analysis, leading to novel and arresting conclusions of importance to a broad audience.",
+      "total_word_limit": {
+        "min": 3000,
+        "max": 3000,
+        "unit": "words",
+        "excludes": [
+          "abstract",
+          "methods",
+          "references",
+          "figure legends"
+        ],
+        "notes": null
+      },
+      "structure": "Abstract (100-150 words, unreferenced), Introduction (no heading), Results, Discussion, Methods",
+      "figures_tables": "≤6 display items.",
+      "source_urls": [
+        "https://www.nature.com/natfood/content"
+      ]
+    },
+    {
+      "type": "Resource",
+      "description": "Presents a large data set of broad utility, interest and significance to the community.",
+      "total_word_limit": {
+        "min": 3000,
+        "max": 3000,
+        "unit": "words",
+        "excludes": [
+          "abstract",
+          "methods",
+          "references",
+          "figure legends"
+        ],
+        "notes": null
+      },
+      "structure": "Abstract (100-150 words, unreferenced), Introduction (no heading), Main text, Discussion/Conclusions, Methods",
+      "figures_tables": "≤8 display items (higher than the other types' 6).",
+      "source_urls": [
+        "https://www.nature.com/natfood/content"
+      ]
+    },
+    {
+      "type": "Brief Communication",
+      "description": "Reports a concise study of high quality and broad interest.",
+      "total_word_limit": {
+        "min": 1500,
+        "max": 1500,
+        "unit": "words",
+        "excludes": [],
+        "notes": "Unlike this journal's other types, this INCLUDES abstract, references and figure legends, not just main text."
+      },
+      "structure": "Title (≤10 words or 90 characters), Abstract (≤70 words, unreferenced), Methods (no headings within the main text otherwise)",
+      "figures_tables": "≤2 display items, flexible at editor discretion if page limit observed.",
+      "source_urls": [
+        "https://www.nature.com/natfood/content"
+      ]
+    },
+    {
+      "type": "Correspondence",
+      "description": "Forum for comment on issues relevant to the journal's community -- not for presenting research data or analysis. Technical comments on peer-reviewed papers go through Matters Arising instead.",
+      "total_word_limit": {
+        "min": 300,
+        "max": 800,
+        "unit": "words",
+        "excludes": [],
+        "notes": null
+      },
+      "structure": null,
+      "figures_tables": "Max 1 display item.",
+      "source_urls": [
+        "https://www.nature.com/natfood/content"
+      ]
+    },
+    {
+      "type": "Review",
+      "description": "An authoritative, balanced and scholarly survey of recent developments in a research field; not dominated by a single laboratory/group's work. A structured, replicable literature-extraction study (meta-analysis) is reclassified as original research and should follow the Article/Analysis format instead. Not stated whether Reviews are editor-invited or open to unsolicited proposals.",
+      "total_word_limit": {
+        "min": 6000,
+        "max": 6000,
+        "unit": "words",
+        "excludes": [],
+        "notes": null
+      },
+      "structure": "Abstract (100-150 words, unreferenced)",
+      "figures_tables": "≤6 display items. Illustrations strongly encouraged.",
+      "source_urls": [
+        "https://www.nature.com/natfood/content"
+      ]
+    },
+    {
+      "type": "Perspective",
+      "description": "Scholarly reviews/discussions of the primary research literature too technical for a Comment but not meeting Review criteria (narrower scope, or advocating a controversial/speculative position, or one-group-centric). A related sub-format, 'Historical Perspective', is a scholarly (not merely personal) account of a scientific development.",
+      "total_word_limit": {
+        "min": 3000,
+        "max": 3000,
+        "unit": "words",
+        "excludes": [],
+        "notes": null
+      },
+      "structure": "Abstract (≤100 words, unreferenced). Does NOT contain a Methods section (explicit exclusion, unlike this journal's other research-adjacent types).",
+      "figures_tables": "≤5 display items.",
+      "source_urls": [
+        "https://www.nature.com/natfood/content"
+      ]
+    },
+    {
+      "type": "Comment",
+      "description": "Flexible-format piece on scientific/commercial/ethical/legal/societal/political issues surrounding research -- topical, readable, provocative, a personal perspective on a matter of public or scientific importance. A related sub-format, 'Historical Comment', is a journalistic (not necessarily scholarly-balanced) treatment of a discovery's history, which may be personal opinion.",
+      "total_word_limit": {
+        "min": null,
+        "max": 2000,
+        "unit": "words",
+        "excludes": [],
+        "notes": "Typically up to 2000 words -- not stated as a hard ceiling."
+      },
+      "structure": "Standfirst/short abstract (2-3 sentences or 70 words, unreferenced). No strict structure, but headings/subheadings used sparingly.",
+      "figures_tables": "Typically ≤2 display items.",
+      "source_urls": [
+        "https://www.nature.com/natfood/content"
+      ]
+    }
+  ]
+}

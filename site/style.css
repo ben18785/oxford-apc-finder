@@ -266,6 +266,7 @@ body {
 
 .report-box textarea { width: 100%; min-height: 90px; padding: 10px; border: 1px solid var(--line); border-radius: 8px; font: inherit; }
 .report-box .btn { margin-top: 10px; }
+.gl-edit { margin-top: 12px; }
 .btn { display: inline-block; background: var(--oxford); color: #fff; border: 0; padding: 10px 16px;
   border-radius: 8px; font-size: .92rem; font-weight: 600; cursor: pointer; text-decoration: none; }
 .btn:hover { background: var(--oxford-light); }
@@ -314,6 +315,88 @@ body {
   .subm-grid { grid-template-columns: 1fr; gap: 2px; }
   .subm-grid dd { margin-bottom: 8px; }
 }
+
+/* ---- "Article types and word limits" ----------------------------------
+ * A real table because it is one: two dimensions the reader compares down
+ * the column ("which type lets me write longest?"). The type is a row header
+ * so a screen reader announces it with each limit. */
+.types-table { width: 100%; border-collapse: collapse; margin: 12px 0 4px; font-size: .9rem; }
+.types-table th, .types-table td {
+  text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.types-table thead th { color: var(--muted); font-weight: 600; font-size: .8rem; }
+.types-table tbody th { font-weight: 400; }
+/* Limits line up digit-for-digit, which is the whole point of the column. */
+.types-table td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.types-table td.num .cost-note { display: block; white-space: normal; }
+.types-table tbody th .cost-note { display: block; font-size: .8rem; }
+/* The type name opens its structure, display items and source beneath it. */
+.type-toggle {
+  background: none; border: 0; padding: 0; font: inherit; text-align: left;
+  color: var(--oxford); cursor: pointer; text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.type-toggle::before { content: "▸ "; display: inline-block; width: 1em; }
+.type-toggle[aria-expanded="true"]::before { content: "▾ "; }
+.type-toggle[aria-expanded="true"] { font-weight: 600; }
+.types-table tr:has(+ .type-detail:not([hidden])) th,
+.types-table tr:has(+ .type-detail:not([hidden])) td { border-bottom: 0; }
+.type-detail td { padding-top: 2px; padding-bottom: 12px; font-size: .85rem; }
+/* A bubble pointing up at its type, so it reads as belonging to that row
+   rather than as another row of the table. */
+.type-bubble {
+  position: relative; margin-top: 8px; padding: 10px 14px;
+  background: var(--bg); border: 1px solid var(--line);
+  border-left: 3px solid var(--oxford); border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.type-bubble::before, .type-bubble::after {
+  content: ""; position: absolute; left: 14px; border: 8px solid transparent;
+  border-top: 0;
+}
+.type-bubble::before { top: -8px; border-bottom-color: var(--line); }
+.type-bubble::after { top: -7px; border-bottom-color: var(--bg); }
+.type-detail dl { margin: 0; }
+.type-detail dt {
+  font-size: .75rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .04em; color: var(--muted); margin-top: 8px;
+}
+.type-detail dt:first-child { margin-top: 0; }
+.type-detail dd { margin: 2px 0 0; color: var(--text); }
+.type-detail a { color: var(--oxford); overflow-wrap: anywhere; }
+
+@media (max-width: 520px) {
+  /* "Up to 12,000 words" beside a long type name leaves each about eight
+     characters of room, so let the limit wrap under its type instead. */
+  .types-table th, .types-table td { padding: 5px 6px; }
+  .types-table td.num { white-space: normal; }
+}
+
+/* Reader-supplied limits form. Fixed layout with every input filling its
+   column: inputs sized on their own (Safari gives number boxes a wide
+   intrinsic width) pushed the table past the modal. Below the table's minimum
+   width the wrapper scrolls sideways rather than overflowing the card. */
+.gl-form { margin-top: 12px; }
+.gl-examples { margin: 6px 0 0; padding-left: 1.2em; }
+.gl-examples li { margin-top: 2px; }
+.gl-url { display: block; font-size: .9rem; color: var(--muted); }
+.gl-url input { display: block; width: 100%; margin-top: 4px; }
+.gl-form input { padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; font: inherit;
+  min-width: 0; }
+.gl-scroll { overflow-x: auto; }
+.gl-table { table-layout: fixed; min-width: 360px; }
+.gl-c-num { width: 22%; }
+.gl-c-rm { width: 40px; }
+.gl-table td { padding: 5px 4px; border-bottom: 0; }
+.gl-table td input { width: 100%; }
+.gl-table input[type="number"] { font-variant-numeric: tabular-nums; }
+.gl-table .gl-note td { padding-top: 0; }
+.gl-table .gl-note:last-child td { border-bottom: 1px solid var(--line); }
+.gl-table .gl-note input { display: block; width: 100%; font-size: .85rem; }
+.gl-table .gl-remove { margin-left: 0; }
+.gl-output { margin-top: 14px; max-height: 260px; overflow: auto; background: #f6f8fa;
+  border: 1px solid var(--line); border-radius: 8px; padding: 10px; font-size: .78rem; }
 
 .wanted-list { margin: 8px 0 0; padding-left: 1.2rem; font-size: .9rem; }
 .wanted-list li { margin-bottom: 3px; }

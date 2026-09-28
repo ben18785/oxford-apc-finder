@@ -1,0 +1,132 @@
+{
+  "journal": "Nature",
+  "publisher": "Springer Nature",
+  "issn": {
+    "print": "0028-0836",
+    "electronic": "1476-4687"
+  },
+  "LLM": true,
+  "validated": false,
+  "date_scraped": "2026-09-23",
+  "article_types": [
+    {
+      "type": "Article",
+      "description": "Articles are original reports whose conclusions represent a substantial advance in understanding of an important problem and have immediate, far-reaching implications.",
+      "total_word_limit": {
+        "min": 2500,
+        "max": 4300,
+        "unit": "words",
+        "excludes": [
+          "title",
+          "author list",
+          "acknowledgements",
+          "references"
+        ],
+        "notes": "Range reflects discipline, not a distinct article type: ~2,500 words for a 6-page article; ~4300 words for a 8-page article (physical sciences typically 6 pages, biological/clinical/social sciences typically 8)."
+      },
+      "structure": "Titles, Text, Methods (typically no more than 3000 words (guideline, not a hard cap)), References, End notes, Life sciences and behavioural & social sciences reporting guidelines, Tables, Figure legends (fewer than 300 words each), Figures, Production-quality figures, Extended Data, Supplementary Information, Chemical structures and characterization of chemical materials, Summary paragraph (ideally no more than 200 words)",
+      "figures_tables": "4-6 modest display items (figures and tables combined). A 'modest' item occupies about a quarter of a page; 4 for a 6-page article, 5-6 for an 8-page article.",
+      "source_urls": [
+        "https://www.nature.com/nature/for-authors/formatting-guide"
+      ]
+    },
+    {
+      "type": "Correspondence",
+      "description": "Brief comments on topical Nature content (Editorials, World View, News, News Features, Books & Arts reviews, Comment pieces or Correspondence) -- not technical comments on peer-reviewed research papers (those go to Matters Arising instead).",
+      "total_word_limit": {
+        "min": null,
+        "max": 200,
+        "unit": "words",
+        "excludes": [],
+        "notes": "Source states 'less than 200 words' -- hard ceiling, not a target."
+      },
+      "structure": null,
+      "figures_tables": null,
+      "source_urls": [
+        "https://www.nature.com/nature/for-authors/other-subs"
+      ]
+    },
+    {
+      "type": "Matters Arising",
+      "description": "Post-publication technical comments on a Nature research paper published within the past 18 months, plus the author's Reply.",
+      "total_word_limit": {
+        "min": null,
+        "max": 1200,
+        "unit": "words",
+        "excludes": [
+          "Methods"
+        ],
+        "notes": "Ideally not exceed 1200 words (target, not a hard cap; Methods may be moved to Supplementary Information, hence the exclusion)."
+      },
+      "structure": "Summary paragraph (used as the abstract), Main text, Methods (may be moved to Supplementary Information)",
+      "figures_tables": "Ideally only one or two small figures or tables; complex ones may go into Extended Data instead (ideally no more than three such items).",
+      "source_urls": [
+        "https://www.nature.com/nature/for-authors/matters-arising"
+      ]
+    },
+    {
+      "type": "Review",
+      "description": "Focuses on one topical aspect of a field; should not focus on the author's own work. Most articles are commissioned, but authors wishing to submit an unsolicited Review or Perspective must do so through the online submission system via a synopsis.",
+      "total_word_limit": {
+        "min": null,
+        "max": null,
+        "unit": "words",
+        "excludes": [],
+        "notes": "No fixed word/figure/reference limit is published -- length is agreed with the commissioning editor once the synopsis is accepted. This is a confirmed 'no published number', not a gap in scraping."
+      },
+      "structure": "Synopsis (basic structure, material to be covered, proposed depth/arrangement)",
+      "figures_tables": null,
+      "source_urls": [
+        "https://www.nature.com/nature/for-authors/other-subs"
+      ]
+    },
+    {
+      "type": "Perspective",
+      "description": "Follows the same formatting guidelines as Reviews; more forward-looking/speculative and may be opinionated but balanced. Most articles are commissioned, but authors wishing to submit an unsolicited Review or Perspective must do so through the online submission system via a synopsis.",
+      "total_word_limit": {
+        "min": null,
+        "max": null,
+        "unit": "words",
+        "excludes": [],
+        "notes": "No fixed word/figure/reference limit is published -- length is agreed with the commissioning editor once the synopsis is accepted. This is a confirmed 'no published number', not a gap in scraping."
+      },
+      "structure": "Synopsis (basic structure, material to be covered, proposed depth/arrangement)",
+      "figures_tables": null,
+      "source_urls": [
+        "https://www.nature.com/nature/for-authors/other-subs"
+      ]
+    },
+    {
+      "type": "Analysis",
+      "description": "Peer-reviewed; presents a new analysis of existing data rather than original data. Published only occasionally. Submitted via synopsis through the online submission system, with 'Analysis:' inserted before the title.",
+      "total_word_limit": {
+        "min": null,
+        "max": null,
+        "unit": "words",
+        "excludes": [],
+        "notes": "No fixed word limit published."
+      },
+      "structure": null,
+      "figures_tables": null,
+      "source_urls": [
+        "https://www.nature.com/nature/for-authors/other-subs"
+      ]
+    },
+    {
+      "type": "Registered Reports",
+      "description": "Two-stage process: Stage 1 protocol (introduction, hypotheses, methods, analysis plan) is peer reviewed and can earn in-principle acceptance before data collection; Stage 2 is the full manuscript with results and discussion added.",
+      "total_word_limit": {
+        "min": null,
+        "max": null,
+        "unit": "words",
+        "excludes": [],
+        "notes": "The guidelines page doesn't state distinct word/figure/reference limits -- Stage 2 manuscripts likely follow the standard Article formatting guide, but that's not confirmed on this page."
+      },
+      "structure": "Stage 1: Registered Report Protocol, Stage 2: Full manuscript",
+      "figures_tables": null,
+      "source_urls": [
+        "https://www.nature.com/nature/for-authors/registered-reports"
+      ]
+    }
+  ]
+}

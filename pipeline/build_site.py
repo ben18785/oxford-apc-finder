@@ -16,7 +16,7 @@ import shutil
 from collections import defaultdict
 from pathlib import Path
 
-from common import CACHE, OUT, ROOT, load_config, read_json, utcnow, write_json
+from common import DATA, CACHE, OUT, ROOT, load_config, read_json, utcnow, write_json
 
 SITE_SRC = ROOT / "site"
 SITE_OUT = ROOT / "_site"
@@ -30,6 +30,28 @@ STOPWORDS = {"and", "of", "the", "in", "for", "to", "a", "on", "with", "by",
 # this went 2 -> 4, app.js kept requesting the old path and every journal click
 # silently 404'd.
 SHARD_KEY_LENGTH = 4
+
+# Author guidelines, one file per journal, named for whichever ISSN the
+# scraper had. That is not always the journal's ISSN-L, so files and journals
+# are matched on any ISSN either of them lists, not just the id.
+GUIDELINES = DATA / "guidelines"
+
+
+def load_guidelines() -> dict[str, dict]:
+    by_issn: dict[str, dict] = {}
+    for f in sorted(GUIDELINES.glob("*.json")):
+        g = read_json(f)
+        for issn in [f.stem, *(g.get("issn") or {}).values()]:
+            if issn:
+                by_issn.setdefault(issn, g)
+    return by_issn
+
+
+def guidelines_for(j: dict, by_issn: dict[str, dict]) -> dict | None:
+    for issn in [j["id"], *(j.get("issns") or [])]:
+        if issn in by_issn:
+            return by_issn[issn]
+    return None
 
 
 def shard_key(issn_l: str) -> str:
@@ -169,6 +191,14 @@ def main() -> None:
     # Parallel to index.json's journal order.
     write_json(datadir / "keywords.json", {"vocab": list(vocab),
                                            "ids": keyword_ids})
+
+    # Shards hold these same dicts, so attaching here reaches the details.
+    by_issn = load_guidelines()
+    for j in data["journals"]:
+        if g := guidelines_for(j, by_issn):
+            j["guidelines"] = g
+    print(f"Guidelines attached to {sum('guidelines' in j for j in data['journals'])} journals")
+
     for key, records in shards.items():
         write_json(datadir / "details" / f"{key}.json", records)
 

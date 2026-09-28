@@ -1,0 +1,161 @@
+{
+  "journal": "Nature Sustainability",
+  "publisher": "Springer Nature",
+  "issn": {
+    "print": null,
+    "electronic": "2398-9629"
+  },
+  "LLM": true,
+  "validated": false,
+  "date_scraped": "2026-09-23",
+  "article_types": [
+    {
+      "type": "Article",
+      "description": "A substantial novel research study, with a complex story often involving several techniques or approaches.",
+      "total_word_limit": {
+        "min": 3500,
+        "max": 3500,
+        "unit": "words",
+        "excludes": [
+          "abstract",
+          "Methods",
+          "references",
+          "figure legends"
+        ],
+        "notes": null
+      },
+      "structure": "Title (≤10 words or 90 characters), Abstract (≤150 words, unreferenced, no heading), Introduction (no heading), Results, Discussion, Methods",
+      "figures_tables": "Up to 6 display items (figures and/or tables).",
+      "source_urls": [
+        "https://www.nature.com/natsustain/content"
+      ]
+    },
+    {
+      "type": "Analysis",
+      "description": "A new analysis of existing data, or new data obtained in a comparative analysis, leading to novel and arresting conclusions of importance to a broad audience.",
+      "total_word_limit": {
+        "min": 3500,
+        "max": 3500,
+        "unit": "words",
+        "excludes": [
+          "abstract",
+          "Methods",
+          "references",
+          "figure legends"
+        ],
+        "notes": null
+      },
+      "structure": "Title (≤10 words or 90 characters), Abstract (≤150 words, unreferenced, no heading), Introduction (no heading), Results, Discussion, Methods",
+      "figures_tables": "Up to 6 display items (figures and/or tables).",
+      "source_urls": [
+        "https://www.nature.com/natsustain/content"
+      ]
+    },
+    {
+      "type": "Resource",
+      "description": "Presents a large data set of broad utility, interest and significance to the community.",
+      "total_word_limit": {
+        "min": 3500,
+        "max": 3500,
+        "unit": "words",
+        "excludes": [
+          "abstract",
+          "Methods",
+          "references",
+          "figure legends"
+        ],
+        "notes": null
+      },
+      "structure": "Title (≤10 words or 90 characters), Abstract (≤150 words, unreferenced, no heading), Introduction (no heading), Results, Discussion, Methods",
+      "figures_tables": "Up to 6 display items (figures and/or tables).",
+      "source_urls": [
+        "https://www.nature.com/natsustain/content"
+      ]
+    },
+    {
+      "type": "Brief Communication",
+      "description": "Reports a concise study of high quality and broad interest.",
+      "total_word_limit": {
+        "min": 1500,
+        "max": 1500,
+        "unit": "words",
+        "excludes": [
+          "abstract",
+          "Methods",
+          "references",
+          "figure legends"
+        ],
+        "notes": "No subheadings within the main text."
+      },
+      "structure": "Title (≤10 words or 90 characters), Abstract (≤70 words, 3 sentences, unreferenced), Methods (≤500 words)",
+      "figures_tables": "Up to 2 display items, flexible at editor discretion if page limit observed.",
+      "source_urls": [
+        "https://www.nature.com/natsustain/content"
+      ]
+    },
+    {
+      "type": "Correspondence",
+      "description": "Forum for comment on issues relevant to the journal's community -- not for presenting research data or analysis. Technical comments on peer-reviewed papers go through Matters Arising instead.",
+      "total_word_limit": {
+        "min": 300,
+        "max": 800,
+        "unit": "words",
+        "excludes": [],
+        "notes": null
+      },
+      "structure": null,
+      "figures_tables": "1 display item.",
+      "source_urls": [
+        "https://www.nature.com/natsustain/content"
+      ]
+    },
+    {
+      "type": "Review",
+      "description": "An authoritative, balanced and scholarly survey of recent developments in a research field; not dominated by a single laboratory's work. Mostly editor-invited; unsolicited proposals considered via a 1-2 page synopsis submission (Synopsis-Review option). A study using a structured, replicable literature-extraction method is reclassified as original research and should follow the Article/Analysis format instead.",
+      "total_word_limit": {
+        "min": 5000,
+        "max": 5000,
+        "unit": "words",
+        "excludes": [],
+        "notes": null
+      },
+      "structure": "Preface (≤100 words, unreferenced)",
+      "figures_tables": "Up to 6 display items. Illustrations strongly encouraged.",
+      "source_urls": [
+        "https://www.nature.com/natsustain/content"
+      ]
+    },
+    {
+      "type": "Perspective",
+      "description": "A forum for authors to discuss models and ideas from a personal viewpoint -- more forward-looking/speculative than Reviews, may take a narrower field of view, may advocate a controversial position. Mostly editor-invited; unsolicited proposals considered via a 1-2 page synopsis submission (Synopsis-Perspective option).",
+      "total_word_limit": {
+        "min": 5000,
+        "max": 5000,
+        "unit": "words",
+        "excludes": [],
+        "notes": null
+      },
+      "structure": "Preface (≤100 words, unreferenced)",
+      "figures_tables": "Up to 6 display items.",
+      "source_urls": [
+        "https://www.nature.com/natsustain/content"
+      ]
+    },
+    {
+      "type": "Comment",
+      "description": "Opinionated pieces on a topical issue in sustainability research, policy or societal debate -- agenda-setting, authoritative, can be provocative but must road-map a proposed solution, not just describe a problem. Mostly editor-invited; unsolicited proposals considered via a 1-page synopsis submission (Synopsis-Comment option).",
+      "total_word_limit": {
+        "min": 1500,
+        "max": 1500,
+        "unit": "words",
+        "excludes": [],
+        "notes": null
+      },
+      "structure": null,
+      "figures_tables": "Figures/diagrams encouraged, not required; does not normally contain primary research data.",
+      "source_urls": [
+        "https://www.nature.com/natsustain/content"
+      ]
+    }
+  ]
+}

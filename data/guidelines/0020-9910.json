@@ -1,0 +1,29 @@
+{
+  "journal": "Inventiones Mathematicae",
+  "publisher": "Springer (Springer Nature)",
+  "issn": {
+    "print": "0020-9910",
+    "electronic": null
+  },
+  "LLM": true,
+  "validated": false,
+  "date_scraped": "2026-09-23",
+  "article_types": [
+    {
+      "type": "Article",
+      "description": "General mathematics research papers -- the page describes one manuscript-submission process with no distinct named submission categories (Research Article vs Review, etc.).",
+      "total_word_limit": {
+        "min": null,
+        "max": null,
+        "unit": "words",
+        "excludes": [],
+        "notes": "No total manuscript word/page limit stated on this page -- consistent with the 'no explicit limit' pattern this same Springer template shows on other math journals in this project, but only independently confirmed by reading this page's own silence on the topic."
+      },
+      "structure": "Title page (title, author names/affiliations, corresponding author, ORCID if available), Abstract (150-250 words, no undefined abbreviations or unspecified references), Statements and Declarations (Competing Interests, and other declarations as applicable)",
+      "figures_tables": null,
+      "source_urls": [
+        "https://link.springer.com/journal/222/submission-guidelines"
+      ]
+    }
+  ]
+}

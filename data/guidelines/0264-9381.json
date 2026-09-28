@@ -1,0 +1,29 @@
+{
+  "journal": "Classical and Quantum Gravity",
+  "publisher": "IOP Publishing",
+  "issn": {
+    "print": "0264-9381",
+    "electronic": null
+  },
+  "LLM": true,
+  "validated": false,
+  "date_scraped": "2026-09-23",
+  "article_types": [
+    {
+      "type": "Article",
+      "description": "Original research articles on gravitational physics and the theory of spacetime -- the fetched page is IOP's shared platform-wide guidance, not a CQG-specific article-type list (that lives behind the CAPTCHA-gated per-journal page, not fetched here).",
+      "total_word_limit": {
+        "min": null,
+        "max": null,
+        "unit": "words",
+        "excludes": [],
+        "notes": "Not checked: source page behind CAPTCHA, never fetched. The page itself confirms a per-journal maximum recommended length exists ('Some of our journals have guidelines for the maximum recommended length for each different type of article') and points to the 'About the journal' section of iopscience.iop.org/journal/0264-9381 for it, which is gated behind a Radware Bot Manager CAPTCHA and was never successfully fetched. Do not confuse with the unrelated file-size limits on this page (10MB/video, 50MB/supplementary file, 150MB combined incl. main article) -- those are upload limits, not article length."
+      },
+      "structure": "Title, Authors, Keywords, Abstract (IOP platform-wide guidance: should not normally be more than 300 words, not CQG-specific -- may be superseded by a per-journal abstract limit not checked here), Introduction, Method, Results, Discussion, Conclusion, Acknowledgements, References",
+      "figures_tables": null,
+      "source_urls": [
+        "https://publishingsupport.iopscience.iop.org/journals/classical-and-quantum-gravity/"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "journal": "Geometry & Topology",
+  "publisher": "Mathematical Sciences Publishers (MSP)",
+  "issn": {
+    "print": "1465-3060",
+    "electronic": "1364-0380"
+  },
+  "LLM": true,
+  "validated": false,
+  "date_scraped": "2026-09-23",
+  "article_types": [
+    {
+      "type": "Article",
+      "description": "Original mathematics research papers -- the journal documents only one general submission format.",
+      "total_word_limit": {
+        "min": null,
+        "max": null,
+        "unit": "words",
+        "excludes": [],
+        "notes": "No overall word/page limit stated anywhere on the page -- confirmed absence, consistent with Annals of Mathematics and other MSP/pure-maths journals. Only the abstract carries an explicit word target (see structure)."
+      },
+      "structure": "Abstract (~150 words or fewer, self-contained, no bibliography references -- if the article is not in English, two abstracts required: one in the article's language, one in English), Keywords, Mathematics Subject Classification (MSC) code (at least one), Author postal address and affiliation (if appropriate) for each coauthor, Bibliography",
+      "figures_tables": "No count limit stated. Figures must be publication quality; after acceptance, source files must be supplied as vector graphics (EPS or PDF preferred), bundled into a single archive (zip/tar/rar/etc). Each figure must be captioned and numbered so it can float; small figures may instead be kept inline in the text.",
+      "source_urls": [
+        "https://msp.org/gt/about/journal/submissions.html"
+      ]
+    }
+  ]
+}
