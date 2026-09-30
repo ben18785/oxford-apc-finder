@@ -281,6 +281,11 @@ body {
   border-radius: 8px; font-size: .92rem; font-weight: 600; cursor: pointer; text-decoration: none; }
 .btn:hover { background: var(--oxford-light); }
 .btn.secondary { background: #fff; color: var(--oxford); border: 1px solid var(--oxford); }
+/* A link styled as a button keeps the button's text colour wherever it sits.
+   Without this, a container's link rule (.src a is one) outranks .btn and
+   paints the text Oxford blue on an Oxford-blue button. .btn.secondary still
+   wins over this, so secondary buttons keep their blue text. */
+a.btn { color: #fff; }
 
 .site-footer { border-top: 1px solid var(--line); background: #fff; padding: 22px 0 40px; margin-top: 20px; }
 .site-footer p { margin: 6px 0; font-size: .87rem; color: var(--muted); }
