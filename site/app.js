@@ -1067,22 +1067,47 @@ ${JSON.stringify(submission)}
 `;
   };
 
+  // Google Forms refuses links over 8,192 characters and GitHub's limit is
+  // similar. A long submission (a large journal with structure notes on every
+  // type) is copied for the reader to paste instead; splitting it is not an
+  // option, as each submission replaces the journal's whole list of types.
+  const MAX_LINK = 8000;
+  const send = (full, short, text, where) => {
+    if (full.length <= MAX_LINK) {
+      window.open(full, "_blank", "noopener");
+      return;
+    }
+    const pre = $("#gl-output");
+    pre.textContent = text;
+    pre.hidden = false;
+    if (navigator.clipboard) navigator.clipboard.writeText(text).catch(() => {});
+    const err = $("#gl-error");
+    err.hidden = false;
+    err.textContent = `This submission is too long to fill in automatically. It has
+      been copied (and is shown below): paste it into ${where} on the page that
+      has just opened.`;
+    window.open(short, "_blank", "noopener");
+  };
+
   $("#gl-github").addEventListener("click", () => {
     const form = readForm();
     if (!form) return;
-    window.open(`https://github.com/${STATE.config.github_repo}/issues/new?title=${
-      encodeURIComponent(`Word limits: ${j.title} (${id})`)}&body=${encodeURIComponent(issueBody(form))}`,
-      "_blank", "noopener");
+    const text = issueBody(form);
+    const base = `https://github.com/${STATE.config.github_repo}/issues/new?title=${
+      encodeURIComponent(`Word limits: ${j.title} (${id})`)}`;
+    send(`${base}&body=${encodeURIComponent(text)}`, base, text, "the issue description");
   });
 
   const gf = googleForm();
   if (gf) $("#gl-google").addEventListener("click", () => {
     const form = readForm();
     if (!form) return;
+    const text = issueBody(form);
     const params = new URLSearchParams({ usp: "pp_url" });
     params.set(gf.journal_entry, `${j.title} (${id})`);
-    params.set(gf.submission_entry, issueBody(form));
-    window.open(`${gf.url}?${params}`, "_blank", "noopener");
+    const base = `${gf.url}?${params}`;
+    params.set(gf.submission_entry, text);
+    send(`${gf.url}?${params}`, base, text, "the Submission box");
   });
 
   $("#gl-form").addEventListener("submit", async (e) => {
