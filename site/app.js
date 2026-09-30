@@ -21,6 +21,8 @@ const EXPLAIN = {
     "<p>This journal is not on the title list of any agreement Oxford participates in, and its publisher is not in a discount or diamond scheme on the Bodleian's page.</p><p>That is not the same as being ineligible for support: block grants or funder routes may still apply.</p>"],
   doaj: ["In DOAJ",
     "<p>Listed in the <strong>Directory of Open Access Journals</strong>, an independent index that checks journals against around fifty criteria covering peer review, licensing, editorial transparency and fees.</p><p>It is a check on openness and process, <strong>not a ranking of quality</strong>. Its absence means little on its own, since subscription journals are not eligible to be listed.</p>"],
+  citedness: ["2-year citation rate (not the Impact Factor)",
+    "<p>The average number of times the journal's articles from the previous two years were cited this year, calculated by <a href=\"https://openalex.org/\" target=\"_blank\" rel=\"noopener\">OpenAlex</a> from its open citation data.</p><p>This is the same formula as the <strong>Journal Impact Factor</strong>, but it is <strong>not the official Impact Factor</strong>. That figure belongs to Clarivate and cannot be republished here. OpenAlex counts citations from a different, larger set of sources, so its figures usually differ from Clarivate's, sometimes by a lot.</p><p>Citation rates vary hugely between fields, so compare journals within a field, not across fields. It says nothing about the quality of any one article.</p>"],
   disputed: ["Sources disagree",
     "<p>The Journal Checker Tool and the Bodleian's own deals page make different claims about this publisher, and we cannot tell which is current.</p><p>Both claims are shown on the journal's page. Confirm with the open access team before submitting.</p>"],
   expired: ["Agreement ended",
@@ -200,7 +202,6 @@ function applyConfig() {
   const c = STATE.config;
   document.title = c.title;
   $("#site-title").textContent = c.title;
-  $("#site-tagline").textContent = c.tagline;
   $("#foot-bod").href = c.bodleian_deals;
   const repoUrl = `https://github.com/${c.github_repo}`;
   $("#foot-repo").href = repoUrl;
@@ -666,7 +667,8 @@ function renderResults(list, total, nominalCount, hidden) {
         <tr data-id="${esc(r.id)}">
           <td>
             ${starButton(r.id)}<button class="jtitle">${esc(r.t)}</button>
-            <div class="jmeta">${esc(r.p || "Publisher unknown")} · ${esc(r.i[0] || "")}</div>
+            <div class="jmeta">${esc(r.p || "Publisher unknown")} · ${esc(r.i[0] || "")}${
+              showCites() ? ` · ${esc(citationRate(r.r))}${why("citedness")}` : ""}</div>
             ${flags ? `<div class="flags">${flags}</div>` : ""}
           </td>
           <td class="state"><span class="swatch sw-${esc(r.s)}"></span>${esc(label)}${why(r.s)}</td>
@@ -1203,7 +1205,8 @@ async function openDetail(id) {
     <div class="detail-head">
       <h2 id="detail-title">${starButton(id)}${esc(j.title)}</h2>
       <p class="pub">${esc(j.publisher || "Publisher unknown")}</p>
-      <p class="detail-issn">ISSN: ${j.issns.map(esc).join(" · ")}</p>
+      <p class="detail-issn">ISSN: ${j.issns.map(esc).join(" · ")}${
+        showCites() ? ` · ${esc(citationRate(j.citedness_2yr))}${why("citedness")}` : ""}</p>
       <div class="badge-row">${badge(j.deal.status, j.in_doaj, j.deal.disputed, j.deal.expired, j.oa_status)}
         ${j.waiver ? '<span class="badge doaj">APC waivers available</span>' : ""}</div>
     </div>
@@ -1696,6 +1699,13 @@ function starButton(id) {
  * the page made no third-party data requests at all, so this is stated on the
  * panel rather than slipped in. */
 const ORCID_KEY = "oxford-apc-finder:orcid";
+
+/* Whether to show the citation rate. Off by default, remembered per browser. */
+const CITES_KEY = "oxford-apc-finder:show-cites";
+const showCites = () => { const b = $("#show-cites"); return !!(b && b.checked); };
+function citationRate(value) {
+  return value == null ? "no citation rate" : `2-yr citation rate ${value.toFixed(1)}`;
+}
 // Two pages is 400 works — plenty to see where somebody publishes, and a hard
 // bound on what one click can cost.
 const ORCID_MAX_PAGES = 2;
@@ -2105,6 +2115,11 @@ function wireUI() {
   $("#search-form").addEventListener("submit", e => { e.preventDefault(); runSearch(); });
   $("#deal-only").addEventListener("change", runSearch);
   $("#free-only").addEventListener("change", runSearch);
+  try { $("#show-cites").checked = localStorage.getItem(CITES_KEY) === "1"; } catch { /* blocked */ }
+  $("#show-cites").addEventListener("change", () => {
+    try { localStorage.setItem(CITES_KEY, showCites() ? "1" : "0"); } catch { /* blocked */ }
+    runSearch();
+  });
   $("#sort").addEventListener("change", runSearch);
   $("#starred-open").addEventListener("click", () => showCompare(starredIds()));
   $("#orcid-open").addEventListener("click", e => { e.preventDefault(); showOrcid(); });
