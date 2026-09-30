@@ -3,6 +3,34 @@
 What the site said, and when it changed. Generated automatically by
 `pipeline/changelog.py` on every refresh — newest entry first.
 
+## 2026-09-30
+
+- **9** journals added, **2** removed, **13** changed.
+
+### Deal status changes (4)
+
+- AI Thermal Fluids (3050-5852): `none` → `discount`
+- Glycoscience & Therapy (3050-6085): `none` → `discount`
+- Geopsychiatry (3050-7138): `none` → `discount`
+- Journal of Hazardous Materials Plastics (3051-0600): `none` → `discount`
+
+### Price changes (9)
+
+- Jordan Journal of Applied Science-Humanities Series (1605-2579): 200 → 300
+- Computational and Structural Biotechnology Journal (2001-0370): 2508 → 2932 USD
+- Chemical Science (2041-6520): — → 2850 GBP
+- Endocrine Connections (2049-3614): 1750 → 2100
+- Endocrinology Diabetes and Metabolism Case Reports (2052-0573): 499 → 900
+- EFORT Open Reviews (2058-5241): 1350 → 2250
+- RSC Applied Interfaces (2755-3701): — → 2200 GBP
+- NUML International Journal of Engineering and Computing (2788-9629): — → 100 USD
+- Brain Organoid and Systems Neuroscience Journal (2949-9216): 1819 → 1862
+
+### Removed (2)
+
+- Социология города (1994-3520)
+- Transactions on Environment and Electrical Engineering (2450-5730)
+
 ## 2026-09-28
 
 - **46** journals added, **13** removed, **33** changed.
