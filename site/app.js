@@ -2197,7 +2197,7 @@ function wireUI() {
   $("#search-form").addEventListener("submit", e => { e.preventDefault(); runSearch(); });
   $("#deal-only").addEventListener("change", runSearch);
   $("#free-only").addEventListener("change", runSearch);
-  let away = new URLSearchParams(location.search).get("view") === "elsewhere";
+  let away = /[?&]view=elsewhere(&|$)/.test(location.search || "");
   try { away = away || localStorage.getItem(ELSEWHERE_KEY) === "1"; } catch { /* blocked */ }
   setElsewhere(away);
   $("#elsewhere").addEventListener("change", (e) => { setElsewhere(e.target.checked); runSearch(); });
