@@ -9,9 +9,9 @@ github_repo: "ben18785/oxford-apc-finder"
 # url empty to show only the GitHub button. The entry ids come from the form's
 # "Get pre-filled link" (the entry.NNNN parameters).
 guidelines_form:
-  url: ""                # https://docs.google.com/forms/d/e/<id>/viewform
-  journal_entry: ""      # short-answer question: the journal
-  submission_entry: ""   # paragraph question: the submission, filled in by the site
+  url: "https://docs.google.com/forms/d/e/1FAIpQLSdasT8QLP78APC9mXOon6Bo6xNMcqwz0x9uDFaMxLYCmXuPJQ/viewform"
+  journal_entry: "entry.758720401"      # short-answer question: the journal
+  submission_entry: "entry.69041453"    # paragraph question: the submission, filled in by the site
 # University of Oxford ROR ID (https://ror.org/052gg0110)
 institution_ror: "052gg0110"
 institution_name: "University of Oxford"
