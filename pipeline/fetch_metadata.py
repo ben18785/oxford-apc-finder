@@ -118,6 +118,10 @@ def compact_openalex(src: dict) -> dict:
         "is_oa": bool(src.get("is_oa")),
         "type": src.get("type"),
         "works_count": src.get("works_count"),
+        # Citations this year to the previous two years' works, per work: the
+        # Impact Factor's formula over OpenAlex's own citation graph. Not the
+        # Clarivate figure, which cannot be republished; the site says so.
+        "citedness_2yr": (src.get("summary_stats") or {}).get("2yr_mean_citedness"),
         # Last year with any output. Free — it is already on the record — and
         # it is the only way to tell a live journal from the predecessor record
         # OpenAlex keeps after a rename or a change of publisher. JRSS Series A

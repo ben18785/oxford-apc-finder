@@ -13,7 +13,7 @@ from changelog import COLUMNS, state_row
 from collect_links import bucket_of
 from common import normalise_issn
 from fetch_jct import agreement_journals, institution_is_current
-from fetch_metadata import _find_column, parse_apc_amount
+from fetch_metadata import _find_column, compact_openalex, parse_apc_amount
 from merge import (clean_text, effective_cost, match_override, scope_sentence)
 
 OXFORD = "052gg0110"
@@ -217,6 +217,17 @@ def test_match_override_by_publisher_regex():
 def test_match_override_anchored_regex_does_not_match_midstring():
     entry = {"match_publisher_regex": "(?i)^Frontiers"}
     assert not match_override(entry, {"issns": [], "publisher": "New Frontiers Press"})
+
+
+# ---------------------------------------------------------- citation rate
+def test_citation_rate_is_kept_from_openalex_summary_stats():
+    rec = compact_openalex({"summary_stats": {"2yr_mean_citedness": 19.15, "h_index": 1864}})
+    assert rec["citedness_2yr"] == 19.15
+
+
+def test_missing_summary_stats_leave_no_citation_rate():
+    """Absent, not zero: a journal OpenAlex has no figure for is not uncited."""
+    assert compact_openalex({})["citedness_2yr"] is None
 
 
 # --------------------------------------------------------------- scope

@@ -43,7 +43,6 @@ body {
    furniture. */
 .site-header { background: var(--card); border-bottom: 1px solid var(--line); padding: 22px 0 16px; }
 .site-header h1 { margin: 0; font-size: 1.6rem; color: var(--oxford); letter-spacing: -.015em; }
-.tagline { margin: 4px 0 0; color: var(--muted); font-size: .95rem; }
 
 .header-row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
 .gh-link {

@@ -97,7 +97,8 @@
      "field": "Computer Science",
      "count": 730
     }
-   ]
+   ],
+   "citedness_2yr": 0.5070671378091873
   },
   "0001-1541": {
    "openalex_id": "https://openalex.org/S147177414",
@@ -181,7 +182,8 @@
      "field": "Chemical Engineering",
      "count": 888
     }
-   ]
+   ],
+   "citedness_2yr": 4.1089258698941
   },
   "0001-6918": {
    "openalex_id": "https://openalex.org/S180067919",
@@ -266,7 +268,8 @@
      "field": "Psychology",
      "count": 407
     }
-   ]
+   ],
+   "citedness_2yr": 3.443027672273467
   },
   "0570-1783": {
    "openalex_id": "https://openalex.org/S2764619822",
@@ -336,7 +339,8 @@
      "field": "Nursing",
      "count": 37
     }
-   ]
+   ],
+   "citedness_2yr": 3.7142857142857144
   },
   "0001-5555": {
    "openalex_id": "https://openalex.org/S4210210846",
@@ -411,7 +415,8 @@
      "field": "Medicine",
      "count": 683
     }
-   ]
+   ],
+   "citedness_2yr": 2.2816020025031287
   },
   "0001-3765": {
    "openalex_id": "https://openalex.org/S111086706",
@@ -483,7 +488,8 @@
      "field": "Agricultural and Biological Sciences",
      "count": 158
     }
-   ]
+   ],
+   "citedness_2yr": 1.2576557550158396
   },
   "0001-527X": {
    "openalex_id": "https://openalex.org/S166203837",
@@ -560,7 +566,8 @@
      "field": "Materials Science",
      "count": 88
     }
-   ]
+   ],
+   "citedness_2yr": 4.814814814814815
   },
   "0001-5113": {
    "openalex_id": "https://openalex.org/S2764458511",
@@ -630,7 +637,8 @@
      "field": "Environmental Science",
      "count": 30
     }
-   ]
+   ],
+   "citedness_2yr": 1.3111111111111111
   },
   "0370-2693": {
    "openalex_id": "https://openalex.org/S173952182",
@@ -700,7 +708,8 @@
      "field": "Physics and Astronomy",
      "count": 5245
     }
-   ]
+   ],
+   "citedness_2yr": 4.479414093428345
   },
   "0001-494X": {
    "openalex_id": "https://openalex.org/S4306500158",
@@ -768,7 +777,8 @@
      "field": "Arts and Humanities",
      "count": 90
     }
-   ]
+   ],
+   "citedness_2yr": 0.04411764705882353
   },
   "0017-0305": {
    "openalex_id": "https://openalex.org/S4210225822",
@@ -838,7 +848,8 @@
      "field": "Economics, Econometrics and Finance",
      "count": 12
     }
-   ]
+   ],
+   "citedness_2yr": 1.2987012987012987
   },
   "0001-2947": {
    "openalex_id": "https://openalex.org/S4393911168",
@@ -859,7 +870,8 @@
    "works_count": 0,
    "apc_usd": null,
    "apc_prices": [],
-   "topics": []
+   "topics": [],
+   "citedness_2yr": 0.0
   },
   "0001-0383": {
    "openalex_id": "https://openalex.org/S4210223324",
@@ -928,7 +940,8 @@
      "field": "Business, Management and Accounting",
      "count": 29
     }
-   ]
+   ],
+   "citedness_2yr": 0.0
   },
   "0003-3170": {
    "openalex_id": "https://openalex.org/S4210223617",
@@ -996,7 +1009,8 @@
      "field": "Medicine",
      "count": 145
     }
-   ]
+   ],
+   "citedness_2yr": 0.04716981132075472
   },
   "0008-7386": {
    "openalex_id": "https://openalex.org/S000000000",
@@ -1019,7 +1033,8 @@
      "currency": "USD"
     }
    ],
-   "topics": []
+   "topics": [],
+   "citedness_2yr": 0.125
   },
   "9990-0001": {
    "openalex_id": "https://openalex.org/S99900001",

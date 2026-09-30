@@ -715,6 +715,8 @@ def main() -> None:
             "homepage": rec.get("homepage"),
             "in_doaj": in_doaj,
             "oa_status": access,
+            "citedness_2yr": (round(rec["citedness_2yr"], 2)
+                              if rec.get("citedness_2yr") is not None else None),
             "superseded": dormant,
             "doaj_withdrawn": wd,
             "deal": {"status": status, "esac_id": esac_id,

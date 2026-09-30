@@ -167,6 +167,8 @@ def main() -> None:
             # conflation the wording was changed to avoid, reintroduced by
             # position rather than by words.
             "v": CERTAINTY.get(j["cost"]["kind"], 0),
+            # OpenAlex 2-year citation rate, shown only when the reader asks.
+            **({"r": j["citedness_2yr"]} if j.get("citedness_2yr") is not None else {}),
             # Initialism plus any abbreviations the publisher registered, so
             # "jrsssa" and "J. R. Stat. Soc." both find the journal.
             "y": " ".join(filter(None, [acronym(j["title"])]
@@ -233,7 +235,6 @@ def main() -> None:
     analytics = cfg.get("analytics") or {}
     write_json(SITE_OUT / "config.json", {
         "title": cfg["site_title"],
-        "tagline": cfg["site_tagline"],
         "github_repo": cfg["github_repo"],
         "guidelines_form": cfg.get("guidelines_form") or {},
         "bodleian_apc": cfg["sources"]["bodleian_apc"],

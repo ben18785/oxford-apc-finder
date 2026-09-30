@@ -158,7 +158,7 @@ def test_openalex_source_record_has_the_fields_we_use(session):
     src = r.json()["results"][0]
     for field in ("id", "issn_l", "issn", "display_name",
                   "host_organization_name", "is_in_doaj", "type",
-                  "works_count", "apc_prices", "topics"):
+                  "works_count", "apc_prices", "topics", "summary_stats"):
         assert field in src, f"OpenAlex source lost field {field!r}"
 
 
