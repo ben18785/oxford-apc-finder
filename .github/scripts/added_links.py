@@ -43,8 +43,14 @@ def urls_in(lines: list[str]) -> list[str]:
 
 def main() -> int:
     base = sys.argv[1] if len(sys.argv) > 1 else "origin/main"
-    diff = subprocess.run(["git", "diff", "--unified=0", f"{base}...HEAD", "--", *PATHS],
-                          check=True, capture_output=True, text=True).stdout
+    r = subprocess.run(["git", "diff", "--unified=0", f"{base}...HEAD", "--", *PATHS],
+                       capture_output=True, text=True)
+    if r.returncode != 0:
+        # Usually a shallow clone: the base branch is not there to diff against.
+        print(f"git diff against {base} failed (is the checkout shallow?):\n{r.stderr}",
+              file=sys.stderr)
+        return 1
+    diff = r.stdout
     for url in urls_in(added_lines(diff)):
         print(url)
     return 0
