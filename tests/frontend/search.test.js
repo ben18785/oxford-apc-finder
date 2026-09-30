@@ -1082,6 +1082,44 @@ chain.then(function () {
       globalThis.fetch = realFetch;
     });
   }).then(function () {
+    /* ----------------------------------------- citation-rate column -----
+     * Appears only when asked for, with one cell per row, and the subject
+     * divider still spans the table in both layouts. */
+    function table() {
+      var h = el("#results").innerHTML;
+      var head = (h.match(/<thead>[\s\S]*?<\/thead>/) || [""])[0];
+      return {
+        html: h,
+        headers: (head.match(/<th[ >]/g) || []).length,
+        rows: (h.match(/<tr data-id=/g) || []).length,
+        cells: h.match(/<td class="cite-cell[^"]*">[^<]*<\/td>/g) || [],
+        spans: (h.match(/subject-break"><td colspan="(\d+)"/g) || []).map(function (m) {
+          return +m.match(/(\d+)"$/)[1]; }),
+      };
+    }
+    el("#q").value = "";
+    el("#show-cites").checked = false;
+    runSearch();
+    check("citation rate: no column unless asked for",
+      table().html.indexOf("2-yr citation rate") === -1 && !table().cells.length);
+    [false, true].forEach(function (away) {
+      setElsewhere(away);
+      el("#show-cites").checked = true;
+      el("#q").value = STATE.index[0].t.split(" ")[0];   // a query, so a divider can appear
+      runSearch();
+      var t = table(), where = away ? " (not at Oxford)" : "";
+      check("citation rate: a column header when asked for" + where,
+        t.html.indexOf("2-yr citation rate") !== -1);
+      check("citation rate: one cell per journal" + where,
+        t.rows > 0 && t.cells.length === t.rows, t.cells.length + " cells, " + t.rows + " rows");
+      check("citation rate: each cell is a figure or a dash" + where,
+        t.cells.every(function (c) { return /">(\d+\.\d|—)<\/td>$/.test(c); }));
+      check("citation rate: the subject divider spans every column" + where,
+        t.spans.every(function (n) { return n === t.headers; }), t.spans + " vs " + t.headers);
+    });
+    setElsewhere(false);
+    el("#show-cites").checked = false;
+  }).then(function () {
     /* ------------------------------------- "I'm not at Oxford" view -----
      * Everything Oxford-specific goes; only a cost true for any author is
      * stated. Written against whatever dataset is loaded, like the rest. */
