@@ -42,6 +42,17 @@ Then open `_site/index.html` (via any static server, e.g. `python -m http.server
 `python pipeline/serve.py` serves it the same way, and also lets the journal
 word-limits form's "Save locally" write to `data/guidelines/<id>.json`.
 
+## "I'm not at Oxford" view
+
+A checkbox (remembered per browser; `?view=elsewhere` turns it on for a shared
+link) hides everything that only applies to Oxford authors: the deal column
+and filter, cost ordering, Oxford prices, the Bodleian enquiry and block-grant
+notes. The only cost it states is £0 for journals free to publish for anyone
+(diamond publishing model, or a diamond scheme). Every other journal reads
+"depends on your institution": list prices are deliberately not shown, since
+institutional agreements mean they are often not what an author pays. It is
+entirely client-side; the pipeline is unchanged.
+
 ## Word limits and article types
 
 `data/guidelines/<issn>.json` holds per-journal article types and word limits,
