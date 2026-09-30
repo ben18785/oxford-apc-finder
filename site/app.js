@@ -21,6 +21,8 @@ const EXPLAIN = {
     "<p>This journal is not on the title list of any agreement Oxford participates in, and its publisher is not in a discount or diamond scheme on the Bodleian's page.</p><p>That is not the same as being ineligible for support: block grants or funder routes may still apply.</p>"],
   doaj: ["In DOAJ",
     "<p>Listed in the <strong>Directory of Open Access Journals</strong>, an independent index that checks journals against around fifty criteria covering peer review, licensing, editorial transparency and fees.</p><p>It is a check on openness and process, <strong>not a ranking of quality</strong>. Its absence means little on its own, since subscription journals are not eligible to be listed.</p>"],
+  elsewhere_cost: ["Open access cost outside Oxford",
+    "<p>Only journals that charge <strong>nobody</strong> are given a figure: diamond open access journals, free to publish and free to read.</p><p>For every other journal, what you pay depends on your institution. Many universities and national consortia have agreements with publishers that cover the charge for their authors, so the publisher's list price is often not what you would pay, and showing it would mislead.</p><p>Ask your library's open access team, or look the journal up in the <a href=\"https://journalcheckertool.org/\" target=\"_blank\" rel=\"noopener\">Journal Checker Tool</a>.</p>"],
   citedness: ["2-year citation rate (not the Impact Factor)",
     "<p>The average number of times the journal's articles from the previous two years were cited this year, calculated by <a href=\"https://openalex.org/\" target=\"_blank\" rel=\"noopener\">OpenAlex</a> from its open citation data.</p><p>This is the same formula as the <strong>Journal Impact Factor</strong>, but it is <strong>not the official Impact Factor</strong>. That figure belongs to Clarivate and cannot be republished here. OpenAlex counts citations from a different, larger set of sources, so its figures usually differ from Clarivate's, sometimes by a lot.</p><p>Citation rates vary hugely between fields, so compare journals within a field, not across fields. It says nothing about the quality of any one article.</p>"],
   disputed: ["Sources disagree",
@@ -403,11 +405,14 @@ function runSearch() {
   // succeeded a keystroke later.
   clearTimeout(missedTimer);
   const raw = $("#q").value.trim();
-  const dealOnly = $("#deal-only").checked;
+  const general = elsewhere();
+  const dealOnly = !general && $("#deal-only").checked;
   const freeOnly = $("#free-only") && $("#free-only").checked;
+  // "Free" outside Oxford means free for anyone; r.f also counts Oxford deals.
+  const isFree = (r) => (general ? freeAnywhere(r) : r.f);
   // One predicate for both the empty-query and the scored path, so a filter
   // cannot apply on one and silently not the other.
-  const passes = (r) => (!dealOnly || r.s !== "none") && (!freeOnly || r.f);
+  const passes = (r) => (!dealOnly || r.s !== "none") && (!freeOnly || isFree(r));
 
   if (!raw) {
     // merge.py already emits journals sorted by title, so the index arrives in
@@ -438,7 +443,7 @@ function runSearch() {
     if (!passes(r)) {
       // Track only the deal filter's casualties: a strong name match hidden by
       // it looks identical to one the tool has never heard of.
-      if (nominal && dealOnly && r.s === "none" && (!freeOnly || r.f)) {
+      if (nominal && dealOnly && r.s === "none" && (!freeOnly || isFree(r))) {
         hidden.push({ r, sc });
       }
       continue;
@@ -458,7 +463,7 @@ function runSearch() {
 /* Shared tail of both search paths, so an ordering can never apply to one and
  * silently not the other — the same reason `passes` is a single predicate. */
 function finish(matches, nominalCount, hidden) {
-  const sort = ($("#sort") && $("#sort").value) || "rel";
+  const sort = elsewhere() ? "rel" : (($("#sort") && $("#sort").value) || "rel");
   let list = matches, unpriced = null;
   if (sort !== "rel") {
     // Copy first: the empty-query path hands back STATE.index itself.
@@ -556,6 +561,25 @@ function disputeBlock(d) {
   </div>`;
 }
 
+/* The journal page's cost section for an author outside Oxford. Only a
+ * journal that charges nobody gets a figure; see EXPLAIN.elsewhere_cost. */
+function generalCostBlock(j) {
+  const r = { o: j.oa_status, s: j.deal.status };
+  const text = freeAnywhere(r)
+    ? `<p><strong>£0.</strong> This journal is diamond open access: it charges
+        authors nothing, wherever they are, and is free to read.</p>`
+    : r.o === "subscription"
+    ? `<p>No open access option is on record for this journal.</p>`
+    : `<p>What you pay to publish open access here depends on your institution.
+        Many universities and national consortia have agreements with publishers
+        that cover the charge for their authors, so the list price is often not
+        what you would pay.</p>
+       <p>Ask your library's open access team, or look the journal up in the
+        <a href="https://journalcheckertool.org/" target="_blank" rel="noopener">Journal
+        Checker Tool ↗</a>.</p>`;
+  return `<div class="detail-section"><h4>Cost to publish open access</h4>${text}</div>`;
+}
+
 /* Split the cost summary so the figure can be right-aligned on its own.
  * cost_summary() in build_site.py produces e.g. "£0 — covered by Oxford deal";
  * the ledger shows only the figure, since the status column says the rest. */
@@ -651,16 +675,17 @@ function renderResults(list, total, nominalCount, hidden) {
   }
 
   if (list.length) {
+    const general = elsewhere();
     const rows = list.map((r, i) => {
       const brk = (i === nominalCount && nominalCount > 0)
-        ? `<tr class="subject-break"><td colspan="3">Journals whose
+        ? `<tr class="subject-break"><td colspan="${general ? 2 : 3}">Journals whose
            <strong>subject</strong> matches, but not their name</td></tr>` : "";
-      const fig = costFigure(r);
+      const fig = general ? generalFigure(r) : costFigure(r);
       const flags = [
         modelBadge(r.o),
         r.d ? `<span class="badge doaj">In DOAJ${why("doaj")}</span>` : "",
-        r.x ? `<span class="badge disputed">⚠ Sources disagree${why("disputed")}</span>` : "",
-        r.e ? `<span class="badge expired">⚠ Agreement ended${why("expired")}</span>` : "",
+        !general && r.x ? `<span class="badge disputed">⚠ Sources disagree${why("disputed")}</span>` : "",
+        !general && r.e ? `<span class="badge expired">⚠ Agreement ended${why("expired")}</span>` : "",
       ].filter(Boolean).join("");
       const [label] = STATUS_LABEL[r.s] || STATUS_LABEL.none;
       return `${brk}
@@ -671,13 +696,15 @@ function renderResults(list, total, nominalCount, hidden) {
               showCites() ? ` · ${esc(citationRate(r.r))}${why("citedness")}` : ""}</div>
             ${flags ? `<div class="flags">${flags}</div>` : ""}
           </td>
-          <td class="state"><span class="swatch sw-${esc(r.s)}"></span>${esc(label)}${why(r.s)}</td>
+          ${general ? "" : `<td class="state"><span class="swatch sw-${esc(r.s)}"></span>${esc(label)}${why(r.s)}</td>`}
           <td class="cost-cell ${fig.cls}">${esc(fig.text)}</td>
         </tr>`;
     }).join("");
 
     html += `<table class="ledger">
-      <thead><tr><th>Journal</th><th>Oxford deal</th><th class="num">Open access cost</th></tr></thead>
+      <thead><tr><th>Journal</th>${general
+        ? "" : "<th>Oxford deal</th>"}<th class="num">Open access cost${
+        general ? why("elsewhere_cost") : ""}</th></tr></thead>
       <tbody>${rows}</tbody></table>`;
   }
 
@@ -724,7 +751,7 @@ function costBlock(j) {
     <div class="cost-note">Prices are list prices as published by the source and its retrieval date — always confirm on the journal's own page.</div>`;
 }
 
-function sourceLinks(j) {
+function sourceLinks(j, general = false) {
   const p = j.provenance || {};
   const rows = [];
   const seen = new Set();
@@ -734,8 +761,8 @@ function sourceLinks(j) {
     seen.add(k);
     rows.push(`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(label)} ↗</a>${extra}`);
   };
-  if (p.deal) for (const d of p.deal) add(d.url, d.label);
-  if (p.oxford) add(p.oxford.url, p.oxford.label);
+  if (p.deal && !general) for (const d of p.deal) add(d.url, d.label);
+  if (p.oxford && !general) add(p.oxford.url, p.oxford.label);
   if (p.metadata) add(p.metadata.url, p.metadata.label,
     ` <span class="cost-note">(retrieved ${esc((p.metadata.retrieved || "").slice(0,10))})</span>`);
   if (p.doaj) add(p.doaj.url, p.doaj.label);
@@ -1200,6 +1227,7 @@ async function openDetail(id) {
   const scope = j.scope || {};
   const wd = j.doaj_withdrawn;
   const rep = reportLinks(j);
+  const general = elsewhere();
 
   const body = `
     <div class="detail-head">
@@ -1207,7 +1235,9 @@ async function openDetail(id) {
       <p class="pub">${esc(j.publisher || "Publisher unknown")}</p>
       <p class="detail-issn">ISSN: ${j.issns.map(esc).join(" · ")}${
         showCites() ? ` · ${esc(citationRate(j.citedness_2yr))}${why("citedness")}` : ""}</p>
-      <div class="badge-row">${badge(j.deal.status, j.in_doaj, j.deal.disputed, j.deal.expired, j.oa_status)}
+      <div class="badge-row">${general
+        ? badge("none", j.in_doaj, false, false, j.oa_status)
+        : badge(j.deal.status, j.in_doaj, j.deal.disputed, j.deal.expired, j.oa_status)}
         ${j.waiver ? '<span class="badge doaj">APC waivers available</span>' : ""}</div>
     </div>
 
@@ -1217,7 +1247,7 @@ async function openDetail(id) {
         <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>.</span>
     </div></div>` : ""}
 
-    ${expiryBlock(j.deal.expired)}
+    ${general ? generalCostBlock(j) : `${expiryBlock(j.deal.expired)}
     ${disputeBlock(j.deal.disputed)}
 
     <div class="detail-section">
@@ -1232,7 +1262,7 @@ async function openDetail(id) {
       <h4>Cost for an Oxford author</h4>
       ${costBlock(j)}
       ${j.deal.caveats && j.deal.caveats.length ? `<ul class="caveats">${j.deal.caveats.map(c => `<li>${esc(c)}</li>`).join("")}</ul>` : ""}
-    </div>
+    </div>`}
 
     <div class="detail-section">
       <h4>Scope</h4>
@@ -1254,7 +1284,7 @@ async function openDetail(id) {
 
     <div class="detail-section">
       <h4>Sources for the information above</h4>
-      ${sourceLinks(j)}
+      ${sourceLinks(j, general)}
     </div>
 
     <div class="detail-section report-box">
@@ -1267,11 +1297,11 @@ async function openDetail(id) {
       </div>
     </div>
 
-    <div class="detail-section">
+    ${general ? "" : `<div class="detail-section">
       <p class="cost-note">No Oxford deal that fits? Oxford's
         <a href="${esc(STATE.config.bodleian_block_grants)}" target="_blank" rel="noopener">block grants</a>
         or the green (self-archiving) route may still apply. Authoritative answers: ${esc(STATE.config.contact)}.</p>
-    </div>`;
+    </div>`}`;
 
   $("#detail-body").innerHTML = body;
   $("#detail-modal").hidden = false;
@@ -1700,6 +1730,30 @@ function starButton(id) {
  * panel rather than slipped in. */
 const ORCID_KEY = "oxford-apc-finder:orcid";
 
+/* "I'm not at Oxford". Off by default, remembered per browser, and turned on
+ * by ?view=elsewhere so a link can be sent to colleagues at other
+ * institutions. Everything the site says about deals, discounts and the
+ * Bodleian is about Oxford, so in this view only what holds for any author
+ * is shown: whether the journal charges anyone at all. */
+const ELSEWHERE_KEY = "oxford-apc-finder:not-oxford";
+const elsewhere = () => { const b = $("#elsewhere"); return !!(b && b.checked); };
+// Free to publish for anyone: diamond by publishing model, or in a diamond
+// scheme (which Oxford happens to fund, but which charges no author).
+const freeAnywhere = (r) => r.o === "diamond" || r.s === "diamond";
+function generalFigure(r) {
+  if (freeAnywhere(r)) return { text: "£0", cls: "free" };
+  if (r.o === "subscription") return { text: "subscription", cls: "none" };
+  return { text: "depends on your institution", cls: "none" };
+}
+function setElsewhere(on) {
+  $("#elsewhere").checked = on;
+  try { localStorage.setItem(ELSEWHERE_KEY, on ? "1" : "0"); } catch { /* blocked */ }
+  document.body.classList.toggle("elsewhere", on);
+  $("#confirm-with").textContent = on
+    ? "Always confirm with your institution's library or open access team before you submit."
+    : "Always confirm with the Bodleian open access team before you submit.";
+}
+
 /* Whether to show the citation rate. Off by default, remembered per browser. */
 const CITES_KEY = "oxford-apc-finder:show-cites";
 const showCites = () => { const b = $("#show-cites"); return !!(b && b.checked); };
@@ -1809,14 +1863,15 @@ async function showOrcid() {
         + "OpenAlex. That is common for a new record."));
     }
     known.sort((a, b) => b.count - a.count);
+    const general = elsewhere();
     const rows = known.map(({ issn, count, rec }) => {
-      const fig = costFigure(rec);
+      const fig = general ? generalFigure(rec) : costFigure(rec);
       const [label] = STATUS_LABEL[rec.s] || STATUS_LABEL.none;
       return `<tr>
         <td>${starButton(rec.id)}<strong>${esc(rec.t)}</strong>
           <div class="jmeta">${esc(rec.p || "Publisher unknown")} · ${esc(issn)}</div></td>
         <td class="num">${count}</td>
-        <td>${esc(label)}</td>
+        ${general ? "" : `<td>${esc(label)}</td>`}
         <td class="num cost-cell ${fig.cls}">${esc(fig.text)}</td>
       </tr>`;
     }).join("");
@@ -1824,11 +1879,12 @@ async function showOrcid() {
 
     render(`
       <h2 id="detail-title">Journals you publish in</h2>
-      <p>${known.length} of the journals in your ORCID record are on this site,
-        and <strong>${covered}</strong> of those carry an Oxford deal.</p>
+      <p>${known.length} of the journals in your ORCID record are on this site${general
+        ? `, and <strong>${known.filter((k) => freeAnywhere(k.rec)).length}</strong> of those are free to publish in.`
+        : `, and <strong>${covered}</strong> of those carry an Oxford deal.`}</p>
       ${rows ? `<table class="compare-table">
-        <thead><tr><th>Journal</th><th class="num">Papers</th><th>Oxford deal</th>
-          <th class="num">Open access cost</th></tr></thead>
+        <thead><tr><th>Journal</th><th class="num">Papers</th>${general ? "" : "<th>Oxford deal</th>"}
+          <th class="num">Open access cost${general ? why("elsewhere_cost") : ""}</th></tr></thead>
         <tbody>${rows}</tbody></table>` : ""}
       <div class="compare-actions">
         <button class="btn" id="orcid-star">Star all of these</button>
@@ -1965,23 +2021,30 @@ async function showCompare(ids) {
   }
   const esacs = await agreementIds(rows);
   const cites = showCites();
+  const general = elsewhere();
+  // Oxford prices order the list at Oxford; elsewhere the only figure is £0.
+  if (general) rows.sort((a, b) => freeAnywhere(b) - freeAnywhere(a)
+                                   || (a.t || "").localeCompare(b.t || ""));
   const body = rows.map((r) => {
-    const fig = costFigure(r);
+    const fig = general ? generalFigure(r) : costFigure(r);
     const [label] = STATUS_LABEL[r.s] || STATUS_LABEL.none;
     return `<tr>
       <td>${starButton(r.id)}<strong>${esc(r.t)}</strong>
         <div class="jmeta">${esc(r.p || "Publisher unknown")} · ${esc(r.i[0] || "")}</div></td>
       <td>${modelBadge(r.o)}</td>
-      <td>${esc(label)}</td>
+      ${general ? "" : `<td>${esc(label)}</td>`}
       <td class="num cost-cell ${fig.cls}">${esc(fig.text)}</td>
       ${cites ? `<td class="num">${r.r == null ? "—" : esc(r.r.toFixed(1))}</td>` : ""}
     </tr>`;
   }).join("");
 
   const tooLong = rows.length > MAILTO_MAX_JOURNALS;
+  // The enquiry is written to the Bodleian about Oxford's agreements.
+  const mailOk = !general && !tooLong;
   $("#detail-body").innerHTML = `
     <h2 id="detail-title">Your shortlist</h2>
-    <p class="cost-note">Ordered by cost, cheapest first. Starring is stored in
+    <p class="cost-note">${general ? "Free-to-publish journals first."
+      : "Ordered by cost, cheapest first."} Starring is stored in
       this browser only — nothing is sent anywhere and there is no account. Use
       the link below to move the list to another device or send it to someone.</p>
     <label class="toggle compare-toggle">
@@ -1989,17 +2052,17 @@ async function showCompare(ids) {
       <span>Show citation rate</span>
     </label>
     <table class="compare-table">
-      <thead><tr><th>Journal</th><th>Model</th><th>Oxford deal</th>
-        <th class="num">Open access cost</th>
+      <thead><tr><th>Journal</th><th>Model</th>${general ? "" : "<th>Oxford deal</th>"}
+        <th class="num">Open access cost${general ? why("elsewhere_cost") : ""}</th>
         ${cites ? `<th class="num">2-yr citation rate${why("citedness")}</th>` : ""}</tr></thead>
       <tbody>${body}</tbody>
     </table>
     <div class="compare-actions">
-      ${tooLong ? "" : `<a class="btn" id="compare-mail" href="${esc(bodleianMail(rows, esacs))}">Email the open access team ↗</a>`}
-      <button class="btn secondary" id="compare-copy">Copy the text instead</button>
+      ${mailOk ? `<a class="btn" id="compare-mail" href="${esc(bodleianMail(rows, esacs))}">Email the open access team ↗</a>` : ""}
+      ${general ? "" : `<button class="btn secondary" id="compare-copy">Copy the text instead</button>`}
       <button class="btn secondary" id="compare-clear">Clear the list</button>
     </div>
-    <div class="detail-section">
+    ${general ? "" : `<div class="detail-section">
       <h4>Or send it yourself</h4>
       <p class="cost-note">${tooLong
         ? `With more than ${MAILTO_MAX_JOURNALS} journals a pre-filled email gets
@@ -2013,7 +2076,7 @@ async function showCompare(ids) {
         <button class="btn tiny" id="copy-address">Copy address</button></p>
       <textarea class="enquiry-box" id="enquiry-text" readonly rows="12"
         aria-label="The enquiry text, ready to copy">${esc(enquiryText(rows, esacs))}</textarea>
-    </div>
+    </div>`}
 
     <div class="detail-section">
       <h4>Share this list</h4>
@@ -2035,9 +2098,11 @@ async function showCompare(ids) {
     } catch { done(); }
   };
   const enquiry = enquiryText(rows, esacs);
-  $("#compare-copy").addEventListener("click", (e) => copy(enquiry, e.target));
-  $("#copy-address").addEventListener("click",
-    (e) => copy(STATE.config.contact, e.target));
+  if (!general) {
+    $("#compare-copy").addEventListener("click", (e) => copy(enquiry, e.target));
+    $("#copy-address").addEventListener("click",
+      (e) => copy(STATE.config.contact, e.target));
+  }
   const box = $("#enquiry-text");
   if (box && box.addEventListener) {
     box.addEventListener("focus", () => box.select && box.select());
@@ -2132,6 +2197,10 @@ function wireUI() {
   $("#search-form").addEventListener("submit", e => { e.preventDefault(); runSearch(); });
   $("#deal-only").addEventListener("change", runSearch);
   $("#free-only").addEventListener("change", runSearch);
+  let away = new URLSearchParams(location.search).get("view") === "elsewhere";
+  try { away = away || localStorage.getItem(ELSEWHERE_KEY) === "1"; } catch { /* blocked */ }
+  setElsewhere(away);
+  $("#elsewhere").addEventListener("change", (e) => { setElsewhere(e.target.checked); runSearch(); });
   try { $("#show-cites").checked = localStorage.getItem(CITES_KEY) === "1"; } catch { /* blocked */ }
   $("#show-cites").addEventListener("change", () => {
     setShowCites(showCites());

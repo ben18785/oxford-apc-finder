@@ -491,3 +491,7 @@ body {
 
 /* Shortlist's own copy of the citation-rate checkbox. */
 .compare-toggle { margin: 4px 0 10px; }
+
+/* "I'm not at Oxford": everything that only means something to an Oxford
+ * author is hidden rather than reworded. */
+body.elsewhere .oxford-only { display: none !important; }
