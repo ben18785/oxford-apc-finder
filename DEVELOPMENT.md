@@ -51,6 +51,11 @@ submit corrections from the journal page: that opens a GitHub issue, and
 `validated: false`) for a maintainer to check. It needs *Settings → Actions →
 General → Allow GitHub Actions to create and approve pull requests*.
 
+Readers without a GitHub account can use a Google Form instead, once
+`guidelines_form` in `config.yaml` is filled in. The site pre-fills the form's
+paragraph question with exactly the issue text; to process a response, paste
+that cell into a new issue on the repo and the same workflow opens the PR.
+
 ## Inclusion & anti-predatory policy
 
 A journal is included if **any** of seven routes admits it: (1) an Oxford deal

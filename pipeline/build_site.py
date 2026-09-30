@@ -235,6 +235,7 @@ def main() -> None:
         "title": cfg["site_title"],
         "tagline": cfg["site_tagline"],
         "github_repo": cfg["github_repo"],
+        "guidelines_form": cfg.get("guidelines_form") or {},
         "bodleian_apc": cfg["sources"]["bodleian_apc"],
         "bodleian_deals": cfg["sources"]["bodleian_deals"],
         "bodleian_block_grants": cfg["sources"]["bodleian_block_grants"],

@@ -3,6 +3,15 @@ site_title: "Oxford journal article processing charge (APC) finder"
 site_tagline: "Which journals do Oxford's open-access deals cover, and what will publishing cost?"
 # GitHub repository that hosts this site (used for error-report links).
 github_repo: "ben18785/oxford-apc-finder"
+# Google Form for word-limit submissions from readers without a GitHub
+# account. The site pre-fills it with the same text a GitHub issue would get,
+# so a response can be pasted into a new issue to start the usual PR. Leave
+# url empty to show only the GitHub button. The entry ids come from the form's
+# "Get pre-filled link" (the entry.NNNN parameters).
+guidelines_form:
+  url: ""                # https://docs.google.com/forms/d/e/<id>/viewform
+  journal_entry: ""      # short-answer question: the journal
+  submission_entry: ""   # paragraph question: the submission, filled in by the site
 # University of Oxford ROR ID (https://ror.org/052gg0110)
 institution_ror: "052gg0110"
 institution_name: "University of Oxford"

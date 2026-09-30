@@ -929,6 +929,13 @@ function guidelinesBlock(j) {
     </div>`;
 }
 
+/* The Google Form alternative to a GitHub issue, or null until config.yaml
+ * names one. */
+function googleForm() {
+  const f = (STATE.config && STATE.config.guidelines_form) || {};
+  return (f.url && f.journal_entry && f.submission_entry) ? f : null;
+}
+
 /* A form for a reader to record guidelines per article type, and
  * save them to data/guidelines/<id>.json in the same shape the build reads. Fields the form does not
  * cover are carried over from the existing record rather than dropped. */
@@ -994,6 +1001,7 @@ function showGuidelinesForm(id, j) {
       <p><button type="button" class="btn secondary tiny" id="gl-add">+ Add article type</button></p>
       <div>
         <button type="button" class="btn" id="gl-github">Submit on GitHub ↗</button>
+        ${googleForm() ? `<button type="button" class="btn" id="gl-google">Submit without a GitHub account ↗</button>` : ""}
         <button type="submit" class="btn secondary">Save locally</button>
         <button type="button" class="btn secondary" id="gl-back">Back to journal</button>
       </div>
@@ -1040,14 +1048,14 @@ function showGuidelinesForm(id, j) {
   // into a pull request. The issue carries only the edited fields, not the
   // whole record — the full file would outgrow what GitHub accepts in a URL —
   // and the workflow merges them into data/guidelines/<id>.json.
-  $("#gl-github").addEventListener("click", () => {
-    const form = readForm();
-    if (!form) return;
+  // Both routes carry the same text: a Google Form response is pasted into
+  // a new issue by a maintainer, and the workflow takes it from there.
+  const issueBody = (form) => {
     const submission = {
       id, journal: j.title, publisher: j.publisher || null, issns: j.issns,
       url: form.url, article_types: form.rows,
     };
-    const body = `<!-- guidelines-submission -->
+    return `<!-- guidelines-submission -->
 Word limits for **${j.title}** (\`${id}\`), submitted from the APC Finder.
 
 A workflow turns this issue into a pull request and links it here. To correct
@@ -1057,9 +1065,24 @@ the submission, edit the JSON below and the pull request will be updated.
 ${JSON.stringify(submission)}
 \`\`\`
 `;
+  };
+
+  $("#gl-github").addEventListener("click", () => {
+    const form = readForm();
+    if (!form) return;
     window.open(`https://github.com/${STATE.config.github_repo}/issues/new?title=${
-      encodeURIComponent(`Word limits: ${j.title} (${id})`)}&body=${encodeURIComponent(body)}`,
+      encodeURIComponent(`Word limits: ${j.title} (${id})`)}&body=${encodeURIComponent(issueBody(form))}`,
       "_blank", "noopener");
+  });
+
+  const gf = googleForm();
+  if (gf) $("#gl-google").addEventListener("click", () => {
+    const form = readForm();
+    if (!form) return;
+    const params = new URLSearchParams({ usp: "pp_url" });
+    params.set(gf.journal_entry, `${j.title} (${id})`);
+    params.set(gf.submission_entry, issueBody(form));
+    window.open(`${gf.url}?${params}`, "_blank", "noopener");
   });
 
   $("#gl-form").addEventListener("submit", async (e) => {
