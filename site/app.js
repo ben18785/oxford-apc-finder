@@ -676,9 +676,11 @@ function renderResults(list, total, nominalCount, hidden) {
 
   if (list.length) {
     const general = elsewhere();
+    const cites = showCites();
+    const cols = 1 + (general ? 0 : 1) + 1 + (cites ? 1 : 0);
     const rows = list.map((r, i) => {
       const brk = (i === nominalCount && nominalCount > 0)
-        ? `<tr class="subject-break"><td colspan="${general ? 2 : 3}">Journals whose
+        ? `<tr class="subject-break"><td colspan="${cols}">Journals whose
            <strong>subject</strong> matches, but not their name</td></tr>` : "";
       const fig = general ? generalFigure(r) : costFigure(r);
       const flags = [
@@ -692,19 +694,21 @@ function renderResults(list, total, nominalCount, hidden) {
         <tr data-id="${esc(r.id)}">
           <td>
             ${starButton(r.id)}<button class="jtitle">${esc(r.t)}</button>
-            <div class="jmeta">${esc(r.p || "Publisher unknown")} · ${esc(r.i[0] || "")}${
-              showCites() ? ` · ${esc(citationRate(r.r))}${why("citedness")}` : ""}</div>
+            <div class="jmeta">${esc(r.p || "Publisher unknown")} · ${esc(r.i[0] || "")}</div>
             ${flags ? `<div class="flags">${flags}</div>` : ""}
           </td>
           ${general ? "" : `<td class="state"><span class="swatch sw-${esc(r.s)}"></span>${esc(label)}${why(r.s)}</td>`}
           <td class="cost-cell ${fig.cls}">${esc(fig.text)}</td>
+          ${cites ? `<td class="cite-cell${r.r == null ? " none" : ""}">${
+            r.r == null ? "—" : esc(r.r.toFixed(1))}</td>` : ""}
         </tr>`;
     }).join("");
 
     html += `<table class="ledger">
       <thead><tr><th>Journal</th>${general
         ? "" : "<th>Oxford deal</th>"}<th class="num">Open access cost${
-        general ? why("elsewhere_cost") : ""}</th></tr></thead>
+        general ? why("elsewhere_cost") : ""}</th>${cites
+        ? `<th class="num">2-yr citation rate${why("citedness")}</th>` : ""}</tr></thead>
       <tbody>${rows}</tbody></table>`;
   }
 

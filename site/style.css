@@ -139,6 +139,14 @@ body {
    is how an agreement turns into an assumed guarantee. */
 .cost-cell.caution { color: var(--discount); }
 
+/* Optional, beside the cost: a plain number, so it takes the cost's
+   alignment and figures but not its weight or colours. */
+.cite-cell {
+  text-align: right; white-space: nowrap;
+  font-variant-numeric: tabular-nums; font-size: .92rem;
+}
+.cite-cell.none { color: var(--muted); }
+
 .subject-break td {
   font-size: .82rem; color: var(--muted);
   padding-top: 26px; border-bottom: 1px solid #c8d0d9;
@@ -153,6 +161,9 @@ body {
   .ledger tr:hover { background: none; }
   .ledger td { display: block; border: 0; padding: 0 2px; }
   .ledger .cost-cell { text-align: left; margin-top: 6px; }
+  /* The header row is hidden here, so the bare number needs its label. */
+  .ledger .cite-cell { text-align: left; margin-top: 2px; color: var(--muted); }
+  .ledger .cite-cell::before { content: "2-yr citation rate: "; }
   .subject-break td { padding-top: 18px; }
 }
 
