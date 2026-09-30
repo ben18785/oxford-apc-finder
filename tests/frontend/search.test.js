@@ -70,6 +70,21 @@ function el(sel) { if (!ELS[sel]) { ELS[sel] = new El(sel); } return ELS[sel]; }
  * Same reason head and window are stubbed: a browser always has these, so the
  * omission shows up as an unrelated-looking failure three steps later. */
 var QUERYABLE = [];
+/* body.classList, for the same reason: the "not at Oxford" view toggles a
+ * class on it during boot, and a missing classList rejected boot() here. */
+function classList() {
+  var set = {};
+  return {
+    add: function (c) { set[c] = true; },
+    remove: function (c) { delete set[c]; },
+    contains: function (c) { return !!set[c]; },
+    toggle: function (c, on) {
+      var want = (on === undefined) ? !set[c] : !!on;
+      if (want) { set[c] = true; } else { delete set[c]; }
+      return want;
+    },
+  };
+}
 globalThis.document = {
   querySelector: el,
   querySelectorAll: function (sel) {
@@ -81,7 +96,8 @@ globalThis.document = {
   // head is stubbed for the same reason window is: a browser always has it, so
   // code that touches it looks fine in review and then silently rejects the
   // whole boot promise here, surfacing as unrelated-looking failures.
-  body: { style: {} }, head: { appendChild: function (c) { return c; } }, title: ""
+  body: { style: {}, classList: classList() },
+  head: { appendChild: function (c) { return c; } }, title: ""
 };
 globalThis.location = { href: "http://localhost/" };
 /* The popover reads window geometry and listens for resize. A browser always
@@ -1064,6 +1080,49 @@ chain.then(function () {
       check("usage view degrades gracefully when no data is published",
         el("#detail-body").innerHTML.indexOf("No usage data") !== -1);
       globalThis.fetch = realFetch;
+    });
+  }).then(function () {
+    /* ------------------------------------- "I'm not at Oxford" view -----
+     * Everything Oxford-specific goes; only a cost true for any author is
+     * stated. Written against whatever dataset is loaded, like the rest. */
+    el("#q").value = "";
+    el("#free-only").checked = false;
+    el("#deal-only").checked = true;           // must be ignored in this view
+    setElsewhere(true);
+    runSearch();
+    var html = el("#results").innerHTML;
+    check("not-at-Oxford: the deal filter no longer narrows the list",
+      STATE.results.length === STATE.index.length,
+      STATE.results.length + " of " + STATE.index.length);
+    check("not-at-Oxford: no Oxford deal column",
+      html.indexOf("<th>Oxford deal</th>") === -1);
+    check("not-at-Oxford: no Oxford price or discount is shown",
+      !/Oxford discount|£0 if eligible|confirm first/.test(html));
+    check("not-at-Oxford: every cost is £0, subscription or depends on the institution",
+      (html.match(/<td class="cost-cell[^"]*">([^<]*)<\/td>/g) || []).every(function (c) {
+        return /£0<|subscription<|depends on your institution</.test(c); }));
+    check("not-at-Oxford: the warning no longer names the Bodleian",
+      el("#confirm-with").textContent.indexOf("Bodleian") === -1);
+    check("not-at-Oxford: the choice is remembered",
+      localStorage.getItem(ELSEWHERE_KEY) === "1");
+
+    var paid = STATE.index.filter(function (r) { return !freeAnywhere(r) && r.o !== "subscription"; })[0];
+    if (!paid) { return; }
+    return openDetail(paid.id).then(function () {
+      var body = el("#detail-body").innerHTML;
+      check("not-at-Oxford: the journal page drops the Oxford cost section",
+        body.indexOf("Cost for an Oxford author") === -1
+        && body.indexOf("Cost to publish open access") !== -1);
+      check("not-at-Oxford: a paid journal's cost depends on the institution",
+        body.indexOf("depends on your institution") !== -1);
+      check("not-at-Oxford: no block-grant note",
+        body.indexOf("block grants") === -1);
+      closeModal();
+      setElsewhere(false);
+      el("#deal-only").checked = true;
+      runSearch();
+      check("back at Oxford: the deal column returns",
+        el("#results").innerHTML.indexOf("<th>Oxford deal</th>") !== -1);
     });
   }).then(function () {
     if (FAILURES) {
