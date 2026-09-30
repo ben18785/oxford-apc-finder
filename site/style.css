@@ -488,3 +488,6 @@ body {
    used at all", so it leads rather than sitting among the windowed stats. */
 .alltime { font-size: 1rem; margin: 10px 0 4px; }
 .alltime strong { color: var(--oxford); }
+
+/* Shortlist's own copy of the citation-rate checkbox. */
+.compare-toggle { margin: 4px 0 10px; }

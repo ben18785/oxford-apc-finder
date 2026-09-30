@@ -1703,6 +1703,11 @@ const ORCID_KEY = "oxford-apc-finder:orcid";
 /* Whether to show the citation rate. Off by default, remembered per browser. */
 const CITES_KEY = "oxford-apc-finder:show-cites";
 const showCites = () => { const b = $("#show-cites"); return !!(b && b.checked); };
+/* One setting, two checkboxes (search page and shortlist), so both follow it. */
+function setShowCites(on) {
+  $("#show-cites").checked = on;
+  try { localStorage.setItem(CITES_KEY, on ? "1" : "0"); } catch { /* blocked */ }
+}
 function citationRate(value) {
   return value == null ? "no citation rate" : `2-yr citation rate ${value.toFixed(1)}`;
 }
@@ -1959,6 +1964,7 @@ async function showCompare(ids) {
         team.</p>`);
   }
   const esacs = await agreementIds(rows);
+  const cites = showCites();
   const body = rows.map((r) => {
     const fig = costFigure(r);
     const [label] = STATUS_LABEL[r.s] || STATUS_LABEL.none;
@@ -1968,6 +1974,7 @@ async function showCompare(ids) {
       <td>${modelBadge(r.o)}</td>
       <td>${esc(label)}</td>
       <td class="num cost-cell ${fig.cls}">${esc(fig.text)}</td>
+      ${cites ? `<td class="num">${r.r == null ? "—" : esc(r.r.toFixed(1))}</td>` : ""}
     </tr>`;
   }).join("");
 
@@ -1977,9 +1984,14 @@ async function showCompare(ids) {
     <p class="cost-note">Ordered by cost, cheapest first. Starring is stored in
       this browser only — nothing is sent anywhere and there is no account. Use
       the link below to move the list to another device or send it to someone.</p>
+    <label class="toggle compare-toggle">
+      <input type="checkbox" id="compare-cites" ${cites ? "checked" : ""}>
+      <span>Show citation rate</span>
+    </label>
     <table class="compare-table">
       <thead><tr><th>Journal</th><th>Model</th><th>Oxford deal</th>
-        <th class="num">Open access cost</th></tr></thead>
+        <th class="num">Open access cost</th>
+        ${cites ? `<th class="num">2-yr citation rate${why("citedness")}</th>` : ""}</tr></thead>
       <tbody>${body}</tbody>
     </table>
     <div class="compare-actions">
@@ -2030,6 +2042,11 @@ async function showCompare(ids) {
   if (box && box.addEventListener) {
     box.addEventListener("focus", () => box.select && box.select());
   }
+  $("#compare-cites").addEventListener("change", (e) => {
+    setShowCites(e.target.checked);
+    runSearch();              // the results behind the modal follow suit
+    showCompare(ids);
+  });
   $("#compare-clear").addEventListener("click", () => {
     setStarred([]);
     closeModal();
@@ -2117,7 +2134,7 @@ function wireUI() {
   $("#free-only").addEventListener("change", runSearch);
   try { $("#show-cites").checked = localStorage.getItem(CITES_KEY) === "1"; } catch { /* blocked */ }
   $("#show-cites").addEventListener("change", () => {
-    try { localStorage.setItem(CITES_KEY, showCites() ? "1" : "0"); } catch { /* blocked */ }
+    setShowCites(showCites());
     runSearch();
   });
   $("#sort").addEventListener("change", runSearch);
