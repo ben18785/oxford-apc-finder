@@ -220,3 +220,13 @@ def test_the_api_verdicts_baseline_is_committed():
     body = REFRESH.read_text()
     assert "data/state/jct_api_verdicts.json" in body, \
         "the refresh does not commit the JCT API verdicts baseline"
+
+
+# --------------------------------------------- an Actions expression trap
+@pytest.mark.parametrize("path", sorted(WORKFLOWS.glob("*.yml")), ids=lambda p: p.name)
+def test_no_falsy_value_in_an_and_or_expression(path):
+    """`cond && 0 || 1` is always 1 in Actions: 0, false, '' and null are
+    falsy, so the || branch wins. link-check.yml shipped with exactly this for
+    fetch-depth and every PR run got a shallow clone. Quote the value ('0')."""
+    bad = re.findall(r"&&\s*(0|false|''|null)\s*\|\|", path.read_text())
+    assert not bad, f"falsy value in an `a && b || c` expression: {bad}"

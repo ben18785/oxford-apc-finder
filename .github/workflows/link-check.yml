@@ -30,8 +30,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # A PR's added links come from its diff against the base branch.
-          fetch-depth: ${{ github.event_name == 'pull_request' && 0 || 1 }}
+          # A PR's added links come from its diff against the base branch, so
+          # it needs the history. '0' is quoted on purpose: a bare 0 is falsy
+          # in Actions expressions, so the unquoted form always gave a shallow clone.
+          fetch-depth: ${{ github.event_name == 'pull_request' && '0' || '1' }}
 
       # The dataset isn't committed, so take the URL list produced by the last
       # successful refresh. That also means this job checks exactly the links
