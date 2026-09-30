@@ -1,8 +1,13 @@
 name: Link check
 
 # Every source link the site shows must actually resolve — a dead "learn more"
-# link is a data error, not a cosmetic one. Runs against the freshly built
-# site, so it checks the URLs users will really click.
+# link is a data error, not a cosmetic one.
+#
+# Two modes. The weekly run checks the links the live site serves, taken from
+# the last successful refresh, and keeps one rolling issue open while any are
+# dead. A pull request checks only the links it adds itself: the live data's
+# links come from the refresh and no PR can change them, so checking those
+# there failed every PR for rot unrelated to the change.
 on:
   schedule:
     - cron: '43 6 * * 2'          # Tuesdays, the day after the data refresh
@@ -12,6 +17,8 @@ on:
       - 'site/**'
       - 'data/curated/**'
       - 'config.yaml'
+      - '.github/workflows/link-check.yml'
+      - '.github/scripts/added_links.py'
 
 permissions:
   contents: read
@@ -22,12 +29,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # A PR's added links come from its diff against the base branch.
+          fetch-depth: ${{ github.event_name == 'pull_request' && 0 || 1 }}
 
       # The dataset isn't committed, so take the URL list produced by the last
       # successful refresh. That also means this job checks exactly the links
       # the live site is currently serving, and never re-fetches the sources.
       - name: Fetch the link list from the last successful refresh
         id: links
+        if: github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -42,9 +53,24 @@ jobs:
           echo "found=true" >> "$GITHUB_OUTPUT"
           wc -l links.txt
 
+      - name: List the links this pull request adds
+        id: pr_links
+        if: github.event_name == 'pull_request'
+        env:
+          BASE: ${{ github.base_ref }}
+        run: |
+          python3 .github/scripts/added_links.py "origin/$BASE" > links.txt
+          if [ -s links.txt ]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+            echo "This PR adds $(wc -l < links.txt) link(s):"; cat links.txt
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "This PR adds no links — nothing to check."
+          fi
+
       - name: Check the links
         id: lychee
-        if: steps.links.outputs.found == 'true'
+        if: steps.links.outputs.found == 'true' || steps.pr_links.outputs.found == 'true'
         uses: lycheeverse/lychee-action@v2
         with:
           args: >-
@@ -59,7 +85,7 @@ jobs:
           fail: false
 
       - uses: actions/upload-artifact@v4
-        if: steps.links.outputs.found == 'true'
+        if: steps.links.outputs.found == 'true' || steps.pr_links.outputs.found == 'true'
         with:
           name: lychee-report
           path: lychee-report.md
@@ -79,7 +105,7 @@ jobs:
           content-filepath: lychee-report.md
           labels: broken-links
 
-      - name: Fail the PR check on broken links
+      - name: Fail the PR check on a broken link it adds
         if: steps.lychee.outputs.exit_code != 0 && github.event_name == 'pull_request'
         run: |
           cat lychee-report.md
