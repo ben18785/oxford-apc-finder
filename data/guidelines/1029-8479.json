@@ -1,0 +1,30 @@
+{
+  "journal": "Journal of High Energy Physics",
+  "publisher": "Springer Nature",
+  "issn": {
+    "print": "1029-8479",
+    "electronic": "1126-6708"
+  },
+  "LLM": false,
+  "validated": false,
+  "url": "https://jhep.sissa.it/jhep/help/helpLoader.jsp?pgType=author",
+  "date_scraped": "2026-10-01",
+  "article_types": [
+    {
+      "type": "Article",
+      "notes": null,
+      "structure": null,
+      "figures_tables": "No limit on the number of figures/tables. Figure resolution: minimum 150 dpi, maximum 250 dpi. Vector images with fonts must have the fonts embedded.",
+      "total_word_limit": null
+    },
+    {
+      "type": "Erratum/Addendum",
+      "notes": null,
+      "structure": "Title (\"Erratum: <original title>\" or \"Addendum: <original title>\")",
+      "figures_tables": null,
+      "total_word_limit": null
+    }
+  ],
+  "source": "user",
+  "submitted_in": "https://github.com/ben18785/oxford-apc-finder/issues/26"
+}
