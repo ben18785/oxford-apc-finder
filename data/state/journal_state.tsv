@@ -1256,6 +1256,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0014-1828	Ethnology	none	unknown			
 0014-1836	Ethnomusicology	none	unknown			
 0014-1844	Ethnos	covered	covered			
+0014-2182	Études rurales	none	unknown			
 0014-2336	Euphytica	covered	covered			
 0014-2565	Revista Clínica Española	covered	covered			
 0014-2808	L'Europe en formation	none	unknown			
@@ -1486,6 +1487,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0017-3134	Grana	covered	covered			
 0017-3495	Grasas y Aceites	none	no_apc			
 0017-3835	Greece and Rome	covered	covered			
+0017-3916	Greek, Roman and Byzantine studies	none	no_apc			
 0017-4653	Ground engineering	none	unknown			
 0017-467X	Ground Water	covered	covered			
 0017-4815	Growth and Change	covered	covered			
@@ -3114,7 +3116,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0033-2747	Psychiatry	covered	covered			
 0033-278X	The International Journal of Psychiatry in Medicine	covered	covered			
 0033-2828	The Psychoanalytic Quarterly	covered	covered			
-0033-2860	Educational Psychology	none	unknown			
+0033-2860	Psychologia Wychowawcza	none	unknown			
 0033-2879	Psychologica Belgica	none	list_price	772	GBP	
 0033-2909	Psychological Bulletin	covered	covered_conditional			
 0033-2917	Psychological Medicine	covered	covered			
@@ -3825,6 +3827,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0042-6601	Virginia Law Review	none	unknown			
 0042-6822	Virology	covered	covered			
 0042-6989	Vision Research	covered	covered			
+0042-7500	Vitis	none	unknown			
 0042-7543	Vivarium	covered	covered			
 0042-7764	Vocational Guidance Quarterly	none	unknown			
 0042-790X	Journal of Hydrology and Hydromechanics	none	no_apc			
@@ -5229,6 +5232,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0103-7307	Pro-Posições	none	no_apc			
 0103-7331	Physis Revista de Saúde Coletiva	none	unknown			
 0103-7412	Opus	none	no_apc			
+0103-7668	Revista Espaço	none	no_apc			
 0103-7706	Horizontes	none	no_apc			
 0103-8427	Caderno de Geografia	none	no_apc			
 0103-846X	Revista Brasileira de Parasitologia Veterinária/Brazilian Journal of Veterinary Parasitology	none	list_price	300	USD	
@@ -5517,6 +5521,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0123-8884	Revista Affectio Societatis/Affectio Societatis	none	no_apc			
 0123-9015	Revista Colombiana de Cancerología	discount	discount_unknown_base			
 0123-9155	Acta Colombiana de Psicología	none	no_apc			
+0123-9333	Entretextos	none	no_apc			
 0123-9392	Infectio	discount	discount	85	USD	
 0123-9635	Revista perspectivas/Perspectiva	none	no_apc			
 0123-9813	Búsqueda	none	no_apc			
@@ -5544,7 +5549,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0124-5996	Revista de Economía Institucional	none	no_apc			
 0124-7107	Universidad y Salud	none	no_apc			
 0124-7255	Dixi	none	no_apc			
-0124-7441	Justicia	none	no_apc			
+0124-7441	Justicia	none	unknown			
 0124-7913	Bitácora Urbano Territorial	none	no_apc			
 0124-8170	Ciencia e Ingeniería Neogranadina	none	no_apc			
 0124-8693	Tendencias	none	no_apc			
@@ -5557,6 +5562,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0125-8370	Kasetsart Journal of Social Sciences	discount	discount_unknown_base			
 0125-9008	BACA JURNAL DOKUMENTASI DAN INFORMASI	none	no_apc			
 0125-9318	E-Journal Menara Perkebunan	none	no_apc			
+0125-9326	Acta medica Indonesiana	none	list_price	500	USD	
 0126-012X	Al-Jami ah Journal of Islamic Studies	none	no_apc			
 0126-0235	Arena Hukum	none	no_apc			
 0126-0472	Media Peternakan	none	list_price	250	USD	
@@ -5689,6 +5695,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0138-0974	Geology Geophysics & Environment	none	no_apc			
 0138-4821	Beiträge zur Algebra und Geometrie / Contributions to Algebra and Geometry	covered	covered			
 0138-4988	Acta Biotechnologica	none	unknown			
+0138-645X	16 de abril/Revista 16 de abril	none	no_apc			
 0138-6476	Poeyana	none	no_apc			
 0138-6557	Revista cubana de medicina militar	none	no_apc			
 0138-9130	Scientometrics	covered	covered			
@@ -6120,6 +6127,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0151-4105	Revue d histoire des sciences	none	unknown			
 0151-9107	Annales de Chimie Science des Matériaux	none	unknown			
 0151-9638	Annales de Dermatologie et de Vénéréologie	covered	covered			
+0152-7401	Revue française d administration publique	none	unknown			
 0152-9668	Annales des Ponts et Chaussées	none	unknown			
 0153-0313	Lengas	none	no_apc			
 0153-3320	Cahiers de linguistique - Asie orientale	covered	covered			
@@ -7580,6 +7588,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0246-0521	EMC - Appareil locomoteur	none	unknown			
 0246-1064	EMC - Gynécologie	none	unknown			
 0246-1072	Encyclopédie médico-chirurgicale. Psychiatrie	none	unknown			
+0246-2346	Le Débat	none	unknown			
 0247-106X	Staps	none	unknown			
 0247-381X	Criticón	none	no_apc			
 0247-9788	Droit et Cultures	none	no_apc			
@@ -7742,6 +7751,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0254-9220	Debates en Sociología	none	no_apc			
 0254-9239	Lexis	none	no_apc			
 0254-9247	Revista de Psicología	none	no_apc			
+0254-9409	Journal of Computational Mathematics	none	unknown			
 0254-9670	Experimental and Clinical Immunogenetics	none	unknown			
 0254-9697	Thexis	none	unknown			
 0254-9948	Monumenta Serica	covered	covered			
@@ -7769,7 +7779,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0256-3029	Geobulletin	none	unknown			
 0256-307X	Chinese Physics Letters	none	list_price	2500	USD	
 0256-4602	IETE Technical Review	covered	covered			
-0256-4718	Journal of Literary Studies	none	list_price	7865	ZAR	
+0256-4718	Journal of Literary Studies	none	list_price	9100	ZAR	
 0256-4947	Annals of Saudi Medicine	none	list_price	750	USD	
 0256-6192	Perspectives de l'emploi de l'OCDE/OCDE perspectives de l'emploi	none	unknown			
 0256-6419	Fiep Bulletin - online	none	unknown			
@@ -9538,6 +9548,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0350-3437	Radovi Instituta za povijest umjetnosti	none	no_apc			
 0350-3593	Glasnik srpskog geografskog drustva	none	no_apc			
 0350-3828	Fizicka kultura	none	no_apc			
+0350-5596	Informatica	none	unknown			
 0350-6428	Књижевна историја	none	no_apc			
 0350-6886	Sigurnost	none	no_apc			
 0350-7149	Veterinarska stanica	none	unknown			
@@ -10106,6 +10117,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0373-2568	Pirineos	none	no_apc			
 0373-2630	Revue d économie politique	none	unknown			
 0373-3114	Annali di Matematica Pura ed Applicata (1923 -)	covered	covered			
+0373-3505	Le Matematiche	none	no_apc			
 0373-4137	Bolletino di zoologia	none	unknown			
 0373-4218	Zeitschrift für Kristallographie Mineralogie und Petrographie	none	unknown			
 0373-4633	Journal of Navigation	covered	covered			
@@ -10415,6 +10427,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0392-1077	ITALIA CONTEMPORANEA	none	unknown			
 0392-1689	Picenum Seraphicum - Rivista di studi storici e francescani	none	no_apc			
 0392-1921	Diogenes	none	list_price	3450	USD	
+0392-4203	Acta bio-medica dell'Ateneo parmense/Acta biomedica	none	unknown			
 0392-4777	Rassegna iberistica	none	no_apc			
 0392-4939	SOCIOLOGIA URBANA E RURALE	none	unknown			
 0392-5048	SOCIOLOGIA DEL LAVORO	none	unknown			
@@ -10688,6 +10701,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0539-242X	Investigaciones y Ensayos	none	no_apc			
 0539-6115	Boletín Médico del Hospital Infantil de México	discount	no_apc			
 0540-0074	Migration	none	unknown			
+0541-475X	Muzealnictwo Wojskowe	none	no_apc			
 0542-1748	The Egyptian Statistical Journal/The Egyptian Statistical Journal	none	no_apc			
 0543-0798	Gradjevinski materijali i konstrukcije	none	no_apc			
 0543-1972	Measurement Techniques	none	unknown			
@@ -11011,6 +11025,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0718-946X	Cuaderno de Trabajo Social	none	no_apc			
 0718-9508	Journal of soil science and plant nutrition	covered	covered			
 0718-9575	Investigaciones Geográficas	none	no_apc			
+0718-9656	Revista Enfoques: Ciencia Política y Administración Pública	none	no_apc			
 0719-0093	Revista Chilena de Derecho del Trabajo y de la Seguridad Social	none	unknown			
 0719-0417	Revista Punto Género	none	no_apc			
 0719-0573	Revista de Geografía Espacios	none	unknown			
@@ -11677,6 +11692,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0769-2609	Research in Microbiology	none	list_price	3510	USD	
 0769-2617	Annales de l Institut Pasteur Virologie	none	unknown			
 0769-2625	Annales de l Institut Pasteur Immunologie	none	unknown			
+0769-3362	Droit et société	none	unknown			
 0769-489X	Annales d Économie et de Statistique	none	unknown			
 0770-2817	L'Antiquité Classique	none	unknown			
 0770-3198	Clinical Rheumatology	covered	covered			
@@ -12110,7 +12126,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0873-626X	Disputatio	none	no_apc			
 0873-6529	Sociologia Problemas e Práticas	none	no_apc			
 0873-6561	Etnografica	none	no_apc			
-0873-7347	Dos Algarves	none	no_apc			
+0873-7347	Dos Algarves	none	unknown			
 0873-8904	Pensar Enfermagem - Revista Científica | Journal of Nursing	none	list_price	150	EUR	
 0873-9129	Revista Portuguesa de Psicanálise	none	no_apc			
 0873-9749	acta ethologica	covered	covered			
@@ -12806,7 +12822,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0899-9457	International Journal of Imaging Systems and Technology	covered	covered			
 0899-9546	AIDS Education and Prevention	none	unknown			
 0900-9671	MedieKultur Journal of media and communication research	none	no_apc			
-0901-3393	Scandinavian journal of laboratory animal science	none	unknown			
+0901-3393	Scandinavian journal of laboratory animal science	discount	discount_unknown_base			
 0901-5027	International Journal of Oral and Maxillofacial Surgery	covered	covered			
 0901-8328	Scandinavian Journal of the Old Testament	covered	covered			
 0901-9928	Pharmacology & Toxicology	none	unknown			
@@ -13570,6 +13586,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0949-2984	Finance and Stochastics	covered	covered			
 0949-328X	Sports Orthopaedics and Traumatology	covered	covered			
 0949-3964	Experimental Psychology (formerly Zeitschrift für Experimentelle Psychologie)	discount	discount_unknown_base			
+0949-5460	Angewandte Botanik	none	list_price	400	EUR	
 0949-5770	Microform and Imaging Review	none	unknown			
 0949-7013	Das Gesundheitswesen. Sup./Das Gesundheitswesen. Sonderheft	none	unknown			
 0949-7323	PRO CARE	covered	covered			
@@ -14567,7 +14584,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0973-7154	Journal of Stem Cells and Regenerative Medicine	none	list_price	380	USD	
 0973-7200	Journal of Pharmaceutical Research	none	no_apc			
 0973-7316	Journal of Oral Health and Community Dentistry	none	unknown			
-0973-7510	Journal of Pure and Applied Microbiology	none	list_price	500	USD	
+0973-7510	Journal of Pure and Applied Microbiology	none	list_price	750	USD	
 0973-7766	Collnet Journal of Scientometrics and Information Management	none	unknown			
 0973-7898	Contemporary Perspectives	none	unknown			
 0973-8258	International Journal of Green Pharmacy	none	unknown			
@@ -15502,6 +15519,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1028-415X	Nutritional Neuroscience	covered	covered			
 1028-4427	Genij Ortopedii	none	no_apc			
 1028-4559	Taiwanese Journal of Obstetrics and Gynecology	discount	no_apc			
+1028-4818	Multimed	none	no_apc			
 1028-6020	Journal of Asian Natural Products Research	covered	covered			
 1028-6055	Journal of Guilan University of Medical Sciences	none	no_apc			
 1028-6276	Iranian Journal of Science and Technology Transactions A Science	none	list_price	2990	USD	
@@ -15524,6 +15542,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1029-1857	Ethiopian Journal of Health Sciences	none	no_apc			
 1029-1954	South African Journal of Accounting Research	covered	covered			
 1029-2470	Free Radical Research	covered	covered			
+1029-3019	MEDISAN	none	no_apc			
 1029-3027	Revista electrónica "Dr. Zoilo E. Marinello Vidaurreta"	none	no_apc			
 1029-3043	Medicentro Electrónica	none	no_apc			
 1029-3132	Asia Pacific Management Review	none	list_price	2000	USD	
@@ -17453,7 +17472,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1110-0931	Bulletin of Faculty of Pharmacy Cairo University	none	no_apc			
 1110-0974	Bulletin of the National Nutrition Institute of the Arab Republic of Egypt	none	list_price	750	USD	
 1110-1083	The Egyptian Journal of Neurology Psychiatry and Neurosurgery	discount	no_apc			
-1110-1148	The Egyptian Orthopaedic Journal	none	unknown			
+1110-1148	The Egyptian Orthopaedic Journal	none	list_price	5000	EGP	
 1110-1156	Al-Mağallah Al-Miṣriyyaẗ Lil Sukān wa Tanẓīm Al-Ausraẗ	none	no_apc			
 1110-1164	The Egyptian Rheumatologist	covered	covered			
 1110-1377	المجلة العلمية لکلية التجارة (أسيوط)	none	list_price	300	USD	
@@ -17579,6 +17598,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1120-9992	Basic and applied myology	none	no_apc			
 1121-1148	SOCIOLOGIA E RICERCA SOCIALE	none	unknown			
 1121-189X	Epidemiologia e Psichiatria Sociale	none	unknown			
+1121-2233	Journal of preventive medicine and hygiene	none	unknown			
 1121-2306	Quaderni di Studi Arabi	covered	covered			
 1121-2845	MINORIGIUSTIZIA	none	unknown			
 1121-3086	Urogynaecologia	none	no_apc			
@@ -18121,6 +18141,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1195-2199	Plastic Surgery	covered	covered			
 1195-5449	Conservation Ecology	none	unknown			
 1195-6860	Ecoscience	covered	covered			
+1195-9479	Canadian Journal of Urology	none	list_price	1600	USD	
 1196-1198	Theatre Research in Canada	none	unknown			
 1196-1961	Canadian Journal of Experimental Psychology/Revue canadienne de psychologie expérimentale	covered	covered_conditional			
 1198-0052	Current Oncology	none	list_price	2200	CHF	
@@ -18170,6 +18191,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1211-4669	Pedagogická orientace	none	no_apc			
 1211-555X	Scientific Papers of the University of Pardubice. Series D, Faculty of Economics and Administration	none	list_price	200	EUR	
 1211-6521	Tělesná kultura	none	no_apc			
+1211-7250	Přehled výzkumů	none	no_apc			
 1211-7390	Opuscula historiae artium	none	no_apc			
 1211-7676	Opera Slavica	none	no_apc			
 1211-9520	Folia Geobotanica	covered	covered			
@@ -18691,7 +18713,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1300-686X	Mathematical and Computational Applications	none	list_price	1400	CHF	
 1300-7041	European Journal of Biology	none	no_apc			
 1300-7416	SDÜ Tıp Fakültesi Dergisi	none	no_apc			
-1300-7432	Turkish International Journal of Special Education and Guidance & Counselling (TIJSEG) ISSN: 1300-7432	none	no_apc			
+1300-7432	Turkish International Journal of Special Education and Guidance & Counselling (TIJSEG)	none	no_apc			
 1300-7475	The Turkish Journal of Ear Nose and Throat	none	no_apc			
 1300-7491	Uluslararasi Kibris Universitesi Fen-Edebiyat Fakultesi	none	list_price	50	EUR	
 1300-7580	Tarım Bilimleri Dergisi	none	list_price	100	USD	
@@ -18839,6 +18861,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1309-4289	Kafkas Üniversitesi İktisadi ve İdari Bilimler Fakültesi Dergisi	none	no_apc			
 1309-4688	History Studies	none	list_price	500	USD	
 1309-470X	Acibadem Universitesi Saglik Bilimleri Dergisi	none	unknown			
+1309-4726	Karadeniz Fen Bilimleri Dergisi	none	no_apc			
 1309-517X	Contemporary Educational Technology	none	unknown			
 1309-5471	Journal of Anatolia Nursing and Health Sciences	none	no_apc			
 1309-6087	MUKADDİME	none	no_apc			
@@ -18889,6 +18912,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1314-4464	Rhetoric and Communications	none	no_apc			
 1314-5088	Българско е-Списание за Археология	none	no_apc			
 1314-6033	Lyuboslovie	none	no_apc			
+1314-6238	Journal of BioScience and Biotechnology	none	no_apc			
 1314-684X	BIOMATH	none	no_apc			
 1314-7374	Quanta	none	no_apc			
 1314-7471	Journal of Chemical Technology and Metallurgy	none	unknown			
@@ -18899,6 +18923,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1315-9984	Revista Venezolana de Gerencia	none	no_apc			
 1316-0087	Investigación y Postgrado	none	no_apc			
 1316-0354	Agroalimentaria	none	no_apc			
+1316-0923	Revista Psicología	none	no_apc			
 1316-2284	Boletín de entomología venezolana	none	unknown			
 1316-3361	Bioagro	none	no_apc			
 1316-6212	Revista EDUCARE - UPEL-IPB - Segunda Nueva Etapa 2 0	none	no_apc			
@@ -20133,7 +20158,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1390-6631	Letras Verdes Revista Latinoamericana de Estudios Socioambientales	none	no_apc			
 1390-6674	Economía y Negocios	none	no_apc			
 1390-6712	MASKAY	none	no_apc			
-1390-6895	La Técnica Revista de las Agrociencias ISSN 2477-8982	none	no_apc			
+1390-6895	La Técnica Revista de las Agrociencias	none	no_apc			
 1390-695X	Textos y Contextos	none	no_apc			
 1390-6976	Revista de Investigación Enlace Universitario	none	no_apc			
 1390-7042	FIGEMPA Investigación y Desarrollo	none	no_apc			
@@ -20150,7 +20175,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1390-8448	Tsantsa Revista de Investigaciones artísticas	none	no_apc			
 1390-8545	Revista Científica UISRAEL	none	no_apc			
 1390-8928	Siembra	none	no_apc			
-1390-9010	REFCalE: Revista Electrónica Formación y Calidad Educativa. ISSN 1390-9010	none	unknown			
+1390-9010	REFCalE: Revista Electrónica Formación y Calidad Educativa	none	unknown			
 1390-9134	Latin-American Journal of Computing	none	no_apc			
 1390-9193	Mundos Plurales - Revista Latinoamericana de Políticas y Acción Pública	none	no_apc			
 1390-9223	ECUADOR ES CALIDAD - Revista Científica Ecuatoriana	none	no_apc			
@@ -20441,7 +20466,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1412-0909	Jurnal Ushuluddin	none	no_apc			
 1412-0925	Buletin Udayana Mengabdi	none	list_price	35	USD	
 1412-1026	Jurnal Kedokteran Syiah Kuala	none	list_price	600000	IDR	
-1412-1107	JFIOnline | Print ISSN 1412-1107 | e-ISSN 2355-696X	none	unknown			
+1412-1107	JFIOnline	none	unknown			
 1412-1131	EFISIENSI - KAJIAN ILMU ADMINISTRASI	none	list_price	200000	IDR	
 1412-114X	Logic Jurnal Rancang Bangun dan Teknologi	none	no_apc			
 1412-1212	The Winners	none	list_price	2000000	IDR	
@@ -21735,6 +21760,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1477-5956	Proteome Science	none	list_price	2590	USD	
 1477-6545	International Journal of Low Radiation	none	unknown			
 1477-6804	Clinical Radiology Extra	none	unknown			
+1477-7029	The Electronic Journal of Business Research Methods	none	unknown			
 1477-7266	Journal of Health Organization and Management	none	unknown			
 1477-7274	Clinical Governance An International Journal	none	unknown			
 1477-7282	Development in Learning Organizations An International Journal	none	unknown			
@@ -22140,6 +22166,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1518-9740	Fisioterapia Brasil	none	unknown			
 1518-9929	Revista ADM.MADE/Adm.MADE	none	no_apc			
 1519-0501	Pesquisa Brasileira em Odontopediatria e Clínica Integrada	none	list_price	130	USD	
+1519-0544	Contexto - Revista do Programa de Pós-Graduação em Letras da UFES	none	no_apc			
 1519-0994	Interfaces Brasil/Canadá	none	no_apc			
 1519-1265	Terra Brasilis	none	no_apc			
 1519-1397	Phyllomedusa Journal of Herpetology	none	no_apc			
@@ -23280,6 +23307,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1555-9475	Natural Product Communications	covered	covered			
 1555-9998	Rhizomes Cultural Studies in Emerging Knowledge	none	no_apc			
 1556-0864	Journal of Thoracic Oncology	covered	covered			
+1556-1542	The grounded theory review	none	no_apc			
 1556-1607	International Journal of Computer-Supported Collaborative Learning	covered	covered			
 1556-1623	Metacognition and Learning	covered	covered			
 1556-1828	The Journal of Island and Coastal Archaeology	covered	covered			
@@ -23831,6 +23859,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1576-9895	Revista de Fomento Social	none	unknown			
 1577-0338	Pulso Revista de educación	none	no_apc			
 1577-1172	Periferica	none	no_apc			
+1577-3388	Iberoamericana. América Latina, España, Portugal: Ensayos sobre letras, historia y sociedad. Notas. Reseñas iberoamericanas	none	no_apc			
 1577-3442	América sin nombre	none	no_apc			
 1577-3566	Seminarios de la Fundación Española de Reumatología	none	unknown			
 1577-4147	PUBLICACIONES	none	no_apc			
@@ -24194,7 +24223,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1612-2011	Laser Physics Letters	covered	covered			
 1612-295X	Intercultural Pragmatics	covered	covered			
 1612-3093	ERA Forum	covered	covered			
-1612-3174	German medical science	none	no_apc			
+1612-3174	German medical science	none	list_price	500	EUR	
 1612-3727	PharmacoEconomics German Research Articles	none	unknown			
 1612-4669	European Journal of Forest Research	covered	covered			
 1612-4782	Cognitive Processing	covered	covered			
@@ -25131,7 +25160,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1683-2981	Endodontics Today	none	no_apc			
 1683-3562	Journal of Rawalpindi Medical College	none	list_price	35	USD	
 1683-3589	Basrah Journal of Surgery	none	list_price	75000	IQD	
-1683-3597	Iraqi Journal of Pharmaceutical Sciences ( P-ISSN 1683 - 3597 E-ISSN 2521 - 3512)	none	list_price	200	USD	
+1683-3597	Iraqi Journal of Pharmaceutical Sciences	none	list_price	200	USD	
 1683-478X	Asian Anthropology	covered	covered			
 1683-6065	Litiyo i Metallurgiya (FOUNDRY PRODUCTION AND METALLURGY)	none	no_apc			
 1683-7584	SA Journal of Human Resource Management	none	list_price	18014	ZAR	
@@ -25618,7 +25647,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1728-2985	Urologiia	none	unknown			
 1728-2993	Tuberculosis and lung diseases	none	no_apc			
 1728-3817	Bulletin of Taras Shevchenko National University of Kyiv Series “Psychology”	none	no_apc			
-1728-4236	Вісник Житомирського державного технологічного університету. Серія: Економічні науки // THE JOURNAL OF ZHYTOMYR STATE TECHNOLOGICAL UNIVERSITY. SERIES: ECONOMICS	none	list_price	40	UAH	
+1728-4236	Вісник Житомирського державного технологічного університету. Серія: Економічні науки // THE JOURNAL OF ZHYTOMYR STATE TECHNOLOGICAL UNIVERSITY. SERIES: ECONOMICS	none	unknown			
 1728-4414	Vienna Yearbook of Population Research	none	no_apc			
 1728-502X	Pensamiento Crítico	none	no_apc			
 1728-6115	Archivos del Hospital Universitario "General Calixto García"	none	no_apc			
@@ -25805,11 +25834,13 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1735-9791	Pizhūhish/hā-yi falsafī- kalāmī.	none	list_price	20	USD	
 1736-2563	Eesti Rakenduslingvistika Ühingu aastaraamat Estonian Papers in Applied Linguistics	none	no_apc			
 1736-3705	Proceedings of the ... biennial Baltic Electronics Conference	none	unknown			
+1736-5597	Eesti majanduspoliitilised väitlused/Eesti majanduspoliitilised väitlused	none	no_apc			
 1736-5899	Studia Philosophica Estonica	none	no_apc			
 1736-6046	Proceedings of the Estonian Academy of Sciences	none	list_price	800	EUR	
 1736-6518	Journal of Ethnology and Folkloristics	none	no_apc			
 1736-6852	Methis Studia humaniora Estonica	none	no_apc			
 1736-7085	Studies for the Learning Society	none	unknown			
+1736-874X	Studies of transition states and societies	none	no_apc			
 1736-8987	Eesti ja soome-ugri keeleteaduse ajakiri Journal of Estonian and Finno-Ugric Linguistics	none	no_apc			
 1736-9290	Lähivõrdlusi Lähivertailuja	none	no_apc			
 1737-5436	Tunisian Journal of Plant Protection	none	no_apc			
@@ -27134,7 +27165,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1808-1967	Patrimônio e memória	none	no_apc			
 1808-2432	Revista Direito GV	none	no_apc			
 1808-2599	E-Compós	none	no_apc			
-1808-2653	Revista Eletrônica da Associação dos Geógrafos Brasileiros Seção Três Lagoas - (ISSN 1808-2653)	none	no_apc			
+1808-2653	Revista Eletrônica da Associação dos Geógrafos Brasileiros Seção Três Lagoas	none	no_apc			
 1808-270X	Revista Educação Especial	none	no_apc			
 1808-2793	Scientia Plena	none	list_price	200	BRL	
 1808-3102	Cadernos de Ciências Sociais Aplicadas	none	no_apc			
@@ -27236,7 +27267,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1812-2892	Journal of Clinical Medicine of Kazakhstan	none	list_price	500	USD	
 1812-4461	Journal of the European Pentecostal Theological Association	none	unknown			
 1812-5379	Journal of Agronomy	none	unknown			
-1812-5409	Bulletin of Taras Shevchenko National University of Kyiv Series Physics and Mathematics	none	list_price	200	EUR	
+1812-5409	Bulletin of Taras Shevchenko National University of Kyiv Series Physics and Mathematics	none	no_apc			
 1812-5638	Information Technology Journal	none	unknown			
 1812-5654	Journal of Applied Sciences	none	unknown			
 1812-6049	Campus	none	no_apc			
@@ -30240,7 +30271,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1994-0947	Al-Ghary Journal of Economic and Administrative Sciences	none	list_price	100000	IQD	
 1994-1420	Investigación Valdizana	none	no_apc			
 1994-1617	Autism and Developmental Disorders	none	no_apc			
-1994-1749	Проблеми теорії та методології бухгалтерського обліку, контролю і аналізу	none	list_price	1500	UAH	
+1994-1749	Проблеми теорії та методології бухгалтерського обліку, контролю і аналізу	none	unknown			
 1994-2060	Engineering Applications of Computational Fluid Mechanics	covered	covered			
 1994-2400	Вопросы ономастики	none	no_apc			
 1994-2443	Information and Innovations	none	no_apc			
@@ -30583,7 +30614,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2008-4331	فصلنامه روان شناسی کاربردی	none	list_price	6000000	IRR	
 2008-4528	فصلنامه پژوهش‌های مدیریت منابع انسانی	none	no_apc			
 2008-4560	علوم و فناوری فضایی	none	no_apc			
-2008-4595	Iranian Journal of Blood and Cancer	none	no_apc			
+2008-4595	Iranian Journal of Blood and Cancer	none	list_price	300	USD	
 2008-4633	Addiction and Health	none	no_apc			
 2008-4641	Muṭāli̒āt-i miyān/rishtah/ī dar ̒ulūm-i insānī.	none	no_apc			
 2008-4749	Majallah-i ḥifāẓat-i giyāhān	none	list_price	1000000	IRR	
@@ -31177,7 +31208,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2042-5945	World Journal of Science Technology and Sustainable Development	none	unknown			
 2042-5961	World Journal of Entrepreneurship Management and Sustainable Development	none	unknown			
 2042-6046	Nature Middle East	none	unknown			
-2042-6305	Journal of Comparative Effectiveness Research	none	list_price	3500	USD	
+2042-6305	Journal of Comparative Effectiveness Research	none	list_price	3900	USD	
 2042-6372	International Journal of Medical Education	none	unknown			
 2042-6402	Journal on European history of law	none	no_apc			
 2042-6410	Biology of Sex Differences	discount	discount	2116	GBP	
@@ -31958,6 +31989,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2062-0810	International Review of Applied Sciences and Engineering	none	list_price	1100	EUR	
 2062-1655	Modern Geográfia	none	no_apc			
 2062-249X	Journal of Flow Chemistry	covered	covered			
+2062-3682	Magyar Gerontológia	none	no_apc			
 2062-509X	European Journal of Microbiology and Immunology	none	unknown			
 2062-5871	Journal of Behavioral Addictions	none	list_price	1400	EUR	
 2062-9494	Belügyi Szemle	none	no_apc			
@@ -32103,7 +32135,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2071-5528	Kufa Journal of Engineering	none	list_price	350000	IQD	
 2071-6028	Anbar university Journal for Islamic Sciences	none	list_price	125	USD	
 2071-6346	LiTheS. Zeitschrift für Literatur- und Theatersoziologie	none	no_apc			
-2071-7024	Journal of Animal and Plant Sciences (J Anim Plant Sci ) ISSN 2071 – 7024	none	unknown			
+2071-7024	Journal of Animal and Plant Sciences (J Anim Plant Sci )	none	unknown			
 2071-7245	Les Cahiers d Afrique de lEst	none	no_apc			
 2071-7296	The Russian Automobile and Highway Industry Journal	none	no_apc			
 2071-7318	Bulletin of Belgorod State Technological University named after V G Shukhov	none	unknown			
@@ -32162,7 +32194,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2072-9367	Modern medical technology	none	no_apc			
 2072-9812	Proceedings of the International Geometry Center	none	no_apc			
 2073-039X	Economic Analysis Theory and Practice	none	unknown			
-2073-0438	Journal of Corporate Finance Research / Корпоративные Финансы | ISSN 2073-0438	none	no_apc			
+2073-0438	Journal of Corporate Finance Research / Корпоративные Финансы	none	no_apc			
 2073-073X	Momona Ethiopian Journal of Science	none	no_apc			
 2073-0861	Theoretical and experimental psychology	none	no_apc			
 2073-1019	Journal of the Ural State University of Economics	none	no_apc			
@@ -32337,6 +32369,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2077-1886	Journal of Economics Finance and Administrative Science	none	no_apc			
 2077-2084	VESTNIK RIAZANSKOGO GOSUDARSTVENNOGO AGROTEHNOLOGICHESKOGO UNIVERSITETA IM P A KOSTYCHEVA	none	unknown			
 2077-2815	Inkanyiso	none	list_price	14260	ZAR	
+2077-2874	EDUMECENTRO	none	no_apc			
 2077-2955	Transformación	none	no_apc			
 2077-3099	Journal of Space Technology	none	no_apc			
 2077-3412	Aula y Ciencia	none	no_apc			
@@ -34165,7 +34198,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2176-7955	Revista Linguagem em Foco	none	no_apc			
 2176-8501	Revista Conhecimento Online	none	no_apc			
 2176-8943	Mosaico	none	no_apc			
-2176-9036	REVISTA AMBIENTE CONTÁBIL - Universidade Federal do Rio Grande do Norte - ISSN 2176-9036	none	no_apc			
+2176-9036	REVISTA AMBIENTE CONTÁBIL - Universidade Federal do Rio Grande do Norte	none	no_apc			
 2176-9451	Dental Press Journal of Orthodontics	none	no_apc			
 2176-9559	ENTRE-LUGAR	none	no_apc			
 2177-0026	Direito e Desenvolvimento	none	no_apc			
@@ -34294,7 +34327,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2185-3762	Studies in Self-Access Learning Journal	none	no_apc			
 2185-4092	Nihon Te Geka Gakkai zasshi	none	unknown			
 2185-4106	Nonlinear Theory and Its Applications IEICE	none	list_price	68095	JPY	
-2185-5560	Asian Transport Studies	discount	no_apc			
+2185-5560	Asian Transport Studies	discount	discount	1020	USD	
 2185-6486	Medical Mycology Journal	none	unknown			
 2185-6559	Journal of Japan Society of Civil Engineers Ser E1 (Pavement Engineering)	none	unknown			
 2185-761X	APN Science Bulletin	none	no_apc			
@@ -34824,7 +34857,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2207-4791	Australian Journal of Clinical Education	none	no_apc			
 2207-7715	Global Bioethics Enquiry Journal	none	no_apc			
 2207-9963	ADVANCES IN GEO-ENERGY RESEARCH	none	unknown			
-2208-2352	Journal of Advance Research in Applied Science (ISSN 2208-2352)	none	unknown			
+2208-2352	Journal of Advance Research in Applied Science	none	unknown			
 2208-794X	Australian Journal of General Practice	none	unknown			
 2208-8482	Australian Population Studies	none	no_apc			
 2208-9810	International Journal of Bio-Science and Bio-Technology	none	unknown			
@@ -35799,6 +35832,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2240-5429	Tintas. Quaderni di letterature iberiche e iberoamericane	none	no_apc			
 2240-7251	Intrecci d'arte	none	no_apc			
 2240-7456	Revue italienne d’études françaises	none	no_apc			
+2240-7715	Humanities	none	no_apc			
 2240-7944	Gli Spazi della Musica	none	no_apc			
 2240-9599	Lebenswelt Aesthetics and philosophy of experience	none	no_apc			
 2241-4754	International Journal of Economics and Business Administration	none	unknown			
@@ -36298,6 +36332,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2282-4979	E-Review Rivista degli Istituti Storici dell Emilia-Romagna in Rete	none	no_apc			
 2282-717X	Journal of Financial Management Markets and Institutions	none	no_apc			
 2282-7447	Carte Romanze Rivista di Filologia e Linguistica Romanze dalle Origini al Rinascimento	none	no_apc			
+2282-7757	Science & philosophy	none	list_price	50	EUR	
 2283-5539	Kaiak	none	no_apc			
 2283-558X	Materiali di Estetica Terza serie	none	no_apc			
 2283-5628	Lingue culture mediazioni	none	unknown			
@@ -36394,6 +36429,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2289-7216	International Journal of Humanities Technology and Civilization	none	no_apc			
 2289-7232	Jurnal tribologi	none	no_apc			
 2289-7771	Journal of Applied Science & Process Engineering	none	no_apc			
+2289-7879	Journal of Advanced Research in Fluid Mechanics and Thermal Sciences	none	unknown			
 2291-0026	CMAJ Open	none	unknown			
 2291-1367	SURG Journal	none	unknown			
 2291-1847	Genocide Studies International	none	unknown			
@@ -36567,7 +36603,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2300-3669	Change and Adaptation in Socio-Ecological Systems	none	unknown			
 2300-3839	Textus et Studia	none	no_apc			
 2300-3936	Studia Prawa Publicznego	none	no_apc			
-2300-3960	Journal of Sustainable Mining	none	no_apc			
+2300-3960	Journal of Sustainable Mining	none	list_price	400	EUR	
 2300-4258	Non-coding RNAs in Endocrinology	none	unknown			
 2300-4266	Endoplasmic Reticulum Stress in Diseases	none	unknown			
 2300-4606	Biomonitoring	none	unknown			
@@ -36885,7 +36921,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2308-6645	The National Transport University Bulletin	none	no_apc			
 2308-6912	ACTUAL PROBLEMS OF INTERNATIONAL RELATIONS	none	no_apc			
 2308-829X	Nauka Kultura Obshestvo	none	no_apc			
-2308-8303	Journal of organic and pharmaceutical chemistry	none	list_price	1200	UAH	
+2308-8303	Journal of organic and pharmaceutical chemistry	none	no_apc			
 2308-944X	Review of Business and Economics Studies	none	no_apc			
 2309-107X	Sinusitis	none	list_price	1000	CHF	
 2309-1428	Musical Art and Education	none	list_price	3000	RUB	
@@ -37154,6 +37190,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2316-7580	Cadernos de Naturologia e Terapias Complementares	none	no_apc			
 2316-8072	Revista UNEMAT de Contabilidade	none	no_apc			
 2316-8323	Monções Revista de Relações Internacionais da UFGD	none	no_apc			
+2316-8374	Civilistica.com	none	no_apc			
 2316-8498	Revista Educação em Saúde/Revista Educação em Saúde Unievangélica	none	no_apc			
 2316-8544	Ensaios de Geografia	none	no_apc			
 2316-9230	Rebeca - Revista Brasileira de Estudos de Cinema e Audiovisual	none	no_apc			
@@ -37266,7 +37303,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2321-0656	Journal of Social Health and Diabetes	none	unknown			
 2321-1407	APOS Trends in Orthodontics	none	unknown			
 2321-1482	Dental Journal of Advance Studies	none	list_price	200	USD	
-2321-1563	Journal of Ayurveda and Holistic medicine.	none	list_price	400	USD	
+2321-1563	Journal of Ayurveda and Holistic Medicine	none	list_price	400	USD	
 2321-2217	Journal of Pharmaceutical Technology Research and Management	none	unknown			
 2321-3418	International Journal of Scientific Research and Management (IJSRM)	none	unknown			
 2321-354X	The Journal of Medical Sciences	none	no_apc			
@@ -37812,6 +37849,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2342-7205	CURRENT TRENDS IN TRANSLATION TEACHING AND LEARNING E	none	no_apc			
 2343-0591	TRACE ∴ Journal for Human-Animal Studies	none	no_apc			
 2343-6131	Encuentros	none	no_apc			
+2343-6158	Mayeutica/Mayéutica. Revista Científica de Humanidades y Artes	none	no_apc			
 2343-8894	Acta Universitatis Sapientiae Economics and Business	none	no_apc			
 2343-9785	REVISTA ROMÂNĂ DE CONCURENȚĂ	none	no_apc			
 2344-1232	Computational Methods in Social Sciences	none	no_apc			
@@ -38271,7 +38309,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2356-8321	مجلة البحث العلمي في الآداب	none	list_price	5000	EGP	
 2356-8348	مجلة البحث العلمى فى التربية	none	list_price	255	USD	
 2356-8364	Journal of Scientific Research in Science /Journal of Scientific Research in Science	none	list_price	1500	EGP	
-2356-8380	Archives of Pharmaceutical Sciences Ain Shams University	none	list_price	200	USD	
+2356-8380	Archives of Pharmaceutical Sciences Ain Shams University	none	list_price	250	USD	
 2356-8518	Renewable Energy and Sustainable Development	none	list_price	300	USD	
 2356-8658	Port Said Scientific Journal of Nursing	none	list_price	200	USD	
 2356-8690	مجلة دراسات وبحوث التربية النوعية	none	list_price	160	USD	
@@ -38440,6 +38478,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2365-0931	European Journal for Security Research	covered	covered			
 2365-1083	Rechtspsychologie	none	unknown			
 2365-1792	Journal of Human Rights and Social Work	covered	covered			
+2365-2225	INDIANA - Estudios Antropológicos sobre América Latina y el Caribe	none	no_apc			
 2365-2411	Pharmaceutical Technology in Hospital Pharmacy	none	list_price	1650	EUR	
 2365-3159	Journal of Building Pathology and Rehabilitation	covered	covered			
 2365-421X	EJNMMI Radiopharmacy and Chemistry	discount	discount	1352	GBP	
@@ -38518,7 +38557,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2368-6669	Quality Advancement in Nursing Education - Avancées en formation infirmière	none	no_apc			
 2368-738X	Health Promotion and Chronic Disease Prevention in Canada	none	no_apc			
 2368-7398	Promotion de la santé et prévention des maladies chroniques au Canada	none	no_apc			
-2368-7460	Arctic Science	none	list_price	2250	USD	
+2368-7460	Arctic Science	none	list_price	2396	USD	
 2368-7924	Journal of Military Veteran and Family Health	none	unknown			
 2368-7959	JMIR Mental Health	covered	covered			
 2368-9587	Communiquer Revue de communication sociale et publique	none	no_apc			
@@ -38827,6 +38866,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2383-2568	International Archives of Health Sciences	none	list_price	200	USD	
 2383-2819	Vaccine Research	none	no_apc			
 2383-2916	حکمت اسرا	none	no_apc			
+2383-3033	Salāmat-i ijtimā̒ī	none	list_price	80	USD	
 2383-3106	Caspian Journal of Pediatrics	none	no_apc			
 2383-3130	Control  and Optimization in Applied Mathematics	none	no_apc			
 2383-319X	Journal of nuts	none	list_price	3500000	IRR	
@@ -38861,6 +38901,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2384-9568	Cultura e Scienza del Colore	none	no_apc			
 2385-1635	English Literature	none	no_apc			
 2385-1945	Philosophy Kitchen	none	no_apc			
+2385-216X	Rosmini Studies	none	no_apc			
 2385-2526	ASIA MAIOR The Journal of the Italian think tank on Asia founded by Giorgio Borsa in 1989	none	no_apc			
 2385-4138	Isogloss Open Journal of Romance Linguistics	none	no_apc			
 2385-5355	Dante e l Arte	none	no_apc			
@@ -39250,6 +39291,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2407-9677	Athens Journal of History	none	no_apc			
 2408-1884	International Scholastic Journal of Science	none	no_apc			
 2408-3755	Recoletos Multidisciplinary Research Journal	none	no_apc			
+2408-400X	Cuadernos de economía crítica	none	no_apc			
 2408-445X	ODISEA Revista de Estudios Migratorios	none	no_apc			
 2408-462X	Artilugio	none	no_apc			
 2408-4751	Ixtli Revista Latinoamericana de Filosofía de la Educación	none	no_apc			
@@ -39258,7 +39300,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2408-9192	S I M O N Shoah Intervention Methods Documentation	none	no_apc			
 2408-9303	Accounting Analysis Auditing	none	no_apc			
 2409-0026	EAI Endorsed Transactions on Context-aware Systems and Applications	none	no_apc			
-2409-0131	Revista Órbita Pedagógica. ISSN 2409-0131	none	no_apc			
+2409-0131	Revista Órbita Pedagógica	none	no_apc			
 2409-0255	Ukrainian Dental Almanac	none	list_price	2500	UAH	
 2409-0603	Research in Agriculture Livestock and Fisheries	none	list_price	100	USD	
 2409-0867	مجلة بيت المشورة	none	no_apc			
@@ -39624,7 +39666,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2442-6563	Jurnal Ekonomi dan Bisnis Islam (Journal of Islamic Economics and Business)	none	no_apc			
 2442-6571	International Journal of Advances in Intelligent Informatics	none	list_price	200	USD	
 2442-6954	BHUMI Jurnal Agraria dan Pertanahan	none	no_apc			
-2442-6962	Jurnal Ilmu Sosial dan Ilmu Politik (JISIP)	none	list_price	1000000	IDR	
+2442-6962	Jurnal Ilmu Sosial dan Ilmu Politik (JISIP)	none	list_price	450000	IDR	
 2442-6997	FITRAH Jurnal Kajian Ilmu-ilmu Keislaman	none	no_apc			
 2442-7241	Jurnal Idea Hukum	none	list_price	200	IDR	
 2442-7284	Jurnal Farmasi Galenika (Galenika Journal of Pharmacy) (e-Journal)	none	list_price	500000	IDR	
@@ -39771,7 +39813,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2448-7155	Huellas de la Migración	none	no_apc			
 2448-7325	Sobre México Temas de Economía	none	no_apc			
 2448-7759	Chihuahua HOY	none	no_apc			
-2448-7767	Revista Salud y Bienestar social [ISSN 2448-7767]	none	no_apc			
+2448-7767	Revista Salud y Bienestar social	none	no_apc			
 2448-7910	Revista Mexicana de Derecho Electoral	none	no_apc			
 2448-8119	Revista Digital Internacional de Psicología y Ciencia Social	none	no_apc			
 2448-864X	Interpretatio Revista de hermenéutica	none	no_apc			
@@ -39897,6 +39939,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2452-3038	Nuclear Energy and Technology	none	no_apc			
 2452-3062	Econometrics and Statistics	covered	covered			
 2452-3100	Current Opinion in Systems Biology	covered	covered			
+2452-316X	Agriculture and Natural Resources	none	unknown			
 2452-3186	Current Research in Translational Medicine	covered	covered			
 2452-3216	Procedia Structural Integrity	discount	discount_unknown_base			
 2452-3364	Journal of Oncological Sciences	discount	no_apc			
@@ -40763,6 +40806,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2514-4774	Journal of Capital Markets Studies	none	no_apc			
 2514-4820	Journal of Cognition	none	list_price	1150	EUR	
 2514-5339	Urban Transcripts	none	no_apc			
+2514-5347	PRISM: Casting New Light on Learning, Theory and Practice	none	no_apc			
 2514-569X	Incertitudes et fiabilité des systèmes multiphysiques	none	no_apc			
 2514-5789	Higher Education Evaluation and Development	none	no_apc			
 2514-6645	Future Healthcare Journal	none	no_apc			
@@ -41077,6 +41121,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2523-1219	Haematology Journal of Bangladesh	none	no_apc			
 2523-2614	Journal of Applied Economics and Business Studies	none	no_apc			
 2523-2894	Revista Kawsaypacha Sociedad y Medio Ambiente	none	no_apc			
+2523-2916	Pädagogische Horizonte	none	no_apc			
 2523-2924	Journal of Applied Engineering & Technology (JAET)	none	list_price	20000	PKR	
 2523-3246	Cybersecurity	discount	discount	901	GBP	
 2523-3556	Journal of Big Data Analytics in Transportation	none	list_price	2890	USD	
@@ -41104,6 +41149,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2523-9368	THE SKY-International Journal of Physical Education and Sports Sciences (IJPESS)	none	no_apc			
 2524-0072	Економіка та суспільство	none	list_price	40	USD	
 2524-048X	European Historical Studies	none	no_apc			
+2524-0684	Vestnik	none	list_price	50000	KZT	
 2524-0749	Kyiv Historical Studies	none	no_apc			
 2524-0994	Dorogi i mosti	none	no_apc			
 2524-101X	Lex Portus	none	no_apc			
@@ -41159,6 +41205,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2524-8782	ATZheavy duty	none	unknown			
 2524-9568	Administración Pública y Sociedad (APyS)	none	no_apc			
 2525-0159	Elektron	none	no_apc			
+2525-0396	Revista de Ingeniería Industrial y Mecánica	none	no_apc			
 2525-0469	Argumentos estudios transdisciplinarios sobre culturas jurídicas y administración de justicia	none	no_apc			
 2525-0841	Crítica y Resistencias	none	no_apc			
 2525-1112	Perspectivas Revista de Ciencias Sociales	none	no_apc			
@@ -41176,7 +41223,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2525-4332	Revista de Iniciação à Docência	none	no_apc			
 2525-4502	Sistema e-Revista CNJ	none	no_apc			
 2525-4715	ODEERE	none	no_apc			
-2525-4782	Revista Mundi Engenharia Tecnologia e Gestão (ISSN 2525-4782)	none	no_apc			
+2525-4782	Revista Mundi Engenharia Tecnologia e Gestão	none	no_apc			
 2525-4804	AGRI-ENVIRONMENTAL SCIENCES	none	list_price	20	BRL	
 2525-4863	Revista Brasileira de Educação do Campo	none	no_apc			
 2525-507X	Saberes Plurais Educação na Saúde	none	no_apc			
@@ -41191,7 +41238,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2525-7870	RELACult - Revista Latino-Americana de Estudos em Cultura e Sociedade	none	no_apc			
 2525-8036	Revista de Ciências do Estado	none	no_apc			
 2525-8176	Marketing & Tourism Review	none	no_apc			
-2525-8508	Revista Multidisciplinar Pey Këyo Científico - ISSN 2525-8508	none	no_apc			
+2525-8508	Revista Multidisciplinar Pey Këyo Científico	none	no_apc			
 2525-8540	Revista Expressão Católica Saúde	none	no_apc			
 2525-8761	Brazilian Journal of Development	none	unknown			
 2525-8923	ACTIO Docência em Ciências	none	no_apc			
@@ -41306,7 +41353,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2528-7567	Jurnal Living Hadis	none	no_apc			
 2528-7931	Bolentín de Coyuntura	none	no_apc			
 2528-7966	Ñawi	none	no_apc			
-2528-8075	RECUS Revista Electrónica Cooperación Universidad Sociedad ISSN 2528-8075	none	no_apc			
+2528-8075	RECUS Revista Electrónica Cooperación Universidad Sociedad	none	no_apc			
 2528-8083	Journal of Science and Research Revista Ciencia e Investigación	none	no_apc			
 2528-9519	İNİF E - Dergi	none	no_apc			
 2528-9640	Doğal Afetler ve Çevre Dergisi	none	no_apc			
@@ -41410,6 +41457,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2532-8549	Sinappsi	none	no_apc			
 2532-8816	Umanistica Digitale	none	no_apc			
 2532-9006	Italiano digitale	none	unknown			
+2533-2899	diségno	none	no_apc			
 2533-7564	Ergot	none	no_apc			
 2534-7535	Frontière·s	none	no_apc			
 2534-7683	Pratiques et formes littéraires	none	no_apc			
@@ -41917,6 +41965,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2563-0288	Journal of the Council for Research on Religion	none	no_apc			
 2563-190X	Critical Gambling Studies	none	no_apc			
 2563-1926	Mathematics in Applied Sciences and Engineering	none	no_apc			
+2563-3392	Matrix: A Journal for Matricultural Studies	none	no_apc			
 2563-3570	JMIR Bioinformatics and Biotechnology	covered	covered			
 2563-6308	Journal of L M Montgomery Studies	none	no_apc			
 2563-6316	JMIRx Med	covered	covered			
@@ -41930,7 +41979,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2563-9269	International Health Trends and Perspectives	none	no_apc			
 2564-1891	JMIR Infodemiology	covered	covered			
 2564-310X	International Journal on Homelessness	none	no_apc			
-2564-4939	Drone Systems and Applications	none	list_price	1500	USD	
+2564-4939	Drone Systems and Applications	none	list_price	1600	USD	
 2564-4947	Revue d’études autochtones	none	no_apc			
 2564-615X	The EuroBiotech Journal	none	no_apc			
 2564-6478	Milel ve nihal	none	no_apc			
@@ -42312,6 +42361,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2582-2160	International Journal For Multidisciplinary Research	none	unknown			
 2582-2926	Journal of Engineering Research and Reports	none	unknown			
 2582-3868	Digital Journal of Clinical Medicine	none	no_apc			
+2582-4155	Literary Druid	none	list_price	9000	INR	
 2582-4287	Journal of Health and Allied Sciences NU	none	unknown			
 2582-4988	Pediatric Infectious Disease	none	no_apc			
 2582-5542	World Journal of Biology Pharmacy and Health Sciences	none	unknown			
@@ -42415,8 +42465,8 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2588-0535	Research Results in Pharmacology	none	no_apc			
 2588-0551	Revista Ecuatoriana de Ciencia Tecnología e Innovación en Salud Pública	none	no_apc			
 2588-0578	Revista Cognosis	none	unknown			
-2588-0608	QhaliKay Revista de Ciencias de la Salud ISSN 2588-0608	none	no_apc			
-2588-0721	Revista de Investigaciones en Energía Medio Ambiente y Tecnología RIEMAT ISSN 2588-0721	none	no_apc			
+2588-0608	QhaliKay Revista de Ciencias de la Salud	none	no_apc			
+2588-0721	Revista de Investigaciones en Energía Medio Ambiente y Tecnología RIEMAT	none	no_apc			
 2588-0764	Revista Bases de la Ciencia	none	no_apc			
 2588-0829	INGENIO	none	no_apc			
 2588-0837	Revista de la Facultad de Jurisprudencia RFJ	none	no_apc			
@@ -42975,7 +43025,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2614-8404	JISA(Jurnal Informatika dan Sains)	none	list_price	300000	IDR	
 2614-8536	International Journal of Retina	none	no_apc			
 2614-8609	Jurnal Edutech Undiksha	none	list_price	2000000	IDR	
-2614-8757	CHEESA Chemical Engineering Research Articles	none	no_apc			
+2614-8757	CHEESA Chemical Engineering Research Articles	none	list_price	3500000	IDR	
 2614-8854	JIIP - Jurnal Ilmiah Ilmu Pendidikan	none	unknown			
 2615-0689	Jati Jurnal Akuntansi Terapan Indonesia	none	list_price	100	USD	
 2615-0859	International Journal of Global Community	none	no_apc			
@@ -43034,7 +43084,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2616-4426	NUST Journal of International Peace and Stability	none	no_apc			
 2616-4477	Peruvian Journal of Agronomy	none	no_apc			
 2616-454X	International Journal of Unani and Integrative Medicine	none	unknown			
-2616-4760	Journal of Advanced Biotechnology and Experimental Therapeutics	none	list_price	369	USD	
+2616-4760	Journal of Advanced Biotechnology and Experimental Therapeutics	none	list_price	469	USD	
 2616-4868	Clinical and Preventive Medicine	none	no_apc			
 2616-4930	Journal of Information Studies & Technology (JIS&T)	none	no_apc			
 2616-5155	Malaysian E Commerce Journal	none	no_apc			
@@ -43106,7 +43156,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2617-4839	Metáfora Revista de literatura y análisis	none	no_apc			
 2617-5045	Blue Nile Journal of Agricultural Research	none	no_apc			
 2617-5509	KPI Science News	none	no_apc			
-2617-5630	The Journal of Zhytomyr State Technological University Series Economics Management and Administration	none	no_apc			
+2617-5630	The Journal of Zhytomyr State Technological University Series Economics Management and Administration	none	unknown			
 2617-5770	SEISENSE Journal of Management	none	no_apc			
 2617-5894	مجلة جامعة القرآن الكريم والعلوم الاسلامية	none	list_price	100	USD	
 2617-5908	مجلة العلوم التربوية و الدراسات الإنسانية	none	list_price	200	USD	
@@ -43140,6 +43190,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2618-1274	Epistemological Studies in Philosophy Social and Political Sciences	none	list_price	1600	UAH	
 2618-1800	Utopías Segunda Epoca	none	no_apc			
 2618-1940	Nueva ReCIT	none	no_apc			
+2618-2254	Sendas	none	no_apc			
 2618-2483	Ciencia, tecnología y política/Ciencia, tecnología y política	none	no_apc			
 2618-2726	Heterotopías	none	no_apc			
 2618-2734	Ab Intus	none	no_apc			
@@ -43962,6 +44013,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2660-7964	Revista de Estudios Jurídicos y Criminológicos	none	no_apc			
 2660-8456	Sociología del Deporte	none	no_apc			
 2660-8529	Revista Española de Educación Médica	none	no_apc			
+2660-9037	Clío. Revista de Historia, Ciencias Humanas y Pensamiento Crítico.	none	no_apc			
 2660-9231	Cuadernos Constitucionales	none	no_apc			
 2661-264X	International Scientific Journal Monte	none	list_price	120	EUR	
 2661-3174	Fertility & Reproduction	none	no_apc			
@@ -44483,6 +44535,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2668-0416	Journal of Research and Innovation for Sustainable Society	none	list_price	50	EUR	
 2668-1544	Information and Communication Sciences Research	none	no_apc			
 2668-2303	Health Sports & Rehabilitation Medicine	none	no_apc			
+2668-2508	Journal of Educational Studies	none	no_apc			
 2668-3148	Acta Marisiensis Seria Oeconomica	none	unknown			
 2668-4217	Acta Marisiensis Seria Technologica	none	unknown			
 2668-4322	Central European Journal of Geography and Sustainable Development	none	no_apc			
@@ -44512,6 +44565,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2671-4922	Journal of Medicine and Life Science	none	no_apc			
 2671-8790	Korean Journal of Transplantation	none	no_apc			
 2672-3107	Philippine Social Science Journal	none	no_apc			
+2672-9199	Silpakorn Educational Research Journal	none	unknown			
 2672-9733	Journal of Humanities and Social Sciences Mahasarakham University	none	list_price	4000	THB	
 2673-1665	Microbial Physiology	none	list_price	930	EUR	
 2673-1738	Dubai Diabetes and Endocrinology Journal	none	no_apc			
@@ -44869,10 +44923,12 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2683-2275	Tlalli Revista de Investigación en Geografía	none	no_apc			
 2683-2321	Revista Lengua y Cultura	none	no_apc			
 2683-2674	Korpus 21	none	no_apc			
+2683-2771	Revista Ciencia e Innovación Agroalimentaria de la Universidad de Guanajuato	none	no_apc			
 2683-2917	FIGURAS REVISTA ACADÉMICA DE INVESTIGACIÓN	none	no_apc			
 2683-295X	Anuario Mexicano de Historia de la Educación	none	no_apc			
 2683-3654	Odrzivi razvoj	none	list_price	500	EUR	
 2683-4693	Western Balkan Journal of Agricultural Economics and Rural Development	none	no_apc			
+2683-5959	Kritika: časopis za filozofiju i teoriju društva	none	no_apc			
 2683-6467	MUST Journal of Research and Development.	none	no_apc			
 2683-720X	1991 Revista de Estudios Internacionales	none	no_apc			
 2683-7404	Punto sur	none	no_apc			
@@ -45055,6 +45111,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2689-5293	All Life	covered	covered			
 2689-5587	The Journal of Scientific Practice and Integrity	none	no_apc			
 2689-5595	Applied AI Letters	covered	covered			
+2689-5978	Central Europe Yearbook	none	no_apc			
 2689-6117	ASME Letters in Dynamic Systems and Control	none	unknown			
 2689-6443	Teaching and Learning in Communication Sciences & Disorders	none	no_apc			
 2689-6567	Psychology of Popular Media	covered	covered_conditional			
@@ -45354,6 +45411,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2708-5694	Journal of Agriculture Food and Environment	none	list_price	100	USD	
 2708-6062	Economía & Negocios	none	no_apc			
 2708-6240	Intelligent and Converged Networks	none	no_apc			
+2708-6305	Warisata - Revista de Educación	none	no_apc			
 2708-6577	MURJIS	none	list_price	10000	PKR	
 2708-6615	Ukrainian Journal of Military Medicine	none	no_apc			
 2708-6631	Revista de Propuestas Educativas	none	no_apc			
@@ -45438,8 +45496,8 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2711-0931	Revista Colombiana de Ciencias Administrativas	none	no_apc			
 2711-4627	ParadigmPlus	none	no_apc			
 2712-0074	BIO Integration	none	no_apc			
-2712-0554	Heritage and Sustainable Development ISSN 2712-0554	none	no_apc			
-2712-0562	Sustainable Engineering and Innovation ISSN 2712-0562	none	no_apc			
+2712-0554	Heritage and Sustainable Development	none	no_apc			
+2712-0562	Sustainable Engineering and Innovation	none	no_apc			
 2712-1259	СИНЕЗА	none	no_apc			
 2712-1267	Journal of Chemists Technologists and Environmentalists	none	no_apc			
 2712-7435	Journal of Applied Economic Research	none	no_apc			
@@ -45540,7 +45598,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2717-2708	Mathematics and Computational Sciences	none	no_apc			
 2717-2937	International Journal of Research in Industrial Engineering	none	no_apc			
 2717-3135	حسابداری و بودجه‌ریزی بخش عمومی	none	list_price	5000000	IRR	
-2717-3224	پژوهش‌های بین‌رشته‌ای ادبی	none	no_apc			
+2717-3224	پژوهش‌های بین‌رشته‌ای ادبی	none	list_price	6000000	IRR	
 2717-3232	Disease and Diagnosis	none	no_apc			
 2717-3305	International Journal of Digital Content Management	none	list_price	6000000	IRR	
 2717-3453	Journal of Fuzzy Extension and Applications	none	no_apc			
@@ -46041,6 +46099,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2735-668X	Ducere Revista de Investigación Educativa	none	no_apc			
 2735-7074	Gobierno y Administración Pública	none	no_apc			
 2735-9883	Ianna Journal of Interdisciplinary Studies	none	list_price	1650	GBP	
+2736-1721	Global Journal of Business Management	none	unknown			
 2736-2175	Herve infos	none	unknown			
 2736-2337	Humanités numériques	none	no_apc			
 2736-9749	Finnish Journal of Social Research	none	no_apc			
@@ -46114,6 +46173,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2746-4806	Journal of Cultura and Lingua	none	no_apc			
 2746-5152	Eureka Herba Indonesia	none	unknown			
 2746-5276	Media Jurnal Filsafat dan Teologi	none	no_apc			
+2746-5357	Prominentia Medical Journal	none	list_price	500000	IDR	
 2746-542X	J Abdimas Community Health	none	list_price	300000	IDR	
 2746-6868	Jurnal Manajemen Stratejik dan Simulasi Bisnis	none	no_apc			
 2746-6965	INSPIREE Indonesian Sport Innovation Review	none	list_price	50	USD	
@@ -46343,6 +46403,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2757-6329	Journal of Design for Resilience in Architecture and Planning	none	no_apc			
 2757-6396	Maliye Çalışmaları Dergisi / Journal of Public Finance Studies	none	no_apc			
 2757-6574	International Journal of Aeronautics and Astronautics	none	no_apc			
+2757-6620	Journal of Agricultural Production	none	no_apc			
 2757-6744	European Annals of Dental Sciences	none	no_apc			
 2757-6795	Journal of Innovative Healthcare Practices	none	no_apc			
 2757-6973	Verimlilik dergisi	none	no_apc			
@@ -46386,6 +46447,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2764-8044	Brazilian Journal of Geophysics	none	no_apc			
 2764-8907	Direito Processo e Cidadania	none	no_apc			
 2764-8982	Revista Educação em Contexto	none	no_apc			
+2764-9253	29 de abril Revista de História	none	no_apc			
 2764-9288	Revista Linguagem em Pauta	none	no_apc			
 2764-9385	Revista Científica Senai-SP.	none	no_apc			
 2764-9954	[re]Design	none	no_apc			
@@ -46886,7 +46948,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2783-2740	مطالعات بین‌رشته‌ای ادبیات، هنر و علوم انسانی	none	list_price	4500000	IRR	
 2783-2945	Agrotechniques in Industrial Crops	none	no_apc			
 2783-3100	تداوم و تغییر اجتماعی	none	no_apc			
-2783-3119	New Applied Studies in Management, Economics & Accounting	none	list_price	50	USD	
+2783-3119	New Applied Studies in Management, Economics & Accounting	none	list_price	100	USD	
 2783-3127	Journal of Current Oncology and Medical Sciences	none	no_apc			
 2783-3240	Theosophia Islamica	none	no_apc			
 2783-3356	قرآن فرهنگ و تمدن	none	list_price	9000000	IRR	
@@ -46932,6 +46994,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2785-2709	Lagoonscapes	none	no_apc			
 2785-3187	Balcania et Slavia	none	no_apc			
 2785-3233	DIVE-IN – An International Journal on Diversity and Inclusion	none	no_apc			
+2785-3330	Rivista Italiana di Filosofia Politica	none	no_apc			
 2785-339X	Bulletin of Geophysics and Oceanography	none	no_apc			
 2785-3977	Rivista di Ricerca e Didattica Digitale	none	no_apc			
 2785-4426	Elementa Intersections between Philosophy Epistemology and Empirical Perspectives	none	no_apc			
@@ -46943,7 +47006,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2785-6690	Graphos	none	no_apc			
 2785-7018	infermieristica journal	none	unknown			
 2785-7263	Dissertation Nursing	none	no_apc			
-2785-7433	AN-ICON Studies in Environmental Images [ISSN 2785-7433]	none	no_apc			
+2785-7433	AN-ICON Studies in Environmental Images	none	no_apc			
 2785-7719	Politics	none	no_apc			
 2785-7867	Journal of Law, Market & Innovation	none	no_apc			
 2785-7980	DiLEF	none	no_apc			
@@ -47065,7 +47128,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2789-9128	Maaen Journal for Medical Sciences	none	no_apc			
 2789-9438	Trends in Scholarly Publishing	none	no_apc			
 2789-9454	Journal of Spine Practice (JSP)	none	no_apc			
-2790-0207	Kirkuk journal of medical sciences	none	list_price	150000	IQD	
+2790-0207	Kirkuk journal of medical sciences	none	list_price	300000	IQD	
 2790-1289	Actual Problems of Theoretical and Clinical Medicine	none	no_apc			
 2790-1688	Advances in Engineering Technology Research	none	unknown			
 2790-2110	Journal of Educational Technology and Innovation	none	list_price	1000	USD	
@@ -47292,6 +47355,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2808-5191	Jurnal Dialektika Hukum	none	no_apc			
 2808-5299	Sriwijaya Journal of Sport	none	no_apc			
 2808-5612	Al Huwiyah Journal of Woman and Children Studies	none	no_apc			
+2808-7151	Counseling AS SYAMIL Jurnal Ilmiah Bimbingan Konseling Islam	none	no_apc			
 2808-8085	Jurnal Studi Islam dan Kemuhammadiyahan (JASIKA)	none	list_price	350000	IDR	
 2808-845X	International Journal of Health and Pharmaceutical (IJHP)	none	unknown			
 2808-9200	Civil and Sustainable Urban Engineering	none	unknown			
@@ -48340,7 +48404,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2959-5932	Al-Mustaqbal Journal of Sustainability in Engineering Sciences	none	no_apc			
 2959-6289	Law and Society Students' Journal	none	no_apc			
 2959-6513	Revista Tribunal	none	no_apc			
-2959-8060	Revue Hybrides	none	list_price	39	EUR	
+2959-8060	Revue Hybrides	none	list_price	31	EUR	
 2959-8311	ТЕХНИКА ҒЫЛЫМДАРЫ ЖӘНЕ ТЕХНОЛОГИЯ	none	unknown			
 2959-8591	Syrian Journal for Science and Innovation	none	list_price	50000	SYP	
 2959-8737	The Innovation Materials	none	list_price	3000	USD	
@@ -48350,6 +48414,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2959-880X	Plant Health Cases	none	unknown			
 2959-8958	مجلة الوقف	none	no_apc			
 2959-9040	Impulso Revista de Administración	none	no_apc			
+2959-944X	Journal of Research in Psychology (JRP)	none	no_apc			
 2959-9539	Advanced imaging.	none	unknown			
 2959-975X	Journal of Microbiological Sciences	none	list_price	200	USD	
 2959-9784	Agricultural & Rural Studies	none	no_apc			
@@ -48629,7 +48694,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2980-9304	Journal of Studies in Applied Language	none	no_apc			
 2980-9436	آموزش و مدیریت کارآفرینی	none	no_apc			
 2980-9533	International Journal of Practical and Pedagogical Issues in English Education	none	no_apc			
-2980-9711	Journal of Nursing Reports in Clinical Practice	none	list_price	40000	IRR	
+2980-9711	Journal of Nursing Reports in Clinical Practice	none	list_price	70000000	IRR	
 2980-9819	پژوهش‌های خشکسالی و تغییر اقلیم	none	no_apc			
 2980-986X	Journal of Hydraulic and Water Engineering	none	no_apc			
 2980-9894	Media and Intercultural Communication: A Multidisciplinary Journal	none	no_apc			
@@ -48898,7 +48963,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3004-9660	Global perspectives in applied sport and performance psychology.	none	unknown			
 3004-9709	SpringerBriefs in modern perspectives on disability research.	none	unknown			
 3004-9768	Discover Bacteria.	none	list_price	910	GBP	
-3004-9776	Discover Imaging.	none	list_price	1340	USD	
+3004-9776	Discover Imaging.	discount	discount	1139	USD	
 3004-9784	Discover Conservation	discount	discount	842	GBP	
 3004-9792	Discover Networks	none	list_price	0	USD	
 3004-9806	npj gut and liver.	discount	discount	1862	GBP	
@@ -49061,6 +49126,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3021-8578	Canonia Religia	none	no_apc			
 3021-8780	Indonesian Journal of Learning and Educational Studies	none	list_price	50	USD	
 3022-6783	Clinical Transplantation and Research	none	no_apc			
+3023-3585	Current Clinical and Medical Education	none	list_price	400	USD	
 3023-4018	Journal of AI	none	no_apc			
 3023-4107	Baberti	none	no_apc			
 3023-4328	Journal of migration and political studies.	none	no_apc			
@@ -49358,6 +49424,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3048-6653	Innovations in Sports Science.	none	unknown			
 3048-6920	ILN Journal: Indian Literary Narratives.	none	list_price	2500	INR	
 3048-7706	Exon.	none	no_apc			
+3048-8362	Applied Mathematics on Science and Engineering	none	no_apc			
 3048-8443	Journal of Dentistry and Bio-Allied Health Sciences	none	no_apc			
 3048-8575	Creativitas: Critical Explorations in Literary Studies	none	no_apc			
 3048-9563	KT Journal of Mechanical Engineering	none	list_price	30	USD	
@@ -49687,6 +49754,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3064-0989	GreenTech	none	no_apc			
 3064-1772	Transactions on Informatics and Data Science	none	no_apc			
 3064-2469	Women Education and Social Welfare	none	no_apc			
+3064-3767	Proskuneo Journal of Theology	none	no_apc			
 3064-5093	Global Educational Research Review	none	list_price	50	USD	
 3064-7568	American Journal of Business Science Philosophy (AJBSP)	none	no_apc			
 3064-7878	Journal of Philanthropy	none	unknown			
@@ -49829,6 +49897,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3079-5702	NUML Journal of Economics	none	no_apc			
 3079-5710	International Journal of Studies in Sexuality Education	none	list_price	400	USD	
 3079-6067	FORUM for Group Psychotherapies and Processes	none	no_apc			
+3079-7748	Revista Ecosistema	none	no_apc			
 3079-7802	Journal of Brain and Spine	none	unknown			
 3080-129X	Gumilyov Journal of History	none	list_price	60000	KZT	
 3080-3489	Bioscience Insights	none	list_price	100	USD	
@@ -49856,6 +49925,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3085-461X	Natural Built Social Environment Health	none	no_apc			
 3085-4660	Limes	none	no_apc			
 3085-7589	Advances in Knowledge Representation	none	no_apc			
+3085-7813	Journal of Sustainable Competitive Intelligence	none	unknown			
 3087-7733	Nordic Yearbook of Population Research	none	no_apc			
 3088-1803	Journal of Applied Informatics and Technology	none	no_apc			
 3088-4063	Longevity Horizon	none	unknown			
@@ -49896,6 +49966,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3091-3551	Biotechnology for Food Future	none	unknown			
 3091-3837	Cell Signaling Inflammation & Disease	none	unknown			
 3091-387X	Biosensors and Biomolecular Electronics	none	unknown			
+3091-3888	npj Structural Biology	none	unknown			
 3091-3896	npj Fungal Science	none	unknown			
 3091-390X	npj Palaeoecosystems	none	unknown			
 3091-3926	Journal of Neuro-Oncology Discovery	none	unknown			
@@ -49924,7 +49995,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3092-6602	Qualitative Research in Educational Sciences    پژوهش های کیفی در علوم تربیتی	none	list_price	1500000	IRR	
 3092-670X	مطالعات طراحی معماری و شهرسازی زمینه گرا	none	no_apc			
 3092-6769	منابع آب و تغییر اقلیم	none	no_apc			
-3092-6785	Land use and sustainable Development   آمایش سرزمین و توسعه پایدار	none	no_apc			
+3092-6785	Land use and sustainable Development   آمایش سرزمین و توسعه پایدار	none	list_price	20000000	IRR	
 3092-6904	راهبردهای نوآورانه توسعه کسب‌وکارها	none	no_apc			
 3092-6920	مطالعات نوین در مدیریت و سازمان	none	list_price	15000000	IRR	
 3092-7730	پژوهش‌های حسابداری و حسابرسی عملیاتی و عملکرد	none	no_apc			
@@ -49956,6 +50027,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3107-5053	NG Agricultural Sciences	none	list_price	250	USD	
 3107-636X	Advanced Natural Sciences: Life and Health Sciences	none	list_price	100	USD	
 3107-6882	Journal of Sustainable Technology in Agriculture	none	no_apc			
+3107-9016	Journal of PACS	none	no_apc			
 3108-3579	Amesia	none	no_apc			
 3108-3641	MetaScientia: Journal of the History and Philosophy of Science	none	no_apc			
 3108-4702	Krisis	none	no_apc			
@@ -50024,6 +50096,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3117-471X	Kidney International Case Reports	none	unknown			
 3117-4876	Dental Research	none	unknown			
 3117-4892	Clinical Dental Journal	none	unknown			
+3117-5031	Applied Biomolecules Bioactive Materials	none	unknown			
 3117-504X	International Journal of Lung Cancer	none	unknown			
 3117-5112	e-Prime – Nexus of Electrical Electronic and Intelligent Engineering	none	unknown			
 3117-5252	The Veterinary Journal Pharmacology & Toxicology	none	unknown			
@@ -50075,6 +50148,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3120-4228	Rare Kidney Diseases	none	unknown			
 3120-4317	Saudi Journal of Food Security and Environmental Sustainability	none	unknown			
 3120-4740	European Radiology Abdomen	none	unknown			
+3120-4759	European Radiology Breast	none	unknown			
 3120-4910	Discover Condensed Matter	none	unknown			
 3120-4929	Discover Pediatrics	none	unknown			
 3120-4953	Scientific Reviews	none	unknown			
@@ -50096,10 +50170,12 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3135-0380	Practices in Science and Technology	none	list_price	500	USD	
 3135-0690	Building materials and construction engineering	none	unknown			
 3135-2391	International Journal of Studies in Systematic Reviews	none	list_price	400	USD	
+3135-2413	Central Asian Journal of Veterinary Science	none	no_apc			
 3136-0580	Intelligent Opto-Electronics	none	unknown			
 3136-1013	The scientific and practical journal Dermatology and infectious diseases	none	unknown			
 3141-3161	International Journal of AI and Advanced Computing	none	list_price	50	USD	
 3141-3684	Journal of Environmental and Sustainability Science	none	list_price	50	USD	
+3141-7094	Advances in Translational Research	none	no_apc			
 8750-2186	Dentistry today	none	unknown			
 8755-0199	Free Radical Research Communications	none	unknown			
 8755-3031	Social Science Micro Review	none	unknown			

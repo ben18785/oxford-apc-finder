@@ -3,6 +3,42 @@
 What the site said, and when it changed. Generated automatically by
 `pipeline/changelog.py` on every refresh — newest entry first.
 
+## 2026-10-05
+
+- **76** journals added, **0** removed, **29** changed.
+
+### Deal status changes (2)
+
+- Scandinavian journal of laboratory animal science (0901-3393): `none` → `discount`
+- Discover Imaging. (3004-9776): `none` → `discount`
+
+### Price changes (24)
+
+- Journal of Literary Studies (0256-4718): 7865 → 9100
+- Journal of Pure and Applied Microbiology (0973-7510): 500 → 750
+- The Egyptian Orthopaedic Journal (1110-1148): — → 5000 EGP
+- German medical science (1612-3174): — → 500 EUR
+- Вісник Житомирського державного технологічного університету. Серія: Економічні науки // THE JOURNAL OF ZHYTOMYR STATE TECHNOLOGICAL UNIVERSITY. SERIES: ECONOMICS (1728-4236): 40 → —
+- Bulletin of Taras Shevchenko National University of Kyiv Series Physics and Mathematics (1812-5409): 200 → —
+- Проблеми теорії та методології бухгалтерського обліку, контролю і аналізу (1994-1749): 1500 → —
+- Iranian Journal of Blood and Cancer (2008-4595): — → 300 USD
+- Journal of Comparative Effectiveness Research (2042-6305): 3500 → 3900
+- Asian Transport Studies (2185-5560): — → 1020 USD
+- Journal of Sustainable Mining (2300-3960): — → 400 EUR
+- Journal of organic and pharmaceutical chemistry (2308-8303): 1200 → —
+- Archives of Pharmaceutical Sciences Ain Shams University (2356-8380): 200 → 250
+- Arctic Science (2368-7460): 2250 → 2396
+- Jurnal Ilmu Sosial dan Ilmu Politik (JISIP) (2442-6962): 1000000 → 450000
+- Drone Systems and Applications (2564-4939): 1500 → 1600
+- CHEESA Chemical Engineering Research Articles (2614-8757): — → 3500000 IDR
+- Journal of Advanced Biotechnology and Experimental Therapeutics (2616-4760): 369 → 469
+- پژوهش‌های بین‌رشته‌ای ادبی (2717-3224): — → 6000000 IRR
+- New Applied Studies in Management, Economics & Accounting (2783-3119): 50 → 100
+- Kirkuk journal of medical sciences (2790-0207): 150000 → 300000
+- Revue Hybrides (2959-8060): 39 → 31
+- Journal of Nursing Reports in Clinical Practice (2980-9711): 40000 → 70000000
+- Land use and sustainable Development   آمایش سرزمین و توسعه پایدار (3092-6785): — → 20000000 IRR
+
 ## 2026-09-30
 
 - **2** journals added, **0** removed, **0** changed.
