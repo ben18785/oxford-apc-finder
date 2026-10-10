@@ -10,7 +10,14 @@ name: Deploy site
 #
 # This workflow NEVER fetches and never writes a baseline. It cannot change a
 # single fact on the site — only how the facts already gathered are presented.
+#
+# It also runs daily, for the one thing here that does change by the day: the
+# usage figures, which this workflow reads back from the counter on every run.
+# Without the schedule they moved only when something else was deployed. The
+# daily read keeps the dataset cache warm as a side effect.
 on:
+  schedule:
+    - cron: '41 6 * * *'          # daily 06:41 UTC, clear of the Monday refresh
   push:
     branches: [main]
     # Must stay disjoint from refresh-and-deploy.yml's list, or one push starts

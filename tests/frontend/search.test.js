@@ -946,9 +946,9 @@ chain.then(function () {
       return Promise.resolve({ ok: true, status: 200, json: function () {
         return Promise.resolve({
           generated: "2026-08-08T00:00:00Z", window_days: 90,
-          totals: { page_loads: 1200, interactions: 77, journal_views: 77,
+          totals: { visitors: 1200, interactions: 77, journal_views: 77,
                     distinct_journals_viewed: 5, countries: 2 },
-          all_time: { since: "2026-08-08", page_loads: 4100, interactions: 900,
+          all_time: { since: "2026-08-08", visitors: 4100, interactions: 900,
                       journal_views: 2600, distinct_journals_viewed: 700 },
           coverage: { covered_journal_share: 0.4, corpus_share: 0.27,
                       sample_journals: 5, sample_views: 20 },
@@ -964,15 +964,15 @@ chain.then(function () {
     return showUsage().then(function () {
       var u = el("#detail-body").innerHTML;
       check("usage view renders the headline counts",
-        u.indexOf("1,200") !== -1 && u.indexOf("page loads") !== -1);
-      /* The counter publishes no unique-visitor figure, so the page must not
-       * imply one — it printed "0 visitors" when a lookup fell through. */
+        u.indexOf("1,200") !== -1 && u.indexOf("number of visitors") !== -1);
       check("usage view leads with the all-time figures",
         u.indexOf("2,600") !== -1 && /Since 8 August 2026/.test(u));
       check("and says the rest covers the rolling window only",
         /figures below cover the last\s+90 days/.test(u));
-      check("usage view claims no visitor count it cannot source",
-        !/\bvisitors\b/.test(u), u.slice(0, 0) || "");
+      /* The counter reports visitors: a reload within a session is not
+       * counted again, so the figure was never a count of page loads. */
+      check("usage view does not call its visitor count page loads",
+        !/page loads/.test(u));
       check("usage view draws a bar per journal",
         (u.match(/bar-fill/g) || []).length === 2,
         (u.match(/bar-fill/g) || []).length + " bars");
@@ -992,7 +992,7 @@ chain.then(function () {
       /* The counts are browser-side estimates. Presenting them as a headcount
        * would be the one genuinely misleading thing this view could do. */
       check("usage view does not present its counts as people",
-        /not of\s+people/.test(u));
+        /not a\s+headcount of people/.test(u));
       globalThis.fetch = realFetch;
     });
 
@@ -1001,9 +1001,9 @@ chain.then(function () {
   }).then(function () {
     var realFetch = globalThis.fetch, savedFlag = STATE.config.usage_available;
     var payload = { window_days: 90,
-      totals: { page_loads: 1200, interactions: 77, journal_views: 340,
+      totals: { visitors: 1200, interactions: 77, journal_views: 340,
                 distinct_journals_viewed: 88, countries: 4 },
-      all_time: { since: "2026-08-08", page_loads: 4100, interactions: 900,
+      all_time: { since: "2026-08-08", visitors: 4100, interactions: 900,
                   journal_views: 2600, distinct_journals_viewed: 700 } };
     globalThis.fetch = function (path) {
       if (path.indexOf("usage.json") === -1) return realFetch(path);
@@ -1032,7 +1032,7 @@ chain.then(function () {
       check("they are separate labelled lines, not one run of numbers",
         (s.match(/usage-line/g) || []).length === 2
         && /Last 90 days/.test(s), s);
-      check("it leads with journal lookups, not page loads",
+      check("it leads with journal lookups, not visitors",
         s.indexOf("2,600") < s.indexOf("4,100"), s);
       check("it links through to the full breakdown",
         s.indexOf("usage-strip-link") !== -1);
@@ -1052,9 +1052,9 @@ chain.then(function () {
 
       /* A counter that recorded nothing should show nothing rather than a row
        * of zeroes. */
-      payload.all_time = { since: null, page_loads: 0, interactions: 0,
+      payload.all_time = { since: null, visitors: 0, interactions: 0,
                            journal_views: 0, distinct_journals_viewed: 0 };
-      payload.totals = { page_loads: 0, journal_views: 0,
+      payload.totals = { visitors: 0, journal_views: 0,
                          distinct_journals_viewed: 0, countries: 0 };
       el("#usage-strip").hidden = true;
       return loadUsageStrip();

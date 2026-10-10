@@ -871,19 +871,47 @@ def test_totals_survive_the_api_renaming_its_fields():
 
 
 def test_regression_no_visitor_count_is_invented():
-    """GoatCounter's /stats/total returns only total, total_events and
-    total_utc — there is no unique-visitor figure in the API. A lookup for one
-    fell through to 0, and the page printed "0 visitors" beside "18 sessions"."""
-    u = summarise([], [], {"total": 21, "total_events": 13}, CORPUS, USAGE_CFG)
-    assert "visitors" not in u["totals"], "a figure the API does not provide"
+    """The window's /stats/total call came back empty while the all-time one
+    worked, and the page was handed "0" for a window that had 200 visitors.
+    A call that did not answer has no visitor count, not a count of zero."""
+    u = summarise([], [], {}, CORPUS, USAGE_CFG)
+    assert "visitors" not in u["totals"] and "interactions" not in u["totals"]
+    assert "visitors" not in totals_block([], {})
 
 
-def test_page_loads_exclude_the_events_that_inflate_the_total():
+def test_visitors_exclude_the_events_that_inflate_the_total():
     """`total` counts events too, so every journal opened and every missed
-    search was being reported as a session."""
+    search was being reported as a visitor to the site."""
     u = summarise([], [], {"total": 21, "total_events": 13}, CORPUS, USAGE_CFG)
-    assert u["totals"]["page_loads"] == 8
+    assert u["totals"]["visitors"] == 8
     assert u["totals"]["interactions"] == 13
+
+
+def test_regression_hits_are_paged_past_the_first_hundred_paths(monkeypatch):
+    """GoatCounter returns at most 100 paths a call and clamps a larger limit
+    without complaint. Asking once for 500 dropped the tail of journals from
+    the lookup count as soon as there were more than 100 distinct paths."""
+    import fetch_usage
+    paths = [{"path": f"/j/covered/all/{n:04d}-0000", "path_id": n, "count": 1}
+             for n in range(1, 251)]
+    asked = []
+
+    def fake_api(base, path, token, params):
+        asked.append(params)
+        assert params["limit"] <= 100
+        done = set((params.get("exclude_paths") or "").split(",")) - {""}
+        rest = [h for h in paths if str(h["path_id"]) not in done]
+        return {"hits": rest[:100], "more": len(rest) > 100}
+
+    monkeypatch.setattr(fetch_usage, "_api", fake_api)
+    hits = fetch_usage._hits("https://x", "t", {"start": "a", "end": "b"})
+    assert len(hits) == 250 and len(asked) == 3
+    assert len({h["path_id"] for h in hits}) == 250
+
+    # A page that fails makes the whole list unknown, not shorter.
+    monkeypatch.setattr(fetch_usage, "_api", lambda *a: (
+        None if "exclude_paths" in a[3] else fake_api(*a)))
+    assert fetch_usage._hits("https://x", "t", {}) is None
 
 
 def test_regression_coverage_share_ignores_views_made_under_the_deal_filter():
@@ -1366,16 +1394,16 @@ def test_a_rate_limited_call_omits_the_count_rather_than_reporting_zero():
     would then print in bold. None is not zero."""
     blocked = totals_block(None, {"total": 24, "total_events": 16}, since="2026-08-08")
     assert "journal_views" not in blocked
-    assert blocked["page_loads"] == 8          # still derivable from totals
+    assert blocked["visitors"] == 8            # still derivable from totals
 
     fine = totals_block([{"path": "/j/covered/all/1111-2222", "count": 11}],
                         {"total": 24, "total_events": 16}, since="2026-08-08")
     assert fine["journal_views"] == 11 and fine["distinct_journals_viewed"] == 1
 
 
-def test_all_time_page_loads_exclude_events_too():
+def test_all_time_visitors_exclude_events_too():
     b = totals_block([], {"total": 24, "total_events": 16})
-    assert b["page_loads"] == 8 and b["interactions"] == 16
+    assert b["visitors"] == 8 and b["interactions"] == 16
 
 
 def test_an_oversized_subfield_is_split_across_filters(monkeypatch):

@@ -143,7 +143,7 @@ What is recorded:
 
 | Event | Path posted | Why |
 |---|---|---|
-| Page load | `/` | Visitor and session counts |
+| Page load | `/` | The visitor count |
 | Journal opened | `/j/<deal-status>/<issn>` | Most-looked-up chart, and the deal-coverage share |
 | Search returning **nothing** | `/missing/<normalised query>` | The coverage gap — a work queue for the publisher allowlist |
 
@@ -249,6 +249,10 @@ on a public repo, and within the OpenAlex allowance — change the cron to
 `17 4 * * *`. `link-check.yml` runs the
 [lychee](https://github.com/lycheeverse/lychee) link checker the next day
 (Tue 06:43 UTC) and opens a `broken-links` issue if anything rots.
+
+`deploy-site.yml` also runs daily (06:41 UTC). It re-fetches no journal data;
+the run exists so the usage figures, which it reads back from GoatCounter each
+time, are never more than a day old.
 
 Link checking is split in two (`pipeline/collect_links.py`): every
 *infrastructure* link — the Bodleian pages, JCT agreement CSVs, publisher deal

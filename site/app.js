@@ -110,7 +110,7 @@ function usageBits(block) {
   if (block.distinct_journals_viewed) {
     bits.push(`<strong>${n(block.distinct_journals_viewed)}</strong> different journals`);
   }
-  if (block.page_loads) bits.push(`<strong>${n(block.page_loads)}</strong> page loads`);
+  if (block.visitors) bits.push(`<strong>${n(block.visitors)}</strong> visitor${block.visitors === 1 ? "" : "s"}`);
   return bits;
 }
 
@@ -1377,9 +1377,9 @@ async function showStatus() {
   $("#modal-close").focus();
 }
 
-/* What people actually look up. Deliberately modest in what it claims: these
- * are counts of page interactions, not of people, and the difference matters
- * enough to say on the page rather than bury in a footnote. */
+/* What people actually look up. Deliberately modest in what it claims: a
+ * "visitor" is the counter's estimate, not a headcount, and the difference
+ * matters enough to say on the page rather than bury in a footnote. */
 async function showUsage() {
   let u;
   try {
@@ -1416,13 +1416,13 @@ async function showUsage() {
     <h2 id="detail-title">How this site is used</h2>
     ${(() => {
       const a = u.all_time || {};
-      if (!a.page_loads && !a.journal_views) return "";
+      if (!a.visitors && !a.journal_views) return "";
       const parts = [];
       if (a.journal_views != null) {
         parts.push(`<strong>${n(a.journal_views)}</strong> journal lookups across
           <strong>${n(a.distinct_journals_viewed)}</strong> different journals`);
       }
-      if (a.page_loads) parts.push(`<strong>${n(a.page_loads)}</strong> page loads`);
+      if (a.visitors) parts.push(`<strong>${n(a.visitors)}</strong> visitor${a.visitors === 1 ? "" : "s"}`);
       return `<p class="alltime">${a.since ? `Since ${esc(prettyDate(a.since))}` : "In total"}:
         ${parts.join(" · ")}.</p>`;
     })()}
@@ -1431,7 +1431,7 @@ async function showUsage() {
       updated ${esc((u.generated || "").replace("T", " ").slice(0, 16))} UTC.</p>
 
     <div class="stat-grid">
-      <div class="stat"><div class="n">${n(t.page_loads)}</div><div class="l">page loads</div></div>
+      <div class="stat"><div class="n">${t.visitors == null ? "—" : n(t.visitors)}</div><div class="l">number of visitors</div></div>
       <div class="stat"><div class="n">${n(t.journal_views)}</div><div class="l">journals looked up</div></div>
       <div class="stat"><div class="n">${n(t.distinct_journals_viewed)}</div><div class="l">different journals</div></div>
       <div class="stat"><div class="n">${esc(pct(cov.covered_journal_share))}</div><div class="l">of those have a deal</div></div>
@@ -1486,11 +1486,12 @@ async function showUsage() {
         to another site. Recorded: that a journal page was opened, and the country a
         request came from. Not recorded: who you are, what you searched for when the
         search worked, or anything you go on to do.</p>
-      <p class="cost-note">These are counts of <em>page interactions</em>, not of
-        people. The counter publishes no unique-visitor figure, so none is shown
-        here rather than a guess: one person on a laptop and a phone would be two
-        page loads, and a shared machine might be one. Treat them as an order of
-        magnitude.</p>
+      <p class="cost-note">A <em>visitor</em> is the counter's estimate, not a
+        headcount of people. One browser on one network counts once in any eight
+        hours, however often it reloads the page, and again if it returns later.
+        One person on a laptop and a phone is two visitors, people behind the same
+        network with the same browser can be one, and anyone blocking the counter
+        is not counted at all. Treat the figures as an order of magnitude.</p>
     </div>`;
   $("#detail-modal").hidden = false;
   document.body.style.overflow = "hidden";
