@@ -3,6 +3,83 @@
 What the site said, and when it changed. Generated automatically by
 `pipeline/changelog.py` on every refresh — newest entry first.
 
+## 2026-10-10
+
+- **36** journals added, **125** removed, **18** changed.
+
+### Deal status changes (3)
+
+- Revista Colombiana de Ortopedia y Traumatología (0120-8845): `discount` → `none`
+- Advances in Rehabilitation Science and Practice (2753-6351): `none` → `discount`
+- Journal of the Pediatric Orthopaedic Society of North America (2768-2765): `discount` → `none`
+
+### Price changes (10)
+
+- Scandinavian Journal of Disability Research (1501-7419): 613 → —
+- Praci Institutu elektrodinamiki Nacionalanoi akademii nauk Ukraini (1727-9895): — → 45 EUR
+- Translational Lung Cancer Research (2218-6751): — → 1900 USD
+- Cardiovascular Diagnosis and Therapy (2223-3652): — → 1900 USD
+- Journal of High Institute of Public Health (2357-0601): 150 → 400
+- Journal of Spine Surgery (2414-4630): — → 1650 USD
+- Dauliyah Journal of Islamic and International Affairs (2477-5460): — → 28 USD
+- ES Materials & Manufacturing (2578-0611): — → 2000 USD
+- International Journal of Scientific Research in Dental and Medical Sciences (2676-5373): 50 → 80
+- IEEE Open Journal of Ultrasonics Ferroelectrics and Frequency Control (2694-0884): 2075 → 2160
+
+### Removed (125)
+
+- Proceedings (0094-2898)
+- Physics of failure in electronics (0097-2088)
+- Proceedings, annual Reliability and Maintainability Symposium/Proceedings. Annual Reliability and Maintainability Symposium (0149-144X)
+- IEEE MTT-S International Microwave Symposium digest (0149-645X)
+- Technical digest - International Electron Devices Meeting/Technical digest (0163-1918)
+- Digest of technical papers/Digest of technical papers - IEEE International Solid-State Circuits Conference (0193-6530)
+- Proceedings/Proceedings - International Symposium on Multiple-Valued Logic (0195-623X)
+- Proceedings/Proceedings - International Conference on Software Engineering (0270-5257)
+- Annual Symposium on Switching & Automata Theory (0272-4847)
+- Annual Symposium on Foundations of Computer Science (0272-5428)
+- PESC record (0275-9306)
+- IEEE International Reliability Physics Symposium proceedings (0735-0791)
+- Proceedings - ACM IEEE Design Automation Conference (0738-100X)
+- Proceedings - International Symposium for Testing and Failure Analysis (0890-1740)
+- Proceedings - Symposium on Logic in Computer Science (1043-6871)
+- neural information processing systems (1049-5258)
+- Proceedings - IEEE International Conference on Robotics and Automation/Proceedings (1050-4729)
+- Proceedings/Proceedings - IEEE Ultrasonics Symposium (1051-0117)
+- Proceedings/Proceedings - Real-Time Systems Symposium (1052-8725)
+- Proceedings/Proceedings - Symposium on Reliable Distributed Systems (1060-9857)
+- Proceedings/Proceedings - Conference on Software Maintenance (1063-6773)
+- IEEE International Symposium on Power Semiconductor Devices and ICs/Proceedings of the International Symposium on Power Semiconductor Devices & ICs/Proceedings of the ... International Symposium on Power Semiconductor Devices & ICs/Proceedings of the ... International Symposium on Power Semiconductor Devices and ICs (1063-6854)
+- Proceedings/Proceedings - Symposium on Computer Arithmetic (1063-6889)
+- Proceedings - Computer Security Foundations Workshop/Proceedings (1063-6900)
+- IEEE Computer Society Conference on Computer Vision and Pattern Recognition/Proceedings - IEEE Computer Society Conference on Computer Vision and Pattern Recognition/Proceedings (1063-6919)
+- Proceedings - IEEE Symposium on Computer-Based Medical Systems (1063-7125)
+- Proceedings - Supercomputing (1063-9535)
+- Annual IEEE Semiconductor Thermal Measurement and Management Symposium/Proceedings (1065-2221)
+- Proceedings - Euromicro Workshop on Parallel and Distributed Processing/Proceedings (1066-6192)
+- DCC (1068-0314)
+- Proceedings - Euromicro Workshop on Real-Time Systems/Proceedings (1068-3070)
+- Proceedings/Proceedings - International Symposium on Software Reliability Engineering (1071-9458)
+- Proceedings of the ... annual International Symposium on Microarchitecture/Proceedings of the annual International Symposium on Microarchitecture (1072-4451)
+- Proceedings of the IEEE International Frequency Control Symposium (1075-6787)
+- Proceedings - IEEE International SOI Conference/Proceedings (1078-621X)
+- ASMC proceedings (1078-8743)
+- Proceedings - Real-Time Technology and Applications Symposium (1080-1812)
+- Proceedings - Simulation Symposium/Proceedings of the ... annual Simulation Symposium (1080-241X)
+- Proceedings - IEEE Symposium on Security and Privacy/Proceedings of the ... IEEE Symposium on Security and Privacy (1081-6011)
+- Proceedings - Asian Test Symposium/Proceedings (1081-7735)
+- Proceedings - International Conference on Tools with Artificial Intelligence, TAI (1082-3409)
+- Proceedings - International Conference on Data Engineering (1084-4627)
+- Proceedings, IEEE micro electro mechanical systems (1084-6999)
+- Proceedings of the ... International Symposium on Parallel Architectures, Algorithms, and Networks (ISPAN) (1087-4089)
+- Proceedings - Workshop on Parallel and Distributed Simulation (1087-4097)
+- Records of the IEEE International Workshop on Memory Technology, Design, and Testing (1087-4852)
+- Proceedings of the IEEE Virtual Reality Annual International Symposium (1087-8270)
+- I-THERM :/I-THERM - Intersociety Conference on Thermal Phenomena in Electronic Systems (1087-9870)
+- Proceedings of the ... Bipolar/BiCMOS Circuits and Technology Meeting/Proceedings of the ... BipolarBiCMOS Circuits and Technology Meeting (1088-9299)
+- Proceedings/Proceedings - International Test Conference (1089-3539)
+- …and 75 more.
+
 ## 2026-10-05
 
 - **76** journals added, **0** removed, **29** changed.
