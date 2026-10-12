@@ -3,6 +3,18 @@
 What the site said, and when it changed. Generated automatically by
 `pipeline/changelog.py` on every refresh — newest entry first.
 
+## 2026-10-12
+
+- **8** journals added, **0** removed, **6** changed.
+
+### Price changes (5)
+
+- Annals of Faculty of Economics (1222-569X): 35 → 50
+- International Journal Of Recycling of Organic Waste in Agriculture (2195-3228): — → 510 USD
+- FACETS (2371-1671): 2500 → 2650
+- Anthropogenic Pollution (2588-4646): — → 400 USD
+- Consortium Psychiatricum (2712-7672): — → 1200 USD
+
 ## 2026-10-10
 
 - **36** journals added, **125** removed, **18** changed.

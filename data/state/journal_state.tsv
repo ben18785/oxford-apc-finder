@@ -14532,7 +14532,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0973-0168	Journal of Radiation and Cancer Research	none	no_apc			
 0973-029X	Journal of Oral and Maxillofacial Pathology	none	unknown			
 0973-0311	The Indian Anaesthetists Forum	none	no_apc			
-0973-0354	Thyroid Research and Practice	none	unknown			
+0973-0354	Thyroid Research and Practice	none	no_apc			
 0973-077X	South Asia Economic Journal	covered	covered			
 0973-0826	Energy Sustainable Development/Energy for sustainable development	covered	covered			
 0973-1075	Indian Journal of Palliative Care	none	unknown			
@@ -15199,6 +15199,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1016-1066	Musicologica Austriaca Journal for Austrian Music Studies	none	no_apc			
 1016-1333	Musil-Forum	none	unknown			
 1016-1422	Tropical Agricultural Research	none	no_apc			
+1016-1430	Medical Journal of the Islamic Republic of Iran	none	unknown			
 1016-2291	Pediatric Neurosurgery	none	unknown			
 1016-264X	Zeitschrift für Neuropsychologie	discount	discount_unknown_base			
 1016-2798	Crisia	none	no_apc			
@@ -18215,7 +18216,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1222-0612	Banatica	none	no_apc			
 1222-5096	Revista Bistriţei	none	no_apc			
 1222-5126	Romanian Journal of Military Medicine	none	no_apc			
-1222-569X	Annals of Faculty of Economics	none	list_price	35	EUR	
+1222-569X	Annals of Faculty of Economics	none	list_price	50	EUR	
 1222-989X	Lucrările Seminarului Geografic	none	no_apc			
 1223-0472	Medicina Moderna - Modern Medicine	none	no_apc			
 1223-1118	Romanian Journal of Meteorology	none	no_apc			
@@ -34475,7 +34476,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2195-2701	City Territory and Architecture	discount	discount	672	GBP	
 2195-2957	Preservation Digital Technology & Culture	none	no_apc			
 2195-3007	Asian Journal of Gambling Issues and Public Health	none	unknown			
-2195-3228	International Journal Of Recycling of Organic Waste in Agriculture	discount	no_apc			
+2195-3228	International Journal Of Recycling of Organic Waste in Agriculture	discount	discount	510	USD	
 2195-3325	Journal of Social and Political Psychology	none	no_apc			
 2195-3546	Sungkyunkwan University outstanding research	none	unknown			
 2195-3880	Journal of Control Automation and Electrical Systems	covered	covered			
@@ -34760,6 +34761,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2207-4791	Australian Journal of Clinical Education	none	no_apc			
 2207-7715	Global Bioethics Enquiry Journal	none	no_apc			
 2207-9963	ADVANCES IN GEO-ENERGY RESEARCH	none	unknown			
+2208-2174	EPH - International Journal of Humanities and Social Science	none	list_price	500	USD	
 2208-2352	Journal of Advance Research in Applied Science	none	unknown			
 2208-794X	Australian Journal of General Practice	none	unknown			
 2208-8482	Australian Population Studies	none	no_apc			
@@ -38482,7 +38484,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2369-9698	Journal of Bioresources and Bioproducts	discount	discount	850	USD	
 2369-9779	Ticker The Academic Business Librarianship Review	none	no_apc			
 2371-0888	Journal of the Association of Medical Microbiology and Infectious Disease Canada	none	unknown			
-2371-1671	FACETS	none	list_price	2500	USD	
+2371-1671	FACETS	none	list_price	2650	USD	
 2371-1930	Captures	none	no_apc			
 2371-2570	Feminist Philosophy Quarterly	none	no_apc			
 2371-3453	Fashion Studies	none	no_apc			
@@ -42396,7 +42398,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2588-4395	Iranian Evolutionary Educational Psychology Journal	none	list_price	6000000	IRR	
 2588-4441	Preventive Care In Nursing and Midwifery Journal	none	no_apc			
 2588-4506	International Journal of Applied Arts Studies	none	list_price	15000000	IRR	
-2588-4646	Anthropogenic Pollution	none	no_apc			
+2588-4646	Anthropogenic Pollution	none	list_price	400	USD	
 2588-4867	اقتصاد شهری	none	no_apc			
 2588-5057	نشریه علمی پژوهشی مدیریت کسب و کارهای بین المللی	none	list_price	3000000	IRR	
 2588-5200	Immunoregulation	none	no_apc			
@@ -44850,6 +44852,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2684-852X	Indonesian Journal of Religion and Society	none	list_price	1000000	IDR	
 2684-9003	Cendekia Jurnal Pengabdian Masyarakat	none	no_apc			
 2684-9135	Jurnal Sains Teknologi Transportasi Maritim	none	no_apc			
+2684-9615	PERDIKAN (Journal of Community Engagement)	none	list_price	750000	IDR	
 2685-032X	South East Asia Nursing Research	none	list_price	1000000	IDR	
 2685-0354	Abdihaz Jurnal Ilmiah Pengabdian pada Masyarakat	none	list_price	500000	IDR	
 2685-0540	Utamax Journal of Ultimate Research and Trends in Education	none	list_price	50	USD	
@@ -45410,7 +45413,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2712-7435	Journal of Applied Economic Research	none	no_apc			
 2712-7508	BRICS Journal of Economics	none	no_apc			
 2712-7591	Texts and History Journal of Philological Historical and Cultural Texts and History Studies	none	no_apc			
-2712-7672	Consortium Psychiatricum	none	no_apc			
+2712-7672	Consortium Psychiatricum	none	list_price	1200	USD	
 2712-8253	Saratov Medical Journal	none	no_apc			
 2712-8415	Вопросы элитологии	none	no_apc			
 2712-8490	Digital Diagnostics	none	list_price	1000	USD	
@@ -47223,6 +47226,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2804-3871	Peer Community Journal	diamond	diamond			
 2804-5866	Éclats	none	no_apc			
 2804-7699	Science and Technology for Energy Transition	none	no_apc			
+2805-1912	Revista Gobierno y Sociedad	none	no_apc			
 2805-2404	Buḥūṯ fi Al-H̲idmaẗ Al-Iğtimāʿiyyaẗ Al-Tanmawiyyaẗ	none	list_price	450	USD	
 2805-2420	New Valley Journal of Agricultural Science	none	list_price	200	USD	
 2805-2749	Mağallaẗ Buḥūṯ Al-Tarbiyyaẗ Al-Badaniyyaẗ wa ʿulūm Al-Rīyāḍaẗ	none	list_price	400	USD	
@@ -48641,6 +48645,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2982-2343	Health and Metabolism	none	list_price	1000	USD	
 2982-2394	Materials and Interfaces	none	list_price	1000	USD	
 2982-2882	Applied Innovations in Industrial Management	none	list_price	300	USD	
+2982-3358	Global Environment Science	none	list_price	1000	USD	
 2982-3439	Transactions on Artificial Intelligence	none	list_price	1000	USD	
 2982-3463	Work and Health	none	unknown			
 2982-3501	Journal of Computational Systems and Applications	none	list_price	50	USD	
@@ -49334,12 +49339,14 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3048-6351	Journal of Quantum Science and Technology.	none	unknown			
 3048-6653	Innovations in Sports Science.	none	unknown			
 3048-6920	ILN Journal: Indian Literary Narratives.	none	list_price	2500	INR	
+3048-7005	Synergy International Journal of Multidisciplinary Studies	none	list_price	100	USD	
 3048-7706	Exon.	none	no_apc			
 3048-8362	Applied Mathematics on Science and Engineering	none	no_apc			
 3048-8443	Journal of Dentistry and Bio-Allied Health Sciences	none	no_apc			
 3048-8575	Creativitas: Critical Explorations in Literary Studies	none	no_apc			
 3048-9563	KT Journal of Mechanical Engineering	none	list_price	30	USD	
 3049-0146	Innovation of Chemistry & Materials for Sustainability	none	list_price	150	USD	
+3049-2904	Oral Sphere Journal of Dental and Health Sciences	none	list_price	55	USD	
 3049-4206	Natural Sciences and Applied Technology	none	list_price	1000	INR	
 3049-4672	Cambridge Prisms Energy Transitions	covered	covered			
 3049-4753	Machine Learning Earth	none	list_price	2500	GBP	
@@ -49819,6 +49826,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3080-3624	Razi Medical Journal	none	list_price	100	USD	
 3080-3950	Wah Academia Journal of Health and Nutrition	none	list_price	130	USD	
 3080-7557	Health Innovation Reports	none	no_apc			
+3080-8618	Zanin Journal of Science and Engineering	none	list_price	250000	IQD	
 3082-4583	Journal of Allied Health Sciences & Medical Research	none	list_price	50	USD	
 3082-4621	Journal of Hospitality Tourism & Cultural Research	none	list_price	50	USD	
 3082-8058	Nano Micro Mechanics Review	none	unknown			
