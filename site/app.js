@@ -1860,9 +1860,54 @@ async function loadInstitutions() {
     if (!resp.ok) return;
     STATE.instData = await resp.json();
   } catch { return; }
-  $("#inst").innerHTML = `<option value="">not listed</option>`
-    + STATE.instData.institutions.map((i) =>
-        `<option value="${esc(i.ror)}">${esc(i.name)}</option>`).join("");
+  renderInstOptions();
+}
+
+/* Finding one university among 150 by typing part of its name.
+ *
+ * Case, accents, apostrophes and punctuation are ignored, and every word typed
+ * must appear somewhere in the name, in any order: "kings london" finds
+ * King's College London, "st andrews" finds University of St Andrews. Only the
+ * registry's display name is searched, so an abbreviation such as "UCL" finds
+ * nothing; the list says so rather than going silently empty. */
+const foldName = (s) => String(s || "").normalize("NFD")
+  .replace(/[\u0300-\u036f]/g, "").replace(/['\u2019]/g, "")
+  .toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+
+function matchInstitutions(q) {
+  const all = (STATE.instData || {}).institutions || [];
+  const words = foldName(q).split(" ").filter(Boolean);
+  if (!words.length) return all;
+  return all.filter((i) => {
+    const name = foldName(i.name);
+    return words.every((w) => name.includes(w));
+  });
+}
+
+/* The list narrowed to what has been typed. The university already chosen
+ * stays in it whatever is typed: dropping it would leave the list showing
+ * "not listed" while the warning and the flags still named that university. */
+function renderInstOptions() {
+  const q = $("#inst-q").value;
+  const hits = matchInstitutions(q);
+  const chosen = STATE.inst;
+  const shown = chosen && !hits.includes(chosen) ? [chosen, ...hits] : hits;
+  const first = foldName(q) && !hits.length
+    ? "no match — try the full name" : "not listed";
+  $("#inst").innerHTML = `<option value="">${first}</option>`
+    + shown.map((i) => `<option value="${esc(i.ror)}">${esc(i.name)}</option>`).join("");
+  $("#inst").value = chosen ? chosen.ror : "";
+  return hits;
+}
+
+/* Typing chooses for you once only one university is left; until then it only
+ * narrows the list, and Enter takes the first. Nothing typed ever unchooses. */
+function typeInstitution(takeFirst = false) {
+  const hits = renderInstOptions();
+  if (!foldName($("#inst-q").value) || !hits.length) return Promise.resolve();
+  if (hits.length > 1 && !takeFirst) return Promise.resolve();
+  if (hits[0] === STATE.inst) return Promise.resolve();
+  return setInstitution(hits[0].ror).then(runSearch);
 }
 
 async function setInstitution(ror, remember = true) {
@@ -1886,7 +1931,7 @@ async function setInstitution(ror, remember = true) {
   }
   STATE.inst = inst;
   STATE.instJournals = inst ? journals : null;
-  $("#inst").value = inst ? inst.ror : "";
+  if (STATE.instData) renderInstOptions();
   if (remember) {
     try { localStorage.setItem(INST_KEY, inst ? inst.ror : ""); } catch { /* blocked */ }
   }
@@ -2349,6 +2394,11 @@ function wireUI() {
   if (away && pick) setInstitution(pick, false).then(runSearch);
   $("#elsewhere").addEventListener("change", (e) => { setElsewhere(e.target.checked); runSearch(); });
   $("#inst").addEventListener("change", (e) => { setInstitution(e.target.value).then(runSearch); });
+  $("#inst-q").addEventListener("input", () => { typeInstitution(); });
+  // Enter here would otherwise submit the journal search this box sits in.
+  $("#inst-q").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") { e.preventDefault(); typeInstitution(true); }
+  });
   try { $("#show-cites").checked = localStorage.getItem(CITES_KEY) === "1"; } catch { /* blocked */ }
   $("#show-cites").addEventListener("change", () => {
     setShowCites(showCites());

@@ -55,11 +55,14 @@
         <input type="checkbox" id="elsewhere">
         <span>I'm not at Oxford</span>
       </label>
-      <label class="sortbox" id="inst-wrap" hidden>My university
+      <span class="sortbox" id="inst-wrap" hidden>
+        <label for="inst-q">My university</label>
+        <input id="inst-q" type="search" placeholder="Type to find it" autocomplete="off"
+               spellcheck="false" aria-controls="inst">
         <select id="inst" aria-label="Your university">
           <option value="">not listed</option>
         </select>
-      </label>
+      </span>
       <label class="toggle oxford-only">
         <input type="checkbox" id="deal-only" checked>
         <span>Only show journals with an Oxford deal</span>
