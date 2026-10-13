@@ -436,6 +436,15 @@ a.btn { color: #fff; }
   background: var(--card); border: 1px solid var(--line);
   border-radius: 6px; padding: 3px 6px;
 }
+/* The university picker: a box to type in beside the list it narrows. Both
+   may shrink and wrap, since the longest name is wider than a phone. */
+#inst-wrap { flex-wrap: wrap; }
+#inst-wrap input {
+  font: inherit; font-family: var(--serif); color: var(--text);
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 6px; padding: 3px 6px; width: 11em;
+}
+#inst-wrap select { max-width: min(22em, 100%); }
 
 /* ---- starring -----------------------------------------------------------
    A quiet control until used: an outline star carries no meaning to someone

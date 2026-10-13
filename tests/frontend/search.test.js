@@ -1267,6 +1267,58 @@ chain.then(function () {
         costCells(body).every(function (c) {
           return /£0<|subscription<|depends on your institution</.test(c); }));
       closeModal();
+      /* Finding a university by typing. Derived from whichever names this
+       * dataset holds, so it runs on the fixtures and on the real list. */
+      var all = STATE.instData.institutions;
+      function options() {
+        return (el("#inst").innerHTML.match(/<option value="[0-9a-z]+">/g) || []).length;
+      }
+      function type(text, enter) {
+        el("#inst-q").value = text;
+        return typeInstitution(enter);
+      }
+      var other = all.filter(function (i) { return i !== inst; })[0];
+      var words = foldName(other.name).split(" ");
+      check("university search: every name finds itself, whatever its case or punctuation",
+        all.every(function (i) {
+          return matchInstitutions(i.name.toUpperCase().replace(/'/g, "")).indexOf(i) !== -1; }));
+      check("university search: words may come in any order",
+        matchInstitutions(words.slice().reverse().join("  ")).indexOf(other) !== -1);
+      check("university search: accents are ignored",
+        foldName("Universit\u00e9 d'\u00c9vry") === "universite devry");
+      return type("zzqx no such place").then(function () {
+        check("university search: no match says so and keeps the chosen university",
+          el("#inst").innerHTML.indexOf("no match") !== -1 && options() === 1
+          && STATE.inst === inst && el("#inst").value === inst.ror
+          && el("#inst-warning").hidden === false);
+        return type(words[0].slice(0, 2));
+      }).then(function () {
+        var hits = matchInstitutions(words[0].slice(0, 2));
+        check("university search: typing narrows the list without choosing among several",
+          hits.length < 2 || (STATE.inst === inst
+            && options() === hits.length + (hits.indexOf(inst) === -1 ? 1 : 0)));
+        return type(other.name);
+      }).then(function () {
+        var hits = matchInstitutions(other.name);
+        check("university search: a single match is chosen, with its warning",
+          hits.length > 1 || (STATE.inst === other && el("#inst").value === other.ror
+            && el("#inst-warning").innerHTML.indexOf(esc(other.name)) !== -1
+            && localStorage.getItem(INST_KEY) === other.ror));
+        return setInstitution(inst.ror).then(function () { return type(other.name, true); });
+      }).then(function () {
+        check("university search: Enter takes the first match",
+          STATE.inst === matchInstitutions(other.name)[0]);
+        reset();
+        check("university search: choosing by typing still adds no figure",
+          costCells(el("#results").innerHTML).every(function (c) {
+            return /£0<|subscription<|depends on your institution</.test(c); }));
+        return type("");
+      }).then(function () {
+        check("university search: clearing the box restores the list and unchooses nothing",
+          options() === all.length && STATE.inst !== null);
+        return setInstitution(inst.ror);
+      });
+    }).then(function () {
       /* Back at Oxford, nothing of the other university may remain. */
       setElsewhere(false);
       el("#deal-only").checked = true;
