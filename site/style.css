@@ -511,3 +511,17 @@ a.btn { color: #fff; }
 /* "I'm not at Oxford": everything that only means something to an Oxford
  * author is hidden rather than reworded. */
 body.elsewhere .oxford-only { display: none !important; }
+
+/* A university other than Oxford. The warning is the loudest thing in the
+ * view on purpose: what follows it is unchecked agreement data. */
+.inst-warning {
+  margin: 14px 0; padding: 12px 14px; border-radius: 8px;
+  background: #fdecea; border: 1px solid #f5c6c0; border-left: 4px solid #c0392b;
+  color: #6b2018; font-size: .92rem; line-height: 1.5;
+}
+.inst-warning p { margin: 0; }
+.inst-warning strong { color: #86271b; }
+/* Amber, not the green of a covered journal: it is a prompt to ask, not an
+ * answer. */
+.badge.listed { background: #fff4d6; color: #6a4c00; border: 1px solid #f0d68a; }
+.listed-note { color: #6a4c00; }

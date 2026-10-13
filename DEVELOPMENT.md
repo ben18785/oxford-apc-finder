@@ -180,7 +180,30 @@ its end date, could not be fetched, or has no readable end date is left out
 rather than flagged.
 
 Oxford is deliberately absent from the file, and nothing that writes it can
-fail the build. Nothing on the site reads it yet.
+fail the build.
+
+Only universities are kept. The agreement data also lists companies,
+government laboratories and hospital trusts, and gives no type, so each
+participant is looked up in the [ROR](https://ror.org) registry: it stays if
+ROR types it as education in `other_institutions.country`, and is not one of
+the further-education colleges in `data/curated/not_universities.yaml`. ROR's
+name replaces the agreement data's, and a participant listed under an
+identifier ROR has retired is filed under its successor. Answers are kept in
+`data/state/ror_registry.json` and rechecked every 90 days, so a normal run
+makes almost no requests. If ROR cannot be reached for more than a few
+participants never seen before, no file is written that week.
+
+On the site, a reader who ticks "I'm not at Oxford" can choose their university
+(`?inst=<ROR>` links straight to one). That changes two things and no cost:
+
+- a warning naming the university, on the results, every journal page and the
+  shortlist, for as long as it is chosen;
+- an "Agreement listed — ask your library" flag on journals an agreement lists
+  the university for, with the agreement identifier on the journal page.
+
+Costs stay exactly as the "not at Oxford" view gives them. The frontend suite
+asserts that choosing a university changes no cost cell, and that a flagged
+journal is not counted, sorted or filtered as free.
 
 ### The subfield sweep runs quarterly, not weekly
 

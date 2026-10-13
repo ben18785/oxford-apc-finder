@@ -1,0 +1,1898 @@
+{
+ "0001h1y25": {
+  "name": "Mary Lyon Centre at MRC Harwell",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "0003e4m70": {
+  "name": "Hull York Medical School",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "0009t4v78": {
+  "name": "Anglia Ruskin University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "001c2sn75": {
+  "name": "London Business School",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "002g3cb31": {
+  "name": "Queen Margaret University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "002h8g185": {
+  "name": "University of Bath",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00340yn33": {
+  "name": "Keele University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "0038gz437": {
+  "name": "Newman University",
+  "education": true,
+  "country": "US",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "0038jbq24": {
+  "name": "Bath Spa University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00615dw36": {
+  "name": "Bishop Auckland College",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "0067fqk38": {
+  "name": "St Mary's University Twickenham London",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "006jb1a24": {
+  "name": "Bangor University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "006t72359": {
+  "name": "Norwich BioScience Institutes",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00874hx02": {
+  "name": "National Oceanography Centre",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "0089bg420": {
+  "name": "Daresbury Laboratory",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "008n7pv89": {
+  "name": "University of Plymouth",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "0090zs177": {
+  "name": "London School of Economics and Political Science",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "009tnsj43": {
+  "name": "Newman University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00a0jsq62": {
+  "name": "London School of Hygiene & Tropical Medicine",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00a0n9e72": {
+  "name": "University of Limerick",
+  "education": true,
+  "country": "IE",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00ae33288": {
+  "name": "London Metropolitan University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00ayhx656": {
+  "name": "University of Sussex",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00bge3r76": {
+  "name": "The University of Law",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00bmj0a71": {
+  "name": "University of Greenwich",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00bqvf857": {
+  "name": "Cardiff Metropolitan University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00cwqg982": {
+  "name": "Biotechnology and Biological Sciences Research Council",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00d6k8y35": {
+  "name": "University of Staffordshire",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00dn4t376": {
+  "name": "Brunel University of London",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00hswnk62": {
+  "name": "Queen's University Belfast",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00ks66431": {
+  "name": "University of Surrey",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00n208030": {
+  "name": "St Mary's University College",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00n3w3b69": {
+  "name": "University of Strathclyde",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00pggkr55": {
+  "name": "UK Centre for Ecology & Hydrology",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00pxfwe85": {
+  "name": "National Museums Scotland",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00q519868": {
+  "name": "Grwp Llandrillo Menai",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00t67pt25": {
+  "name": "Birmingham City University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00tw3jy02": {
+  "name": "MRC Laboratory of Molecular Biology",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00v6s9648": {
+  "name": "University of Worcester",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00vs8d940": {
+  "name": "University of Bradford",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00vtgdb53": {
+  "name": "University of Glasgow",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00wygct11": {
+  "name": "University of Gloucestershire",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00xkeyj56": {
+  "name": "University of Kent",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00ynnr806": {
+  "name": "Royal Botanic Gardens, Kew",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00z20c921": {
+  "name": "Harper Adams University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "00z5fkj61": {
+  "name": "York St John University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "010jbqd54": {
+  "name": "University of Lancashire",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "011jsc803": {
+  "name": "MRC Human Genetics Unit",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "013meh722": {
+  "name": "University of Cambridge",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "015m2p889": {
+  "name": "Aberystwyth University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "016476m91": {
+  "name": "University of Aberdeen",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01690jq43": {
+  "name": "Loughborough College",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "018cxtf62": {
+  "name": "Earlham Institute",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "018h10037": {
+  "name": "UK Health Security Agency",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "019wt1929": {
+  "name": "Sheffield Hallam University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01a77tt86": {
+  "name": "University of Warwick",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01cy0sz82": {
+  "name": "University of Suffolk",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01d5qpn59": {
+  "name": "Babraham Institute",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01dqb0q37": {
+  "name": "LifeArc",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01drpwb22": {
+  "name": "University of Chester",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01ee9ar58": {
+  "name": "University of Nottingham",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01egahc47": {
+  "name": "Royal College of Art",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01hxy9878": {
+  "name": "Royal College of Surgeons in Ireland",
+  "education": true,
+  "country": "IE",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01j1n1798": {
+  "name": "London School of Business and Management",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01jqked53": {
+  "name": "South Devon College",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01k2y1055": {
+  "name": "University of Wolverhampton",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01khx4a30": {
+  "name": "Goldsmiths University of London",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01kj2bm70": {
+  "name": "Newcastle University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01nrxwf90": {
+  "name": "University of Edinburgh",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01p0a2d88": {
+  "name": "Belfast Metropolitan College",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01pen2t90": {
+  "name": "Wiltshire College",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01rhff309": {
+  "name": "British Antarctic Survey",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01rv4p989": {
+  "name": "Middlesex University London",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01ryk1543": {
+  "name": "University of Southampton",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01s033b11": {
+  "name": "Glasgow School of Art",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01t884y44": {
+  "name": "University of Greater Manchester",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01tgmhj36": {
+  "name": "Coventry University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01tmqtf75": {
+  "name": "University of Salford",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01v29qb04": {
+  "name": "Durham University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01vdt8f48": {
+  "name": "MRC Mitochondrial Biology Unit",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01wka8n18": {
+  "name": "Royal Veterinary College",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "01yp9g959": {
+  "name": "University of Ulster",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "020jfw620": {
+  "name": "Hartpury University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "0220mzb33": {
+  "name": "King's College London",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "022gstf70": {
+  "name": "Falmouth University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "023372f11": {
+  "name": "Royal Northern College of Music",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "023ent443": {
+  "name": "Royal Welsh College of Music and Drama",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "024mrxd33": {
+  "name": "University of Leeds",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "0267vjk41": {
+  "name": "University of Hertfordshire",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "026k5mg93": {
+  "name": "University of East Anglia",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "026zzn846": {
+  "name": "Queen Mary University of London",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "027m9bs27": {
+  "name": "University of Manchester",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "028ndzd53": {
+  "name": "Edge Hill University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "029tw2407": {
+  "name": "University of Chichester",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "02b5d8509": {
+  "name": "Natural Environment Research Council",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "02hstj355": {
+  "name": "Manchester Metropolitan University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "02jf25180": {
+  "name": "Warwickshire College",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "02jx3x895": {
+  "name": "University College London",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "02mb95055": {
+  "name": "Birkbeck, University of London",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "02mzn7s88": {
+  "name": "University of South Wales",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "02nkf1q06": {
+  "name": "University of Essex",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "02nwg5t34": {
+  "name": "University of the West of England",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "02q3bak66": {
+  "name": "Buckinghamshire New University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "02s08xt61": {
+  "name": "University of the Highlands and Islands",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "02tyrky19": {
+  "name": "Trinity College Dublin",
+  "education": true,
+  "country": "IE",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "02vwnat91": {
+  "name": "London South Bank University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "02wn5qz54": {
+  "name": "University of St Andrews",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "02x2mw849": {
+  "name": "Turing Institute",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "02x80b031": {
+  "name": "Leeds Trinity University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "02xsh5r57": {
+  "name": "Leeds Beckett University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "02yhrrk59": {
+  "name": "University of Derby",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "0312pnr83": {
+  "name": "De Montfort University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03265fv13": {
+  "name": "University College Cork",
+  "education": true,
+  "country": "IE",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "032j97c50": {
+  "name": "Coleg Cambria",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "033byn085": {
+  "name": "Royal Agricultural University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "0347fy350": {
+  "name": "Rothamsted Research",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "035dkdb55": {
+  "name": "The Alan Turing Institute",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "0361bwx64": {
+  "name": "United Kingdom Atomic Energy Authority",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "0367pw924": {
+  "name": "Lincoln College",
+  "education": true,
+  "country": "US",
+  "active": false,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "0371kdw96": {
+  "name": "The Liverpool Institute for Performing Arts",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "0378g3743": {
+  "name": "Animal and Plant Health Agency",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "037wqvd92": {
+  "name": "Royal Conservatoire of Scotland",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "039zvsn29": {
+  "name": "Natural History Museum",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03angcq70": {
+  "name": "University of Birmingham",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03b8f3736": {
+  "name": "Architectural Association School of Architecture",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03bea9k73": {
+  "name": "Ollscoil na Gaillimhe – University of Galway",
+  "education": true,
+  "country": "IE",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03ctjbj91": {
+  "name": "Liverpool Hope University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03dvm1235": {
+  "name": "Glasgow Caledonian University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03dx46b94": {
+  "name": "Royal National Orthopaedic Hospital NHS Trust",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03e5mzp60": {
+  "name": "University of West London",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03f914y84": {
+  "name": "Plymouth Marjon University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03fmjzx88": {
+  "name": "University of Winchester",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03gq8fr08": {
+  "name": "Rutherford Appleton Laboratory",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03h2bxq36": {
+  "name": "University of Dundee",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03kd28f18": {
+  "name": "University of Buckingham",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03kk7td41": {
+  "name": "Cardiff University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03rzp5127": {
+  "name": "James Hutton Institute",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03svjbs84": {
+  "name": "Liverpool School of Tropical Medicine",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03x94j517": {
+  "name": "Medical Research Council",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03yeq9x20": {
+  "name": "University of Lincoln",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03yghzc09": {
+  "name": "University of Exeter",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03ykbk197": {
+  "name": "University of Portsmouth",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03z28gk75": {
+  "name": "Teesside University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03zaddr67": {
+  "name": "Moorfields Eye Hospital NHS Foundation Trust",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03zjvnn91": {
+  "name": "Edinburgh Napier University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "03zydm450": {
+  "name": "Great Ormond Street Hospital for Children NHS Foundation Trust",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "0400avk24": {
+  "name": "University of Bedfordshire",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "040f08y74": {
+  "name": "St George's, University of London",
+  "education": true,
+  "country": "GB",
+  "active": false,
+  "successor": "047ybhc09",
+  "checked": "2026-10-13"
+ },
+ "041agrq44": {
+  "name": "Senate",
+  "education": false,
+  "country": "NL",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "041kmwe10": {
+  "name": "Imperial College London",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "042fqyp44": {
+  "name": "University College London Hospitals NHS Foundation Trust",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "042ver755": {
+  "name": "University College Birmingham",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "043071f54": {
+  "name": "University of Roehampton",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "0431sk359": {
+  "name": "Marine Biological Association of the United Kingdom",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "043jzw605": {
+  "name": "Institute of Cancer Research",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04489at23": {
+  "name": "City, University of London",
+  "education": true,
+  "country": "GB",
+  "active": false,
+  "successor": "047ybhc09",
+  "checked": "2026-10-13"
+ },
+ "044e2ja82": {
+  "name": "Scotland's Rural College",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "045bx8592": {
+  "name": "Royal Academy of Music",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "045wgfr59": {
+  "name": "University of Stirling",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "0471xye93": {
+  "name": "Higher Education Authority",
+  "education": false,
+  "country": "IE",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "047ck1j35": {
+  "name": "Moredun Research Institute",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "047ybhc09": {
+  "name": "City St George's, University of London",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "0489ggv38": {
+  "name": "Canterbury Christ Church University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "048kc0s52": {
+  "name": "Wrexham University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "048nfjm95": {
+  "name": "National University of Ireland, Maynooth",
+  "education": true,
+  "country": "IE",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "049e6bc10": {
+  "name": "Northumbria University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04a1a1e81": {
+  "name": "Dublin City University",
+  "education": true,
+  "country": "IE",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04a7gbp98": {
+  "name": "British Geological Survey",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04b14sj77": {
+  "name": "Peterborough Regional College",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04cnfrn26": {
+  "name": "University of the Arts London",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04cw6st05": {
+  "name": "University of London",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04f0qj703": {
+  "name": "Robert Gordon University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04f2nsd36": {
+  "name": "Lancaster University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04g2vpn86": {
+  "name": "Royal Holloway University of London",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04g3bsp16": {
+  "name": "Reaseheath College",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04h699437": {
+  "name": "University of Leicester",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04jp2hx10": {
+  "name": "University of Northampton",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04ke6ht85": {
+  "name": "Scottish Association For Marine Science",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04kp2b655": {
+  "name": "University of Brighton",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04kw8et29": {
+  "name": "Bishop Grosseteste University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04kwn3124": {
+  "name": "Royal College of Music",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04m01e293": {
+  "name": "University of York",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04m2j3740": {
+  "name": "Geological Survey of Ireland",
+  "education": false,
+  "country": "IE",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04mghma93": {
+  "name": "Heriot-Watt University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04mmhzs81": {
+  "name": "ARM (United Kingdom)",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04mwwnx67": {
+  "name": "Abertay University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04nkhwh30": {
+  "name": "University of Hull",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04p55hr04": {
+  "name": "University of Sunderland",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04q2sd920": {
+  "name": "North East Surrey College of Technology",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04r0ks517": {
+  "name": "University for the Creative Arts",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04rtdp853": {
+  "name": "Royal Free London NHS Foundation Trust",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04t0qbt32": {
+  "name": "Technological University Dublin",
+  "education": true,
+  "country": "IE",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04td3ys19": {
+  "name": "Quadram Institute",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04tnbqb63": {
+  "name": "The Francis Crick Institute",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04tvt8c73": {
+  "name": "Regent's University London",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04v2twj65": {
+  "name": "Oxford Brookes University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04vg4w365": {
+  "name": "Loughborough University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04vrxay34": {
+  "name": "SOAS University of London",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04w3d2v20": {
+  "name": "University of the West of Scotland",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04xs57h96": {
+  "name": "University of Liverpool",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04xv01a59": {
+  "name": "The Pirbright Institute",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04xyxjd90": {
+  "name": "Nottingham Trent University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04ycpbx82": {
+  "name": "University of Westminster",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04zfme737": {
+  "name": "Liverpool John Moores University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "04zk97n46": {
+  "name": "New College Durham",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "050pqs331": {
+  "name": "MRC Elsie Widdowson Laboratory",
+  "education": false,
+  "country": "GB",
+  "active": false,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "0517ce304": {
+  "name": "Kingston University",
+  "education": true,
+  "country": "US",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "051samc18": {
+  "name": "National Library of Scotland",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "0524sp257": {
+  "name": "University of Bristol",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "052578691": {
+  "name": "MRC Epidemiology Unit",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "052gg0110": {
+  "name": "University of Oxford",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "052mq0r90": {
+  "name": "Government Communications Headquarters",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "053fq8t95": {
+  "name": "Swansea University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "054225q67": {
+  "name": "Cancer Research UK",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "055bpw879": {
+  "name": "MRC Cognition and Brain Sciences Unit",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "055zmrh94": {
+  "name": "John Innes Centre",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "057g20z61": {
+  "name": "Science and Technology Facilities Council",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "057jrqr44": {
+  "name": "University of East London",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "059hhvg49": {
+  "name": "Arden University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "05a49e175": {
+  "name": "Stranmillis University College",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "05ab3fa41": {
+  "name": "New College",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "05av9mn02": {
+  "name": "Plymouth Marine Laboratory",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "05bbqza97": {
+  "name": "Kingston University London",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "05c24ew78": {
+  "name": "Walsall College",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "05cncd958": {
+  "name": "Cranfield University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "05cy4wa09": {
+  "name": "Wellcome Sanger Institute",
+  "education": false,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "05d97wj93": {
+  "name": "West Suffolk College",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "05gd22996": {
+  "name": "University of Cumbria",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "05gkzcc88": {
+  "name": "University of Wales Trinity Saint David",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "05j0ve876": {
+  "name": "Aston University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "05krs5044": {
+  "name": "University of Sheffield",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "05m7pjf47": {
+  "name": "University College Dublin",
+  "education": true,
+  "country": "IE",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "05mzfcs16": {
+  "name": "The Open University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "05t1h8f27": {
+  "name": "University of Huddersfield",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "05v62cm79": {
+  "name": "University of Reading",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "05wtfef22": {
+  "name": "Royal Central School of Speech and Drama",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "05wwcw481": {
+  "name": "Bournemouth University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ },
+ "05xydav19": {
+  "name": "Southampton Solent University",
+  "education": true,
+  "country": "GB",
+  "active": true,
+  "successor": null,
+  "checked": "2026-10-13"
+ }
+}

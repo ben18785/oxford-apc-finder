@@ -1,0 +1,55 @@
+{
+ "generated": "2026-10-13T00:00:00Z",
+ "sample_data": true,
+ "basis": "Participant and title lists from the Journal Checker Tool's agreement data only. Not checked against any library's own information.",
+ "excluded_ror": "052gg0110",
+ "source": {
+  "documentation": "https://journalcheckertool.org/transformative-agreements/",
+  "license": "CC BY 4.0"
+ },
+ "institutions": [
+  {
+   "ror": "0fixtur01",
+   "name": "Fixture University",
+   "agreements": [
+    "fix2026jisc (Hybrid)",
+    "wiley2026jisc"
+   ]
+  },
+  {
+   "ror": "0fixtur02",
+   "name": "Sample Metropolitan University",
+   "agreements": [
+    "wiley2026jisc"
+   ]
+  }
+ ],
+ "agreements": {
+  "wiley2026jisc": {
+   "esac_id": "wiley2026jisc",
+   "package": "",
+   "end_date": "2028-12-31",
+   "corresponding_author_only": true,
+   "last_reviewed": "",
+   "data_url": "https://example.invalid/agreement",
+   "issns": [
+    "0001-1541",
+    "0001-2092",
+    "1547-5905"
+   ]
+  },
+  "fix2026jisc (Hybrid)": {
+   "esac_id": "fix2026jisc",
+   "package": "Hybrid",
+   "end_date": "2027-12-31",
+   "corresponding_author_only": true,
+   "last_reviewed": "",
+   "data_url": "https://example.invalid/agreement",
+   "issns": [
+    "0001-527X",
+    "0001-6918",
+    "9999-9999"
+   ]
+  }
+ }
+}

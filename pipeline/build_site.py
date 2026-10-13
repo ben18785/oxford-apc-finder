@@ -121,6 +121,54 @@ def cost_summary(j: dict) -> str:
     return "APC unknown"
 
 
+def write_institutions(journals: list[dict], datadir) -> bool:
+    """Ship which agreements list each other university, if a refresh made it.
+
+    Optional in the same way usage.json is: the file is absent when the
+    feature is off, when the registry lookup failed, and in any dataset cached
+    before this existed. The site then offers no university list.
+
+    Two files, because the second is large and most readers never need it:
+      institutions.json      who is in which agreement — read when a reader
+                             says they are not at Oxford;
+      agreement_titles.json  each agreement's journals, as site journal ids —
+                             read only once a university is chosen.
+
+    Nothing here touches a journal record or the index. What Oxford is told
+    is built before this runs and is not read by it.
+    """
+    path = OUT / "institutions.json"
+    if not path.exists():
+        return False
+    src = read_json(path)
+    by_issn = {i: j["id"] for j in journals for i in j["issns"]}
+    keys = sorted(src.get("agreements") or {})
+    position = {k: n for n, k in enumerate(keys)}
+    agreements, titles = [], []
+    for k in keys:
+        a = src["agreements"][k]
+        agreements.append({"key": k, "esac_id": a["esac_id"],
+                           "package": a.get("package") or "",
+                           "end_date": a["end_date"], "url": a.get("data_url") or ""})
+        # Only journals this site lists; an agreement's other titles have no
+        # page here to show the flag on.
+        titles.append(sorted({by_issn[i] for i in a.get("issns") or [] if i in by_issn}))
+    institutions = [{"ror": i["ror"], "name": i["name"],
+                     "agreements": sorted(position[k] for k in i["agreements"]
+                                          if k in position)}
+                    for i in src.get("institutions") or []]
+    institutions = [i for i in institutions if i["agreements"]]
+    if not institutions:
+        return False
+    write_json(datadir / "institutions.json", {
+        "generated": src.get("generated"),
+        "documentation": (src.get("source") or {}).get("documentation"),
+        "institutions": institutions, "agreements": agreements})
+    write_json(datadir / "agreement_titles.json", titles)
+    print(f"Other institutions: {len(institutions)}, across {len(agreements)} agreements")
+    return True
+
+
 def main() -> None:
     cfg = load_config()
     data = read_json(OUT / "journals.json")
@@ -232,6 +280,8 @@ def main() -> None:
     if usage_path.exists():
         write_json(datadir / "usage.json", read_json(usage_path))
 
+    institutions_available = write_institutions(data["journals"], datadir)
+
     analytics = cfg.get("analytics") or {}
     write_json(SITE_OUT / "config.json", {
         "title": cfg["site_title"],
@@ -251,6 +301,7 @@ def main() -> None:
         # Dated so converted figures are never passed off as quoted in sterling.
         "fx": data.get("fx"),
         "usage_available": usage_path.exists(),
+        "institutions_available": institutions_available,
     })
     print(f"Site built into _site/ — {len(index)} journals, {len(shards)} detail shards")
 

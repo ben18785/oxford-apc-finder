@@ -55,6 +55,11 @@
         <input type="checkbox" id="elsewhere">
         <span>I'm not at Oxford</span>
       </label>
+      <label class="sortbox" id="inst-wrap" hidden>My university
+        <select id="inst" aria-label="Your university">
+          <option value="">not listed</option>
+        </select>
+      </label>
       <label class="toggle oxford-only">
         <input type="checkbox" id="deal-only" checked>
         <span>Only show journals with an Oxford deal</span>
@@ -85,6 +90,10 @@
         Journal missing? Tell us</a>
     </div>
   </form>
+
+  <!-- Shown for as long as a university other than Oxford is chosen, and not
+       dismissible: it is the condition everything below it is read under. -->
+  <div id="inst-warning" hidden></div>
 
   <section id="results" aria-live="polite"></section>
 

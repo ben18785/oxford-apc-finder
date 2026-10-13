@@ -32,8 +32,9 @@ import sys
 import time
 
 import requests
+import yaml
 
-from common import (DATA, FIXTURES, FIXTURES_MODE, Manifest, OUT, fetch_csv,
+from common import (CURATED, DATA, FIXTURES, FIXTURES_MODE, Manifest, OUT, fetch_csv,
                     http_get, jct_verdict, load_config, read_json, utcnow,
                     write_json, normalise_issn)
 
@@ -128,6 +129,13 @@ def institution_is_current(rows: list[dict], ror: str) -> bool:
 # point catches its own errors and degrades to "no file".
 # ---------------------------------------------------------------------------
 ROR_RX = re.compile(r"0[0-9a-z]{8}")
+# What ROR said about each participant, kept between runs. Committed, like
+# the other state files, so a run that cannot reach ROR still has last week's
+# answers.
+ROR_REGISTRY = DATA / "state" / "ror_registry.json"
+ROR_RECHECK_DAYS = 90
+ROR_PAUSE = 0.1
+ROR_MAX_UNKNOWN_SHARE = 0.05
 
 
 def ror_id(value: str | None) -> str | None:
@@ -176,6 +184,114 @@ def record_package(packages: list[dict], index_row: dict, rows: list[dict]) -> N
               f"{index_row.get('ESAC ID')}: {exc}", file=sys.stderr)
 
 
+def ror_record(item: dict, today: datetime.date) -> dict:
+    """The few facts kept from one ROR organisation record."""
+    display = [n.get("value") for n in item.get("names") or []
+               if "ror_display" in (n.get("types") or [])]
+    successors = [ror_id(r.get("id")) for r in item.get("relationships") or []
+                  if r.get("type") == "successor"]
+    place = ((item.get("locations") or [{}])[0].get("geonames_details") or {})
+    return {
+        "name": display[0] if display else None,
+        "education": "education" in (item.get("types") or []),
+        "country": place.get("country_code"),
+        "active": item.get("status") == "active",
+        # Only an unambiguous successor is followed. A body that split in two
+        # has no single heir to inherit its agreements.
+        "successor": successors[0] if len(successors) == 1 else None,
+        "checked": today.isoformat(),
+    }
+
+
+def fetch_universities(cfg: dict, rors: set[str], today: datetime.date,
+                       session=None) -> dict[str, dict]:
+    """Which of these participants are universities, according to ROR.
+
+    The agreement data lists anyone who signed up — companies, government
+    labs, hospital trusts — and gives no type. ROR does. Returns the records
+    of those ROR types as education in the configured country, including
+    retired ones: the agreement data lags mergers, and still lists
+    universities under identifiers ROR has replaced with a successor.
+
+    One request per organisation, because ROR's filtered listing does not page
+    reliably (it repeats some records and omits others). Answers are kept in
+    data/state/ror_registry.json and reused for ROR_RECHECK_DAYS, so a normal
+    weekly run asks about only the handful that are new or due.
+
+    An organisation that cannot be looked up and was never seen before is left
+    out. If that is true of more than a few, this raises: a list missing a
+    random tenth of universities reads as "your university has no agreements".
+    """
+    country = (cfg.get("other_institutions") or {})["country"]
+    url = cfg["sources"]["ror_api"]
+    cache = read_json(ROR_REGISTRY) if ROR_REGISTRY.exists() else {}
+    unknown: list[str] = []
+
+    def look_up(ror: str) -> dict | None:
+        rec = cache.get(ror)
+        try:
+            age = (today - datetime.date.fromisoformat(rec["checked"])).days
+        except (TypeError, KeyError, ValueError):
+            age = None
+        if age is not None and 0 <= age < ROR_RECHECK_DAYS:
+            return rec
+        try:
+            resp = http_get(f"{url}/{ror}", session=session, retries=2, timeout=30)
+            resp.raise_for_status()
+            cache[ror] = ror_record(resp.json(), today)
+            time.sleep(ROR_PAUSE)
+        except Exception:  # noqa: BLE001
+            if rec is None:
+                unknown.append(ror)
+        return cache.get(ror)
+
+    records = {r: rec for r in sorted(rors) if (rec := look_up(r))}
+    # A retired record's successor may not itself be in any agreement file.
+    for rec in list(records.values()):
+        heir = rec.get("successor")
+        if not rec.get("active") and heir and heir not in records:
+            if found := look_up(heir):
+                records[heir] = found
+
+    if cache:
+        write_json(ROR_REGISTRY, dict(sorted(cache.items())))
+    if len(unknown) > max(3, len(rors) * ROR_MAX_UNKNOWN_SHARE):
+        raise RuntimeError(f"{len(unknown)} of {len(rors)} participants could "
+                           "not be looked up in ROR")
+    if unknown:
+        print(f"  WARNING: {len(unknown)} participant(s) not found in ROR and "
+              f"left out: {', '.join(unknown)}", file=sys.stderr)
+    return {r: rec for r, rec in records.items()
+            if rec.get("education") and rec.get("country") == country}
+
+
+def load_not_universities() -> set[str]:
+    """RORs that ROR types as education but that are not universities."""
+    path = CURATED / "not_universities.yaml"
+    if not path.exists():
+        return set()
+    entries = (yaml.safe_load(path.read_text()) or {}).get("entries") or []
+    return {e["ror"] for e in entries if e.get("ror")}
+
+
+def canonical_universities(registry: dict[str, dict],
+                           excluded: set[str]) -> dict[str, str]:
+    """ROR as it appears in agreement data -> the ROR to file it under.
+
+    An active university maps to itself. A retired identifier maps to its
+    successor if that is itself an active university. Everything else — not in
+    the registry, excluded by hand, retired with no single heir — is absent,
+    and so is left out.
+    """
+    ok = {r for r, rec in registry.items()
+          if rec.get("active") and r not in excluded}
+    mapping = {r: r for r in ok}
+    for r, rec in registry.items():
+        if not rec.get("active") and rec.get("successor") in ok and r not in excluded:
+            mapping[r] = rec["successor"]
+    return mapping
+
+
 def still_running(end_date: str, today: datetime.date) -> bool:
     """Has this agreement a recorded end date that has not passed?
 
@@ -191,7 +307,9 @@ def still_running(end_date: str, today: datetime.date) -> bool:
 
 
 def build_institutions(packages: list[dict], suffixes: list[str],
-                       exclude_ror: str, today: datetime.date) -> dict:
+                       exclude_ror: str, today: datetime.date,
+                       registry: dict[str, dict] | None = None,
+                       excluded: set[str] | None = None) -> dict:
     """Which running agreements list each other university as a participant.
 
     A university is in scope if it is a current participant in at least one
@@ -201,9 +319,25 @@ def build_institutions(packages: list[dict], suffixes: list[str],
 
     `exclude_ror` is this site's own institution. It is left out so that there
     is no second, weaker description of Oxford for anything to read by mistake.
+
+    With a `registry` (see fetch_universities) only universities are kept,
+    under the registry's name for them, and a participant listed under a
+    retired identifier is filed under its successor.
     """
     suffixes = [s.lower() for s in suffixes if s]
-    live = [p for p in packages if p["esac_id"] and still_running(p["end_date"], today)]
+    live = [dict(p) for p in packages
+            if p["esac_id"] and still_running(p["end_date"], today)]
+    official: dict[str, str] = {}
+    if registry is not None:
+        mapping = canonical_universities(registry, excluded or set())
+        official = {r: registry[r]["name"] for r in mapping.values()
+                    if registry[r].get("name")}
+        for p in live:
+            kept: dict[str, str] = {}
+            for ror, name in p["institutions"].items():
+                if ror in mapping:
+                    kept.setdefault(mapping[ror], name)
+            p["institutions"] = kept
 
     in_scope: set[str] = set()
     for p in live:
@@ -232,8 +366,9 @@ def build_institutions(packages: list[dict], suffixes: list[str],
         ({"ror": ror,
           # The same university is spelt several ways across agreements; take
           # the commonest, and break ties alphabetically so reruns agree.
-          "name": (sorted(names[ror].items(), key=lambda kv: (-kv[1], kv[0]))[0][0]
-                   if names[ror] else ror),
+          "name": official.get(ror) or (
+              sorted(names[ror].items(), key=lambda kv: (-kv[1], kv[0]))[0][0]
+              if names[ror] else ror),
           "agreements": sorted(keys)}
          for ror, keys in member_of.items()),
         key=lambda i: (i["name"].lower(), i["ror"]))
@@ -247,20 +382,33 @@ def build_institutions(packages: list[dict], suffixes: list[str],
     }
 
 
-def write_institutions(packages: list[dict], cfg: dict, index_url: str) -> None:
+def write_institutions(packages: list[dict], cfg: dict, index_url: str,
+                       session=None) -> None:
     """Write data/out/institutions.json, or nothing. Never raises."""
     try:
         suffixes = ((cfg.get("other_institutions") or {})
                     .get("consortium_suffixes") or [])
         if not suffixes:
             return
+        # No registry, no file: without it there is no telling a university
+        # from a company, and the list is for universities.
+        today = datetime.date.today()
+        # Only participants of the named consortia can be in scope, so only
+        # they need looking up.
+        candidates = {ror for p in packages for ror in p["institutions"]
+                      if any(p["esac_id"].lower().endswith(s.lower())
+                             for s in suffixes)}
+        registry = fetch_universities(cfg, candidates, today, session)
         built = build_institutions(packages, suffixes, cfg["institution_ror"],
-                                   datetime.date.today())
+                                   today, registry, load_not_universities())
         write_json(OUT / "institutions.json", {
             "generated": utcnow(),
             "basis": ("Participant and title lists from the Journal Checker "
                       "Tool's agreement data only. Not checked against any "
                       "library's own information."),
+            "scope": ("Universities only: organisations the ROR registry types "
+                      "as education, less those in "
+                      "data/curated/not_universities.yaml."),
             "consortium_suffixes": suffixes,
             "excluded_ror": cfg["institution_ror"],
             "source": {"index_csv": index_url,
@@ -400,6 +548,9 @@ def main() -> None:
         deals = read_json(FIXTURES / "deals.json")
         print(f"[fixtures] loaded {len(deals['agreements'])} agreements")
         write_json(out_path, deals)
+        if (FIXTURES / "institutions.json").exists():
+            write_json(OUT / "institutions.json",
+                       read_json(FIXTURES / "institutions.json"))
         return
 
     manifest = Manifest()
@@ -529,7 +680,7 @@ def main() -> None:
         "agreement_issns_worldwide": sorted(worldwide),
     }
     write_json(out_path, deals)
-    write_institutions(packages, cfg, index_url)
+    write_institutions(packages, cfg, index_url, session)
     print(f"Done: {len(agreements)} Oxford agreements, "
           f"{sum(a['journal_count'] for a in agreements)} journal entries; "
           f"{len(worldwide)} distinct ISSNs across all {len(index_rows)} agreements worldwide")

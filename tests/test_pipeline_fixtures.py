@@ -647,3 +647,38 @@ def test_the_build_date_can_only_be_pinned_in_a_fixtures_build(monkeypatch):
     assert merge.build_date() == datetime.date.today()
     monkeypatch.setattr(merge, "FIXTURES_MODE", True)
     assert merge.build_date() == datetime.date(2020, 1, 1)
+
+
+# ------------------------------------------------------- other universities
+def test_other_universities_are_shipped_without_touching_a_journal_record(built):
+    """The site files for other universities sit beside the journal data and
+    refer to it by id. Nothing about them is written into a journal record or
+    the index — the golden file above would catch a changed value, this
+    catches an added one."""
+    read = lambda p: json.loads((built["work"] / p).read_text())  # noqa: E731
+    inst = read("_site/data/institutions.json")
+    titles = read("_site/data/agreement_titles.json")
+    assert built["config"]["institutions_available"] is True
+    assert len(titles) == len(inst["agreements"])
+    ids = {j["id"] for j in built["journals"]["journals"]}
+    assert all(set(t) <= ids for t in titles), "a title that is not a site journal"
+    assert all(0 <= n < len(titles) for i in inst["institutions"] for n in i["agreements"])
+    assert not any(i["ror"] == "052gg0110" for i in inst["institutions"])
+    blob = json.dumps(built["journals"]) + json.dumps(built["index"])
+    for i in inst["institutions"]:
+        assert i["name"] not in blob and i["ror"] not in blob
+
+
+def test_the_site_builds_without_other_university_data(built, tmp_path):
+    """A dataset cached before this feature has no institutions.json. The
+    site-only deploy must still build from it, and offer no university list."""
+    work = tmp_path / "repo"
+    shutil.copytree(built["work"], work, ignore=shutil.ignore_patterns("_site"))
+    (work / "data" / "out-fixtures" / "institutions.json").unlink()
+    result = subprocess.run(
+        [sys.executable, str(work / "pipeline" / "build_site.py")], cwd=work,
+        env={**os.environ, "APC_FIXTURES": "1"}, capture_output=True, text=True)
+    assert result.returncode == 0, result.stderr
+    assert json.loads((work / "_site" / "config.json").read_text())[
+        "institutions_available"] is False
+    assert not (work / "_site" / "data" / "institutions.json").exists()
