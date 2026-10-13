@@ -1,0 +1,30 @@
+# Organisations the ROR registry types as "education" that are not universities.
+#
+# The list of other institutions (data/out/institutions.json) is limited to
+# universities, and ROR's "education" type is the only machine-readable test
+# for that. It also takes in further-education colleges, which join the
+# occasional Jisc agreement. ROR cannot tell the two apart, so the colleges
+# seen so far are listed here and left out.
+#
+# Leaving one in by mistake costs a line of clutter in a list. Leaving a real
+# university out means its researchers cannot pick it. So when unsure, do NOT
+# add it here — specialist institutions with their own degrees (conservatoires,
+# art schools, medical and business schools) are deliberately kept.
+#
+# Taken from the participants of the Jisc agreements on 2026-10-13.
+entries:
+  - {ror: "01p0a2d88", name: "Belfast Metropolitan College"}
+  - {ror: "00615dw36", name: "Bishop Auckland College"}
+  - {ror: "032j97c50", name: "Coleg Cambria"}
+  - {ror: "00q519868", name: "Grwp Llandrillo Menai"}
+  - {ror: "01690jq43", name: "Loughborough College"}
+  - {ror: "05ab3fa41", name: "New College (Swindon)"}
+  - {ror: "04zk97n46", name: "New College Durham"}
+  - {ror: "04q2sd920", name: "North East Surrey College of Technology"}
+  - {ror: "04b14sj77", name: "Peterborough Regional College"}
+  - {ror: "04g3bsp16", name: "Reaseheath College"}
+  - {ror: "01jqked53", name: "South Devon College"}
+  - {ror: "05c24ew78", name: "Walsall College"}
+  - {ror: "02jf25180", name: "Warwickshire College"}
+  - {ror: "05d97wj93", name: "West Suffolk College"}
+  - {ror: "01pen2t90", name: "Wiltshire College"}

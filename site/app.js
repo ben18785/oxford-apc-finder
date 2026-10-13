@@ -3,7 +3,9 @@
  * detail records load lazily per shard when a journal is opened. */
 "use strict";
 
-const STATE = { config: null, index: [], loaded: false, shards: {}, results: [] };
+const STATE = { config: null, index: [], loaded: false, shards: {}, results: [],
+                // A university other than Oxford: see setInstitution.
+                instData: null, agreementTitles: null, inst: null, instJournals: null };
 const $ = (s, r = document) => r.querySelector(s);
 const esc = (s) => (s == null ? "" : String(s).replace(/[&<>"']/g,
   c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])));
@@ -21,6 +23,8 @@ const EXPLAIN = {
     "<p>This journal is not on the title list of any agreement Oxford participates in, and its publisher is not in a discount or diamond scheme on the Bodleian's page.</p><p>That is not the same as being ineligible for support: block grants or funder routes may still apply.</p>"],
   doaj: ["In DOAJ",
     "<p>Listed in the <strong>Directory of Open Access Journals</strong>, an independent index that checks journals against around fifty criteria covering peer review, licensing, editorial transparency and fees.</p><p>It is a check on openness and process, <strong>not a ranking of quality</strong>. Its absence means little on its own, since subscription journals are not eligible to be listed.</p>"],
+  listed: ["An agreement is listed for your university",
+    "<p>The Journal Checker Tool lists your university as a participant in an agreement whose title list includes this journal.</p><p>That is <strong>not</strong> a statement that publishing here would cost you nothing, and it is not a price. Agreements have annual caps, article-type limits and eligibility rules, and the listing itself has been wrong before. Nobody at your library has checked it.</p><p>Treat it as a reason to ask your library, not as an answer.</p>"],
   elsewhere_cost: ["Open access cost outside Oxford",
     "<p>Only journals that charge <strong>nobody</strong> are given a figure: diamond open access journals, free to publish and free to read.</p><p>For every other journal, what you pay depends on your institution. Many universities and national consortia have agreements with publishers that cover the charge for their authors, so the publisher's list price is often not what you would pay, and showing it would mislead.</p><p>Ask your library's open access team, or look the journal up in the <a href=\"https://journalcheckertool.org/\" target=\"_blank\" rel=\"noopener\">Journal Checker Tool</a>.</p>"],
   citedness: ["2-year citation rate (not the Impact Factor)",
@@ -577,7 +581,38 @@ function generalCostBlock(j) {
        <p>Ask your library's open access team, or look the journal up in the
         <a href="https://journalcheckertool.org/" target="_blank" rel="noopener">Journal
         Checker Tool ↗</a>.</p>`;
-  return `<div class="detail-section"><h4>Cost to publish open access</h4>${text}</div>`;
+  return `${instWarning()}
+    <div class="detail-section"><h4>Cost to publish open access</h4>${text}</div>
+    ${listedBlock(j)}`;
+}
+
+/* What the agreement data says about this journal and the chosen university.
+ * Never a price, and never worded as coverage: see setInstitution. */
+function listedBlock(j) {
+  const inst = institution();
+  if (!inst) return "";
+  const name = esc(inst.name);
+  const found = listedAgreements(j.id);
+  if (!found.length) {
+    return `<div class="detail-section"><h4>${name} and this journal</h4>
+      <p>The Journal Checker Tool lists no current agreement between ${name}
+        and this journal. That is not confirmation that there is none: your
+        library may hold a deal or a discount that it does not record.</p></div>`;
+  }
+  const items = found.map((a) => `<li><code>${esc(a.esac_id)}</code>${
+    a.package ? ` (${esc(a.package)})` : ""}, recorded as running to ${esc(a.end_date)}${
+    a.url ? ` — <a href="${esc(a.url)}" target="_blank" rel="noopener">agreement data ↗</a>` : ""}</li>`).join("");
+  return `<div class="detail-section"><h4>An agreement is listed for ${name}</h4>
+    <p>The Journal Checker Tool lists ${name} as a participant in ${
+      found.length === 1 ? "an agreement" : "agreements"} whose title list
+      includes this journal:</p>
+    <ul>${items}</ul>
+    <p><strong>This is not confirmation that your article would be covered, and
+      it is not a price.</strong> Agreements commonly have annual caps, cover
+      only some article types, and require you to be the corresponding author.
+      This data has also been wrong before: it has shown a university as fully
+      covered where it held only a discount. Ask your library before you
+      submit, and quote the identifier above.</p></div>`;
 }
 
 /* Split the cost summary so the figure can be right-aligned on its own.
@@ -688,6 +723,8 @@ function renderResults(list, total, nominalCount, hidden) {
         r.d ? `<span class="badge doaj">In DOAJ${why("doaj")}</span>` : "",
         !general && r.x ? `<span class="badge disputed">⚠ Sources disagree${why("disputed")}</span>` : "",
         !general && r.e ? `<span class="badge expired">⚠ Agreement ended${why("expired")}</span>` : "",
+        listedAgreements(r.id).length
+          ? `<span class="badge listed">Agreement listed — ask your library${why("listed")}</span>` : "",
       ].filter(Boolean).join("");
       const [label] = STATUS_LABEL[r.s] || STATUS_LABEL.none;
       return `${brk}
@@ -1757,6 +1794,100 @@ function setElsewhere(on) {
   $("#confirm-with").textContent = on
     ? "Always confirm with your institution's library or open access team before you submit."
     : "Always confirm with the Bodleian open access team before you submit.";
+  renderInstWarning();
+  if (on) loadInstitutions().then(renderInstWarning);
+}
+
+/* A university other than Oxford.
+ *
+ * For Oxford this site holds agreement data that has been checked against the
+ * library's own page and corrected where the two disagree. For any other
+ * university it holds the agreement data alone, and that data has been wrong
+ * for Oxford in the direction that costs an author money. So choosing a
+ * university here changes exactly two things, and neither is a price:
+ *
+ *   - a warning, naming the university, on every view until it is unchosen;
+ *   - a flag on journals an agreement lists it for, worded as a reason to ask.
+ *
+ * Costs stay as the "not at Oxford" view already gives them: £0 only where a
+ * journal charges nobody. A flagged journal is not counted as free, is not
+ * sorted as free, and is not matched by "Free to publish". If the agreement
+ * files fail to load, the warning still shows and no journal is flagged.
+ *
+ * None of this is read in the Oxford view: institution() is null there. */
+const INST_KEY = "oxford-apc-finder:institution";
+const institution = () => (elsewhere() ? STATE.inst : null);
+
+function listedAgreements(id) {
+  if (!institution() || !STATE.instJournals) return [];
+  return (STATE.instJournals.get(id) || []).map((n) => STATE.instData.agreements[n]);
+}
+
+function instWarning() {
+  const inst = institution();
+  if (!inst) return "";
+  const name = esc(inst.name);
+  return `<div class="inst-warning" role="note"><p><strong>We hold no details of
+    ${name}'s publisher deals.</strong> The only agreement information shown
+    for ${name} comes from the Journal Checker Tool. It can be wrong or out of
+    date, and nobody at your library has checked it. No cost is shown here
+    unless a journal charges nobody at all. Your library may have deals,
+    discounts, caps or restrictions this site knows nothing about, so confirm
+    with them before you submit.</p></div>`;
+}
+
+/* One line for the table rows of the shortlist and ORCID views. */
+function listedNote(id) {
+  return listedAgreements(id).length
+    ? `<div class="jmeta listed-note">Agreement listed for ${esc(institution().name)} — ask your library</div>`
+    : "";
+}
+
+function renderInstWarning() {
+  const html = instWarning();
+  $("#inst-warning").innerHTML = html;
+  $("#inst-warning").hidden = !html;
+  $("#inst-wrap").hidden = !(elsewhere() && STATE.instData);
+}
+
+async function loadInstitutions() {
+  if (STATE.instData || !STATE.config || !STATE.config.institutions_available) return;
+  try {
+    const resp = await fetch("data/institutions.json");
+    if (!resp.ok) return;
+    STATE.instData = await resp.json();
+  } catch { return; }
+  $("#inst").innerHTML = `<option value="">not listed</option>`
+    + STATE.instData.institutions.map((i) =>
+        `<option value="${esc(i.ror)}">${esc(i.name)}</option>`).join("");
+}
+
+async function setInstitution(ror, remember = true) {
+  await loadInstitutions();
+  const inst = (ror && STATE.instData
+    && STATE.instData.institutions.find((i) => i.ror === ror)) || null;
+  if (inst && !STATE.agreementTitles) {
+    try {
+      const resp = await fetch("data/agreement_titles.json");
+      if (resp.ok) STATE.agreementTitles = await resp.json();
+    } catch { /* the warning still shows; nothing is flagged */ }
+  }
+  const journals = new Map();
+  if (inst) {
+    for (const n of inst.agreements) {
+      for (const id of ((STATE.agreementTitles || [])[n] || [])) {
+        if (!journals.has(id)) journals.set(id, []);
+        journals.get(id).push(n);
+      }
+    }
+  }
+  STATE.inst = inst;
+  STATE.instJournals = inst ? journals : null;
+  $("#inst").value = inst ? inst.ror : "";
+  if (remember) {
+    try { localStorage.setItem(INST_KEY, inst ? inst.ror : ""); } catch { /* blocked */ }
+  }
+  renderInstWarning();
 }
 
 /* Whether to show the citation rate. Off by default, remembered per browser. */
@@ -1874,7 +2005,7 @@ async function showOrcid() {
       const [label] = STATUS_LABEL[rec.s] || STATUS_LABEL.none;
       return `<tr>
         <td>${starButton(rec.id)}<strong>${esc(rec.t)}</strong>
-          <div class="jmeta">${esc(rec.p || "Publisher unknown")} · ${esc(issn)}</div></td>
+          <div class="jmeta">${esc(rec.p || "Publisher unknown")} · ${esc(issn)}</div>${listedNote(rec.id)}</td>
         <td class="num">${count}</td>
         ${general ? "" : `<td>${esc(label)}</td>`}
         <td class="num cost-cell ${fig.cls}">${esc(fig.text)}</td>
@@ -1884,6 +2015,7 @@ async function showOrcid() {
 
     render(`
       <h2 id="detail-title">Journals you publish in</h2>
+      ${instWarning()}
       <p>${known.length} of the journals in your ORCID record are on this site${general
         ? `, and <strong>${known.filter((k) => freeAnywhere(k.rec)).length}</strong> of those are free to publish in.`
         : `, and <strong>${covered}</strong> of those carry an Oxford deal.`}</p>
@@ -2035,7 +2167,7 @@ async function showCompare(ids) {
     const [label] = STATUS_LABEL[r.s] || STATUS_LABEL.none;
     return `<tr>
       <td>${starButton(r.id)}<strong>${esc(r.t)}</strong>
-        <div class="jmeta">${esc(r.p || "Publisher unknown")} · ${esc(r.i[0] || "")}</div></td>
+        <div class="jmeta">${esc(r.p || "Publisher unknown")} · ${esc(r.i[0] || "")}</div>${listedNote(r.id)}</td>
       <td>${modelBadge(r.o)}</td>
       ${general ? "" : `<td>${esc(label)}</td>`}
       <td class="num cost-cell ${fig.cls}">${esc(fig.text)}</td>
@@ -2048,6 +2180,7 @@ async function showCompare(ids) {
   const mailOk = !general && !tooLong;
   $("#detail-body").innerHTML = `
     <h2 id="detail-title">Your shortlist</h2>
+    ${instWarning()}
     <p class="cost-note">${general ? "Free-to-publish journals first."
       : "Ordered by cost, cheapest first."} Starring is stored in
       this browser only — nothing is sent anywhere and there is no account. Use
@@ -2204,8 +2337,15 @@ function wireUI() {
   $("#free-only").addEventListener("change", runSearch);
   let away = /[?&]view=elsewhere(&|$)/.test(location.search || "");
   try { away = away || localStorage.getItem(ELSEWHERE_KEY) === "1"; } catch { /* blocked */ }
+  // ?inst=<ROR> opens the view for one university, so a link can be sent to
+  // colleagues there. It implies not being at Oxford.
+  let pick = ((location.search || "").match(/[?&]inst=([0-9a-z]{9})(&|$)/) || [])[1] || "";
+  if (pick) away = true;
+  else { try { pick = localStorage.getItem(INST_KEY) || ""; } catch { /* blocked */ } }
   setElsewhere(away);
+  if (away && pick) setInstitution(pick, false).then(runSearch);
   $("#elsewhere").addEventListener("change", (e) => { setElsewhere(e.target.checked); runSearch(); });
+  $("#inst").addEventListener("change", (e) => { setInstitution(e.target.value).then(runSearch); });
   try { $("#show-cites").checked = localStorage.getItem(CITES_KEY) === "1"; } catch { /* blocked */ }
   $("#show-cites").addEventListener("change", () => {
     setShowCites(showCites());

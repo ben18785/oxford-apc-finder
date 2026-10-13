@@ -1163,6 +1163,146 @@ chain.then(function () {
         el("#results").innerHTML.indexOf("<th>Oxford deal</th>") !== -1);
     });
   }).then(function () {
+    /* --------------------------- a university other than Oxford -----
+     * Agreement data nobody has checked. The one thing these checks exist
+     * for: choosing a university may add a warning and a flag, and may never
+     * add a figure. Skipped when the dataset in hand predates the feature. */
+    if (!STATE.config.institutions_available) {
+      say("  --  no institution data in this build; university checks skipped");
+      return;
+    }
+    function costCells(html) {
+      return html.match(/<td class="(?:num )?cost-cell[^"]*">[^<]*<\/td>/g) || [];
+    }
+    function reset() {
+      el("#q").value = ""; el("#free-only").checked = false; runSearch();
+    }
+    setElsewhere(true);
+    var inst, flagged, plainHtml, plainCells, freeBefore;
+    return setInstitution("").then(function () {
+      reset();
+      plainHtml = el("#results").innerHTML;
+      plainCells = costCells(plainHtml).join("|");
+      el("#free-only").checked = true; runSearch();
+      freeBefore = STATE.results.map(function (r) { return r.id; }).join(",");
+      check("university: the list is offered once not at Oxford",
+        el("#inst").innerHTML.indexOf("<option value=\"") !== -1
+        && el("#inst-wrap").hidden === false);
+      check("university: Oxford is not on the list",
+        !STATE.instData.institutions.some(function (i) {
+          return i.ror === "052gg0110" || i.name === "University of Oxford"; }));
+      check("university: no warning and no flag until one is chosen",
+        el("#inst-warning").hidden === true && plainHtml.indexOf("badge listed") === -1);
+      // The university with the most flagged journals in this dataset.
+      inst = STATE.instData.institutions.slice().sort(function (a, b) {
+        return b.agreements.length - a.agreements.length; })[0];
+      return setInstitution(inst.ror);
+    }).then(function () {
+      reset();
+      var html = el("#results").innerHTML;
+      var warning = el("#inst-warning").innerHTML;
+      flagged = STATE.index.filter(function (r) { return listedAgreements(r.id).length; });
+      check("university: the warning shows and names the university",
+        el("#inst-warning").hidden === false && warning.indexOf(esc(inst.name)) !== -1);
+      check("university: the warning says no deal details are held",
+        /We hold no details of/.test(warning) && /Journal Checker Tool/.test(warning)
+        && /confirm\s+with them before you submit/.test(warning));
+      check("university: journals in a listed agreement are flagged",
+        flagged.length > 0 && html.indexOf("badge listed") !== -1, flagged.length + " flagged");
+      check("university: the flag says to ask, not that anything is covered",
+        html.indexOf("Agreement listed — ask your library") !== -1
+        && !/badge listed">[^<]*(covered|£0|free)/i.test(html));
+      /* The tenet. Choosing a university must not change one cost cell. */
+      check("university: choosing one changes no cost figure",
+        costCells(html).join("|") === plainCells);
+      check("university: every cost is still £0, subscription or depends on the institution",
+        costCells(html).every(function (c) {
+          return /£0<|subscription<|depends on your institution</.test(c); }));
+      check("university: no Oxford price, discount or deal is shown",
+        !/Oxford discount|£0 if eligible|confirm first|<th>Oxford deal<\/th>/.test(html));
+      check("university: a flagged journal is £0 only if it charges nobody",
+        flagged.every(function (r) {
+          return generalFigure(r).text !== "£0" || freeAnywhere(r); }));
+      el("#free-only").checked = true; runSearch();
+      check("university: a flag does not make a journal 'free to publish'",
+        STATE.results.map(function (r) { return r.id; }).join(",") === freeBefore);
+      check("university: the choice is remembered",
+        localStorage.getItem(INST_KEY) === inst.ror);
+      reset();
+      var paid = flagged.filter(function (r) {
+        return !freeAnywhere(r) && r.o !== "subscription"; })[0] || flagged[0];
+      return openDetail(paid.id).then(function () {
+        var body = el("#detail-body").innerHTML;
+        check("university: the journal page repeats the warning",
+          body.indexOf("We hold no details of") !== -1);
+        check("university: the journal page names the agreement and its source",
+          body.indexOf("An agreement is listed for " + esc(inst.name)) !== -1
+          && body.indexOf(esc(listedAgreements(paid.id)[0].esac_id)) !== -1);
+        check("university: the journal page says it is not confirmation or a price",
+          /not confirmation that your article would be covered/.test(body)
+          && /not a price/.test(body));
+        check("university: the journal page states no Oxford cost",
+          body.indexOf("Cost for an Oxford author") === -1
+          && !/Oxford discount|£0 to you|£0 if eligible/.test(body));
+        closeModal();
+      });
+    }).then(function () {
+      var plain = STATE.index.filter(function (r) { return !listedAgreements(r.id).length; })[0];
+      if (!plain) { return; }
+      return openDetail(plain.id).then(function () {
+        var body = el("#detail-body").innerHTML;
+        check("university: an unflagged journal is not presented as having no deal",
+          /lists no current agreement/.test(body)
+          && /not confirmation that there is none/.test(body));
+        closeModal();
+      });
+    }).then(function () {
+      return showCompare(flagged.slice(0, 2).map(function (r) { return r.id; }));
+    }).then(function () {
+      var body = el("#detail-body").innerHTML;
+      check("university: the shortlist carries the warning and the flag",
+        body.indexOf("We hold no details of") !== -1
+        && body.indexOf("Agreement listed for " + esc(inst.name)) !== -1);
+      check("university: the shortlist shows no figure but £0 for free journals",
+        costCells(body).every(function (c) {
+          return /£0<|subscription<|depends on your institution</.test(c); }));
+      closeModal();
+      /* Back at Oxford, nothing of the other university may remain. */
+      setElsewhere(false);
+      el("#deal-only").checked = true;
+      reset();
+      var html = el("#results").innerHTML;
+      check("university: back at Oxford, no flag and no warning remain",
+        html.indexOf("badge listed") === -1 && el("#inst-warning").hidden === true
+        && el("#inst-wrap").hidden === true && listedAgreements(flagged[0].id).length === 0);
+      check("university: back at Oxford, the Oxford deal column is back",
+        html.indexOf("<th>Oxford deal</th>") !== -1);
+      /* If the title lists cannot be loaded: the warning, and no flags. */
+      var realFetch = globalThis.fetch;
+      STATE.agreementTitles = null;
+      globalThis.fetch = function (path) {
+        if (path.indexOf("agreement_titles.json") === -1) { return realFetch(path); }
+        return Promise.resolve({ ok: false, status: 404,
+          json: function () { return Promise.reject(new Error("404")); } });
+      };
+      setElsewhere(true);
+      return setInstitution(inst.ror).then(function () {
+        reset();
+        check("university: with no title lists, the warning shows and nothing is flagged",
+          el("#inst-warning").hidden === false
+          && el("#results").innerHTML.indexOf("badge listed") === -1);
+        globalThis.fetch = realFetch;
+        STATE.agreementTitles = null;
+        return setInstitution("");
+      }).then(function () {
+        check("university: unchoosing clears the warning",
+          el("#inst-warning").hidden === true && localStorage.getItem(INST_KEY) === "");
+        setElsewhere(false);
+        el("#deal-only").checked = true;
+        reset();
+      });
+    });
+  }).then(function () {
     if (FAILURES) {
       // Repeated at the end because one FAIL among 140 ok lines is invisible in
       // a CI log, and the tail is the part anyone pastes when asking for help.

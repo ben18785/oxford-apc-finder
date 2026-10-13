@@ -1,0 +1,603 @@
+{
+ "0001-0383": {
+  "cost": {
+   "kind": "unknown",
+   "note": "No published APC price held — check the journal's page."
+  },
+  "deal": {
+   "basis": "Not on the SAGE read-and-publish agreement's title list. Oxford's discount with that publisher applies to its fully open access journals, and this is a subscription title — so there may be no open access charge at all unless you choose to pay one. Check the journal's own publishing-model page.",
+   "caveats": [],
+   "conditions": null,
+   "correction": null,
+   "discount_pct": null,
+   "disputed": null,
+   "esac_id": null,
+   "expired": null,
+   "status": "none"
+  },
+  "shown": {
+   "cost_label": "APC unknown",
+   "disputed": false,
+   "expired": false,
+   "status": "none"
+  },
+  "sorts_as_free": false,
+  "title": "ABCA Bulletin",
+  "waiver": false
+ },
+ "0001-1541": {
+  "cost": {
+   "kind": "covered",
+   "note": "APC covered by the Oxford agreement (subject to the caveats shown)."
+  },
+  "deal": {
+   "basis": "This journal appears on the title list of transformative agreement wiley2026jisc, which Oxford is a current participant in. Both facts come from the Journal Checker Tool's agreement data, linked below.",
+   "caveats": [
+    "You must be the corresponding author of the accepted article.",
+    "You must be publishing a journal article — these deals cannot be used for other research outputs.",
+    "You must submit using your Oxford email address (@ox.ac.uk) so the publisher can identify you as Oxford-affiliated.",
+    "You must select a CC BY licence when prompted.",
+    "Most deals do not cover extras such as page or colour charges.",
+    "Corresponding author must be Oxford-affiliated.",
+    "Agreement runs to 2028-12-31."
+   ],
+   "conditions": null,
+   "correction": null,
+   "discount_pct": null,
+   "disputed": null,
+   "esac_id": "wiley2026jisc",
+   "expired": null,
+   "status": "covered"
+  },
+  "shown": {
+   "cost_label": "£0 if eligible — covered by Oxford deal",
+   "disputed": false,
+   "expired": false,
+   "status": "covered"
+  },
+  "sorts_as_free": true,
+  "title": "AIChE Journal",
+  "waiver": false
+ },
+ "0001-2092": {
+  "cost": {
+   "kind": "covered",
+   "note": "APC covered by the Oxford agreement (subject to the caveats shown)."
+  },
+  "deal": {
+   "basis": "This journal appears on the title list of transformative agreement wiley2026jisc, which Oxford is a current participant in. Both facts come from the Journal Checker Tool's agreement data, linked below.",
+   "caveats": [
+    "You must be the corresponding author of the accepted article.",
+    "You must be publishing a journal article — these deals cannot be used for other research outputs.",
+    "You must submit using your Oxford email address (@ox.ac.uk) so the publisher can identify you as Oxford-affiliated.",
+    "You must select a CC BY licence when prompted.",
+    "Most deals do not cover extras such as page or colour charges.",
+    "Corresponding author must be Oxford-affiliated.",
+    "Agreement runs to 2028-12-31."
+   ],
+   "conditions": null,
+   "correction": null,
+   "discount_pct": null,
+   "disputed": null,
+   "esac_id": "wiley2026jisc",
+   "expired": null,
+   "status": "covered"
+  },
+  "shown": {
+   "cost_label": "£0 if eligible — covered by Oxford deal",
+   "disputed": false,
+   "expired": false,
+   "status": "covered"
+  },
+  "sorts_as_free": true,
+  "title": "AORN Journal",
+  "waiver": false
+ },
+ "0001-2947": {
+  "cost": {
+   "kind": "no_apc",
+   "note": "No APC (per DOAJ)."
+  },
+  "deal": {
+   "basis": "No Oxford deal is needed: this journal is diamond open access, free to publish and free to read. Costs are met by the publisher or its supporting institutions.",
+   "caveats": [],
+   "conditions": null,
+   "correction": null,
+   "discount_pct": null,
+   "disputed": null,
+   "esac_id": null,
+   "expired": null,
+   "status": "none"
+  },
+  "shown": {
+   "cost_label": "£0 — no APC",
+   "disputed": false,
+   "expired": false,
+   "status": "none"
+  },
+  "sorts_as_free": true,
+  "title": "AWR bulletin",
+  "waiver": false
+ },
+ "0001-3765": {
+  "cost": {
+   "kind": "no_apc",
+   "note": "No APC (per DOAJ)."
+  },
+  "deal": {
+   "basis": "No Oxford deal is needed: this journal is diamond open access, free to publish and free to read. Costs are met by the publisher or its supporting institutions.",
+   "caveats": [],
+   "conditions": null,
+   "correction": null,
+   "discount_pct": null,
+   "disputed": null,
+   "esac_id": null,
+   "expired": null,
+   "status": "none"
+  },
+  "shown": {
+   "cost_label": "£0 — no APC",
+   "disputed": false,
+   "expired": false,
+   "status": "none"
+  },
+  "sorts_as_free": true,
+  "title": "Anais da Academia Brasileira de Ciências",
+  "waiver": false
+ },
+ "0001-494X": {
+  "cost": {
+   "kind": "no_apc",
+   "note": "No APC (per DOAJ)."
+  },
+  "deal": {
+   "basis": "No Oxford deal is needed: this journal is diamond open access, free to publish and free to read. Costs are met by the publisher or its supporting institutions.",
+   "caveats": [],
+   "conditions": null,
+   "correction": null,
+   "discount_pct": null,
+   "disputed": null,
+   "esac_id": null,
+   "expired": null,
+   "status": "none"
+  },
+  "shown": {
+   "cost_label": "£0 — no APC",
+   "disputed": false,
+   "expired": false,
+   "status": "none"
+  },
+  "sorts_as_free": true,
+  "title": "Acme : annali della Facoltà di lettere e filosofia dell'Università degli studi di Milano",
+  "waiver": false
+ },
+ "0001-5113": {
+  "cost": {
+   "kind": "no_apc",
+   "note": "No APC (per DOAJ)."
+  },
+  "deal": {
+   "basis": "No Oxford deal is needed: this journal is diamond open access, free to publish and free to read. Costs are met by the publisher or its supporting institutions.",
+   "caveats": [],
+   "conditions": null,
+   "correction": null,
+   "discount_pct": null,
+   "disputed": null,
+   "esac_id": null,
+   "expired": null,
+   "status": "none"
+  },
+  "shown": {
+   "cost_label": "£0 — no APC",
+   "disputed": false,
+   "expired": false,
+   "status": "none"
+  },
+  "sorts_as_free": true,
+  "title": "Acta Adriatica",
+  "waiver": false
+ },
+ "0001-527X": {
+  "cost": {
+   "kind": "list_price",
+   "list": {
+    "currency": "USD",
+    "price": 1750
+   },
+   "note": "List price — no Oxford deal applies."
+  },
+  "deal": {
+   "basis": "Checked against the title lists of all 6 agreements Oxford participates in, and against the discount and diamond schemes on the Bodleian's deals page — this journal and its publisher appear in none of them. That is not the same as the journal being ineligible for support: block grants or funder routes may still apply.",
+   "caveats": [],
+   "conditions": null,
+   "correction": null,
+   "discount_pct": null,
+   "disputed": null,
+   "esac_id": null,
+   "expired": null,
+   "status": "none"
+  },
+  "shown": {
+   "cost_label": "1,750 USD (no deal)",
+   "disputed": false,
+   "expired": false,
+   "status": "none"
+  },
+  "sorts_as_free": false,
+  "title": "Acta Biochimica Polonica",
+  "waiver": true
+ },
+ "0001-5555": {
+  "cost": {
+   "kind": "list_price",
+   "list": {
+    "currency": "EUR",
+    "price": 1600
+   },
+   "note": "List price — no Oxford deal applies."
+  },
+  "deal": {
+   "basis": "Checked against the title lists of all 6 agreements Oxford participates in, and against the discount and diamond schemes on the Bodleian's deals page — this journal and its publisher appear in none of them. That is not the same as the journal being ineligible for support: block grants or funder routes may still apply.",
+   "caveats": [],
+   "conditions": null,
+   "correction": null,
+   "discount_pct": null,
+   "disputed": null,
+   "esac_id": null,
+   "expired": null,
+   "status": "none"
+  },
+  "shown": {
+   "cost_label": "1,600 EUR (no deal)",
+   "disputed": false,
+   "expired": false,
+   "status": "none"
+  },
+  "sorts_as_free": false,
+  "title": "Acta Dermato Venereologica",
+  "waiver": true
+ },
+ "0001-6918": {
+  "cost": {
+   "estimated": {
+    "currency": "USD",
+    "price": 2252
+   },
+   "kind": "discount",
+   "list": {
+    "currency": "USD",
+    "price": 2650
+   },
+   "note": "15% Oxford discount applied to list price.",
+   "pct": 15
+  },
+  "deal": {
+   "basis": "This title is not on the Elsevier read-and-publish agreement's list, so the APC is not covered outright — but Oxford has a 15% discount on that publisher's fully open access journals.",
+   "caveats": [
+    "15% Oxford discount on Elsevier fully gold open access journals — this title is not in the Elsevier read-and-publish agreement."
+   ],
+   "conditions": null,
+   "correction": null,
+   "discount_pct": 15,
+   "disputed": null,
+   "esac_id": null,
+   "expired": null,
+   "status": "discount"
+  },
+  "shown": {
+   "cost_label": "~2,252 USD after 15% Oxford discount",
+   "disputed": false,
+   "expired": false,
+   "status": "discount"
+  },
+  "sorts_as_free": false,
+  "title": "Acta Psychologica",
+  "waiver": true
+ },
+ "0003-3170": {
+  "cost": {
+   "kind": "discount_unknown_base",
+   "note": "15% Oxford discount; list price not held — check the journal's page.",
+   "pct": 15
+  },
+  "deal": {
+   "basis": "This title is not on the Elsevier read-and-publish agreement's list, so the APC is not covered outright — but Oxford has a 15% discount on that publisher's fully open access journals.",
+   "caveats": [
+    "15% Oxford discount on Elsevier fully gold open access journals — this title is not in the Elsevier read-and-publish agreement."
+   ],
+   "conditions": null,
+   "correction": null,
+   "discount_pct": 15,
+   "disputed": null,
+   "esac_id": null,
+   "expired": null,
+   "status": "discount"
+  },
+  "shown": {
+   "cost_label": "15% Oxford discount (list price not held)",
+   "disputed": false,
+   "expired": false,
+   "status": "discount"
+  },
+  "sorts_as_free": false,
+  "title": "Angiología",
+  "waiver": false
+ },
+ "0017-0305": {
+  "cost": {
+   "kind": "discount_unknown_base",
+   "note": "20% Oxford discount; list price not held — check the journal's page.",
+   "pct": 20
+  },
+  "deal": {
+   "basis": "Oxford has a 20% discount arrangement with MDPI, listed on the Bodleian's publisher deals page. Matched because its publisher is recorded as MDPI.",
+   "caveats": [
+    "20% APC discount for Oxford corresponding authors on all accepted articles.",
+    "The Journal Checker Tool lists an Oxford transformative agreement with MDPI. Oxford's open access team confirmed by email on 10 August 2026 that what Oxford actually holds is a 20% APC discount, not read-and-publish, so the discount is what this site applies. Check with them before relying on the Journal Checker Tool's answer for MDPI."
+   ],
+   "conditions": null,
+   "correction": {
+    "confirmed": "2026-08-10",
+    "jct_says": "Covered by an Oxford transformative agreement (mdpi2026jisc), running to 2027-12-31, across 516 journals.",
+    "oxford_says": "Oxford has a 20% APC discount with MDPI, not a read-and-publish agreement.",
+    "publisher": "MDPI"
+   },
+   "discount_pct": 20,
+   "disputed": null,
+   "esac_id": null,
+   "expired": null,
+   "status": "discount"
+  },
+  "shown": {
+   "cost_label": "20% Oxford discount (list price not held)",
+   "disputed": false,
+   "expired": false,
+   "status": "discount"
+  },
+  "sorts_as_free": false,
+  "title": "Journal of Gerontology and Geriatrics",
+  "waiver": false
+ },
+ "0370-2693": {
+  "cost": {
+   "kind": "diamond",
+   "note": "Free to publish (diamond OA)."
+  },
+  "deal": {
+   "basis": "Oxford supports SCOAP3 (high-energy physics), so publishing here is free to authors. Matched because its ISSN is listed explicitly.",
+   "caveats": [
+    "Articles in participating high-energy physics journals are published OA at no cost to authors via SCOAP3."
+   ],
+   "conditions": null,
+   "correction": null,
+   "discount_pct": null,
+   "disputed": null,
+   "esac_id": null,
+   "expired": null,
+   "status": "diamond"
+  },
+  "shown": {
+   "cost_label": "£0 — diamond OA",
+   "disputed": false,
+   "expired": false,
+   "status": "diamond"
+  },
+  "sorts_as_free": true,
+  "title": "Physics Letters B",
+  "waiver": false
+ },
+ "0570-1783": {
+  "cost": {
+   "estimated": {
+    "currency": "USD",
+    "price": 850
+   },
+   "kind": "discount",
+   "list": {
+    "currency": "USD",
+    "price": 1000
+   },
+   "note": "15% Oxford discount applied to list price.",
+   "pct": 15
+  },
+  "deal": {
+   "basis": "This title is not on the Elsevier read-and-publish agreement's list, so the APC is not covered outright — but Oxford has a 15% discount on that publisher's fully open access journals.",
+   "caveats": [
+    "15% Oxford discount on Elsevier fully gold open access journals — this title is not in the Elsevier read-and-publish agreement."
+   ],
+   "conditions": null,
+   "correction": null,
+   "discount_pct": 15,
+   "disputed": null,
+   "esac_id": null,
+   "expired": null,
+   "status": "discount"
+  },
+  "shown": {
+   "cost_label": "~850 USD after 15% Oxford discount",
+   "disputed": false,
+   "expired": false,
+   "status": "discount"
+  },
+  "sorts_as_free": false,
+  "title": "Annals of Agricultural Science Cairo",
+  "waiver": true
+ },
+ "9990-0001": {
+  "cost": {
+   "kind": "covered_conditional",
+   "note": "Oxford has an agreement covering this journal, but the agreement covers a limited number of articles a year, and whether the allowance is still open is not published. Confirm before submitting rather than assuming £0.",
+   "reasons": [
+    "the agreement covers a limited number of articles a year, and whether the allowance is still open is not published"
+   ]
+  },
+  "deal": {
+   "basis": "This journal appears on the title list of transformative agreement aip2026jisc, which Oxford is a current participant in. Both facts come from the Journal Checker Tool's agreement data, linked below.",
+   "caveats": [
+    "You must be the corresponding author of the accepted article.",
+    "You must be publishing a journal article — these deals cannot be used for other research outputs.",
+    "You must submit using your Oxford email address (@ox.ac.uk) so the publisher can identify you as Oxford-affiliated.",
+    "You must select a CC BY licence when prompted.",
+    "Most deals do not cover extras such as page or colour charges.",
+    "Corresponding author must be Oxford-affiliated.",
+    "Agreement runs to 2099-12-31.",
+    "Covers an agreed number of articles per year in hybrid titles; the allowance can run out before year end.",
+    "AIP's fully open access journals are excluded."
+   ],
+   "conditions": {
+    "capacity_limited": true,
+    "funders_only": null
+   },
+   "correction": null,
+   "discount_pct": null,
+   "disputed": null,
+   "esac_id": "aip2026jisc",
+   "expired": null,
+   "status": "covered"
+  },
+  "shown": {
+   "cost_label": "£0 if eligible — but confirm first",
+   "disputed": false,
+   "expired": false,
+   "status": "covered"
+  },
+  "sorts_as_free": true,
+  "title": "Fixture Journal With A Capped Allowance",
+  "waiver": false
+ },
+ "9990-0002": {
+  "cost": {
+   "kind": "covered_conditional",
+   "note": "Oxford has an agreement covering this journal, but the agreement's recorded end date (2020-06-30) has passed. Confirm before submitting rather than assuming £0.",
+   "reasons": [
+    "the agreement's recorded end date (2020-06-30) has passed"
+   ]
+  },
+  "deal": {
+   "basis": "This journal appears on the title list of transformative agreement els2020jisc, which Oxford is a current participant in. Both facts come from the Journal Checker Tool's agreement data, linked below.",
+   "caveats": [
+    "You must be the corresponding author of the accepted article.",
+    "You must be publishing a journal article — these deals cannot be used for other research outputs.",
+    "You must submit using your Oxford email address (@ox.ac.uk) so the publisher can identify you as Oxford-affiliated.",
+    "You must select a CC BY licence when prompted.",
+    "Most deals do not cover extras such as page or colour charges.",
+    "Corresponding author must be Oxford-affiliated.",
+    "This agreement's end date (2020-06-30) has passed 2296 days ago. It may have been renewed — the Journal Checker Tool still lists Oxford as a participant — but confirm before submitting.",
+    "Covers most hybrid journals (see participating list); 15% discount on Elsevier fully gold OA journals instead."
+   ],
+   "conditions": null,
+   "correction": null,
+   "discount_pct": null,
+   "disputed": null,
+   "esac_id": "els2020jisc",
+   "expired": {
+    "days": 2296,
+    "end_date": "2020-06-30"
+   },
+   "status": "covered"
+  },
+  "shown": {
+   "cost_label": "£0 if eligible — but confirm first",
+   "disputed": false,
+   "expired": true,
+   "status": "covered"
+  },
+  "sorts_as_free": true,
+  "title": "Fixture Journal With An Expired Agreement",
+  "waiver": false
+ },
+ "9990-0003": {
+  "cost": {
+   "kind": "uncertain",
+   "note": "Our sources disagree about this publisher, so no cost is shown. Confirm with the open access team before assuming either figure."
+  },
+  "deal": {
+   "basis": "This journal appears on the title list of transformative agreement bmj2026jisc, which Oxford is a current participant in. Both facts come from the Journal Checker Tool's agreement data, linked below.",
+   "caveats": [
+    "You must be the corresponding author of the accepted article.",
+    "You must be publishing a journal article — these deals cannot be used for other research outputs.",
+    "You must submit using your Oxford email address (@ox.ac.uk) so the publisher can identify you as Oxford-affiliated.",
+    "You must select a CC BY licence when prompted.",
+    "Most deals do not cover extras such as page or colour charges.",
+    "Corresponding author must be Oxford-affiliated.",
+    "Agreement runs to 2099-12-31.",
+    "Limited to BMJ's Standard Collection, and to the article types listed in BMJ's Read & Publish pamphlet (confirmed by Oxford's open access team, 10 August 2026).",
+    "Eligible funders: UKRI, Wellcome Trust, British Heart Foundation, Blood Cancer UK, Cancer Research UK, Parkinson's UK, Versus Arthritis."
+   ],
+   "conditions": {
+    "capacity_limited": false,
+    "funders_only": [
+     "UKRI",
+     "Wellcome Trust",
+     "British Heart Foundation",
+     "Blood Cancer UK",
+     "Cancer Research UK",
+     "Parkinson's UK",
+     "Versus Arthritis"
+    ]
+   },
+   "correction": null,
+   "discount_pct": null,
+   "disputed": {
+    "bodleian_says": "Oxford's deal with BMJ is limited to BMJ's Standard Collection, and to the article types listed in BMJ's Read & Publish pamphlet (confirmed by the open access team, 10 August 2026).",
+    "jct_says": "Listed in transformative agreement bmj2026jisc (36 journals, running to 2026-12-31) with Oxford recorded as a current participant.",
+    "note": "The Journal Checker Tool's published agreement data and its own live API disagree about Oxford and BMJ: the agreement file lists Oxford as a participant, while the API reports no coverage for any of the 36 journals in it. Oxford's open access team confirmed on 10 August 2026 that a BMJ deal exists but is limited to the Standard Collection and to eligible article types; they did not address why the Journal Checker Tool's own API denies coverage. A deal the publisher-facing checker will not confirm is not something this site can price at zero, so check with the open access team before submitting.",
+    "publisher": "BMJ"
+   },
+   "esac_id": "bmj2026jisc",
+   "expired": null,
+   "status": "covered"
+  },
+  "shown": {
+   "cost_label": "Not confirmed — sources disagree",
+   "disputed": true,
+   "expired": false,
+   "status": "covered"
+  },
+  "sorts_as_free": false,
+  "title": "Fixture Journal Restricted By Funder",
+  "waiver": false
+ },
+ "9990-0004": {
+  "cost": {
+   "kind": "uncertain",
+   "note": "Our sources disagree about this publisher, so no cost is shown. Confirm with the open access team before assuming either figure."
+  },
+  "deal": {
+   "basis": "This journal appears on the title list of transformative agreement thie2026jisc, which Oxford is a current participant in. Both facts come from the Journal Checker Tool's agreement data, linked below.",
+   "caveats": [
+    "You must be the corresponding author of the accepted article.",
+    "You must be publishing a journal article — these deals cannot be used for other research outputs.",
+    "You must submit using your Oxford email address (@ox.ac.uk) so the publisher can identify you as Oxford-affiliated.",
+    "You must select a CC BY licence when prompted.",
+    "Most deals do not cover extras such as page or colour charges.",
+    "Corresponding author must be Oxford-affiliated.",
+    "Agreement runs to 2026-12-31.",
+    "Selected hybrid journals only; Thieme's pure open access journals are not included."
+   ],
+   "conditions": null,
+   "correction": null,
+   "discount_pct": null,
+   "disputed": {
+    "api_says": "The Journal Checker Tool's live API reports no agreement covering Oxford for this journal.",
+    "bodleian_says": null,
+    "jct_says": "Listed in transformative agreement thie2026jisc with Oxford recorded as a current participant.",
+    "note": "The Journal Checker Tool's published agreement data and its own live API disagree about this journal. The agreement file lists Oxford as a current participant; the API, which is what the tool itself answers with, reports no coverage. Because both come from the same organisation we cannot tell which is current, so no cost is stated here. Confirm with the open access team before assuming the APC is paid.",
+    "publisher": "Fixture Press",
+    "source": "jct_api_cross_check"
+   },
+   "esac_id": "thie2026jisc",
+   "expired": null,
+   "status": "covered"
+  },
+  "shown": {
+   "cost_label": "Not confirmed — sources disagree",
+   "disputed": true,
+   "expired": false,
+   "status": "covered"
+  },
+  "sorts_as_free": false,
+  "title": "Fixture Journal The JCT API Disowns",
+  "waiver": false
+ }
+}

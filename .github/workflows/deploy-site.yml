@@ -79,6 +79,7 @@ jobs:
             data/out/journals.json
             data/out/changes.json
             data/out/usage.json
+            data/out/institutions.json
 
       # Without a dataset, build_site.py would raise on a missing file and the
       # error would read like a code fault. Say plainly what happened and what

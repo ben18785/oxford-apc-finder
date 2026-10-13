@@ -29,15 +29,30 @@ from __future__ import annotations
 
 import datetime
 import html
+import os
 import re
 
 import yaml
 
-from common import (CURATED, DATA, OUT, known_journal_issns, load_config,
-                    normalise_issn, read_json, utcnow, write_json)
+from common import (CURATED, DATA, FIXTURES_MODE, OUT, known_journal_issns,
+                    load_config, normalise_issn, read_json, utcnow, write_json)
 
 MISCONDUCT_PAT = re.compile(
     r"misconduct|best practice|not adhering", re.I)
+
+
+def build_date() -> datetime.date:
+    """Today — or, in a fixtures build only, the date in APC_TODAY.
+
+    Whether an agreement has expired depends on the day the build runs, so a
+    test that pins the built output needs a fixed day or it fails the morning
+    after any fixture agreement ends. A live build ignores the variable: the
+    real site must never be built as of some other date.
+    """
+    pinned = os.environ.get("APC_TODAY", "").strip()
+    if FIXTURES_MODE and pinned:
+        return datetime.date.fromisoformat(pinned)
+    return datetime.date.today()
 
 
 def agreement_expired(end_date: str | None, today: datetime.date) -> dict | None:
@@ -456,7 +471,7 @@ def main() -> None:
                      if e["kind"] not in ("caveat", "conflict", "correction")]
     bodleian_url = overrides["meta"]["source"]
 
-    today = datetime.date.today()
+    today = build_date()
     journals = []
     excluded_misconduct = 0
     retrieved = meta.get("generated", utcnow())

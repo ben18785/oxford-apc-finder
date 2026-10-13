@@ -139,6 +139,7 @@ jobs:
             data/out/journals.json
             data/out/changes.json
             data/out/usage.json
+            data/out/institutions.json
 
       # The link checker runs on its own schedule and has no dataset of its
       # own (data/out is not committed), so publish the URL list here.
@@ -174,7 +175,7 @@ jobs:
                  data/cache/manifest.json data/state/journal_state.tsv
                  data/state/oxford_agreements.json data/state/known_journals.tsv
                  data/state/fx_rates.json data/state/subfield_sweep.json
-                 data/state/jct_api_verdicts.json
+                 data/state/jct_api_verdicts.json data/state/ror_registry.json
                  CHANGELOG-data.md"
 
           for attempt in 1 2 3; do

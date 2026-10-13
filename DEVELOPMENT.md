@@ -162,6 +162,49 @@ the page as a count — a chart that silently drops its tail reads as complete.
 GoatCounter outage costs the site a chart, never a refresh, and leaves the
 previous `usage.json` in place rather than overwriting real history with zeros.
 
+### Other universities
+
+`fetch_jct.py` also writes `data/out/institutions.json`: for every other
+institution in the consortia named by `other_institutions.consortium_suffixes`
+(`jisc` is the UK), the running agreements that list it as a participant, and
+those agreements' title lists. It costs no extra requests, because every
+agreement file is downloaded anyway.
+
+This is agreement data and nothing else. Oxford's answers are that data checked
+against the JCT API and corrected from the Bodleian's page; nobody has done
+either for anyone else, and the unchecked data has been wrong for Oxford in the
+direction that costs an author money. So the rule for anything built on this
+file is fixed: it may say "an agreement is listed that may cover this, ask your
+library", and it may never state or imply a price. An agreement that has passed
+its end date, could not be fetched, or has no readable end date is left out
+rather than flagged.
+
+Oxford is deliberately absent from the file, and nothing that writes it can
+fail the build.
+
+Only universities are kept. The agreement data also lists companies,
+government laboratories and hospital trusts, and gives no type, so each
+participant is looked up in the [ROR](https://ror.org) registry: it stays if
+ROR types it as education in `other_institutions.country`, and is not one of
+the further-education colleges in `data/curated/not_universities.yaml`. ROR's
+name replaces the agreement data's, and a participant listed under an
+identifier ROR has retired is filed under its successor. Answers are kept in
+`data/state/ror_registry.json` and rechecked every 90 days, so a normal run
+makes almost no requests. If ROR cannot be reached for more than a few
+participants never seen before, no file is written that week.
+
+On the site, a reader who ticks "I'm not at Oxford" can choose their university
+(`?inst=<ROR>` links straight to one). That changes two things and no cost:
+
+- a warning naming the university, on the results, every journal page and the
+  shortlist, for as long as it is chosen;
+- an "Agreement listed — ask your library" flag on journals an agreement lists
+  the university for, with the agreement identifier on the journal page.
+
+Costs stay exactly as the "not at Oxford" view gives them. The frontend suite
+asserts that choosing a university changes no cost cell, and that a flagged
+journal is not counted, sorted or filtered as free.
+
 ### The subfield sweep runs quarterly, not weekly
 
 `inclusion.top_journals_per_subfield` finds the leading journals inside each of
@@ -289,6 +332,12 @@ space", because they test our parsing of data we invented. The contract tests
 assert against the real sources on a schedule and open a `source-drift` issue
 when one changes, so a break surfaces before the weekly refresh rather than as
 a failed build — or a build that succeeded with empty data.
+
+`tests/golden/oxford_verdicts.json` pins the deal, caveats, cost and cost label
+the fixture build gives for every journal. It is there for changes that are not
+meant to alter an Oxford answer at all. When one is meant to, regenerate it with
+`APC_UPDATE_GOLDEN=1 pytest tests/test_pipeline_fixtures.py` and review the
+diff of that file: it is the list of answers that changed.
 
 Fixtures are generated from a real run (`python tests/make_fixtures.py`), picking
 one journal per branch — covered, discounted with and without a base price,

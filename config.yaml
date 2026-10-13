@@ -24,6 +24,7 @@ sources:
   bodleian_apc: "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/apc"
   bodleian_block_grants: "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/block-grants"
   openalex_api: "https://api.openalex.org"
+  ror_api: "https://api.ror.org/v2/organizations"
   doaj_api: "https://doaj.org/api"
   doaj_journal_csv: "https://doaj.org/csv"
   doaj_withdrawn_sheet_csv: "https://docs.google.com/spreadsheets/d/1Kv3MbgFSgtSDnEGkA2JacrSjunRu0umHeZCtcMeqO5E/gviz/tq?tqx=out:csv&sheet=Withdrawn"
@@ -68,6 +69,22 @@ inclusion:
   # Run it now with: APC_FORCE_SUBFIELD_SWEEP=1, or the workflow input.
   subfield_sweep_days: 90
   remember_journals_days: 365
+
+# Other universities.
+#
+# The agreement data lists every participant, so the pipeline also records
+# which agreements name each other university in these consortia. A consortium
+# is identified by the suffix of its agreements' ESAC IDs: "jisc" is the UK.
+# The result goes to data/out/institutions.json and is agreement data ONLY —
+# no library has checked it, so the site may show it as "may be covered, ask
+# your library" and never as a price. Empty list: nothing is recorded.
+#
+# Only universities are kept. "University" is decided by the ROR registry: an
+# organisation of type education in `country`, less the further-education
+# colleges listed by hand in data/curated/not_universities.yaml.
+other_institutions:
+  consortium_suffixes: ["jisc"]
+  country: "GB"
 
 # Usage monitoring.
 #

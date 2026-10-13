@@ -1774,3 +1774,331 @@ def test_bmj_remains_unresolved():
     assert any(e["kind"] == "conflict" and e.get("publisher_label") == "BMJ"
                for e in ov["entries"]), \
         "BMJ was resolved to a correction, but the API contradiction stands"
+
+
+# ------------------------------------------------------ other universities
+# What is recorded about universities other than Oxford is agreement data
+# alone, so every rule here leans the same way: when in doubt, no agreement.
+import datetime as _dt  # noqa: E402
+
+from fetch_jct import (build_institutions, current_institutions,  # noqa: E402
+                       record_package, ror_id, still_running, write_institutions)
+
+_TODAY = _dt.date(2026, 10, 13)
+_OXFORD, _CAM, _BATH = "052gg0110", "013meh722", "0038jbq24"
+
+
+def _csv_rows(journals=(), institutions=()):
+    rows = [{"Journal Name": n, "ISSN (Print)": i, "ISSN (Online)": "",
+             "Journal Last Seen": gone} for n, i, gone in journals]
+    rows += [{"Institution Name": n, "ROR ID": r, "Institution Last Seen": gone}
+             for n, r, gone in institutions]
+    return rows
+
+
+def _package(esac_id, institutions, *, package="", end="2027-12-31",
+             issns=("1111-2222",)):
+    return {"esac_id": esac_id, "package": package, "end_date": end,
+            "corresponding_author_only": True, "last_reviewed": "",
+            "data_url": f"https://example.invalid/{esac_id}/{package}",
+            "issns": list(issns), "institutions": dict(institutions)}
+
+
+def test_ror_ids_are_read_bare_or_as_urls():
+    assert ror_id("https://ror.org/052gg0110") == "052gg0110"
+    assert ror_id(" 052GG0110 ") == "052gg0110"
+    assert ror_id("") is None and ror_id("n/a") is None and ror_id(None) is None
+
+
+def test_an_institution_that_has_left_an_agreement_is_not_a_participant():
+    rows = _csv_rows(institutions=[
+        ("University of Cambridge", "https://ror.org/013meh722", ""),
+        ("Bath Spa University", "https://ror.org/0038jbq24", "2026-01-31"),
+        ("No Identifier College", "", "")])
+    assert current_institutions(rows) == {_CAM: "University of Cambridge"}
+
+
+def test_a_package_records_only_journals_still_in_the_agreement():
+    packages = []
+    record_package(
+        packages,
+        {"ESAC ID": "abc2026jisc", "Relationship": "Hybrid",
+         "End Date": "2027-12-31", "C/A Only": "yes", "Data URL": "https://x"},
+        _csv_rows(journals=[("Kept", "1111-2222", ""), ("Dropped", "3333-4444", "2026-02-01")],
+                  institutions=[("University of Cambridge", _CAM, "")]))
+    assert packages[0]["issns"] == ["1111-2222"]
+    assert packages[0]["package"] == "Hybrid"
+    assert packages[0]["institutions"] == {_CAM: "University of Cambridge"}
+
+
+def test_a_malformed_agreement_cannot_break_the_oxford_fetch():
+    """record_package runs inside the loop that gathers Oxford's agreements.
+    Whatever it is handed, it must not raise."""
+    packages = []
+    record_package(packages, {"ESAC ID": "abc2026jisc"}, [None, 3, "junk"])
+    assert packages == []
+
+
+def test_an_agreement_past_its_end_date_is_dropped_not_flagged():
+    assert still_running("2026-10-13", _TODAY)
+    assert not still_running("2026-10-12", _TODAY)
+    built = build_institutions(
+        [_package("old2020jisc", {_CAM: "University of Cambridge"}, end="2020-06-30")],
+        ["jisc"], _OXFORD, _TODAY)
+    assert built == {"institutions": [], "agreements": {}}
+
+
+def test_an_unreadable_end_date_is_treated_as_no_agreement():
+    """With no library to ask, doubtful data must read as 'not covered'."""
+    assert not still_running("", _TODAY) and not still_running("ongoing", _TODAY)
+
+
+def test_oxford_never_appears_among_the_other_institutions():
+    """There must be exactly one description of Oxford, and it is not this
+    one — this one has no API cross-check and no Bodleian overlay behind it."""
+    built = build_institutions(
+        [_package("abc2026jisc", {_OXFORD: "University of Oxford",
+                                  _CAM: "University of Cambridge"})],
+        ["jisc"], _OXFORD, _TODAY)
+    assert [i["ror"] for i in built["institutions"]] == [_CAM]
+
+
+def test_packages_of_one_agreement_keep_their_own_participants_and_titles():
+    """One ESAC ID can be several rows in the index — "Hybrid", "Hybrid & OA"
+    — each with its own participants and journals. Merged, a university would
+    be credited with titles from a package it did not buy."""
+    built = build_institutions(
+        [_package("deg2024jisc", {_CAM: "University of Cambridge"},
+                  package="Hybrid", issns=["1111-1111"]),
+         _package("deg2024jisc", {_BATH: "Bath Spa University"},
+                  package="Hybrid & OA", issns=["2222-2222"])],
+        ["jisc"], _OXFORD, _TODAY)
+    by_ror = {i["ror"]: i["agreements"] for i in built["institutions"]}
+    assert by_ror[_CAM] == ["deg2024jisc (Hybrid)"]
+    assert by_ror[_BATH] == ["deg2024jisc (Hybrid & OA)"]
+    assert built["agreements"]["deg2024jisc (Hybrid)"]["issns"] == ["1111-1111"]
+    assert built["agreements"]["deg2024jisc (Hybrid & OA)"]["issns"] == ["2222-2222"]
+
+
+def test_identically_labelled_packages_still_get_distinct_keys():
+    built = build_institutions(
+        [_package("abc2026jisc", {_CAM: "University of Cambridge"}, issns=["1111-1111"]),
+         _package("abc2026jisc", {_CAM: "University of Cambridge"}, issns=["2222-2222"])],
+        ["jisc"], _OXFORD, _TODAY)
+    assert built["institutions"][0]["agreements"] == ["abc2026jisc", "abc2026jisc #2"]
+
+
+def test_scope_is_set_by_consortium_but_every_agreement_is_then_listed():
+    """In scope means: in at least one of the consortium's agreements. A
+    university's own agreements outside it are then listed too; a university
+    seen only in another country's agreements is not in scope at all."""
+    built = build_institutions(
+        [_package("abc2026jisc", {_CAM: "University of Cambridge"}),
+         _package("xyz2026own", {_CAM: "Cambridge", "02abcde12": "Elsewhere"}),
+         _package("pqr2026bibsam", {"02abcde12": "Elsewhere"})],
+        ["jisc"], _OXFORD, _TODAY)
+    assert [(i["ror"], i["agreements"]) for i in built["institutions"]] == [
+        (_CAM, ["abc2026jisc", "xyz2026own"])]
+    assert set(built["agreements"]) == {"abc2026jisc", "xyz2026own"}
+    # The commonest spelling wins, alphabetical on a tie, so reruns agree.
+    assert built["institutions"][0]["name"] == "Cambridge"
+
+
+def test_no_consortium_configured_writes_nothing(tmp_path, monkeypatch):
+    import fetch_jct
+    monkeypatch.setattr(fetch_jct, "OUT", tmp_path)
+    write_institutions([_package("abc2026jisc", {_CAM: "University of Cambridge"})],
+                       {"institution_ror": _OXFORD, "sources": {"jct_ta_docs": "x"}},
+                       "https://index")
+    assert not (tmp_path / "institutions.json").exists()
+
+
+def test_a_failure_writing_other_institutions_never_reaches_the_oxford_build(
+        tmp_path, monkeypatch):
+    """write_institutions is called after Oxford's deals are written. A bug in
+    it must cost the other-university file, not the refresh."""
+    import fetch_jct
+    monkeypatch.setattr(fetch_jct, "OUT", tmp_path)
+    write_institutions([{"broken": True}],
+                       {"institution_ror": _OXFORD,
+                        "other_institutions": {"consortium_suffixes": ["jisc"]},
+                        "sources": {"jct_ta_docs": "x"}}, "https://index")
+    assert not (tmp_path / "institutions.json").exists()
+
+
+# ------------------------------------------- universities only, via ROR
+import json  # noqa: E402
+
+from fetch_jct import (canonical_universities, fetch_universities,  # noqa: E402
+                       ror_record)
+
+_NEW, _OLD, _LAB, _FE = "047ybhc09", "040f08y74", "0aaaaaa11", "0bbbbbb22"
+
+
+def _reg(**over):
+    base = {"name": None, "education": True, "country": "GB", "active": True,
+            "successor": None, "checked": "2026-10-13"}
+    return {**base, **over}
+
+
+def _ror_item(ror, *, name="X", types=("education",), status="active",
+              country="GB", successors=()):
+    return {"id": f"https://ror.org/{ror}", "status": status, "types": list(types),
+            "names": [{"value": "alias", "types": ["alias"]},
+                      {"value": name, "types": ["ror_display", "label"]}],
+            "locations": [{"geonames_details": {"country_code": country}}],
+            "relationships": [{"type": "successor", "id": f"https://ror.org/{s}"}
+                              for s in successors]}
+
+
+def test_a_ror_record_keeps_the_display_name_type_country_and_heir():
+    rec = ror_record(_ror_item(_OLD, name="St George's", status="inactive",
+                               successors=[_NEW]), _TODAY)
+    assert rec == {"name": "St George's", "education": True, "country": "GB",
+                   "active": False, "successor": _NEW, "checked": "2026-10-13"}
+    # Split in two: no single heir, so none is followed.
+    assert ror_record(_ror_item(_OLD, successors=[_NEW, _CAM]), _TODAY)["successor"] is None
+
+
+def test_only_universities_are_kept_and_under_the_registry_name():
+    """The agreement data lists companies and government labs alongside
+    universities. Only what the registry holds survives, and the registry's
+    spelling replaces the agreement data's."""
+    registry = {_CAM: _reg(name="University of Cambridge")}
+    built = build_institutions(
+        [_package("abc2026jisc", {_CAM: "Cambridge Univ", _LAB: "GCHQ"})],
+        ["jisc"], _OXFORD, _TODAY, registry, set())
+    assert [(i["ror"], i["name"]) for i in built["institutions"]] == [
+        (_CAM, "University of Cambridge")]
+
+
+def test_a_college_listed_by_hand_is_left_out():
+    registry = {_CAM: _reg(name="University of Cambridge"),
+                _FE: _reg(name="Walsall College")}
+    built = build_institutions(
+        [_package("abc2026jisc", {_CAM: "c", _FE: "w"})],
+        ["jisc"], _OXFORD, _TODAY, registry, {_FE})
+    assert [i["ror"] for i in built["institutions"]] == [_CAM]
+
+
+def test_a_retired_identifier_is_filed_under_its_successor():
+    """Agreement data lags mergers: St George's is still listed under an
+    identifier ROR retired when it merged with City. Left alone it would be
+    dropped as inactive, or shown as a second university."""
+    registry = {_NEW: _reg(name="City St George's, University of London"),
+                _OLD: _reg(name="St George's", active=False, successor=_NEW)}
+    built = build_institutions(
+        [_package("abc2026jisc", {_OLD: "St George's Hospital Medical School"}),
+         _package("xyz2026jisc", {_NEW: "City St George's"})],
+        ["jisc"], _OXFORD, _TODAY, registry, set())
+    assert built["institutions"] == [{
+        "ror": _NEW, "name": "City St George's, University of London",
+        "agreements": ["abc2026jisc", "xyz2026jisc"]}]
+
+
+def test_a_retired_identifier_with_no_usable_heir_is_dropped():
+    registry = {_OLD: _reg(active=False, successor=None),
+                _FE: _reg(active=False, successor=_LAB)}      # heir not a university
+    assert canonical_universities(registry, set()) == {}
+
+
+def test_building_the_list_does_not_alter_the_recorded_packages():
+    """The same packages are filtered more than once; a filter that edited
+    them in place would make the second answer depend on the first."""
+    packages = [_package("abc2026jisc", {_CAM: "c", _LAB: "GCHQ"})]
+    build_institutions(packages, ["jisc"], _OXFORD, _TODAY,
+                       {_CAM: _reg(name="University of Cambridge")}, set())
+    assert packages[0]["institutions"] == {_CAM: "c", _LAB: "GCHQ"}
+    assert "key" not in packages[0]
+
+
+class _Resp:
+    def __init__(self, body): self._body = body
+    def raise_for_status(self): pass
+    def json(self): return self._body
+
+
+_ROR_CFG = {"other_institutions": {"country": "GB"},
+            "sources": {"ror_api": "https://ror.invalid/orgs"}}
+
+
+def test_ror_lookups_keep_universities_follow_heirs_and_are_cached(
+        tmp_path, monkeypatch):
+    import fetch_jct
+    monkeypatch.setattr(fetch_jct, "ROR_REGISTRY", tmp_path / "ror_registry.json")
+    monkeypatch.setattr(fetch_jct, "ROR_PAUSE", 0)
+    monkeypatch.setattr(fetch_jct, "write_json",
+                        lambda path, obj: path.write_text(json.dumps(obj)))
+    known = {
+        _CAM: _ror_item(_CAM, name="University of Cambridge"),
+        _LAB: _ror_item(_LAB, name="GCHQ", types=("government",)),
+        _BATH: _ror_item(_BATH, name="Dublin City University", country="IE"),
+        _OLD: _ror_item(_OLD, name="St George's", status="inactive", successors=[_NEW]),
+        _NEW: _ror_item(_NEW, name="City St George's, University of London"),
+    }
+    asked = []
+
+    def fake_get(url, **kw):
+        ror = url.rsplit("/", 1)[-1]
+        asked.append(ror)
+        return _Resp(known[ror])
+
+    monkeypatch.setattr(fetch_jct, "http_get", fake_get)
+    reg = fetch_universities(_ROR_CFG, {_CAM, _LAB, _BATH, _OLD}, _TODAY)
+    # The heir is looked up though no agreement file lists it.
+    assert set(reg) == {_CAM, _OLD, _NEW}
+    assert reg[_CAM]["name"] == "University of Cambridge"
+    assert sorted(asked) == sorted([_CAM, _LAB, _BATH, _OLD, _NEW])
+
+    # A second run inside the recheck window asks ROR nothing.
+    asked.clear()
+    again = fetch_universities(_ROR_CFG, {_CAM, _LAB, _BATH, _OLD},
+                               _TODAY + _dt.timedelta(days=30))
+    assert asked == [] and set(again) == {_CAM, _OLD, _NEW}
+
+
+def test_ror_being_down_falls_back_to_what_it_said_before(tmp_path, monkeypatch):
+    import fetch_jct
+    path = tmp_path / "ror_registry.json"
+    path.write_text(json.dumps({_CAM: _reg(name="University of Cambridge",
+                                           checked="2026-01-01")}))
+    monkeypatch.setattr(fetch_jct, "ROR_REGISTRY", path)
+    monkeypatch.setattr(fetch_jct, "write_json", lambda p, obj: None)
+
+    def down(url, **kw):
+        raise RuntimeError("ROR is down")
+
+    monkeypatch.setattr(fetch_jct, "http_get", down)
+    reg = fetch_universities(_ROR_CFG, {_CAM}, _TODAY)      # stale, but known
+    assert set(reg) == {_CAM}
+
+
+def test_too_many_unknown_participants_writes_no_list_at_all(tmp_path, monkeypatch):
+    """A list missing a random share of universities tells those left out
+    that their university has no agreements. Better no list that week."""
+    import fetch_jct
+    monkeypatch.setattr(fetch_jct, "ROR_REGISTRY", tmp_path / "ror_registry.json")
+
+    def down(url, **kw):
+        raise RuntimeError("ROR is down")
+
+    monkeypatch.setattr(fetch_jct, "http_get", down)
+    rors = {f"0{n:08d}" for n in range(40)}
+    with pytest.raises(RuntimeError):
+        fetch_universities(_ROR_CFG, rors, _TODAY)
+
+    monkeypatch.setattr(fetch_jct, "OUT", tmp_path)
+    packages = [_package("abc2026jisc", {r: "x" for r in rors})]
+    write_institutions(packages, {**_ROR_CFG, "institution_ror": _OXFORD,
+                                  "other_institutions": {"country": "GB",
+                                                         "consortium_suffixes": ["jisc"]},
+                                  "sources": {"ror_api": "https://ror.invalid/orgs",
+                                              "jct_ta_docs": "x"}}, "https://index")
+    assert not (tmp_path / "institutions.json").exists()
+
+
+def test_the_college_list_names_real_identifiers():
+    from fetch_jct import ROR_RX, load_not_universities
+    listed = load_not_universities()
+    assert listed and all(ROR_RX.fullmatch(r) for r in listed)
+    assert _OXFORD not in listed
