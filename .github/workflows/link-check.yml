@@ -70,6 +70,10 @@ jobs:
             echo "This PR adds no links — nothing to check."
           fi
 
+      # No --exclude-mail: lychee dropped the flag (mail addresses are skipped
+      # by default now) and exits on an unknown argument before checking
+      # anything. With `fail: false` that was silent — every run "found dead
+      # links" and filed an issue whose report was empty.
       - name: Check the links
         id: lychee
         if: steps.links.outputs.found == 'true' || steps.pr_links.outputs.found == 'true'
@@ -81,7 +85,6 @@ jobs:
             --timeout 30
             --max-retries 2
             --accept 200,206,301,302,303,307,308,401,403,429
-            --exclude-mail
             links.txt
           output: lychee-report.md
           fail: false
