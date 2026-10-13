@@ -9,9 +9,6 @@ Publisher deals
 Publisher deals are open access agreements between the University of Oxford and individual publishers. They enable an article in an otherwise subscription-only journal to be made open access for a publishing fee (hybrid open access). Some deals also fund publishing in fully open access journals (gold open access).
 If you use one of these deals, the University (specifically, your academic division) will pay the publishing costs on your behalf.
 Publisher deals are sometimes called 'read and publish deals' or 'transformative agreements'.
-If you don't receive funding for your research from a funding body, the preferred open access route is to
-publish for free in a 'diamond journal'
-.
 Criteria
 To qualify for any of the deals below, you must:
 be publishing a journal article (these deals cannot be used for other research outputs)
@@ -35,7 +32,7 @@ Open Policy Finder
 (publisher listed just below the journal's name). If you are still uncertain,
 contact us
 for help.
-These deals can be subject to change. Information last amended: 12 January 2026
+These deals can be subject to change. Information last amended: 12 October 2026
 Publisher
 Deal details
 American Chemical Society (ACS)
@@ -214,6 +211,9 @@ This Jisc publisher deal allows University of Oxford corresponding authors to p
 Lists of participating journals (fully open access and hybrid OnlineOpen) and author instructions can be found on the
 Wiley open access agreement for Jisc institutions
 webpage.
+Wiley’s UK-wide 2026 publishing cap for fully open access journals in this deal is now nearly reached. Hybrid journals and Wellcome, UKRI and BHF-funded publications are unaffected. Oxford authors of all other articles already submitted to a Wiley fully open-access journal (see the link above) are recommended to contact
+openaccess@bodleian.ox.ac.uk
+for advice if they expect to complete the publication process by 31 December 2026.
 Wolters Kluwer (Health) / Lippincott, Williams and Wilkins
 This deal allows all University of Oxford corresponding authors to publish research articles, reviews and conference papers in selected hybrid journals.
 Please note: This agreement does
