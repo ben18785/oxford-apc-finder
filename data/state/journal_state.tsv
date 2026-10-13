@@ -3187,7 +3187,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0033-8362	La radiologia medica	covered	covered			
 0033-8389	Radiologic Clinics of North America	none	list_price	3000	USD	
 0033-8397	Radiologic Technology	none	unknown			
-0033-8419	Radiology	none	unknown			
+0033-8419	Radiology	covered	covered_conditional			
 0033-8451	Radioprotection	none	list_price	0	EUR	
 0033-9008	Quarterly Report of RTRI	none	unknown			
 0034-0006	Ratio	covered	covered			
@@ -8317,7 +8317,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0271-5287	Quarterly Review	none	unknown			
 0271-5309	Language & Communication	covered	covered			
 0271-5317	Nutrition Research	covered	covered			
-0271-5333	Radiographics	none	unknown			
+0271-5333	Radiographics	covered	covered_conditional			
 0271-6585	Cell Motility	none	unknown			
 0271-678X	Journal of Cerebral Blood Flow & Metabolism	covered	covered			
 0271-6798	Journal of Pediatric Orthopaedics	covered	covered			
@@ -13245,8 +13245,8 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0929-8215	Journal of New Music Research	covered	covered			
 0929-8266	European Journal of Ultrasound	none	unknown			
 0929-8622	Nederlands Tijdschrift voor Traumatologie	none	unknown			
-0929-8665	Protein and Peptide Letters	none	unknown			
-0929-8673	Current Medicinal Chemistry	none	unknown			
+0929-8665	Protein and Peptide Letters	covered	covered_conditional			
+0929-8673	Current Medicinal Chemistry	covered	covered_conditional			
 0929-9629	Monte Carlo Methods and Applications	none	list_price	2400	EUR	
 0929-9637	Primary Sensory Neuron	none	unknown			
 0929-9645	Transport Logistics	none	unknown			
@@ -14030,7 +14030,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 0960-1317	Journal of Micromechanics and Microengineering	covered	covered			
 0960-1481	Renewable Energy	covered	covered			
 0960-1627	Mathematical Finance	covered	covered			
-0960-1643	British Journal of General Practice	none	unknown			
+0960-1643	British Journal of General Practice	covered	covered_conditional			
 0960-1686	Atmospheric Environment Part A General Topics	none	unknown			
 0960-2003	European Work and Organizational Psychologist	none	unknown			
 0960-2011	Neuropsychological Rehabilitation	covered	covered			
@@ -19844,7 +19844,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1381-4788	European Journal of General Practice	covered	covered			
 1381-5148	Reactive and Functional Polymers	covered	covered			
 1381-5741	Methods in Cell Science	none	unknown			
-1381-6128	Current Pharmaceutical Design	none	unknown			
+1381-6128	Current Pharmaceutical Design	covered	covered_conditional			
 1381-6810	Ophthalmic Genetics	covered	covered			
 1382-2373	New West Indian Guide / Nieuwe West-Indische Gids	covered	covered			
 1382-3019	Journal of Market-Focused Management	none	unknown			
@@ -19903,7 +19903,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1385-2000	Mechanics of Time-Dependent Materials	covered	covered			
 1385-2256	Precision Agriculture	covered	covered			
 1385-2264	Cardiac Electrophysiology Review	none	unknown			
-1385-2728	Current Organic Chemistry	none	unknown			
+1385-2728	Current Organic Chemistry	covered	covered_conditional			
 1385-299X	Brain Research Protocols	none	unknown			
 1385-3139	Reliable Computing	none	unknown			
 1385-3449	Journal of Electroceramics	covered	covered			
@@ -19928,7 +19928,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1386-1972	The Palestine Yearbook of International Law Online	covered	covered			
 1386-1980	Journal of Aquatic Ecosystem Stress and Recovery	none	unknown			
 1386-1999	Extremes	covered	covered			
-1386-2073	Combinatorial Chemistry & High Throughput Screening	none	unknown			
+1386-2073	Combinatorial Chemistry & High Throughput Screening	covered	covered_conditional			
 1386-2588	Aquatic Ecology	covered	covered			
 1386-2618	Opportunistic Pathogens	none	unknown			
 1386-2820	Ethical Theory and Moral Practice	covered	covered			
@@ -20029,24 +20029,24 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1389-1286	Computer Networks	covered	covered			
 1389-143X	Geron	none	unknown			
 1389-1987	Brain and Mind	none	unknown			
-1389-2002	Current Drug Metabolism	none	unknown			
-1389-2010	Current Pharmaceutical Biotechnology	none	unknown			
-1389-2029	Current Genomics	none	unknown			
-1389-2037	Current Protein and Peptide Science	none	unknown			
+1389-2002	Current Drug Metabolism	covered	covered_conditional			
+1389-2010	Current Pharmaceutical Biotechnology	covered	covered_conditional			
+1389-2029	Current Genomics	covered	covered_conditional			
+1389-2037	Current Protein and Peptide Science	covered	covered_conditional			
 1389-224X	The Journal of Agricultural Education and Extension	covered	covered			
 1389-2258	Journal of Micromechatronics	none	unknown			
 1389-2576	Genetic Programming and Evolvable Machines	covered	covered			
 1389-2630	Pallium	none	unknown			
 1389-2843	Journal of Educational Change	covered	covered			
 1389-4420	Optimization and Engineering	covered	covered			
-1389-4501	Current Drug Targets	none	unknown			
+1389-4501	Current Drug Targets	covered	covered_conditional			
 1389-4633	Max Planck Yearbook of United Nations Law	covered	covered			
 1389-4978	Journal of Happiness Studies	covered	covered			
 1389-4986	Prevention Science	covered	covered			
 1389-5176	Integrated Assessment	none	unknown			
 1389-5265	International Journal of Surface Mining Reclamation and Environment	none	unknown			
 1389-5567	Journal of Photochemistry and Photobiology C Photochemistry Reviews	covered	covered			
-1389-5575	Mini-Reviews in Medicinal Chemistry	none	unknown			
+1389-5575	Mini-Reviews in Medicinal Chemistry	covered	covered_conditional			
 1389-5702	Global Change and Human Health	none	unknown			
 1389-5729	Biogerontology	covered	covered			
 1389-5753	Electronic Commerce Research	covered	covered			
@@ -23474,8 +23474,8 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1566-2535	Information Fusion	covered	covered			
 1566-2772	Clinical Neuroscience Research	none	unknown			
 1566-4910	Journal of Housing and the Built Environment	covered	covered			
-1566-5232	Current Gene Therapy	none	unknown			
-1566-5240	Current Molecular Medicine	none	unknown			
+1566-5232	Current Gene Therapy	covered	covered_conditional			
+1566-5240	Current Molecular Medicine	covered	covered_conditional			
 1566-5399	Ars Disputandi	none	unknown			
 1566-5836	Consciousness & Emotion	none	unknown			
 1566-5844	Journal of Greek Linguistics	covered	covered			
@@ -23489,9 +23489,9 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1567-1348	Infection Genetics and Evolution	discount	discount	2499	USD	
 1567-1356	FEMS Yeast Research	covered	covered			
 1567-1739	Current Applied Physics	covered	covered			
-1567-2018	Current Drug Delivery	none	unknown			
-1567-2026	Current Neurovascular Research	none	unknown			
-1567-2050	Current Alzheimer Research	none	unknown			
+1567-2018	Current Drug Delivery	covered	covered_conditional			
+1567-2026	Current Neurovascular Research	covered	covered_conditional			
+1567-2050	Current Alzheimer Research	covered	covered_conditional			
 1567-2069	Strength Fracture and Complexity	covered	covered			
 1567-2190	Foundations and Trends® in Communications and Information Theory	none	unknown			
 1567-2336	The Medieval Chronicle	covered	covered			
@@ -23525,16 +23525,16 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1567-8822	Cardiovascular Engineering An International Journal	none	unknown			
 1567-9764	International Environmental Agreements Politics Law and Economics	covered	covered			
 1567-9896	Aries	covered	covered			
-1568-0061	Cardiovascular & Haematological Disorders - Drug Targets	none	unknown			
-1568-007X	CNS & Neurological Disorders - Drug Targets	none	unknown			
-1568-0096	Current Cancer Drug Targets	none	unknown			
-1568-010X	Current Drug Targets - Inflammation & Allergy	none	unknown			
-1568-0118	Anti-Cancer Agents in Medicinal Chemistry	none	unknown			
-1568-0126	Anti-Infective Agents	none	unknown			
-1568-0142	Anti-Inflammatory & Anti-Allergy Agents in Medicinal Chemistry	none	unknown			
-1568-0150	Central Nervous System Agents in Medicinal Chemistry	none	unknown			
+1568-0061	Cardiovascular & Haematological Disorders - Drug Targets	covered	covered_conditional			
+1568-007X	CNS & Neurological Disorders - Drug Targets	covered	covered_conditional			
+1568-0096	Current Cancer Drug Targets	covered	covered_conditional			
+1568-010X	Current Drug Targets - Inflammation & Allergy	covered	covered_conditional			
+1568-0118	Anti-Cancer Agents in Medicinal Chemistry	covered	covered_conditional			
+1568-0126	Anti-Infective Agents	covered	covered_conditional			
+1568-0142	Anti-Inflammatory & Anti-Allergy Agents in Medicinal Chemistry	covered	covered_conditional			
+1568-0150	Central Nervous System Agents in Medicinal Chemistry	covered	covered_conditional			
 1568-0258	Perspectives on European Politics and Society	none	unknown			
-1568-0266	Current Topics in Medicinal Chemistry	none	unknown			
+1568-0266	Current Topics in Medicinal Chemistry	covered	covered_conditional			
 1568-0584	European Journal of East Asian Studies	covered	covered			
 1568-1467	Annual Review of Language Acquisition	none	unknown			
 1568-1475	Gesture	covered	covered			
@@ -23592,17 +23592,17 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1570-0844	Semantic Web	covered	covered			
 1570-1166	Journal of Mathematical Modelling and Algorithms	none	unknown			
 1570-1255	Information Polity	covered	covered			
-1570-159X	Current Neuropharmacology	none	unknown			
-1570-1611	Current Vascular Pharmacology	none	unknown			
-1570-162X	Current HIV Research	none	unknown			
-1570-1638	Current Drug Discovery Technologies	none	unknown			
+1570-159X	Current Neuropharmacology	covered	covered_conditional			
+1570-1611	Current Vascular Pharmacology	covered	covered_conditional			
+1570-162X	Current HIV Research	covered	covered_conditional			
+1570-1638	Current Drug Discovery Technologies	covered	covered_conditional			
 1570-1727	Journal of Academic Ethics	covered	covered			
-1570-1786	Letters in Organic Chemistry	none	unknown			
-1570-1794	Current Organic Synthesis	none	unknown			
-1570-1808	Letters in Drug Design & Discovery	none	list_price	2300	USD	
+1570-1786	Letters in Organic Chemistry	covered	covered_conditional			
+1570-1794	Current Organic Synthesis	covered	covered_conditional			
+1570-1808	Letters in Drug Design & Discovery	covered	covered_conditional			
 1570-1824	Statistics Education Research Journal	none	unknown			
 1570-1867	Historiography East and West	none	unknown			
-1570-193X	Mini-Reviews in Organic Chemistry	none	unknown			
+1570-193X	Mini-Reviews in Organic Chemistry	covered	covered_conditional			
 1570-2081	Educational Research for Policy and Practice	covered	covered			
 1570-2294	Electronic Communication Law Review	none	unknown			
 1570-2693	SynthesHis	none	unknown			
@@ -23667,24 +23667,24 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1573-3149	International Journal of Peptide Research and Therapeutics	covered	covered			
 1573-384X	Iran and the Caucasus	covered	covered			
 1573-3882	Metabolomics	covered	covered			
-1573-3947	Current Cancer Therapy Reviews	none	unknown			
-1573-3955	Current Immunology Reviews	none	unknown			
-1573-3963	Current Pediatric Reviews	none	unknown			
-1573-3971	Current Rheumatology Reviews	none	unknown			
-1573-398X	Current Respiratory Medicine Reviews	none	unknown			
-1573-3998	Current Diabetes Reviews	none	unknown			
-1573-4005	Current Psychiatry Reviews	none	unknown			
-1573-4013	Current Nutrition & Food Science	none	unknown			
-1573-4021	Current Hypertension Reviews	none	unknown			
-1573-403X	Current Cardiology Reviews	none	unknown			
-1573-4048	Current Women s Health Reviews	none	unknown			
-1573-4056	Current Medical Imaging Formerly Current Medical Imaging Reviews	none	unknown			
-1573-4064	Medicinal Chemistry	none	unknown			
-1573-4072	Current Bioactive Compounds	none	unknown			
-1573-4080	Current Enzyme Inhibition	none	unknown			
-1573-4099	Current Computer - Aided Drug Design	none	unknown			
-1573-4110	Current Analytical Chemistry	none	unknown			
-1573-4137	Current Nanoscience	none	unknown			
+1573-3947	Current Cancer Therapy Reviews	covered	covered_conditional			
+1573-3955	Current Immunology Reviews	covered	covered_conditional			
+1573-3963	Current Pediatric Reviews	covered	covered_conditional			
+1573-3971	Current Rheumatology Reviews	covered	covered_conditional			
+1573-398X	Current Respiratory Medicine Reviews	covered	covered_conditional			
+1573-3998	Current Diabetes Reviews	covered	covered_conditional			
+1573-4005	Current Psychiatry Reviews	covered	covered_conditional			
+1573-4013	Current Nutrition & Food Science	covered	covered_conditional			
+1573-4021	Current Hypertension Reviews	covered	covered_conditional			
+1573-403X	Current Cardiology Reviews	covered	covered_conditional			
+1573-4048	Current Women s Health Reviews	covered	covered_conditional			
+1573-4056	Current Medical Imaging Formerly Current Medical Imaging Reviews	covered	covered_conditional			
+1573-4064	Medicinal Chemistry	covered	covered_conditional			
+1573-4072	Current Bioactive Compounds	covered	covered_conditional			
+1573-4080	Current Enzyme Inhibition	covered	covered_conditional			
+1573-4099	Current Computer - Aided Drug Design	covered	covered_conditional			
+1573-4110	Current Analytical Chemistry	covered	covered_conditional			
+1573-4137	Current Nanoscience	covered	covered_conditional			
 1573-420X	Asian Medicine	covered	covered			
 1573-4277	Optical Switching and Networking	covered	covered			
 1573-4595	Aquatic ecology series.	none	unknown			
@@ -23714,15 +23714,15 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1574-3624	Current Signal Transduction Therapy	none	unknown			
 1574-6267	Australasian Emergency Nursing Journal	none	unknown			
 1574-7891	Molecular Oncology	covered	covered			
-1574-8847	Current Clinical Pharmacology	none	unknown			
-1574-8855	Current Drug Therapy	none	unknown			
-1574-8863	Current Drug Safety	none	unknown			
-1574-8871	Reviews on Recent Clinical Trials	none	unknown			
-1574-888X	Current Stem Cell Research & Therapy	none	unknown			
-1574-8898	Recent Patents on CNS Drug Discovery	none	unknown			
-1574-891X	Recent Patents on Anti-Infective Drug Discovery	none	unknown			
-1574-8928	Recent Patents on Anti-Cancer Drug Discovery	none	unknown			
-1574-8936	Current Bioinformatics	none	unknown			
+1574-8847	Current Clinical Pharmacology	covered	covered_conditional			
+1574-8855	Current Drug Therapy	covered	covered_conditional			
+1574-8863	Current Drug Safety	covered	covered_conditional			
+1574-8871	Reviews on Recent Clinical Trials	covered	covered_conditional			
+1574-888X	Current Stem Cell Research & Therapy	covered	covered_conditional			
+1574-8898	Recent Patents on CNS Drug Discovery	covered	covered_conditional			
+1574-891X	Recent Patents on Anti-Infective Drug Discovery	covered	covered_conditional			
+1574-8928	Recent Patents on Anti-Cancer Drug Discovery	covered	covered_conditional			
+1574-8936	Current Bioinformatics	covered	covered_conditional			
 1574-9541	Ecological Informatics	discount	discount	2712	USD	
 1575-023X	Contextos Educativos Revista de Educación	none	no_apc			
 1575-0698	Illes i imperis	none	no_apc			
@@ -25466,7 +25466,6 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1715-2593	Island Studies Journal	none	no_apc			
 1715-5312	Applied Physiology Nutrition and Metabolism	none	unknown			
 1715-6572	Healthcare policy	none	unknown			
-1715-6718	New proposals	none	no_apc			
 1715-720X	Evidence Based Library and Information Practice	none	no_apc			
 1718-0775	McGill Science Undergraduate Research Journal	none	no_apc			
 1718-4770	Journal of Contemporary Issues in Education	none	no_apc			
@@ -26021,7 +26020,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1745-0101	Mobilities	covered	covered			
 1745-0128	Vulnerable Children and Youth Studies	covered	covered			
 1745-0144	Contemporary Social Science	covered	covered			
-1745-0179	Clinical Practice and Epidemiology in Mental Health	none	unknown			
+1745-0179	Clinical Practice and Epidemiology in Mental Health	covered	covered_conditional			
 1745-0454	Respiratory Medicine COPD Update	none	unknown			
 1745-0918	Shakespeare	covered	covered			
 1745-1000	Marine Biology Research	covered	covered			
@@ -28216,10 +28215,10 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1871-4757	NanoEthics	discount	discount	2032	GBP	
 1871-515X	Utrecht Law Review	none	no_apc			
 1871-5192	Women and Birth	covered	covered			
-1871-5257	Cardiovascular & Hematological Agents in Medicinal Chemistry	none	unknown			
-1871-5265	Infectious Disorders - Drug Targets	none	unknown			
-1871-5281	Inflammation & Allergy - Drug Targets	none	unknown			
-1871-5303	Endocrine Metabolic & Immune Disorders - Drug Targets	none	unknown			
+1871-5257	Cardiovascular & Hematological Agents in Medicinal Chemistry	covered	covered_conditional			
+1871-5265	Infectious Disorders - Drug Targets	covered	covered_conditional			
+1871-5281	Inflammation & Allergy - Drug Targets	covered	covered_conditional			
+1871-5303	Endocrine Metabolic & Immune Disorders - Drug Targets	covered	covered_conditional			
 1871-5621	Morphology	covered	covered			
 1871-6342	Knowledge Management for Development Journal	none	unknown			
 1871-6784	New Biotechnology	discount	discount	2703	USD	
@@ -28233,14 +28232,14 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1872-115X	Update on Cancer Therapeutics	none	unknown			
 1872-2032	Acta Ecologica Sinica	none	list_price	2500	USD	
 1872-2040	Chinese Journal of Analytical Chemistry	none	unknown			
-1872-2083	Recent Patents on Biotechnology	none	unknown			
-1872-2105	Recent Patents on Nanotechnology	none	unknown			
-1872-2113	Recent Patents on Drug Delivery & Formulation	none	unknown			
+1872-2083	Recent Patents on Biotechnology	covered	covered_conditional			
+1872-2105	Recent Patents on Nanotechnology	covered	covered_conditional			
+1872-2113	Recent Patents on Drug Delivery & Formulation	covered	covered_conditional			
 1872-2121	Recent Patents on Engineering	none	unknown			
-1872-213X	Recent Patents on Inflammation & Allergy Drug Discovery	none	unknown			
+1872-213X	Recent Patents on Inflammation & Allergy Drug Discovery	covered	covered_conditional			
 1872-261X	Journal of the Philosophy of History	covered	covered			
 1872-2881	Experimental Earth	none	unknown			
-1872-3136	Current Chemical Biology	none	unknown			
+1872-3136	Current Chemical Biology	covered	covered_conditional			
 1872-3497	Religie & Samenleving	none	no_apc			
 1872-4078	TvPO	none	unknown			
 1872-4973	Forensic Science International Genetics	covered	covered			
@@ -28277,57 +28276,57 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1873-9857	Middle East Journal of Culture and Communication	covered	covered			
 1873-9946	Journal of Crohn s and Colitis	covered	covered			
 1873-9954	Journal of Crohn s and Colitis Supplements	none	unknown			
-1874-0707	The Open Biotechnology Journal	none	unknown			
-1874-091X	The Open Biochemistry Journal	none	unknown			
-1874-1045	The Open Medicinal Chemistry Journal	none	unknown			
-1874-1207	The Open Biomedical Engineering Journal	none	unknown			
-1874-1231	The Open Chemical Engineering Journal	none	unknown			
-1874-1495	The Open Civil Engineering Journal	none	unknown			
+1874-0707	The Open Biotechnology Journal	covered	covered_conditional			
+1874-091X	The Open Biochemistry Journal	covered	covered_conditional			
+1874-1045	The Open Medicinal Chemistry Journal	covered	covered_conditional			
+1874-1207	The Open Biomedical Engineering Journal	covered	covered_conditional			
+1874-1231	The Open Chemical Engineering Journal	covered	covered_conditional			
+1874-1495	The Open Civil Engineering Journal	covered	covered_conditional			
 1874-1657	Journal of Egyptian History	covered	covered			
 1874-1738	Theoretical Ecology	covered	covered			
-1874-1924	The Open Cardiovascular Medicine Journal	none	unknown			
-1874-1967	The Open Biology Journal	none	unknown			
-1874-205X	The Open Neurology Journal	none	unknown			
-1874-2106	The Open Dentistry Journal	none	unknown			
-1874-2130	The Open Ecology Journal	none	unknown			
+1874-1924	The Open Cardiovascular Medicine Journal	covered	covered_conditional			
+1874-1967	The Open Biology Journal	covered	covered_conditional			
+1874-205X	The Open Neurology Journal	covered	covered_conditional			
+1874-2106	The Open Dentistry Journal	covered	covered_conditional			
+1874-2130	The Open Ecology Journal	covered	covered_conditional			
 1874-2203	Open Medicine Journal	none	unknown			
 1874-270X	Biomolecular NMR Assignments	covered	covered			
-1874-2858	The Open Microbiology Journal	none	unknown			
-1874-303X	The Open Urology & Nephrology Journal	none	unknown			
-1874-3064	The Open Respiratory Medicine Journal	none	unknown			
-1874-3129	The Open Rheumatology Journal	none	unknown			
-1874-3250	The Open Orthopaedics Journal	none	unknown			
-1874-3315	The Open Agriculture Journal	none	unknown			
-1874-3501	The Open Psychology Journal	none	unknown			
-1874-3641	The Open Ophthalmology Journal	none	unknown			
-1874-3722	The Open Dermatology Journal	none	unknown			
+1874-2858	The Open Microbiology Journal	covered	covered_conditional			
+1874-303X	The Open Urology & Nephrology Journal	covered	covered_conditional			
+1874-3064	The Open Respiratory Medicine Journal	covered	covered_conditional			
+1874-3129	The Open Rheumatology Journal	covered	covered_conditional			
+1874-3250	The Open Orthopaedics Journal	covered	covered_conditional			
+1874-3315	The Open Agriculture Journal	covered	covered_conditional			
+1874-3501	The Open Psychology Journal	covered	covered_conditional			
+1874-3641	The Open Ophthalmology Journal	covered	covered_conditional			
+1874-3722	The Open Dermatology Journal	covered	covered_conditional			
 1874-3811	The Open Astronomy Journal	none	unknown			
 1874-3900	Phytochemistry Letters	covered	covered			
 1874-3919	Journal of Proteomics	covered	covered			
 1874-396X	The Open Thermodynamics Journal	none	unknown			
-1874-4346	The Open Nursing Journal	none	unknown			
-1874-4400	The Open Neuroimaging Journal	none	unknown			
-1874-4478	The Open Transportation Journal	none	unknown			
+1874-4346	The Open Nursing Journal	covered	covered_conditional			
+1874-4400	The Open Neuroimaging Journal	covered	covered_conditional			
+1874-4478	The Open Transportation Journal	covered	covered_conditional			
 1874-4567	The Open Mineralogy Journal	none	unknown			
 1874-4621	Applied Spatial Analysis and Policy	covered	covered			
 1874-4648	Current Materials Science	none	unknown			
-1874-4672	Current Molecular Pharmacology	none	unknown			
-1874-4737	Current Drug Abuse Reviews	none	unknown			
-1874-477X	Recent Patents on Mechanical Engineering	none	unknown			
+1874-4672	Current Molecular Pharmacology	covered	covered_conditional			
+1874-4737	Current Drug Abuse Reviews	covered	covered_conditional			
+1874-477X	Recent Patents on Mechanical Engineering	covered	covered_conditional			
 1874-4796	Recent Advances in Computer Science and Communications	none	unknown			
 1874-4907	Physical Communication	covered	covered			
 1874-5393	Journal of Pediatric Rehabilitation Medicine	covered	covered			
 1874-5482	International Journal of Critical Infrastructure Protection	covered	covered			
 1874-5490	Neuroethics	covered	covered			
-1874-6098	Current Aging Science	none	unknown			
-1874-6136	The Open AIDS Journal	none	unknown			
+1874-6098	Current Aging Science	covered	covered_conditional			
+1874-6136	The Open AIDS Journal	covered	covered_conditional			
 1874-656X	Contributions to the History of Concepts	none	unknown			
 1874-7094	Journal of Persianate Studies	covered	covered			
 1874-7655	Statistical Journal of the IAOS	covered	covered			
 1874-7787	Marine Genomics	covered	covered			
 1874-785X	Vocations and Learning	covered	covered			
 1874-7876	Journal of Population Ageing	covered	covered			
-1874-8368	The Open Construction and Building Technology Journal	none	unknown			
+1874-8368	The Open Construction and Building Technology Journal	covered	covered_conditional			
 1874-8554	Scientific Modeling and Simulation SMNS	none	unknown			
 1874-8597	Educational Assessment Evaluation and Accountability	covered	covered			
 1874-8651	Systems Engineering - Theory & Practice	none	unknown			
@@ -28337,11 +28336,11 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1874-8953	Mathematical Geosciences	covered	covered			
 1874-897X	Child Indicators Research	covered	covered			
 1874-9399	Biochimica et Biophysica Acta (BBA) - Gene Regulatory Mechanisms	covered	covered			
-1874-9445	The Open Public Health Journal	none	unknown			
+1874-9445	The Open Public Health Journal	covered	covered_conditional			
 1874-9674	Tijdschrift voor Agrarisch Recht	none	unknown			
 1874-9828	Terrestrial Arthropod Reviews	covered	covered			
 1875-0281	International Journal of the Commons	none	list_price	740	GBP	
-1875-0362	The Open Bioinformatics Journal	none	unknown			
+1875-0362	The Open Bioinformatics Journal	covered	covered_conditional			
 1875-0672	Alter	none	list_price	1000	USD	
 1875-0710	World Mycotoxin Journal	covered	covered			
 1875-1342	Biosemiotics	covered	covered			
@@ -28353,10 +28352,10 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1875-2284	Cancer Microenvironment	none	list_price	3860	USD	
 1875-2772	Perioperative Medizin	none	unknown			
 1875-2780	Acta Agronomica Sinica	none	unknown			
-1875-3183	The Open Biomarkers Journal	none	unknown			
+1875-3183	The Open Biomarkers Journal	covered	covered_conditional			
 1875-371X	Geography and Natural Resources	none	unknown			
 1875-3892	Physics Procedia	discount	discount_unknown_base			
-1875-399X	The Open Sports Sciences Journal	none	unknown			
+1875-399X	The Open Sports Sciences Journal	covered	covered_conditional			
 1875-4104	Journal of International Peacekeeping	covered	covered			
 1875-4120	TDM	none	unknown			
 1875-452X	Acta anaesthesiologica Taiwanica	none	unknown			
@@ -28366,7 +28365,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1875-5372	稀有金属材料与工程	none	unknown			
 1875-6859	Journal of Men s Health	none	list_price	1200	USD	
 1875-6883	International Journal of Computational Intelligence Systems	discount	discount	1742	GBP	
-1875-6913	Current pharmacogenomics and personalized medicine (Online)/Current pharmacogenomics and personalized medicine	none	unknown			
+1875-6913	Current pharmacogenomics and personalized medicine (Online)/Current pharmacogenomics and personalized medicine	covered	covered_conditional			
 1875-7162	Médecine & longévité	none	unknown			
 1875-9122	Hospitalist News	none	unknown			
 1875-9157	Surgical pathology clinics	none	list_price	3100	USD	
@@ -28383,7 +28382,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1876-1143	Rheumatology News International	none	unknown			
 1876-1364	Journal of Ambient Intelligence and Smart Environments	covered	covered			
 1876-1399	Clinical Simulation in Nursing	covered	covered			
-1876-1429	Recent Patents on Food Nutrition & Agriculture	none	unknown			
+1876-1429	Recent Patents on Food Nutrition & Agriculture	covered	covered_conditional			
 1876-1658	Water Quality Exposure and Health	none	unknown			
 1876-1933	Constructions and Frames	covered	covered			
 1876-2018	Asian Journal of Psychiatry	covered	covered			
@@ -28391,7 +28390,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1876-2700	Translation and Interpreting Studies	covered	covered			
 1876-2859	Academic Pediatrics	covered	covered			
 1876-2883	Beneficial Microbes	covered	covered			
-1876-326X	Open Longevity Science	none	unknown			
+1876-326X	Open Longevity Science	covered	covered_conditional			
 1876-3367	Middle East Law and Governance	covered	covered			
 1876-3405	International Health	covered	covered			
 1876-3553	World Science and Technology	none	unknown			
@@ -28404,8 +28403,8 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1876-4754	Brain stimulation	discount	discount	4020	USD	
 1876-4789	Journal of clinical lipidology	covered	covered			
 1876-4983	Journal of the American College of Clinical Wound Specialists	none	unknown			
-1876-5033	The Open Corrosion Journal	none	unknown			
-1876-505X	The Open Electrochemistry Journal	none	unknown			
+1876-5033	The Open Corrosion Journal	covered	covered_conditional			
+1876-505X	The Open Electrochemistry Journal	covered	covered_conditional			
 1876-5092	The China Nonprofit Review	none	unknown			
 1876-6102	Energy Procedia	discount	discount_unknown_base			
 1876-6196	Procedia Chemistry	discount	discount_unknown_base			
@@ -28465,7 +28464,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 1877-8585	Journal of Family Business Strategy	covered	covered			
 1877-8607	Fooyin Journal of Health Sciences	none	unknown			
 1877-8860	Scandinavian Journal of Pain	discount	discount	1700	EUR	
-1877-9123	Current Nanomedicine	none	unknown			
+1877-9123	Current Nanomedicine	covered	covered_conditional			
 1877-9166	City Culture and Society	covered	covered			
 1877-9182	Cardiac Electrophysiology Clinics	none	list_price	2800	USD	
 1877-9344	Italian Journal of Medicine	none	list_price	750	EUR	
@@ -33383,7 +33382,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2148-7855	Düzce Üniversitesi Orman fakültesi ormancılık dergisi/Düzce Üniversitesi Orman Fakültesi ormancılık dergisi	none	no_apc			
 2148-8088	Nazariyat İslam Felsefe ve Bilim Tarihi Araştırmaları Dergisi (Journal for the History of Islamic Philosophy and Sciences)	none	no_apc			
 2148-8940	e-Kafkas Eğitim Araştırmaları Dergisi	none	no_apc			
-2148-905X	Sportif Bakis Spor ve Egitim Bilimleri Dergisi	none	list_price	150	USD	
+2148-905X	Sportif Bakis Spor ve Egitim Bilimleri Dergisi	none	list_price	250	USD	
 2148-9173	International Journal of Environment and Geoinformatics	none	no_apc			
 2148-922X	Journal Of The Near East Unıversıty Islamıc Research Center	none	no_apc			
 2148-9424	Sosyal Politika Çalışmaları Dergisi	none	unknown			
@@ -34775,10 +34774,10 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2210-2612	International Journal of Surgery Case Reports	discount	discount	1776	USD	
 2210-2671	Erasmus Law Review	none	no_apc			
 2210-271X	Computational and Theoretical Chemistry	covered	covered			
-2210-299X	Current Indian Science	none	unknown			
-2210-3031	Drug Delivery Letters	none	unknown			
+2210-299X	Current Indian Science	covered	covered_conditional			
+2210-3031	Drug Delivery Letters	covered	covered_conditional			
 2210-3155	The Natural Products Journal	none	unknown			
-2210-3279	International Journal of Sensors Wireless Communications and Control	none	unknown			
+2210-3279	International Journal of Sensors Wireless Communications and Control	covered	covered_conditional			
 2210-3988	Journal of Iron and Steel Research International	covered	covered			
 2210-4070	Metaphor and the Social World	covered	covered			
 2210-4119	Language and Dialogue	covered	covered			
@@ -34865,11 +34864,11 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2211-4742	Journal of Argumentation in Context	covered	covered			
 2211-5056	Taiwan Journal of Ophthalmology	none	no_apc			
 2211-5242	Disability CBR & Inclusive Development	none	no_apc			
-2211-5366	MicroRNA	none	unknown			
+2211-5366	MicroRNA	covered	covered_conditional			
 2211-5447	Current Catalysis	none	unknown			
 2211-5463	FEBS Open Bio	covered	covered			
 2211-5501	Current Biotechnology	none	unknown			
-2211-5560	Current Psychopharmacologye	none	unknown			
+2211-5560	Current Psychopharmacologye	covered	covered_conditional			
 2211-5587	Journal of Acute Medicine	none	unknown			
 2211-5684	Diagnostic and Interventional Imaging	covered	covered			
 2211-5706	Journal de radiologie diagnostique et interventionnelle	none	unknown			
@@ -34885,7 +34884,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2211-7148	Results in Earth Sciences	discount	discount	459	USD	
 2211-7156	Results in Chemistry	discount	discount	1556	USD	
 2211-7245	Dutch Journal of Applied Linguistics	none	no_apc			
-2211-7385	Pharmaceutical Nanotechnology	none	unknown			
+2211-7385	Pharmaceutical Nanotechnology	covered	covered_conditional			
 2211-7458	Interventional Cardiology Clinics	none	list_price	3000	USD	
 2211-7539	Medical Mycology Case Reports	discount	discount	552	USD	
 2211-7660	Acupuncture and Related Therapies	none	unknown			
@@ -34957,7 +34956,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2212-6716	AASRI Procedia	none	unknown			
 2212-683X	Biologically Inspired Cognitive Architectures	none	list_price	2400	USD	
 2212-6864	Physics of the Dark Universe	covered	covered			
-2212-697X	Clinical Cancer Drugs	none	unknown			
+2212-697X	Clinical Cancer Drugs	covered	covered_conditional			
 2212-7119	Current Biochemical Engineering	none	unknown			
 2212-7445	Journal of Chinese Military History	covered	covered			
 2212-764X	European Research in Telemedicine / La Recherche Européenne en Télémédecine	none	unknown			
@@ -38995,7 +38994,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2398-2764	Justice, power and resistance	covered	covered			
 2398-3132	Proceedings of DRS	none	unknown			
 2398-3396	IET Cyber-Physical Systems Theory & Applications	covered	covered			
-2398-3795	BJGP Open	none	list_price	1250	GBP	
+2398-3795	BJGP Open	covered	covered_conditional			
 2398-4007	PSU Research Review	none	no_apc			
 2398-4112	KULA knowledge creation dissemination and preservation studies	none	no_apc			
 2398-4686	Studies in Graduate and Postdoctoral Education	none	unknown			
@@ -39072,7 +39071,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2405-4526	Journal of Interprofessional Education & Practice	covered	covered			
 2405-4569	European Urology Focus	covered	covered			
 2405-4577	Clinical Nutrition ESPEN	covered	covered			
-2405-4615	Current Nanomaterials	none	unknown			
+2405-4615	Current Nanomaterials	covered	covered_conditional			
 2405-4631	Current Alternative Energy	none	unknown			
 2405-4690	Visual Journal of Emergency Medicine	covered	covered			
 2405-4712	Cell Systems	covered	covered			
@@ -42474,7 +42473,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2589-6113	Glioma	none	no_apc			
 2589-627X	Journal of Nature and Science of Medicine	none	no_apc			
 2589-6369	Journal of Avant-Garde Studies	covered	covered			
-2589-6458	The Open Anesthesia Journal	none	unknown			
+2589-6458	The Open Anesthesia Journal	covered	covered_conditional			
 2589-6725	AUP Advances	none	unknown			
 2589-7004	Journal of Dentistry X	none	list_price	3000	USD	
 2589-7098	Cubic Journal	none	no_apc			
@@ -44107,7 +44106,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2665-9786	Current Nutraceuticals	none	unknown			
 2665-9883	Studies in World Cinema	covered	covered			
 2665-9913	The Lancet Rheumatology	covered	covered			
-2665-9956	The Open Biomaterials Science Journal	none	unknown			
+2665-9956	The Open Biomaterials Science Journal	covered	covered_conditional			
 2666-0164	Case Studies in Chemical and Environmental Engineering	discount	discount	1096	USD	
 2666-0172	Science of Remote Sensing	discount	discount	2176	USD	
 2666-027X	Current Research in Toxicology	discount	discount	2422	USD	
@@ -44195,7 +44194,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2666-4690	Journal of Photochemistry and Photobiology	discount	no_apc			
 2666-478X	Current Research in Virological Science	discount	discount	2125	USD	
 2666-4798	La Presse Médicale Formation	covered	covered			
-2666-4844	Current Forensic Science	none	unknown			
+2666-4844	Current Forensic Science	covered	covered_conditional			
 2666-4909	The Pan-American Journal of Ophthalmology	none	no_apc			
 2666-4968	Applications in Engineering Science	discount	discount	2100	USD	
 2666-4976	Comprehensive Psychoneuroendocrinology	discount	discount	1488	USD	
@@ -44301,8 +44300,8 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2666-9358	Materials Reports Energy	discount	discount	850	USD	
 2666-9366	SciPost Physics Core	diamond	diamond			
 2666-9374	Forensic Science International Animals and Environments	none	list_price	1740	USD	
-2666-9390	Letters in Functional Foods	none	unknown			
-2666-948X	Current Engineering Letters and Reviews	none	unknown			
+2666-9390	Letters in Functional Foods	covered	covered_conditional			
+2666-948X	Current Engineering Letters and Reviews	covered	covered_conditional			
 2666-9501	Results in Optics	discount	discount	1598	USD	
 2666-951X	Tetrahedron Chem	discount	no_apc			
 2666-9544	Digital Business	discount	discount	1768	USD	
@@ -44398,7 +44397,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2667-3436	Sleep Epidemiology	discount	no_apc			
 2667-3444	Sustainable Manufacturing and Service Economics	none	list_price	1850	USD	
 2667-3452	Internet of Things and Cyber-Physical Systems	discount	discount	680	USD	
-2667-3533	Current machine learning.	none	unknown			
+2667-3533	Current machine learning.	covered	covered_conditional			
 2667-3681	Obesity Pillars	discount	discount	2040	USD	
 2667-3703	Engineering Microbiology	discount	discount	1666	USD	
 2667-3711	Protest	covered	covered			
@@ -46529,9 +46528,9 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2772-2848	Journal of Belonging and Human Connection	none	unknown			
 2772-3070	Indian Journal of Ophthalmology - Case Reports	none	no_apc			
 2772-3143	Journal of Surgical Specialties and Rural Practice	none	list_price	20000	INR	
-2772-316X	Current Social Sciences	none	unknown			
+2772-316X	Current Social Sciences	covered	covered_conditional			
 2772-3186	International Journal of Wood Culture	covered	covered			
-2772-3348	Current Physics	none	unknown			
+2772-3348	Current Physics	covered	covered_conditional			
 2772-3534	Journal of Primary Care Dentistry and Oral Health	none	no_apc			
 2772-3577	Journal of Smart Cities and Society	covered	covered			
 2772-3615	Journal of Primary Care Specialties	none	list_price	20000	INR	
@@ -46592,7 +46591,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2772-610X	EJC Paediatric Oncology	discount	discount	2032	USD	
 2772-6118	EJC Skin Cancer	discount	discount	994	USD	
 2772-6134	Clinical Immunology Communications	discount	no_apc			
-2772-6215	Frontiers in Cell Science	none	unknown			
+2772-6215	Frontiers in Cell Science	covered	covered_conditional			
 2772-6231	Redox in Muscle Physiology Exercise and Sport	none	list_price	1500	USD	
 2772-6282	PEC Innovation	discount	discount	1862	USD	
 2772-6320	Health Sciences Review	discount	discount	1802	USD	
@@ -47966,7 +47965,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2949-6691	Deep Brain Stimulation	discount	discount	2125	USD	
 2949-673X	Tomography of Materials and Structures	none	list_price	1850	USD	
 2949-6780	Computers & Education X Reality	discount	discount	897	USD	
-2949-6810	Drug Metabolism and Bioanalysis Letters	none	unknown			
+2949-6810	Drug Metabolism and Bioanalysis Letters	covered	covered_conditional			
 2949-6845	Digital Translation	covered	covered			
 2949-6888	Aspects of Molecular Medicine	discount	discount	1177	USD	
 2949-6942	Progress in Economic Geography	covered	covered			
@@ -47999,7 +47998,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2949-771X	Journal of Pharmaceutical and Biomedical Analysis Open	discount	no_apc			
 2949-7728	Journal of science of learning and innovations.	covered	covered			
 2949-7744	Genetics in Medicine Open	discount	discount	2720	USD	
-2949-7795	Current Surgical Endoscopy	none	unknown			
+2949-7795	Current Surgical Endoscopy	covered	covered_conditional			
 2949-7825	Advanced Design Research	none	list_price	0	USD	
 2949-785X	Annals of Medical Science and Research	none	no_apc			
 2949-7884	CHEST Critical Care	discount	discount	2125	USD	
@@ -48141,14 +48140,14 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2950-3620	Indoor Environments	discount	discount	1530	USD	
 2950-3639	Computational and Structural Biotechnology Reports	none	list_price	2190	USD	
 2950-3701	Journal of Sustainable Finance and Accounting	covered	covered			
-2950-3752	Current Artificial Intelligence	none	unknown			
-2950-3779	Current Computer Science	none	unknown			
+2950-3752	Current Artificial Intelligence	covered	covered_conditional			
+2950-3779	Current Computer Science	covered	covered_conditional			
 2950-3868	The American Journal of Geriatric Psychiatry Open Science Education and Practice	none	list_price	2700	USD	
 2950-3884	Clinics in Perioperative Nursing Care	none	unknown			
 2950-3949	Archives of Legal Medicine	covered	covered			
 2950-3957	Total Environment Advances	covered	covered			
 2950-3965	Slavic Literatures	covered	covered			
-2950-4023	Current Topics in Chemistry	none	unknown			
+2950-4023	Current Topics in Chemistry	covered	covered_conditional			
 2950-4074	Glial health research.	none	list_price	1950	USD	
 2950-4090	Climate smart agriculture.	discount	discount	1615	USD	
 2950-4252	Progress in Engineering Science	covered	covered			
@@ -48167,7 +48166,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2950-4864	Coordination chemistry research.	none	list_price	1390	USD	
 2950-4872	Energy 360.	covered	covered			
 2950-4899	EngMedicine	discount	discount	1955	USD	
-2950-4910	Current Spectroscopy and Chromatography	none	unknown			
+2950-4910	Current Spectroscopy and Chromatography	covered	covered_conditional			
 2950-4929	Sustainable Geosciences People Planet and Prosperity	discount	discount	1785	USD	
 2950-5097	Ecological Frontiers	covered	covered			
 2950-5100	Tropical Agricultural Sciences	none	list_price	1900	USD	
@@ -48178,7 +48177,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 2950-5534	JCA advances.	none	no_apc			
 2950-5550	Green and Smart Mining Engineering	none	list_price	0	USD	
 2950-5593	Chinese general practice journal.	none	list_price	1000	USD	
-2950-5704	Journal of Current Toxicology and Venomics	none	unknown			
+2950-5704	Journal of Current Toxicology and Venomics	covered	covered_conditional			
 2950-5720	Law & Geoeconomics	covered	covered			
 2950-5755	Regenesis repair rehabilitation.	none	list_price	1500	USD	
 2950-578X	Journal of Language and Pop Culture	covered	covered			
@@ -49403,7 +49402,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3050-502X	Global challenges & regional science.	none	list_price	1800	USD	
 3050-5038	The Lancet Obstetrics Gynaecology & Women s Health	covered	covered			
 3050-5046	Arab Yearbook of Public & Private International Law The	covered	covered			
-3050-5070	Journal of intelligent systems in current computer engineering.	none	unknown			
+3050-5070	Journal of intelligent systems in current computer engineering.	covered	covered_conditional			
 3050-5143	The Lancet Primary Care	discount	discount	6681	USD	
 3050-516X	Journal of Resource Insects	none	list_price	0	USD	
 3050-5178	Nonlinear science.	covered	covered			
@@ -49429,7 +49428,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3050-6077	Human Settlements and Sustainability	none	list_price	0	USD	
 3050-6085	Glycoscience & Therapy	discount	discount	0	USD	
 3050-6107	Intercultural Dialogue	covered	covered			
-3050-6115	Current Science Engineering and Technology	none	unknown			
+3050-6115	Current Science Engineering and Technology	covered	covered_conditional			
 3050-6131	Healthcare and Rehabilitation	none	list_price	0	USD	
 3050-614X	Smart Underground Engineering	none	list_price	0	USD	
 3050-6204	NAM journal.	discount	discount	2678	USD	
@@ -49476,7 +49475,7 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3050-8606	Artificial Intelligence for Transportation	covered	covered			
 3050-8622	Autonomous Transportation Research	none	list_price	0	USD	
 3050-8762	Malta Journal of Legal Studies	covered	covered			
-3050-8819	Journal of Bio-catalysis and Photocatalysis	none	unknown			
+3050-8819	Journal of Bio-catalysis and Photocatalysis	covered	covered_conditional			
 3050-9130	Review of Materials Research	discount	discount	1360	USD	
 3050-9149	Transactions of Materials Research	none	list_price	1600	USD	
 3050-9157	AACE Endocrinology and Diabetes	none	unknown			
@@ -49505,8 +49504,8 @@ issn_l	title	status	cost_kind	price	currency	disputed
 3051-1577	Advanced Interventional Materials	none	unknown			
 3051-1720	Gut Microbiology	none	unknown			
 3051-1771	iOptics	none	unknown			
-3051-2247	Current Forensic Science and Criminology	none	unknown			
-3051-228X	Journal of Advanced Energy Research	none	unknown			
+3051-2247	Current Forensic Science and Criminology	covered	covered_conditional			
+3051-228X	Journal of Advanced Energy Research	covered	covered_conditional			
 3051-2301	Journal of Aquatic Plants	none	unknown			
 3051-231X	Fermented Foods	none	unknown			
 3051-2441	EBES Sustainable Building	none	unknown			

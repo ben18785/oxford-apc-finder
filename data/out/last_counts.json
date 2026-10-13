@@ -1,11 +1,11 @@
 {
- "total": 50111,
- "covered": 12046,
+ "total": 50110,
+ "covered": 12188,
  "discount": 2296,
  "diamond": 20,
- "in_doaj": 22509,
+ "in_doaj": 22511,
  "disputed": 36,
  "expired": 90,
- "excluded_misconduct": 285,
- "cost_comparable": 33909
+ "excluded_misconduct": 286,
+ "cost_comparable": 34048
 }

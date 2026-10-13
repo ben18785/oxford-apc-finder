@@ -3,6 +3,122 @@
 What the site said, and when it changed. Generated automatically by
 `pipeline/changelog.py` on every refresh — newest entry first.
 
+## 2026-10-13
+
+- **0** journals added, **1** removed, **143** changed.
+
+### Deal status changes (142)
+
+- Radiology (0033-8419): `none` → `covered`
+- Radiographics (0271-5333): `none` → `covered`
+- Protein and Peptide Letters (0929-8665): `none` → `covered`
+- Current Medicinal Chemistry (0929-8673): `none` → `covered`
+- British Journal of General Practice (0960-1643): `none` → `covered`
+- Current Pharmaceutical Design (1381-6128): `none` → `covered`
+- Current Organic Chemistry (1385-2728): `none` → `covered`
+- Combinatorial Chemistry & High Throughput Screening (1386-2073): `none` → `covered`
+- Current Drug Metabolism (1389-2002): `none` → `covered`
+- Current Pharmaceutical Biotechnology (1389-2010): `none` → `covered`
+- Current Genomics (1389-2029): `none` → `covered`
+- Current Protein and Peptide Science (1389-2037): `none` → `covered`
+- Current Drug Targets (1389-4501): `none` → `covered`
+- Mini-Reviews in Medicinal Chemistry (1389-5575): `none` → `covered`
+- Current Gene Therapy (1566-5232): `none` → `covered`
+- Current Molecular Medicine (1566-5240): `none` → `covered`
+- Current Drug Delivery (1567-2018): `none` → `covered`
+- Current Neurovascular Research (1567-2026): `none` → `covered`
+- Current Alzheimer Research (1567-2050): `none` → `covered`
+- Cardiovascular & Haematological Disorders - Drug Targets (1568-0061): `none` → `covered`
+- CNS & Neurological Disorders - Drug Targets (1568-007X): `none` → `covered`
+- Current Cancer Drug Targets (1568-0096): `none` → `covered`
+- Current Drug Targets - Inflammation & Allergy (1568-010X): `none` → `covered`
+- Anti-Cancer Agents in Medicinal Chemistry (1568-0118): `none` → `covered`
+- Anti-Infective Agents (1568-0126): `none` → `covered`
+- Anti-Inflammatory & Anti-Allergy Agents in Medicinal Chemistry (1568-0142): `none` → `covered`
+- Central Nervous System Agents in Medicinal Chemistry (1568-0150): `none` → `covered`
+- Current Topics in Medicinal Chemistry (1568-0266): `none` → `covered`
+- Current Neuropharmacology (1570-159X): `none` → `covered`
+- Current Vascular Pharmacology (1570-1611): `none` → `covered`
+- Current HIV Research (1570-162X): `none` → `covered`
+- Current Drug Discovery Technologies (1570-1638): `none` → `covered`
+- Letters in Organic Chemistry (1570-1786): `none` → `covered`
+- Current Organic Synthesis (1570-1794): `none` → `covered`
+- Letters in Drug Design & Discovery (1570-1808): `none` → `covered`
+- Mini-Reviews in Organic Chemistry (1570-193X): `none` → `covered`
+- Current Cancer Therapy Reviews (1573-3947): `none` → `covered`
+- Current Immunology Reviews (1573-3955): `none` → `covered`
+- Current Pediatric Reviews (1573-3963): `none` → `covered`
+- Current Rheumatology Reviews (1573-3971): `none` → `covered`
+- Current Respiratory Medicine Reviews (1573-398X): `none` → `covered`
+- Current Diabetes Reviews (1573-3998): `none` → `covered`
+- Current Psychiatry Reviews (1573-4005): `none` → `covered`
+- Current Nutrition & Food Science (1573-4013): `none` → `covered`
+- Current Hypertension Reviews (1573-4021): `none` → `covered`
+- Current Cardiology Reviews (1573-403X): `none` → `covered`
+- Current Women s Health Reviews (1573-4048): `none` → `covered`
+- Current Medical Imaging Formerly Current Medical Imaging Reviews (1573-4056): `none` → `covered`
+- Medicinal Chemistry (1573-4064): `none` → `covered`
+- Current Bioactive Compounds (1573-4072): `none` → `covered`
+- Current Enzyme Inhibition (1573-4080): `none` → `covered`
+- Current Computer - Aided Drug Design (1573-4099): `none` → `covered`
+- Current Analytical Chemistry (1573-4110): `none` → `covered`
+- Current Nanoscience (1573-4137): `none` → `covered`
+- Current Clinical Pharmacology (1574-8847): `none` → `covered`
+- Current Drug Therapy (1574-8855): `none` → `covered`
+- Current Drug Safety (1574-8863): `none` → `covered`
+- Reviews on Recent Clinical Trials (1574-8871): `none` → `covered`
+- Current Stem Cell Research & Therapy (1574-888X): `none` → `covered`
+- Recent Patents on CNS Drug Discovery (1574-8898): `none` → `covered`
+- Recent Patents on Anti-Infective Drug Discovery (1574-891X): `none` → `covered`
+- Recent Patents on Anti-Cancer Drug Discovery (1574-8928): `none` → `covered`
+- Current Bioinformatics (1574-8936): `none` → `covered`
+- Clinical Practice and Epidemiology in Mental Health (1745-0179): `none` → `covered`
+- Cardiovascular & Hematological Agents in Medicinal Chemistry (1871-5257): `none` → `covered`
+- Infectious Disorders - Drug Targets (1871-5265): `none` → `covered`
+- Inflammation & Allergy - Drug Targets (1871-5281): `none` → `covered`
+- Endocrine Metabolic & Immune Disorders - Drug Targets (1871-5303): `none` → `covered`
+- Recent Patents on Biotechnology (1872-2083): `none` → `covered`
+- Recent Patents on Nanotechnology (1872-2105): `none` → `covered`
+- Recent Patents on Drug Delivery & Formulation (1872-2113): `none` → `covered`
+- Recent Patents on Inflammation & Allergy Drug Discovery (1872-213X): `none` → `covered`
+- Current Chemical Biology (1872-3136): `none` → `covered`
+- The Open Biotechnology Journal (1874-0707): `none` → `covered`
+- The Open Biochemistry Journal (1874-091X): `none` → `covered`
+- The Open Medicinal Chemistry Journal (1874-1045): `none` → `covered`
+- The Open Biomedical Engineering Journal (1874-1207): `none` → `covered`
+- The Open Chemical Engineering Journal (1874-1231): `none` → `covered`
+- The Open Civil Engineering Journal (1874-1495): `none` → `covered`
+- The Open Cardiovascular Medicine Journal (1874-1924): `none` → `covered`
+- The Open Biology Journal (1874-1967): `none` → `covered`
+- The Open Neurology Journal (1874-205X): `none` → `covered`
+- The Open Dentistry Journal (1874-2106): `none` → `covered`
+- The Open Ecology Journal (1874-2130): `none` → `covered`
+- The Open Microbiology Journal (1874-2858): `none` → `covered`
+- The Open Urology & Nephrology Journal (1874-303X): `none` → `covered`
+- The Open Respiratory Medicine Journal (1874-3064): `none` → `covered`
+- The Open Rheumatology Journal (1874-3129): `none` → `covered`
+- The Open Orthopaedics Journal (1874-3250): `none` → `covered`
+- The Open Agriculture Journal (1874-3315): `none` → `covered`
+- The Open Psychology Journal (1874-3501): `none` → `covered`
+- The Open Ophthalmology Journal (1874-3641): `none` → `covered`
+- The Open Dermatology Journal (1874-3722): `none` → `covered`
+- The Open Nursing Journal (1874-4346): `none` → `covered`
+- The Open Neuroimaging Journal (1874-4400): `none` → `covered`
+- The Open Transportation Journal (1874-4478): `none` → `covered`
+- Current Molecular Pharmacology (1874-4672): `none` → `covered`
+- Current Drug Abuse Reviews (1874-4737): `none` → `covered`
+- Recent Patents on Mechanical Engineering (1874-477X): `none` → `covered`
+- Current Aging Science (1874-6098): `none` → `covered`
+- …and 42 more (see `data/out/changes.json` in the run artifact).
+
+### Price changes (1)
+
+- Sportif Bakis Spor ve Egitim Bilimleri Dergisi (2148-905X): 150 → 250
+
+### Removed (1)
+
+- New proposals (1715-6718)
+
 ## 2026-10-12
 
 - **8** journals added, **0** removed, **6** changed.
