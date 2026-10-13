@@ -286,6 +286,12 @@ assert against the real sources on a schedule and open a `source-drift` issue
 when one changes, so a break surfaces before the weekly refresh rather than as
 a failed build — or a build that succeeded with empty data.
 
+`tests/golden/oxford_verdicts.json` pins the deal, caveats, cost and cost label
+the fixture build gives for every journal. It is there for changes that are not
+meant to alter an Oxford answer at all. When one is meant to, regenerate it with
+`APC_UPDATE_GOLDEN=1 pytest tests/test_pipeline_fixtures.py` and review the
+diff of that file: it is the list of answers that changed.
+
 Fixtures are generated from a real run (`python tests/make_fixtures.py`), picking
 one journal per branch — covered, discounted with and without a base price,
 diamond, disputed, no-APC, withdrawn-for-misconduct — so the offline suite stays

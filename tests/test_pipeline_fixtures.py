@@ -23,6 +23,10 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
+GOLDEN = Path(__file__).resolve().parent / "golden" / "oxford_verdicts.json"
+# The day the fixture build is taken to run on. Fixed, because whether an
+# agreement has expired depends on the date and the golden file pins the answer.
+BUILD_DATE = "2026-10-13"
 ISSN_RX = re.compile(r"^\d{4}-\d{3}[\dX]$")
 
 
@@ -50,7 +54,7 @@ def built(tmp_path_factory) -> dict:
             (work / baseline).parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ROOT / baseline, work / baseline)
 
-    env = {**os.environ, "APC_FIXTURES": "1"}
+    env = {**os.environ, "APC_FIXTURES": "1", "APC_TODAY": BUILD_DATE}
     env.pop("OPENALEX_API_KEY", None)
     result = subprocess.run(
         [sys.executable, str(work / "pipeline" / "run_all.py")],
@@ -568,3 +572,78 @@ def test_a_correction_never_silently_widens_a_claim(built):
             assert j["deal"]["status"] != "covered", \
                 f"{j['id']}: a correction produced a coverage claim"
             assert j["cost"]["kind"] not in ("covered", "covered_conditional")
+
+
+# ------------------------------------------------- Oxford's answers are pinned
+def oxford_verdicts(built) -> dict:
+    """Everything the site tells an Oxford author about paying, per journal.
+
+    Converted prices are left out because they move with the exchange rate;
+    whether a journal sorts as free is kept, because that is a claim.
+    """
+    index = {r["id"]: r for r in built["index"]["journals"]}
+    out = {}
+    for j in built["journals"]["journals"]:
+        cost = dict(j["cost"])
+        gbp = cost.pop("gbp", None)
+        row = index[j["id"]]
+        out[j["id"]] = {
+            "title": j["title"],
+            "deal": j["deal"],
+            "cost": cost,
+            "sorts_as_free": gbp == 0,
+            "waiver": j["waiver"],
+            "shown": {"status": row["s"], "cost_label": row["c"],
+                      "disputed": row["x"], "expired": row["e"]},
+        }
+    return out
+
+
+def test_oxford_verdicts_match_the_golden_file(built):
+    """The deal, caveats, cost and cost label for every fixture journal, held
+    against a committed copy.
+
+    This is the guard for work that is not supposed to touch Oxford at all —
+    adding other universities, most of all. Such a change has no Oxford
+    behaviour to assert, so nothing else would notice it altering one.
+
+    A deliberate change to an Oxford answer fails here too. Regenerate with
+    APC_UPDATE_GOLDEN=1 and read the diff of the golden file in review: that
+    diff is the list of answers that changed.
+    """
+    got = oxford_verdicts(built)
+    if os.environ.get("APC_UPDATE_GOLDEN") == "1":
+        GOLDEN.parent.mkdir(exist_ok=True)
+        GOLDEN.write_text(json.dumps(got, indent=1, sort_keys=True,
+                                     ensure_ascii=False) + "\n")
+    want = json.loads(GOLDEN.read_text())
+    assert set(got) == set(want), "the set of fixture journals changed"
+    changed = {i: {"was": want[i], "now": got[i]} for i in got if got[i] != want[i]}
+    assert not changed, ("Oxford answers changed:\n"
+                         + json.dumps(changed, indent=1, ensure_ascii=False))
+
+
+def test_the_golden_file_covers_every_kind_of_answer():
+    """A golden file of twelve list prices would pin nothing that matters. It
+    has to hold each verdict the site can give, including the weakened ones."""
+    want = json.loads(GOLDEN.read_text()).values()
+    assert {v["deal"]["status"] for v in want} >= {
+        "covered", "discount", "diamond", "none"}
+    assert {v["cost"]["kind"] for v in want} >= {
+        "covered", "covered_conditional", "uncertain", "discount",
+        "discount_unknown_base", "list_price", "no_apc", "diamond", "unknown"}
+    assert any(v["deal"]["expired"] for v in want)
+    assert any(v["deal"]["disputed"] for v in want)
+    assert any(v["deal"]["correction"] for v in want)
+
+
+def test_the_build_date_can_only_be_pinned_in_a_fixtures_build(monkeypatch):
+    """APC_TODAY exists so the golden file does not rot. Left set in a live
+    build it would quietly un-expire agreements, so a live build ignores it."""
+    import datetime
+    import merge
+    monkeypatch.setenv("APC_TODAY", "2020-01-01")
+    monkeypatch.setattr(merge, "FIXTURES_MODE", False)
+    assert merge.build_date() == datetime.date.today()
+    monkeypatch.setattr(merge, "FIXTURES_MODE", True)
+    assert merge.build_date() == datetime.date(2020, 1, 1)
