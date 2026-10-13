@@ -15,6 +15,12 @@
 #                 overlay's own rule (usually a discount) applies instead. Only
 #                 use with `confirmed:` and a citable answer from the library:
 #                 this is the one kind that can overrule a published source.
+#   agreement   — the Bodleian page lists a deal covering the charge, but JCT's
+#                 data has no such agreement for Oxford. Marks the journals
+#                 covered, always as "£0 if eligible — but confirm first":
+#                 with no title list, end date or API behind it, the claim
+#                 rests on the page's wording and the match below. Prefer
+#                 match_issns when the page names the journals.
 #   discount    — % off list APC for Oxford authors (matched by publisher regex
 #                 against OpenAlex host_organization_name, or explicit ISSNs)
 #   diamond     — free-to-publish arrangements Oxford supports
@@ -229,6 +235,32 @@ entries:
       relying on the Journal Checker Tool's answer for MDPI.
     source_label: "Bodleian Libraries open access team, by email (10 August 2026)"
     source_extra: "https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals"
+
+  # ---- agreements on the Bodleian page that JCT does not carry -----------
+  # Found by comparing the page's publisher list with the agreements JCT
+  # lists Oxford in (2026-10-13). Until then these journals said "No Oxford
+  # deal". ASME is in the same position and is NOT entered: the page covers
+  # its "hybrid journals", OpenAlex records most of those under the wrong
+  # publisher ("ASM International") and files unrelated titles under ASME's
+  # name, so a publisher match would be wrong in both directions. It needs an
+  # ISSN list taken from ASME.
+  - kind: agreement
+    publisher_label: "Bentham Science"
+    match_publisher_regex: "(?i)^Bentham Science"
+    caveats:
+      - "The Bodleian describes this agreement as covering Bentham's full collection. Added to its page in October 2026."
+
+  - kind: agreement
+    publisher_label: "the Radiological Society of North America (RSNA)"
+    match_issns: ["0033-8419", "1527-1315", "0271-5333", "1527-1323"]
+    caveats:
+      - "The Bodleian names two journals under this agreement: Radiology and RadioGraphics. Research articles only."
+
+  - kind: agreement
+    publisher_label: "the Royal College of General Practitioners (RCGP)"
+    match_issns: ["0960-1643", "1478-5242", "2398-3795"]
+    caveats:
+      - "The Bodleian names two journals under this agreement: the British Journal of General Practice and BJGP Open."
 
   # ---- discount schemes (not transformative agreements, not in JCT) ----
   - kind: discount

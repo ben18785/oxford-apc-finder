@@ -2102,3 +2102,64 @@ def test_the_college_list_names_real_identifiers():
     listed = load_not_universities()
     assert listed and all(ROR_RX.fullmatch(r) for r in listed)
     assert _OXFORD not in listed
+
+
+# ------------------------- agreements the Bodleian lists and JCT does not
+def test_an_agreement_known_only_from_the_bodleian_page_is_never_a_settled_zero():
+    """Bentham appeared on the Bodleian's page with no agreement in JCT's data.
+    There is then no title list, end date or API behind the claim, so it may
+    be stated only as "£0 if eligible — but confirm first"."""
+    rec = {"apc_prices": [{"price": 1500, "currency": "USD"}]}
+    cost = effective_cost("covered", None, rec, None, unlisted=True)
+    assert cost["kind"] == "covered_conditional"
+    assert "only on the Bodleian's page" in cost["reasons"][0]
+    assert "list" not in cost, "a covered journal states no list price"
+    # And the ordinary case is untouched.
+    assert effective_cost("covered", None, rec, None)["kind"] == "covered"
+
+
+def test_a_conflict_still_outranks_a_bodleian_only_agreement():
+    cost = effective_cost("covered", None, {}, None, unlisted=True,
+                          disputed={"publisher": "X"})
+    assert cost["kind"] == "uncertain"
+
+
+def test_the_invariant_catches_a_bodleian_only_agreement_shown_as_settled():
+    import validate
+    j = {"id": "1111-2222", "issns": ["1111-2222"],
+         "deal": {"status": "covered", "disputed": None, "expired": None,
+                  "conditions": {"unlisted_agreement": True}},
+         "cost": {"kind": "covered"}}
+    errors = validate.check_cost_claims({"journals": [j]})
+    assert any("Journal Checker Tool" in e for e in errors), errors
+    j["cost"]["kind"] = "covered_conditional"
+    assert not [e for e in validate.check_cost_claims({"journals": [j]})
+                if "1111-2222" in e]
+
+
+def test_the_oracle_does_not_hold_jcts_silence_against_a_bodleian_only_agreement(
+        monkeypatch):
+    """The entry exists because JCT does not carry the agreement. Asking JCT
+    about it would report an over-claim every week and fail the refresh."""
+    import validate
+    asked = []
+    monkeypatch.setattr(validate, "FIXTURES_MODE", False)
+    monkeypatch.delenv("APC_SKIP_ORACLE", raising=False)
+    monkeypatch.setattr(validate, "jct_verdict", lambda body: False)
+    monkeypatch.setattr(validate, "http_get",
+                        lambda url, **kw: type("R", (), {
+                            "status_code": 200, "json": staticmethod(lambda: {}),
+                            "url": asked.append(kw["params"]["issn"]) or url})())
+    journals = [{"id": "1111-2222", "title": "Bodleian only", "issns": ["1111-2222"],
+                 "deal": {"status": "covered", "esac_id": None, "disputed": None,
+                          "expired": None,
+                          "conditions": {"unlisted_agreement": True}},
+                 "cost": {"kind": "covered_conditional"}},
+                {"id": "3333-4444", "title": "No deal", "issns": ["3333-4444"],
+                 "deal": {"status": "none", "esac_id": None, "disputed": None,
+                          "expired": None, "conditions": None},
+                 "cost": {"kind": "unknown"}}]
+    cfg = {"institution_ror": "052gg0110", "sources": {"jct_api": "https://x"},
+           "validation": {"oracle_sample_size": 4, "max_oracle_under_claims": 0}}
+    assert validate.check_oracle({"journals": journals}, cfg) == []
+    assert asked == ["3333-4444"]

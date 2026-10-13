@@ -776,6 +776,9 @@ function costBlock(j) {
   let main = "", calc = "";
   switch (c.kind) {
     case "covered": main = "£0 to you"; break;
+    // Was falling through to "Not published", which is the wrong thing to
+    // read above a note saying an agreement exists.
+    case "covered_conditional": main = "£0 if eligible — but confirm first"; break;
     case "diamond": main = "£0 — diamond OA"; break;
     case "no_apc": main = "£0 — the journal charges no APC"; break;
     case "discount":

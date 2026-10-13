@@ -324,6 +324,10 @@ def test_covered_journals_name_the_agreement_that_covers_them(built):
     """So a reader who disagrees has something specific to dispute."""
     for j in built["journals"]["journals"]:
         if j["deal"]["status"] == "covered":
+            if (j["deal"].get("conditions") or {}).get("unlisted_agreement"):
+                # No identifier exists: the source is the Bodleian's page.
+                assert "Bodleian's publisher deals page" in j["deal"]["basis"]
+                continue
             assert j["deal"]["esac_id"] in j["deal"]["basis"]
 
 
@@ -682,3 +686,18 @@ def test_the_site_builds_without_other_university_data(built, tmp_path):
     assert json.loads((work / "_site" / "config.json").read_text())[
         "institutions_available"] is False
     assert not (work / "_site" / "data" / "institutions.json").exists()
+
+
+def test_a_bodleian_only_agreement_survives_the_whole_pipeline(built):
+    """Covered on the Bodleian page's word, with no JCT agreement behind it.
+    The journal has a list price, and none of it may reach the reader."""
+    j = next(j for j in built["journals"]["journals"] if j["id"] == "9990-0005")
+    assert j["deal"]["status"] == "covered" and j["deal"]["esac_id"] is None
+    assert j["deal"]["conditions"]["unlisted_agreement"] is True
+    assert j["cost"]["kind"] == "covered_conditional"
+    assert "1500" not in json.dumps(j["cost"]) and "1,500" not in json.dumps(j["cost"])
+    assert any(s["label"] == "Bodleian publisher deals page"
+               for s in j["provenance"]["deal"])
+    row = next(r for r in built["index"]["journals"] if r["id"] == "9990-0005")
+    assert row["c"] == "£0 if eligible — but confirm first"
+    assert row["f"] is False, "a conditional agreement is not 'free to publish'"

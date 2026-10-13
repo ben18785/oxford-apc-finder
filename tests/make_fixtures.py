@@ -159,6 +159,21 @@ def main() -> None:
         })
         print(f"  {'cost_conditional':22} -> {issn}  (synthetic; {why})")
 
+    # Covered by a deal on the Bodleian's page that JCT does not carry: no
+    # agreement entry, only a publisher the overlay's `agreement` kind matches.
+    # It has a list price on purpose, so the test can see it is not shown.
+    fx_meta["openalex"]["9990-0005"] = {
+        "openalex_id": "https://openalex.org/S99900005",
+        "issn_l": "9990-0005", "issns": ["9990-0005"],
+        "title": "Fixture Journal With A Bodleian-Only Agreement",
+        "alternate_titles": [], "publisher": "Bentham Science Publishers",
+        "homepage": "https://example.invalid/conditional",
+        "is_in_doaj": False, "is_oa": False, "type": "journal",
+        "works_count": 10, "apc_usd": 1500,
+        "apc_prices": [{"price": 1500, "currency": "USD"}], "topics": [],
+    }
+    print(f"  {'cost_conditional':22} -> 9990-0005  (synthetic; unlisted agreement)")
+
     # --- deals slice: keep only agreements that cover a picked journal
     fx_agreements = list(synthetic_agreements)
     for a in deals["agreements"]:

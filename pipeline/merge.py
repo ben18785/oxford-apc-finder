@@ -312,7 +312,7 @@ def comparable_gbp(cost: dict, rates: dict | None) -> int | None:
 
 def effective_cost(deal_status: str, discount_pct, rec: dict, doaj_rec,
                    *, expired=None, disputed=None, capacity_limited: bool = False,
-                   funders_only=None) -> dict:
+                   funders_only=None, unlisted: bool = False) -> dict:
     """Deterministic cost summary. Never invents a number.
 
     One invariant governs this function:
@@ -339,6 +339,10 @@ def effective_cost(deal_status: str, discount_pct, rec: dict, doaj_rec,
       * `capacity_limited` / `funders_only` — coverage is real but turns on a
         fact this site cannot see: whether the annual allowance is still open,
         or whether your funder is on the list.
+      * `unlisted` — the Bodleian's page lists the agreement but the Journal
+        Checker Tool's data does not carry it. There is then no title list to
+        find the journal on, no end date, and no API to cross-check against:
+        the claim rests on one sentence of a web page and a publisher match.
 
     Ordinary eligibility conditions — corresponding authorship, article type,
     CC BY, an Oxford email — apply to *every* agreement and are stated site-wide
@@ -373,6 +377,10 @@ def effective_cost(deal_status: str, discount_pct, rec: dict, doaj_rec,
         if funders_only:
             reasons.append("coverage is restricted to articles funded by "
                            + ", ".join(funders_only))
+        if unlisted:
+            reasons.append("the agreement appears only on the Bodleian's page, not "
+                           "in the Journal Checker Tool's data, so its title list, "
+                           "terms and end date could not be checked")
         if reasons:
             return {"kind": "covered_conditional", "reasons": reasons,
                     "note": ("Oxford has an agreement covering this journal, but "
@@ -516,6 +524,8 @@ def main() -> None:
         esac_id, expired = None, None
         # Journal-specific risks that stop a coverage claim becoming a flat £0.
         capacity_limited, funders_only = False, None
+        # Covered on the Bodleian page's word alone: see effective_cost.
+        unlisted = False
         basis = coverage_basis("none", agreement_count=len(deals["agreements"]))
         if deal:
             status = "covered"
@@ -567,6 +577,16 @@ def main() -> None:
                         status = "diamond"
                         basis = coverage_basis("diamond", scheme=label,
                                                match_reason=reason)
+                    elif kind == "agreement":
+                        status, unlisted = "covered", True
+                        basis = (
+                            f"The Bodleian's publisher deals page lists an Oxford "
+                            f"agreement with {label}. The Journal Checker Tool's "
+                            "data does not carry it, so there is no title list, "
+                            "end date or cross-check behind this result — only "
+                            f"the Bodleian's description. Matched because {reason}.")
+                        # Conditions the Bodleian page attaches to every deal.
+                        caveats.extend(universal_criteria)
                     elif kind in ("green", "note"):
                         status = "none"
                         basis = (f"No APC deal, but Oxford has an arrangement with "
@@ -688,7 +708,7 @@ def main() -> None:
         cost = effective_cost(status, discount_pct, rec, doaj_rec,
                               expired=expired, disputed=disputed,
                               capacity_limited=capacity_limited,
-                              funders_only=funders_only)
+                              funders_only=funders_only, unlisted=unlisted)
         # A single GBP figure so the site can order by cost. Absent when there
         # is nothing honestly comparable — see comparable_gbp.
         gbp = comparable_gbp(cost, fx_rates)
@@ -751,8 +771,10 @@ def main() -> None:
                      # assert the invariant per record rather than in
                      # aggregate.
                      "conditions": ({"capacity_limited": capacity_limited,
-                                     "funders_only": funders_only}
-                                    if (capacity_limited or funders_only) else None),
+                                     "funders_only": funders_only,
+                                     **({"unlisted_agreement": True} if unlisted else {})}
+                                    if (capacity_limited or funders_only or unlisted)
+                                    else None),
                      "basis": basis},
             "cost": cost,
             "scope": {
