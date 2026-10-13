@@ -13,8 +13,14 @@ Two classes of link:
     checked, and the bucket rotates weekly so the whole set is covered over
     time. Nothing random: same bucket + same data always yields the same list.
 
+The two are also told apart for the checker (--own-out). A dead
+infrastructure link is this project's to fix and is reported as a failure; a
+dead journal homepage comes from OpenAlex or DOAJ metadata, cannot be fixed
+here, and a few hundred of them once buried the single link that mattered.
+
 Usage:
-  python collect_links.py --out links.txt [--buckets 26] [--bucket N]
+  python collect_links.py --out links.txt [--own-out links-own.txt]
+                          [--buckets 26] [--bucket N]
 """
 from __future__ import annotations
 
@@ -88,6 +94,8 @@ def journal_links(data: dict) -> set[str]:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--out", default="links.txt", type=Path)
+    parser.add_argument("--own-out", default=None, type=Path,
+                        help="also write the infrastructure links alone here")
     parser.add_argument("--buckets", type=int, default=26,
                         help="how many weeks to spread the per-journal links over")
     parser.add_argument("--bucket", type=int, default=None,
@@ -105,6 +113,8 @@ def main() -> None:
 
     all_urls = sorted(infra | sampled)
     args.out.write_text("\n".join(all_urls) + "\n")
+    if args.own_out:
+        args.own_out.write_text("\n".join(sorted(infra)) + "\n")
     print(f"{len(all_urls)} links to check "
           f"({len(infra)} infrastructure, {len(sampled)} journal links "
           f"from bucket {bucket}/{args.buckets})")
