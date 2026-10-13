@@ -1746,3 +1746,153 @@ def test_bmj_remains_unresolved():
     assert any(e["kind"] == "conflict" and e.get("publisher_label") == "BMJ"
                for e in ov["entries"]), \
         "BMJ was resolved to a correction, but the API contradiction stands"
+
+
+# ------------------------------------------------------ other universities
+# What is recorded about universities other than Oxford is agreement data
+# alone, so every rule here leans the same way: when in doubt, no agreement.
+import datetime as _dt  # noqa: E402
+
+from fetch_jct import (build_institutions, current_institutions,  # noqa: E402
+                       record_package, ror_id, still_running, write_institutions)
+
+_TODAY = _dt.date(2026, 10, 13)
+_OXFORD, _CAM, _BATH = "052gg0110", "013meh722", "0038jbq24"
+
+
+def _csv_rows(journals=(), institutions=()):
+    rows = [{"Journal Name": n, "ISSN (Print)": i, "ISSN (Online)": "",
+             "Journal Last Seen": gone} for n, i, gone in journals]
+    rows += [{"Institution Name": n, "ROR ID": r, "Institution Last Seen": gone}
+             for n, r, gone in institutions]
+    return rows
+
+
+def _package(esac_id, institutions, *, package="", end="2027-12-31",
+             issns=("1111-2222",)):
+    return {"esac_id": esac_id, "package": package, "end_date": end,
+            "corresponding_author_only": True, "last_reviewed": "",
+            "data_url": f"https://example.invalid/{esac_id}/{package}",
+            "issns": list(issns), "institutions": dict(institutions)}
+
+
+def test_ror_ids_are_read_bare_or_as_urls():
+    assert ror_id("https://ror.org/052gg0110") == "052gg0110"
+    assert ror_id(" 052GG0110 ") == "052gg0110"
+    assert ror_id("") is None and ror_id("n/a") is None and ror_id(None) is None
+
+
+def test_an_institution_that_has_left_an_agreement_is_not_a_participant():
+    rows = _csv_rows(institutions=[
+        ("University of Cambridge", "https://ror.org/013meh722", ""),
+        ("Bath Spa University", "https://ror.org/0038jbq24", "2026-01-31"),
+        ("No Identifier College", "", "")])
+    assert current_institutions(rows) == {_CAM: "University of Cambridge"}
+
+
+def test_a_package_records_only_journals_still_in_the_agreement():
+    packages = []
+    record_package(
+        packages,
+        {"ESAC ID": "abc2026jisc", "Relationship": "Hybrid",
+         "End Date": "2027-12-31", "C/A Only": "yes", "Data URL": "https://x"},
+        _csv_rows(journals=[("Kept", "1111-2222", ""), ("Dropped", "3333-4444", "2026-02-01")],
+                  institutions=[("University of Cambridge", _CAM, "")]))
+    assert packages[0]["issns"] == ["1111-2222"]
+    assert packages[0]["package"] == "Hybrid"
+    assert packages[0]["institutions"] == {_CAM: "University of Cambridge"}
+
+
+def test_a_malformed_agreement_cannot_break_the_oxford_fetch():
+    """record_package runs inside the loop that gathers Oxford's agreements.
+    Whatever it is handed, it must not raise."""
+    packages = []
+    record_package(packages, {"ESAC ID": "abc2026jisc"}, [None, 3, "junk"])
+    assert packages == []
+
+
+def test_an_agreement_past_its_end_date_is_dropped_not_flagged():
+    assert still_running("2026-10-13", _TODAY)
+    assert not still_running("2026-10-12", _TODAY)
+    built = build_institutions(
+        [_package("old2020jisc", {_CAM: "University of Cambridge"}, end="2020-06-30")],
+        ["jisc"], _OXFORD, _TODAY)
+    assert built == {"institutions": [], "agreements": {}}
+
+
+def test_an_unreadable_end_date_is_treated_as_no_agreement():
+    """With no library to ask, doubtful data must read as 'not covered'."""
+    assert not still_running("", _TODAY) and not still_running("ongoing", _TODAY)
+
+
+def test_oxford_never_appears_among_the_other_institutions():
+    """There must be exactly one description of Oxford, and it is not this
+    one — this one has no API cross-check and no Bodleian overlay behind it."""
+    built = build_institutions(
+        [_package("abc2026jisc", {_OXFORD: "University of Oxford",
+                                  _CAM: "University of Cambridge"})],
+        ["jisc"], _OXFORD, _TODAY)
+    assert [i["ror"] for i in built["institutions"]] == [_CAM]
+
+
+def test_packages_of_one_agreement_keep_their_own_participants_and_titles():
+    """One ESAC ID can be several rows in the index — "Hybrid", "Hybrid & OA"
+    — each with its own participants and journals. Merged, a university would
+    be credited with titles from a package it did not buy."""
+    built = build_institutions(
+        [_package("deg2024jisc", {_CAM: "University of Cambridge"},
+                  package="Hybrid", issns=["1111-1111"]),
+         _package("deg2024jisc", {_BATH: "Bath Spa University"},
+                  package="Hybrid & OA", issns=["2222-2222"])],
+        ["jisc"], _OXFORD, _TODAY)
+    by_ror = {i["ror"]: i["agreements"] for i in built["institutions"]}
+    assert by_ror[_CAM] == ["deg2024jisc (Hybrid)"]
+    assert by_ror[_BATH] == ["deg2024jisc (Hybrid & OA)"]
+    assert built["agreements"]["deg2024jisc (Hybrid)"]["issns"] == ["1111-1111"]
+    assert built["agreements"]["deg2024jisc (Hybrid & OA)"]["issns"] == ["2222-2222"]
+
+
+def test_identically_labelled_packages_still_get_distinct_keys():
+    built = build_institutions(
+        [_package("abc2026jisc", {_CAM: "University of Cambridge"}, issns=["1111-1111"]),
+         _package("abc2026jisc", {_CAM: "University of Cambridge"}, issns=["2222-2222"])],
+        ["jisc"], _OXFORD, _TODAY)
+    assert built["institutions"][0]["agreements"] == ["abc2026jisc", "abc2026jisc #2"]
+
+
+def test_scope_is_set_by_consortium_but_every_agreement_is_then_listed():
+    """In scope means: in at least one of the consortium's agreements. A
+    university's own agreements outside it are then listed too; a university
+    seen only in another country's agreements is not in scope at all."""
+    built = build_institutions(
+        [_package("abc2026jisc", {_CAM: "University of Cambridge"}),
+         _package("xyz2026own", {_CAM: "Cambridge", "02abcde12": "Elsewhere"}),
+         _package("pqr2026bibsam", {"02abcde12": "Elsewhere"})],
+        ["jisc"], _OXFORD, _TODAY)
+    assert [(i["ror"], i["agreements"]) for i in built["institutions"]] == [
+        (_CAM, ["abc2026jisc", "xyz2026own"])]
+    assert set(built["agreements"]) == {"abc2026jisc", "xyz2026own"}
+    # The commonest spelling wins, alphabetical on a tie, so reruns agree.
+    assert built["institutions"][0]["name"] == "Cambridge"
+
+
+def test_no_consortium_configured_writes_nothing(tmp_path, monkeypatch):
+    import fetch_jct
+    monkeypatch.setattr(fetch_jct, "OUT", tmp_path)
+    write_institutions([_package("abc2026jisc", {_CAM: "University of Cambridge"})],
+                       {"institution_ror": _OXFORD, "sources": {"jct_ta_docs": "x"}},
+                       "https://index")
+    assert not (tmp_path / "institutions.json").exists()
+
+
+def test_a_failure_writing_other_institutions_never_reaches_the_oxford_build(
+        tmp_path, monkeypatch):
+    """write_institutions is called after Oxford's deals are written. A bug in
+    it must cost the other-university file, not the refresh."""
+    import fetch_jct
+    monkeypatch.setattr(fetch_jct, "OUT", tmp_path)
+    write_institutions([{"broken": True}],
+                       {"institution_ror": _OXFORD,
+                        "other_institutions": {"consortium_suffixes": ["jisc"]},
+                        "sources": {"jct_ta_docs": "x"}}, "https://index")
+    assert not (tmp_path / "institutions.json").exists()

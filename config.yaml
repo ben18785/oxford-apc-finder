@@ -69,6 +69,17 @@ inclusion:
   subfield_sweep_days: 90
   remember_journals_days: 365
 
+# Other universities.
+#
+# The agreement data lists every participant, so the pipeline also records
+# which agreements name each other university in these consortia. A consortium
+# is identified by the suffix of its agreements' ESAC IDs: "jisc" is the UK.
+# The result goes to data/out/institutions.json and is agreement data ONLY —
+# no library has checked it, so the site may show it as "may be covered, ask
+# your library" and never as a price. Empty list: nothing is recorded.
+other_institutions:
+  consortium_suffixes: ["jisc"]
+
 # Usage monitoring.
 #
 # GoatCounter is used because it fits the same constraints as the rest of the

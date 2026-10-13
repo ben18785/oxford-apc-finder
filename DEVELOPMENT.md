@@ -162,6 +162,26 @@ the page as a count — a chart that silently drops its tail reads as complete.
 GoatCounter outage costs the site a chart, never a refresh, and leaves the
 previous `usage.json` in place rather than overwriting real history with zeros.
 
+### Other universities
+
+`fetch_jct.py` also writes `data/out/institutions.json`: for every other
+institution in the consortia named by `other_institutions.consortium_suffixes`
+(`jisc` is the UK), the running agreements that list it as a participant, and
+those agreements' title lists. It costs no extra requests, because every
+agreement file is downloaded anyway.
+
+This is agreement data and nothing else. Oxford's answers are that data checked
+against the JCT API and corrected from the Bodleian's page; nobody has done
+either for anyone else, and the unchecked data has been wrong for Oxford in the
+direction that costs an author money. So the rule for anything built on this
+file is fixed: it may say "an agreement is listed that may cover this, ask your
+library", and it may never state or imply a price. An agreement that has passed
+its end date, could not be fetched, or has no readable end date is left out
+rather than flagged.
+
+Oxford is deliberately absent from the file, and nothing that writes it can
+fail the build. Nothing on the site reads it yet.
+
 ### The subfield sweep runs quarterly, not weekly
 
 `inclusion.top_journals_per_subfield` finds the leading journals inside each of
