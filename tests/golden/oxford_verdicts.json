@@ -599,5 +599,45 @@
   "sorts_as_free": false,
   "title": "Fixture Journal The JCT API Disowns",
   "waiver": false
+ },
+ "9990-0005": {
+  "cost": {
+   "kind": "covered_conditional",
+   "note": "Oxford has an agreement covering this journal, but the agreement appears only on the Bodleian's page, not in the Journal Checker Tool's data, so its title list, terms and end date could not be checked. Confirm before submitting rather than assuming £0.",
+   "reasons": [
+    "the agreement appears only on the Bodleian's page, not in the Journal Checker Tool's data, so its title list, terms and end date could not be checked"
+   ]
+  },
+  "deal": {
+   "basis": "The Bodleian's publisher deals page lists an Oxford agreement with Bentham Science. The Journal Checker Tool's data does not carry it, so there is no title list, end date or cross-check behind this result — only the Bodleian's description. Matched because its publisher is recorded as Bentham Science Publishers.",
+   "caveats": [
+    "You must be the corresponding author of the accepted article.",
+    "You must be publishing a journal article — these deals cannot be used for other research outputs.",
+    "You must submit using your Oxford email address (@ox.ac.uk) so the publisher can identify you as Oxford-affiliated.",
+    "You must select a CC BY licence when prompted.",
+    "Most deals do not cover extras such as page or colour charges.",
+    "The Bodleian describes this agreement as covering Bentham's full collection. Added to its page in October 2026."
+   ],
+   "conditions": {
+    "capacity_limited": false,
+    "funders_only": null,
+    "unlisted_agreement": true
+   },
+   "correction": null,
+   "discount_pct": null,
+   "disputed": null,
+   "esac_id": null,
+   "expired": null,
+   "status": "covered"
+  },
+  "shown": {
+   "cost_label": "£0 if eligible — but confirm first",
+   "disputed": false,
+   "expired": false,
+   "status": "covered"
+  },
+  "sorts_as_free": true,
+  "title": "Fixture Journal With A Bodleian-Only Agreement",
+  "waiver": false
  }
 }

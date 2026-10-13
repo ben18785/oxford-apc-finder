@@ -78,6 +78,8 @@ def check_cost_claims(data: dict) -> list[str]:
             risks.append("the agreement has a capped annual allowance")
         if cond.get("funders_only"):
             risks.append("coverage is restricted by funder")
+        if cond.get("unlisted_agreement"):
+            risks.append("the agreement is not in the Journal Checker Tool's data")
 
         # This mirrors the precedence in merge.effective_cost, deliberately and
         # independently: a conflict outranks every other doubt, because if we
@@ -269,8 +271,15 @@ def check_oracle(data: dict, cfg: dict) -> list[str]:
     # sample once the data is fixed, while still rotating week to week.
     rng = random.Random(datetime.now(timezone.utc).strftime("%Y-%m-%d"))
     n = cfg["validation"]["oracle_sample_size"]
-    covered = [j for j in data["journals"] if j["deal"]["status"] == "covered"]
-    uncovered = [j for j in data["journals"] if j["deal"]["status"] != "covered"]
+    # An agreement taken from the Bodleian's page because JCT does not carry
+    # it cannot be checked against JCT: the oracle would report every one as
+    # an over-claim, which is the premise of the entry, not a fault in it.
+    # Those journals are left out of both samples. They never state a settled
+    # £0 — the invariant above sees to that.
+    in_jct_terms = [j for j in data["journals"]
+                    if not (j["deal"].get("conditions") or {}).get("unlisted_agreement")]
+    covered = [j for j in in_jct_terms if j["deal"]["status"] == "covered"]
+    uncovered = [j for j in in_jct_terms if j["deal"]["status"] != "covered"]
 
     # Stratified BY AGREEMENT, one journal from each.
     #
