@@ -32,9 +32,11 @@ import requests
 from common import OUT, load_config, read_json, utcnow, write_json
 
 TIMEOUT = 30
-# GoatCounter paginates; this is plenty for a site of this size and bounds the
-# work if a misconfigured beacon ever starts emitting unbounded distinct paths.
-PAGE_LIMIT = 500
+# GoatCounter returns at most 100 paths per call and silently clamps anything
+# larger, so the list has to be paged. MAX_PAGES bounds the work if a
+# misconfigured beacon ever starts emitting unbounded distinct paths.
+PAGE_LIMIT = 100
+MAX_PAGES = 50
 
 # "All time" has to start somewhere. This predates the site, so nothing earlier
 # can exist — and the date actually published is derived from the first day
@@ -77,6 +79,59 @@ def _api(base: str, path: str, token: str, params: dict) -> dict | None:
             return None
     print(f"  {path}: still rate limited — skipping")
     return None
+
+
+def _hits(base: str, token: str, window: dict) -> list[dict] | None:
+    """Every path in the window, following GoatCounter's pagination.
+
+    A page is the 100 busiest paths not yet seen; the next one is asked for by
+    excluding the path IDs already returned. Reading only the first page
+    dropped the tail of journals from the lookup count once there were more
+    than 100 distinct paths, with nothing to say so.
+
+    Returns None if any page fails: a partial list would be published as a
+    complete count, and None is what callers already treat as "no answer".
+    """
+    hits: list[dict] = []
+    seen: list[str] = []
+    for _ in range(MAX_PAGES):
+        params = {**window, "limit": PAGE_LIMIT}
+        if seen:
+            params["exclude_paths"] = ",".join(seen)
+        resp = _api(base, "/stats/hits", token, params)
+        if resp is None:
+            return None
+        page = resp.get("hits") or []
+        hits.extend(page)
+        ids = [str(h["path_id"]) for h in page if h.get("path_id") is not None]
+        seen.extend(ids)
+        # A page without path IDs gives the next request nothing to exclude,
+        # so it would return the same page again.
+        if not resp.get("more") or not ids:
+            return hits
+    print(f"  /stats/hits: stopped after {MAX_PAGES} pages — counts are partial")
+    return hits
+
+
+def visitor_counts(totals: dict) -> dict:
+    """Visitors to the site itself, and to its events, from /stats/total.
+
+    GoatCounter counts visitors, not page loads: one browser on one network
+    within eight hours is one visitor to a path however often it reloads.
+    `total` includes the events, so every journal opened and every missed
+    search would inflate it; visitors to the page are the difference.
+
+    An empty `totals` means the call did not come back, and the figures are
+    then omitted rather than reported as zero.
+    """
+    if not any(isinstance(totals.get(k), int)
+               for k in ("total", "total_utc", "total_events")):
+        return {}
+    return {
+        "visitors": max(0, _first_int(totals, "total", "total_utc")
+                        - _first_int(totals, "total_events")),
+        "interactions": _first_int(totals, "total_events"),
+    }
 
 
 def _first_int(d: dict, *names: str) -> int:
@@ -141,12 +196,7 @@ def totals_block(hits: list[dict] | None, totals: dict,
     would print it in bold.
     """
     if hits is None:
-        return {
-            "since": since,
-            "page_loads": max(0, _first_int(totals, "total", "total_utc")
-                              - _first_int(totals, "total_events")),
-            "interactions": _first_int(totals, "total_events"),
-        }
+        return {"since": since, **visitor_counts(totals)}
     journals: dict[str, int] = {}
     for h in hits:
         parsed = split_journal_path(h.get("path", ""))
@@ -154,11 +204,7 @@ def totals_block(hits: list[dict] | None, totals: dict,
             journals[parsed[2]] = journals.get(parsed[2], 0) + (h.get("count", 0) or 0)
     return {
         "since": since,
-        # `total` counts events too, so page loads are the difference — every
-        # journal opened and every missed search would otherwise inflate it.
-        "page_loads": max(0, _first_int(totals, "total", "total_utc")
-                          - _first_int(totals, "total_events")),
-        "interactions": _first_int(totals, "total_events"),
+        **visitor_counts(totals),
         "journal_views": sum(journals.values()),
         "distinct_journals_viewed": len(journals),
     }
@@ -220,17 +266,9 @@ def summarise(hits: list[dict], locations: list[dict], totals: dict,
         "generated": utcnow(),
         "window_days": cfg.get("window_days", 90),
         # GoatCounter's /stats/total returns `total`, `total_events` and
-        # `total_utc` — and nothing else. There is no unique-visitor figure in
-        # the API, so none is published: a lookup that fell through to 0 printed
-        # "0 visitors" next to "18 sessions", which is worse than saying nothing.
-        #
-        # `total` also COUNTS the events, so it is not a page-load count either:
-        # every journal opened and every missed search inflates it. Page loads
-        # are the difference.
+        # `total_utc`, and all three are visitor counts — see visitor_counts.
         "totals": {
-            "page_loads": max(0, _first_int(totals, "total", "total_utc")
-                              - _first_int(totals, "total_events")),
-            "interactions": _first_int(totals, "total_events"),
+            **visitor_counts(totals),
             "journal_views": total_views,
             "distinct_journals_viewed": len(ranked),
             "countries": len(locations),
@@ -294,7 +332,7 @@ def main() -> None:
 
     print(f"Reading usage from {base} ({window['start']} → {window['end']})")
     totals = _api(base, "/stats/total", token, window) or {}
-    hits_resp = _api(base, "/stats/hits", token, {**window, "limit": PAGE_LIMIT}) or {}
+    hits = _hits(base, token, window) or []
     loc_resp = _api(base, "/stats/locations", token, {**window, "limit": PAGE_LIMIT}) or {}
 
     # The rolling window drives the charts, but "how much has this been used at
@@ -302,11 +340,8 @@ def main() -> None:
     # answers it wrongly the moment the tool is older than 90 days.
     all_window = {"start": ALL_TIME_START, "end": end.isoformat()}
     all_totals = _api(base, "/stats/total", token, all_window) or {}
-    all_hits_resp = _api(base, "/stats/hits", token,
-                         {**all_window, "limit": PAGE_LIMIT})
-    all_hits = all_hits_resp.get("hits") or [] if all_hits_resp is not None else None
+    all_hits = _hits(base, token, all_window)
 
-    hits = hits_resp.get("hits") or []
     locations = loc_resp.get("stats") or []
 
     if not hits and not totals:
@@ -328,8 +363,8 @@ def main() -> None:
     # A site that has counted nothing yet has nothing to say. Publishing zeros
     # would put a "How this site is used" link in the footer leading to a page
     # of noughts, which reads as a broken feature rather than a new one.
-    if (not usage["all_time"]["page_loads"]
-            and not usage["all_time"]["journal_views"]):
+    if (not usage["all_time"].get("visitors")
+            and not usage["all_time"].get("journal_views")):
         print("No traffic counted yet — not publishing a usage page.")
         return
 
@@ -339,8 +374,11 @@ def main() -> None:
     lookups = (f"{a['journal_views']:,} journal lookups across "
                f"{a['distinct_journals_viewed']:,} journals"
                if "journal_views" in a else "journal counts unavailable")
-    print(f"Usage since {a['since'] or '?'}: {a['page_loads']:,} page loads, {lookups}")
-    print(f"  last {usage['window_days']} days: {t['page_loads']:,} page loads, "
+    def visitors(block: dict) -> str:
+        return (f"{block['visitors']:,} visitors" if "visitors" in block
+                else "visitor count unavailable")
+    print(f"Usage since {a['since'] or '?'}: {visitors(a)}, {lookups}")
+    print(f"  last {usage['window_days']} days: {visitors(t)}, "
           f"{t['distinct_journals_viewed']:,} journals looked up "
           f"({usage['withheld']['journals']} below the publication floor)")
 
