@@ -4,10 +4,17 @@ name: Link check
 # link is a data error, not a cosmetic one.
 #
 # Two modes. The weekly run checks the links the live site serves, taken from
-# the last successful refresh, and keeps one rolling issue open while any are
-# dead. A pull request checks only the links it adds itself: the live data's
-# links come from the refresh and no PR can change them, so checking those
-# there failed every PR for rot unrelated to the change.
+# the last successful refresh. A pull request checks only the links it adds
+# itself: the live data's links come from the refresh and no PR can change
+# them, so checking those there failed every PR for rot unrelated to the change.
+#
+# The weekly run keeps two kinds of link apart. The site's own (the Bodleian
+# and JCT pages, publisher-deal pages in the curated overlay, API endpoints)
+# are this project's to fix: any dead one goes in one rolling issue. Journal
+# homepages come from OpenAlex and DOAJ metadata and cannot be fixed here;
+# 4% of them were dead on the first real run, and that list of 270 hid the one
+# publisher-deal link that had moved. They are counted in the run summary and
+# kept as a downloadable report, and never open an issue.
 on:
   schedule:
     - cron: '43 6 * * 2'          # Tuesdays, the day after the data refresh
@@ -53,7 +60,18 @@ jobs:
           fi
           gh run download "$run_id" --name links --dir .
           echo "found=true" >> "$GITHUB_OUTPUT"
-          wc -l links.txt
+          # A refresh from before the two kinds were told apart published one
+          # list. Check all of it as the site's own, as this job used to,
+          # rather than let an unsorted list go unreported.
+          if [ -f links-own.txt ]; then
+            mv links-own.txt own.txt
+            grep -vxFf own.txt links.txt > journals.txt || true
+          else
+            mv links.txt own.txt
+            : > journals.txt
+          fi
+          wc -l own.txt journals.txt
+          [ -s journals.txt ] && echo "journals=true" >> "$GITHUB_OUTPUT" || true
 
       - name: List the links this pull request adds
         id: pr_links
@@ -61,10 +79,10 @@ jobs:
         env:
           BASE: ${{ github.base_ref }}
         run: |
-          python3 .github/scripts/added_links.py "origin/$BASE" > links.txt
-          if [ -s links.txt ]; then
+          python3 .github/scripts/added_links.py "origin/$BASE" > own.txt
+          if [ -s own.txt ]; then
             echo "found=true" >> "$GITHUB_OUTPUT"
-            echo "This PR adds $(wc -l < links.txt) link(s):"; cat links.txt
+            echo "This PR adds $(wc -l < own.txt) link(s):"; cat own.txt
           else
             echo "found=false" >> "$GITHUB_OUTPUT"
             echo "This PR adds no links — nothing to check."
@@ -74,7 +92,12 @@ jobs:
       # by default now) and exits on an unknown argument before checking
       # anything. With `fail: false` that was silent — every run "found dead
       # links" and filed an issue whose report was empty.
-      - name: Check the links
+      #
+      # The question is whether a reader's browser would get the page, so the
+      # checker names itself as a browser and a refusal is not counted as dead:
+      # 401, 403 and 429 are sites turning a robot away, and so in practice are
+      # 405 and 418 (IEEE Xplore answers "I'm a teapot" to anything automated).
+      - name: Check the site's own links
         id: lychee
         if: steps.links.outputs.found == 'true' || steps.pr_links.outputs.found == 'true'
         uses: lycheeverse/lychee-action@v2
@@ -84,31 +107,75 @@ jobs:
             --max-concurrency 8
             --timeout 30
             --max-retries 2
-            --accept 200,206,301,302,303,307,308,401,403,429
-            links.txt
+            --user-agent "Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0"
+            --accept 200,206,301,302,303,307,308,401,403,405,418,429
+            own.txt
           output: lychee-report.md
           fail: false
+
+      - name: Check this week's sample of journal links
+        id: journals
+        if: steps.links.outputs.journals == 'true'
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --max-concurrency 8
+            --timeout 30
+            --max-retries 2
+            --user-agent "Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0"
+            --accept 200,206,301,302,303,307,308,401,403,405,418,429
+            journals.txt
+          output: journal-links-report.md
+          fail: false
+
+      # Counted, not reported: see the note at the top of this file.
+      - name: Summarise the journal links
+        if: steps.links.outputs.journals == 'true'
+        run: |
+          {
+            echo "## Journal links (this week's sample)"
+            echo
+            echo "From OpenAlex and DOAJ metadata, so not fixable in this repository."
+            echo "The full list is in the \`lychee-report\` artifact."
+            echo
+            # The report's summary table, without its per-link list.
+            sed -n '/^| Status/,/^$/p' journal-links-report.md
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - uses: actions/upload-artifact@v4
         if: steps.links.outputs.found == 'true' || steps.pr_links.outputs.found == 'true'
         with:
           name: lychee-report
-          path: lychee-report.md
+          path: |
+            lychee-report.md
+            journal-links-report.md
 
-      # One rolling issue rather than a new one each week.
       - name: Ensure the label exists
         if: steps.lychee.outputs.exit_code != 0 && github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh label create broken-links --color D93F0B --description "Link checker found a dead URL" --force
 
+      # One rolling issue rather than a new one each week: an open one is
+      # rewritten with this week's report.
+      - name: Find the open issue, if there is one
+        id: issue
+        if: steps.lychee.outputs.exit_code != 0 && github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "number=$(gh issue list --label broken-links --state open --limit 1 \
+                           --json number --jq '.[0].number // empty')" >> "$GITHUB_OUTPUT"
+
       - name: Report broken links
         if: steps.lychee.outputs.exit_code != 0 && github.event_name != 'pull_request'
         uses: peter-evans/create-issue-from-file@v5
         with:
-          title: Dead links found in the published data
+          title: Dead links among the site's own sources
           content-filepath: lychee-report.md
           labels: broken-links
+          issue-number: ${{ steps.issue.outputs.number }}
 
       - name: Fail the PR check on a broken link it adds
         if: steps.lychee.outputs.exit_code != 0 && github.event_name == 'pull_request'

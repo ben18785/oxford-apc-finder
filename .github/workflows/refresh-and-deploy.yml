@@ -144,12 +144,14 @@ jobs:
       # The link checker runs on its own schedule and has no dataset of its
       # own (data/out is not committed), so publish the URL list here.
       - name: Collect the URLs the site can show
-        run: python pipeline/collect_links.py --out links.txt
+        run: python pipeline/collect_links.py --out links.txt --own-out links-own.txt
 
       - uses: actions/upload-artifact@v4
         with:
           name: links
-          path: links.txt
+          path: |
+            links.txt
+            links-own.txt
           retention-days: 30
 
       - uses: actions/configure-pages@v5

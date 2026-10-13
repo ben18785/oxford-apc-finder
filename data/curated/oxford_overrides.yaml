@@ -97,7 +97,7 @@ entries:
       pct: 20
       applies_to: "SAGE fully gold open access journals"
       match_publisher_regex: "(?i)^SAGE"
-    source_extra: "https://uk.sagepub.com/en-gb/eur/uk-jisc-agreement"
+    source_extra: "https://www.sagepub.com/journals/information-for-authors/publishing-options/open-access-agreements/uk-jisc-agreement"
 
   - kind: caveat
     match_esac_prefix: "sn"
