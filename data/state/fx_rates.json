@@ -1,7 +1,7 @@
 {
  "base": "GBP",
  "date": "2026-10-13",
- "retrieved": "2026-10-13T21:32:49Z",
+ "retrieved": "2026-10-14T12:56:07Z",
  "source": {
   "label": "European Central Bank reference rates (via Frankfurter)",
   "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html"

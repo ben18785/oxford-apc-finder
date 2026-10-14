@@ -3,6 +3,10 @@
 What the site said, and when it changed. Generated automatically by
 `pipeline/changelog.py` on every refresh — newest entry first.
 
+## 2026-10-14
+
+- **3** journals added, **0** removed, **0** changed.
+
 ## 2026-10-13
 
 - **0** journals added, **0** removed, **0** changed.
