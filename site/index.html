@@ -51,16 +51,13 @@
              aria-label="Search journals" spellcheck="false">
     </div>
     <div class="controls">
-      <label class="toggle">
-        <input type="checkbox" id="elsewhere">
-        <span>I'm not at Oxford</span>
-      </label>
-      <span class="sortbox" id="inst-wrap" hidden>
-        <label for="inst-q">My university</label>
+      <span class="sortbox" id="inst-wrap">
+        <label for="inst">My university</label>
         <input id="inst-q" type="search" placeholder="Type to find it" autocomplete="off"
-               spellcheck="false" aria-controls="inst">
-        <select id="inst" aria-label="Your university">
-          <option value="">not listed</option>
+               spellcheck="false" aria-label="Find your university" aria-controls="inst" hidden>
+        <select id="inst">
+          <option value="052gg0110">University of Oxford</option>
+          <option value="">another university</option>
         </select>
       </span>
       <label class="toggle oxford-only">

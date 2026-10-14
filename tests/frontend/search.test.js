@@ -1177,17 +1177,34 @@ chain.then(function () {
     function reset() {
       el("#q").value = ""; el("#free-only").checked = false; runSearch();
     }
-    setElsewhere(true);
+    function options() {
+      return (el("#inst").innerHTML.match(/<option value="[0-9a-z]+">/g) || []).length;
+    }
+    function type(text, enter) {
+      el("#inst-q").value = text;
+      return typeInstitution(enter);
+    }
+    /* Oxford is the default: the list shows it and nothing else changes. */
+    setElsewhere(false);
+    renderInstOptions();
+    check("university: Oxford is chosen until something else is",
+      el("#inst").value === OXFORD_ROR && !elsewhere() && institution() === null);
     var inst, flagged, plainHtml, plainCells, freeBefore;
-    return setInstitution("").then(function () {
+    return chooseUniversity("").then(function () {
+      check("university: choosing another university leaves Oxford's view",
+        elsewhere() && el("#inst").value === "" && institution() === null
+        && localStorage.getItem(ELSEWHERE_KEY) === "1");
       reset();
       plainHtml = el("#results").innerHTML;
       plainCells = costCells(plainHtml).join("|");
       el("#free-only").checked = true; runSearch();
       freeBefore = STATE.results.map(function (r) { return r.id; }).join(",");
-      check("university: the list is offered once not at Oxford",
-        el("#inst").innerHTML.indexOf("<option value=\"") !== -1
-        && el("#inst-wrap").hidden === false);
+      check("university: the list holds Oxford, then another, then the universities",
+        el("#inst").innerHTML.indexOf("<option value=\"052gg0110\">University of Oxford")
+          === 0
+        && el("#inst").innerHTML.indexOf("another university (not listed)") !== -1
+        && options() === STATE.instData.institutions.length + 1
+        && el("#inst-q").hidden === false);
       check("university: Oxford is not on the list",
         !STATE.instData.institutions.some(function (i) {
           return i.ror === "052gg0110" || i.name === "University of Oxford"; }));
@@ -1270,13 +1287,6 @@ chain.then(function () {
       /* Finding a university by typing. Derived from whichever names this
        * dataset holds, so it runs on the fixtures and on the real list. */
       var all = STATE.instData.institutions;
-      function options() {
-        return (el("#inst").innerHTML.match(/<option value="[0-9a-z]+">/g) || []).length;
-      }
-      function type(text, enter) {
-        el("#inst-q").value = text;
-        return typeInstitution(enter);
-      }
       var other = all.filter(function (i) { return i !== inst; })[0];
       var words = foldName(other.name).split(" ");
       check("university search: every name finds itself, whatever its case or punctuation",
@@ -1288,7 +1298,7 @@ chain.then(function () {
         foldName("Universit\u00e9 d'\u00c9vry") === "universite devry");
       return type("zzqx no such place").then(function () {
         check("university search: no match says so and keeps the chosen university",
-          el("#inst").innerHTML.indexOf("no match") !== -1 && options() === 1
+          el("#inst").innerHTML.indexOf("no match") !== -1 && options() === 2
           && STATE.inst === inst && el("#inst").value === inst.ror
           && el("#inst-warning").hidden === false);
         return type(words[0].slice(0, 2));
@@ -1296,7 +1306,7 @@ chain.then(function () {
         var hits = matchInstitutions(words[0].slice(0, 2));
         check("university search: typing narrows the list without choosing among several",
           hits.length < 2 || (STATE.inst === inst
-            && options() === hits.length + (hits.indexOf(inst) === -1 ? 1 : 0)));
+            && options() === 1 + hits.length + (hits.indexOf(inst) === -1 ? 1 : 0)));
         return type(other.name);
       }).then(function () {
         var hits = matchInstitutions(other.name);
@@ -1315,18 +1325,28 @@ chain.then(function () {
         return type("");
       }).then(function () {
         check("university search: clearing the box restores the list and unchooses nothing",
-          options() === all.length && STATE.inst !== null);
-        return setInstitution(inst.ror);
+          options() === all.length + 1 && STATE.inst !== null);
+        return type("University of Oxford");
+      }).then(function () {
+        check("university search: typing Oxford's full name goes back to Oxford",
+          !elsewhere() && el("#inst").value === OXFORD_ROR && institution() === null
+          && el("#inst-warning").hidden === true);
+        el("#inst-q").value = "";
+        return chooseUniversity(inst.ror);
+      }).then(function () {
+        check("university: choosing a listed university leaves Oxford's view for it",
+          elsewhere() && institution() === inst && el("#inst").value === inst.ror);
       });
     }).then(function () {
       /* Back at Oxford, nothing of the other university may remain. */
-      setElsewhere(false);
+      return chooseUniversity(OXFORD_ROR);
+    }).then(function () {
       el("#deal-only").checked = true;
       reset();
       var html = el("#results").innerHTML;
       check("university: back at Oxford, no flag and no warning remain",
         html.indexOf("badge listed") === -1 && el("#inst-warning").hidden === true
-        && el("#inst-wrap").hidden === true && listedAgreements(flagged[0].id).length === 0);
+        && el("#inst").value === OXFORD_ROR && listedAgreements(flagged[0].id).length === 0);
       check("university: back at Oxford, the Oxford deal column is back",
         html.indexOf("<th>Oxford deal</th>") !== -1);
       /* If the title lists cannot be loaded: the warning, and no flags. */
