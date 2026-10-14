@@ -1913,7 +1913,8 @@ function matchInstitutions(q) {
 }
 
 /* The list narrowed to what has been typed. Oxford, the default, always heads
- * it and "another university" always follows, so neither can be typed away.
+ * it and "another university" always ends it, so neither can be typed away;
+ * last, because it is the choice to make once the list has nothing better.
  * The university already chosen also stays whatever is typed: dropping it
  * would leave the list showing something other than what the warning and the
  * flags name. Without the list of universities (a dataset that predates it, or
@@ -1928,10 +1929,10 @@ function renderInstOptions() {
   const shown = chosen && chosen !== OXFORD && !hits.includes(chosen) ? [chosen, ...hits] : hits;
   const opt = (i) => `<option value="${esc(i.ror)}">${esc(i.name)}</option>`;
   $("#inst").innerHTML = opt(OXFORD)
-    + `<option value="">${listed ? "another university (not listed)" : "another university"}</option>`
     + (foldName(q) && !matchInstitutions(q).length
       ? `<option disabled>no match — try the full name</option>` : "")
-    + shown.map(opt).join("");
+    + shown.map(opt).join("")
+    + `<option value="">${listed ? "another university (not listed)" : "another university"}</option>`;
   $("#inst").value = chosen ? chosen.ror : "";
   return matchInstitutions(q);
 }
