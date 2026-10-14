@@ -81,8 +81,8 @@ export function buildEmail(matches, opts) {
   const unsubscribe = (opts && opts.unsubscribe) || "";
   const n = matches.length;
   const subject = n === 1
-    ? `Oxford APC Finder: ${matches[0].title} changed`
-    : `Oxford APC Finder: ${n} of your journals changed`;
+    ? `Journal APC Finder: ${matches[0].title} changed`
+    : `Journal APC Finder: ${n} of your journals changed`;
 
   const body = [
     n === 1

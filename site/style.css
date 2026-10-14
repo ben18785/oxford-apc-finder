@@ -520,6 +520,8 @@ a.btn { color: #fff; }
 /* Not at Oxford (any "My university" but Oxford): everything that only means something to an Oxford
  * author is hidden rather than reworded. */
 body.elsewhere .oxford-only { display: none !important; }
+/* And the reverse, for the few words that only make sense away from Oxford. */
+body:not(.elsewhere) .elsewhere-only { display: none !important; }
 
 /* A university other than Oxford. The warning is the loudest thing in the
  * view on purpose: what follows it is unchecked agreement data. */
