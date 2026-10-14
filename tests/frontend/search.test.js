@@ -1213,10 +1213,10 @@ chain.then(function () {
       plainCells = costCells(plainHtml).join("|");
       el("#free-only").checked = true; runSearch();
       freeBefore = STATE.results.map(function (r) { return r.id; }).join(",");
-      check("university: the list holds Oxford, then another, then the universities",
+      check("university: the list holds Oxford, then the universities, then another",
         el("#inst").innerHTML.indexOf("<option value=\"052gg0110\">University of Oxford")
           === 0
-        && el("#inst").innerHTML.indexOf("another university (not listed)") !== -1
+        && /another university \(not listed\)<\/option>$/.test(el("#inst").innerHTML)
         && options() === STATE.instData.institutions.length + 1
         && el("#inst-q").hidden === false);
       check("university: Oxford is not on the list",
