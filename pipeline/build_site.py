@@ -129,8 +129,8 @@ def write_institutions(journals: list[dict], datadir) -> bool:
     before this existed. The site then offers no university list.
 
     Two files, because the second is large and most readers never need it:
-      institutions.json      who is in which agreement — read when a reader
-                             says they are not at Oxford;
+      institutions.json      who is in which agreement — read on every page
+                             load, as it fills the "My university" list;
       agreement_titles.json  each agreement's journals, as site journal ids —
                              read only once a university is chosen.
 

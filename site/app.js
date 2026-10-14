@@ -1775,13 +1775,16 @@ function starButton(id) {
  * panel rather than slipped in. */
 const ORCID_KEY = "oxford-apc-finder:orcid";
 
-/* "I'm not at Oxford". Off by default, remembered per browser, and turned on
- * by ?view=elsewhere so a link can be sent to colleagues at other
+/* Not at Oxford: any choice in "My university" but the University of Oxford,
+ * which is the default. Remembered per browser, and turned on by
+ * ?view=elsewhere or ?inst=<ROR> so a link can be sent to colleagues at other
  * institutions. Everything the site says about deals, discounts and the
  * Bodleian is about Oxford, so in this view only what holds for any author
  * is shown: whether the journal charges anyone at all. */
 const ELSEWHERE_KEY = "oxford-apc-finder:not-oxford";
-const elsewhere = () => { const b = $("#elsewhere"); return !!(b && b.checked); };
+const OXFORD_ROR = "052gg0110";
+const OXFORD = { ror: OXFORD_ROR, name: "University of Oxford" };
+const elsewhere = () => !!STATE.away;
 // Free to publish for anyone: diamond by publishing model, or in a diamond
 // scheme (which Oxford happens to fund, but which charges no author).
 const freeAnywhere = (r) => r.o === "diamond" || r.s === "diamond";
@@ -1791,14 +1794,21 @@ function generalFigure(r) {
   return { text: "depends on your institution", cls: "none" };
 }
 function setElsewhere(on) {
-  $("#elsewhere").checked = on;
+  STATE.away = !!on;
   try { localStorage.setItem(ELSEWHERE_KEY, on ? "1" : "0"); } catch { /* blocked */ }
   document.body.classList.toggle("elsewhere", on);
   $("#confirm-with").textContent = on
     ? "Always confirm with your institution's library or open access team before you submit."
     : "Always confirm with the Bodleian open access team before you submit.";
+  renderInstOptions();
   renderInstWarning();
-  if (on) loadInstitutions().then(renderInstWarning);
+}
+
+/* What a choice in "My university" means: Oxford, a listed university, or
+ * ("") a university the list does not have. */
+function chooseUniversity(ror, remember = true) {
+  setElsewhere(ror !== OXFORD_ROR);
+  return setInstitution(ror === OXFORD_ROR ? "" : ror, remember);
 }
 
 /* A university other than Oxford.
@@ -1850,7 +1860,6 @@ function renderInstWarning() {
   const html = instWarning();
   $("#inst-warning").innerHTML = html;
   $("#inst-warning").hidden = !html;
-  $("#inst-wrap").hidden = !(elsewhere() && STATE.instData);
 }
 
 async function loadInstitutions() {
@@ -1863,7 +1872,8 @@ async function loadInstitutions() {
   renderInstOptions();
 }
 
-/* Finding one university among 150 by typing part of its name.
+/* Finding one university among 150 by typing part of its name. Oxford is
+ * found the same way, so typing "oxford" offers it and Oxford Brookes.
  *
  * Case, accents, apostrophes and punctuation are ignored, and every word typed
  * must appear somewhere in the name, in any order: "kings london" finds
@@ -1875,7 +1885,7 @@ const foldName = (s) => String(s || "").normalize("NFD")
   .toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 
 function matchInstitutions(q) {
-  const all = (STATE.instData || {}).institutions || [];
+  const all = [OXFORD, ...((STATE.instData || {}).institutions || [])];
   const words = foldName(q).split(" ").filter(Boolean);
   if (!words.length) return all;
   return all.filter((i) => {
@@ -1884,20 +1894,28 @@ function matchInstitutions(q) {
   });
 }
 
-/* The list narrowed to what has been typed. The university already chosen
- * stays in it whatever is typed: dropping it would leave the list showing
- * "not listed" while the warning and the flags still named that university. */
+/* The list narrowed to what has been typed. Oxford, the default, always heads
+ * it and "another university" always follows, so neither can be typed away.
+ * The university already chosen also stays whatever is typed: dropping it
+ * would leave the list showing something other than what the warning and the
+ * flags name. Without the list of universities (a dataset that predates it, or
+ * a failed load), the two fixed choices are all there is, and the box to type
+ * in is hidden. */
 function renderInstOptions() {
-  const q = $("#inst-q").value;
-  const hits = matchInstitutions(q);
-  const chosen = STATE.inst;
-  const shown = chosen && !hits.includes(chosen) ? [chosen, ...hits] : hits;
-  const first = foldName(q) && !hits.length
-    ? "no match — try the full name" : "not listed";
-  $("#inst").innerHTML = `<option value="">${first}</option>`
-    + shown.map((i) => `<option value="${esc(i.ror)}">${esc(i.name)}</option>`).join("");
+  const listed = !!STATE.instData;
+  $("#inst-q").hidden = !listed;
+  const q = listed ? $("#inst-q").value : "";
+  const hits = matchInstitutions(q).filter((i) => i !== OXFORD);
+  const chosen = elsewhere() ? STATE.inst : OXFORD;
+  const shown = chosen && chosen !== OXFORD && !hits.includes(chosen) ? [chosen, ...hits] : hits;
+  const opt = (i) => `<option value="${esc(i.ror)}">${esc(i.name)}</option>`;
+  $("#inst").innerHTML = opt(OXFORD)
+    + `<option value="">${listed ? "another university (not listed)" : "another university"}</option>`
+    + (foldName(q) && !matchInstitutions(q).length
+      ? `<option disabled>no match — try the full name</option>` : "")
+    + shown.map(opt).join("");
   $("#inst").value = chosen ? chosen.ror : "";
-  return hits;
+  return matchInstitutions(q);
 }
 
 /* Typing chooses for you once only one university is left; until then it only
@@ -1906,8 +1924,8 @@ function typeInstitution(takeFirst = false) {
   const hits = renderInstOptions();
   if (!foldName($("#inst-q").value) || !hits.length) return Promise.resolve();
   if (hits.length > 1 && !takeFirst) return Promise.resolve();
-  if (hits[0] === STATE.inst) return Promise.resolve();
-  return setInstitution(hits[0].ror).then(runSearch);
+  if (hits[0] === (elsewhere() ? STATE.inst : OXFORD)) return Promise.resolve();
+  return chooseUniversity(hits[0].ror).then(runSearch);
 }
 
 async function setInstitution(ror, remember = true) {
@@ -1931,7 +1949,7 @@ async function setInstitution(ror, remember = true) {
   }
   STATE.inst = inst;
   STATE.instJournals = inst ? journals : null;
-  if (STATE.instData) renderInstOptions();
+  renderInstOptions();
   if (remember) {
     try { localStorage.setItem(INST_KEY, inst ? inst.ror : ""); } catch { /* blocked */ }
   }
@@ -2386,14 +2404,16 @@ function wireUI() {
   let away = /[?&]view=elsewhere(&|$)/.test(location.search || "");
   try { away = away || localStorage.getItem(ELSEWHERE_KEY) === "1"; } catch { /* blocked */ }
   // ?inst=<ROR> opens the view for one university, so a link can be sent to
-  // colleagues there. It implies not being at Oxford.
+  // colleagues there. Any university but Oxford implies not being at Oxford.
   let pick = ((location.search || "").match(/[?&]inst=([0-9a-z]{9})(&|$)/) || [])[1] || "";
-  if (pick) away = true;
+  if (pick) away = pick !== OXFORD_ROR;
   else { try { pick = localStorage.getItem(INST_KEY) || ""; } catch { /* blocked */ } }
   setElsewhere(away);
-  if (away && pick) setInstitution(pick, false).then(runSearch);
-  $("#elsewhere").addEventListener("change", (e) => { setElsewhere(e.target.checked); runSearch(); });
-  $("#inst").addEventListener("change", (e) => { setInstitution(e.target.value).then(runSearch); });
+  // The list is small (a few kilobytes) and is the control's own content now,
+  // so it is fetched for every reader, not only once Oxford is unchosen.
+  loadInstitutions().then(() => (away && pick
+    ? setInstitution(pick, false).then(runSearch) : renderInstOptions()));
+  $("#inst").addEventListener("change", (e) => { chooseUniversity(e.target.value).then(runSearch); });
   $("#inst-q").addEventListener("input", () => { typeInstitution(); });
   // Enter here would otherwise submit the journal search this box sits in.
   $("#inst-q").addEventListener("keydown", (e) => {
