@@ -1184,6 +1184,20 @@ chain.then(function () {
       el("#inst-q").value = text;
       return typeInstitution(enter);
     }
+    /* A choice saved by the first list, which could pick Oxford Brookes for
+     * anyone typing "oxford", is dropped once; a saved "not listed" is kept. */
+    localStorage.setItem(FIRST_LIST_KEY, "04v2twj65");
+    localStorage.setItem(ELSEWHERE_KEY, "1");
+    forgetFirstListChoice();
+    check("university: a choice saved by the first list is forgotten, back to Oxford",
+      localStorage.getItem(FIRST_LIST_KEY) === null
+      && localStorage.getItem(ELSEWHERE_KEY) === "0");
+    localStorage.setItem(FIRST_LIST_KEY, "");
+    localStorage.setItem(ELSEWHERE_KEY, "1");
+    forgetFirstListChoice();
+    check("university: a saved 'not listed' from the first list keeps its view",
+      localStorage.getItem(FIRST_LIST_KEY) === null
+      && localStorage.getItem(ELSEWHERE_KEY) === "1");
     /* Oxford is the default: the list shows it and nothing else changes. */
     setElsewhere(false);
     renderInstOptions();

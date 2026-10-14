@@ -1828,7 +1828,25 @@ function chooseUniversity(ror, remember = true) {
  * files fail to load, the warning still shows and no journal is flagged.
  *
  * None of this is read in the Oxford view: institution() is null there. */
-const INST_KEY = "oxford-apc-finder:institution";
+const INST_KEY = "oxford-apc-finder:university";
+
+/* The first version of the list (13-14 October 2026) did not contain Oxford,
+ * so typing "oxford" into it found one match, Oxford Brookes, chose it and
+ * remembered it, along with leaving Oxford's view. Every later visit then
+ * opened at Oxford Brookes. A choice saved by that version cannot be told
+ * apart from a deliberate one, so it is forgotten once, together with the
+ * not-at-Oxford setting it brought, and the page opens at Oxford. Anyone who
+ * did mean another university chooses it again. A saved "not listed" ("")
+ * was never chosen by typing, so it is left alone. */
+const FIRST_LIST_KEY = "oxford-apc-finder:institution";
+function forgetFirstListChoice() {
+  try {
+    const old = localStorage.getItem(FIRST_LIST_KEY);
+    if (old === null) return;
+    if (old) localStorage.setItem(ELSEWHERE_KEY, "0");
+    localStorage.removeItem(FIRST_LIST_KEY);
+  } catch { /* blocked */ }
+}
 const institution = () => (elsewhere() ? STATE.inst : null);
 
 function listedAgreements(id) {
@@ -2401,6 +2419,7 @@ function wireUI() {
   $("#search-form").addEventListener("submit", e => { e.preventDefault(); runSearch(); });
   $("#deal-only").addEventListener("change", runSearch);
   $("#free-only").addEventListener("change", runSearch);
+  forgetFirstListChoice();
   let away = /[?&]view=elsewhere(&|$)/.test(location.search || "");
   try { away = away || localStorage.getItem(ELSEWHERE_KEY) === "1"; } catch { /* blocked */ }
   // ?inst=<ROR> opens the view for one university, so a link can be sent to
