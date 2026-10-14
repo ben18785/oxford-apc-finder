@@ -1,4 +1,4 @@
-# Oxford Journal article processing charge (APC) Finder
+# Journal article processing charge (APC) Finder
 
 **[ben18785.github.io/oxford-apc-finder](https://ben18785.github.io/oxford-apc-finder/)**
 
@@ -6,12 +6,18 @@ I created this tool because I have often found it hard to understand whether pub
 
 Usually the information I want is ``how much would I have to pay if my article was accepted in this journal if I am the corresponding author?'', and that is what the tool aims to answer.
 
-This is an independent tool. It is not run by, endorsed by, or checked by the
-Bodleian Libraries or the University. The [Bodleian's publisher deals page](https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals)
+The site opens on the University of Oxford, the one university it covers in
+detail. Researchers elsewhere in the UK can choose their own university under
+**My university**; see [Other universities](#other-universities) below for
+what that does and does not tell you.
+
+This is an independent tool. It is not run by, endorsed by, or checked by any
+university or library, including the Bodleian Libraries and the University of
+Oxford. For Oxford, the [Bodleian's publisher deals page](https://www.bodleian.ox.ac.uk/open-research/open-access-publishing/journal-article/publisher-deals)
 is the authoritative source, and <oapayments@bodleian.ox.ac.uk> can give you an
 answer you can rely on.
 
-As such, please use this tool to scope out journal options and then email <oapayments@bodleian.ox.ac.uk> to be sure. **I am not responsible for paying for your APC if you act using only the tool and find the information it gives is wrong or misleading.**
+As such, please use this tool to scope out journal options and then email <oapayments@bodleian.ox.ac.uk> (or, elsewhere, your own library's open access team) to be sure. **I am not responsible for paying for your APC if you act using only the tool and find the information it gives is wrong or misleading.**
 
 ## Where the information comes from, and how it decides
 
@@ -57,6 +63,30 @@ The pipeline is a set of Python scripts applying explicit conditions to the sour
 rebuilt automatically each week, with the previous dataset kept for comparison
 so changes are recorded.
 
+## Other universities
+
+Choosing another university under **My university** (the list holds about 150
+UK universities, found by typing part of the name) changes two things, and
+neither is a price:
+
+- a warning, naming the university, on every page: the site holds no details
+  of that university's publisher deals beyond what the Journal Checker Tool
+  lists, nobody at its library has checked them, and that data has been wrong
+  for Oxford in the direction that costs an author money;
+- an amber "Agreement listed — ask your library" flag on journals in an
+  agreement the university takes part in, with the agreement identifier to
+  quote to the library.
+
+Costs are shown only where a journal charges nobody (diamond open access);
+every other journal reads "depends on your institution". Flagged journals are
+never counted, sorted or filtered as free. Choosing "another university (not
+listed)" gives the same view without the flags. The list is built from the
+UK-wide Jisc agreements in the Journal Checker Tool data, restricted to
+universities by their [ROR](https://ror.org) records.
+
+A link can open the site on a particular university: add `?inst=` and the
+university's ROR identifier, e.g. `?inst=04v2twj65` for Oxford Brookes.
+
 ## What it cannot tell you
 
 Whether a deal covers your article depends on your corresponding authorship,
@@ -80,6 +110,7 @@ shown on the page (e.g. `els2026jisc`) makes a report much easier to handle.
 - **OpenAlex**: CC0
 - **DOAJ** journal metadata: CC0; withdrawal changelog — CC BY-SA 4.0
 - **Bodleian publisher deals page**: facts only, linked at every use
+- **ROR** organisation registry (used to name and select universities): CC0
 
 Project code is MIT (see `LICENSE`). Building, running and testing the pipeline
 is documented in [DEVELOPMENT.md](DEVELOPMENT.md).

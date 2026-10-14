@@ -29,7 +29,7 @@ import { matchChanges, buildEmail } from "./digest.js";
 
 const SITE = "https://ben18785.github.io/oxford-apc-finder/";
 const CHANGES_URL = SITE + "data/changes.json";
-const FROM = "Oxford APC Finder <alerts@your-domain.example>";
+const FROM = "Journal APC Finder <alerts@your-domain.example>";
 
 // An unconfirmed subscription is an address nobody has agreed to us holding,
 // so it expires on its own rather than sitting in the store indefinitely.
@@ -48,9 +48,9 @@ const json = (obj, status = 200) =>
 
 const page = (text) =>
   new Response(`<!doctype html><meta charset="utf-8">
-    <title>Oxford APC Finder alerts</title>
+    <title>Journal APC Finder alerts</title>
     <body style="font:17px/1.5 Georgia,serif;max-width:34rem;margin:4rem auto;padding:0 1rem">
-    <p>${text}</p><p><a href="${SITE}">Back to the Oxford APC Finder</a></p>`,
+    <p>${text}</p><p><a href="${SITE}">Back to the Journal APC Finder</a></p>`,
     { headers: { "content-type": "text/html; charset=utf-8" } });
 
 const token = () =>
@@ -105,7 +105,7 @@ export default {
         JSON.stringify({ email, issns, at: Date.now() }),
         { expirationTtl: PENDING_TTL_SECONDS });
       const link = `${url.origin}/confirm?t=${t}`;
-      await sendMail(env, email, "Confirm your Oxford APC Finder alerts",
+      await sendMail(env, email, "Confirm your Journal APC Finder alerts",
         ["Somebody — probably you — asked for email alerts when Oxford's open",
          "access deals change for these journals:", "",
          ...issns.map((i) => `  ${i}`), "",

@@ -42,7 +42,7 @@ const EXPLAIN = {
   model_subscription: ["Subscription journal",
     "<p>Articles are behind a paywall and we hold no open access charge for this journal.</p><p>There is often nothing to pay, but some journals levy submission, page or colour charges that this site does not track — check the journal's author guidance.</p><p>If you need open access — for a funder mandate, say — ask the publisher what they charge.</p>"],
   transformative: ["Transformative agreement",
-    "<p>A contract between a publisher and a university — or, for most of Oxford's, a consortium such as Jisc negotiating for UK universities — that folds subscription fees and open-access charges into a single payment.</p><p>Instead of the library paying to <em>read</em> and the author paying to <em>publish</em>, one deal covers both. That is why an eligible Oxford author pays nothing: the charge is settled centrally, not waived.</p><p>They are called “transformative” because they are meant to be temporary. The intent is to move a subscription journal to fully open access, so each one has an end date and is renegotiated. Each also carries its own conditions — which article types qualify, which licence you must choose, and sometimes a cap on how many articles a year are covered. That is why coverage here is not the same as a guarantee for your particular article.</p>"],
+    "<p>A contract between a publisher and a university — or, for most UK universities, a consortium such as Jisc negotiating on their behalf — that folds subscription fees and open-access charges into a single payment.</p><p>Instead of the library paying to <em>read</em> and the author paying to <em>publish</em>, one deal covers both. That is why an eligible author at a participating university pays nothing: the charge is settled centrally, not waived.</p><p>They are called “transformative” because they are meant to be temporary. The intent is to move a subscription journal to fully open access, so each one has an end date and is renegotiated. Each also carries its own conditions — which article types qualify, which licence you must choose, and sometimes a cap on how many articles a year are covered. That is why coverage here is not the same as a guarantee for your particular article.</p>"],
   inclusion: ["What gets listed here",
     "<p>This is not every journal in existence. A journal is listed if <em>any</em> of these is true:</p><ul><li>Oxford has a deal covering it, or the Bodleian lists a discount for its publisher</li><li>It is in the Directory of Open Access Journals</li><li>Its publisher is one of about 95 established publishers, societies and university presses on a vetted list</li><li>It appears in a transformative agreement <em>anywhere in the world</em>, not only Oxford\u2019s</li><li>It is among the 15,000 most-cited journals worldwide</li><li>It is among the leading journals <em>within its own subfield</em> \u2014 there are 252 of those, so every discipline gets its own ranking rather than competing with biomedicine</li><li>This site has listed it before \u2014 kept for a year, so coverage cannot shrink just because a source had a bad day</li></ul><p>Journals withdrawn from DOAJ for misconduct-type reasons are excluded, whoever publishes them.</p><p>The subfield rule is there because a global citation ranking is not neutral between disciplines: it reaches the sciences long before law or the humanities, where scholarship cites in footnotes that citation indexes do not capture. The Law Quarterly Review records 131 citations where a top-200 law journal would need 27,371 \u2014 no worldwide ranking will ever find it, but a ranking <em>within law</em> can. The vetted publisher list covers what is left, and it will always be missing someone. If a journal you expected is absent, use <strong>\u201cJournal missing? Tell us\u201d</strong>: the rules need widening more often than the journal is genuinely out of scope.</p>"],
   waiver: ["APC waivers available",
@@ -198,8 +198,8 @@ function showStalenessWarning(generated) {
   const el = $("#stale-banner");
   el.innerHTML = `\u26a0 This data was last rebuilt <strong>${days} days ago</strong>
     (${esc(generated.slice(0, 10))}). The automatic refresh may have stopped.
-    Deals may have changed since — check the
-    <a href="${esc(STATE.config.bodleian_deals)}" target="_blank" rel="noopener">Bodleian deals page</a>
+    Deals may have changed since — check with your library (at Oxford, the
+    <a href="${esc(STATE.config.bodleian_deals)}" target="_blank" rel="noopener">Bodleian deals page</a>)
     before relying on anything here.`;
   el.hidden = false;
 }
@@ -1628,13 +1628,15 @@ function showDisclaimer() {
     <h2 id="detail-title">Disclaimer</h2>
     <div class="detail-section disclaimer-body">
       <p><strong>This is an independent, unofficial tool.</strong> It is not run by,
-        endorsed by, or checked by the Bodleian Libraries or the University of Oxford,
-        and nothing on it is an offer, entitlement, or decision about funding.</p>
+        endorsed by, or checked by any university or library, including the Bodleian
+        Libraries and the University of Oxford, and nothing on it is an offer,
+        entitlement, or decision about funding.</p>
 
       <h4>The information may be wrong or out of date</h4>
       <p>Everything here is assembled automatically from third-party sources
-        (the Journal Checker Tool, OpenAlex, DOAJ) plus a hand-maintained reading of
-        the Bodleian's published deals page. Those sources are themselves incomplete,
+        (the Journal Checker Tool, OpenAlex, DOAJ) plus, for Oxford only, a
+        hand-maintained reading of the Bodleian's published deals page. For any other
+        university the agreement data has not been checked by anyone. Those sources are themselves incomplete,
         and they disagree with each other more often than you would expect. The data is
         rebuilt on a schedule, so it always lags reality: a deal can start, change,
         hit its annual cap, or end between rebuilds.</p>
@@ -1655,8 +1657,9 @@ function showDisclaimer() {
       <p>The information is provided "as is", without warranty of any kind, express or
         implied. The maintainers accept no liability for any loss, cost, or charge arising
         from reliance on it — including any article processing charge you become liable
-        for. If you need an answer you can rely on, ask
-        <a href="mailto:${esc(c.contact)}">${esc(c.contact)}</a>; the Bodleian's
+        for. If you need an answer you can rely on, ask your library's open access
+        team. At Oxford that is
+        <a href="mailto:${esc(c.contact)}">${esc(c.contact)}</a>, and the Bodleian's
         <a href="${esc(c.bodleian_deals)}" target="_blank" rel="noopener">publisher deals page</a>
         is the authoritative source, not this one.</p>
 
@@ -1680,15 +1683,16 @@ function showAbout() {
   $("#detail-body").innerHTML = `
     <h2 id="detail-title">About &amp; methodology</h2>
     <div class="detail-section">
-      <p>This tool helps ${esc(c.title.includes("Oxford") ? "Oxford" : "")} researchers find whether the University's open-access agreements cover a given journal, and what publishing there costs once a deal is applied.</p>
+      <p>This tool helps researchers find whether their university's open-access agreements cover a given journal, and what publishing there costs once a deal is applied.</p>
+      <p>It is detailed for one university, Oxford, and the default view is Oxford's: there the agreement data is checked against the Bodleian's own deals page and corrected where the two disagree, and costs are shown. For other UK universities, chosen under “My university”, it shows only which journals their agreements list, from the Journal Checker Tool alone, with no costs: nobody has checked that data, and it has been wrong for Oxford in the direction that costs an author money.</p>
       <h4>Where the data comes from</h4>
       <ul class="caveats">
-        <li><strong>Deal coverage:</strong> the cOAlition S <a href="https://journalcheckertool.org/transformative-agreements/" target="_blank" rel="noopener">Journal Checker Tool</a> public transformative-agreement data (CC BY 4.0), filtered to Oxford's ROR, plus a hand-curated overlay for discounts and diamond deals taken from the <a href="${esc(c.bodleian_deals)}" target="_blank" rel="noopener">Bodleian deals page</a>.</li>
+        <li><strong>Deal coverage:</strong> the cOAlition S <a href="https://journalcheckertool.org/transformative-agreements/" target="_blank" rel="noopener">Journal Checker Tool</a> public transformative-agreement data (CC BY 4.0), filtered to each university's ROR identifier; for Oxford, plus a hand-curated overlay for discounts and diamond deals taken from the <a href="${esc(c.bodleian_deals)}" target="_blank" rel="noopener">Bodleian deals page</a>.</li>
         <li><strong>Journal metadata &amp; APC list prices:</strong> <a href="https://openalex.org" target="_blank" rel="noopener">OpenAlex</a> (CC0) and <a href="https://doaj.org" target="_blank" rel="noopener">DOAJ</a> (metadata CC0). DOAJ's <a href="${esc(c.doaj_withdrawn_changelog)}" target="_blank" rel="noopener">withdrawal changelog</a> is separately licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>, and is credited wherever a withdrawal reason is quoted.</li>
         <li><strong>Quality filter:</strong> journals are included only if they're deal-covered, in DOAJ, or from a vetted publisher; journals withdrawn from DOAJ for misconduct-type reasons are excluded. The tool never labels a journal “predatory”.</li>
         <li><strong>When sources disagree:</strong> the Journal Checker Tool and the Bodleian's own page do not always say the same thing about a publisher. Rather than silently picking one, those journals carry a “sources disagree” warning showing both claims, and you should confirm with the open access team before relying on the figure.</li>
       </ul>
-      <p class="cost-note">Everything is rebuilt automatically each week by deterministic scripts, with outbound links checked for rot. This is an independent tool, not an official Bodleian Libraries service. Confirm eligibility at ${esc(c.contact)}.</p>
+      <p class="cost-note">Everything is rebuilt automatically each week by deterministic scripts, with outbound links checked for rot. This is an independent tool, not an official service of any university or library. Confirm eligibility with your library's open access team (at Oxford, ${esc(c.contact)}).</p>
       <p class="src"><a href="https://github.com/${esc(c.github_repo)}" target="_blank" rel="noopener">Source code &amp; issue tracker ↗</a></p>
     </div>`;
   $("#detail-modal").hidden = false;
@@ -2035,7 +2039,8 @@ async function showOrcid() {
   const form = (message) => `
     <h2 id="detail-title">Journals you publish in</h2>
     <p>Give your <a href="https://orcid.org" target="_blank" rel="noopener">ORCID iD</a>
-      and this page will show what Oxford's deals mean for the journals you
+      and this page will show ${elsewhere() ? "what this site knows about"
+        : "what Oxford's deals mean for"} the journals you
       actually publish in — read from your public ORCID record.</p>
     ${message ? `<p class="warn">${esc(message)}</p>` : ""}
     <p><input class="share-box" id="orcid-input" style="max-width:22rem"
@@ -2213,7 +2218,7 @@ function enquiryText(rows, esacs) {
   lines.push("Many thanks,");
   lines.push("");
   lines.push("---");
-  lines.push("Compiled with the Oxford APC Finder, an unofficial tool:");
+  lines.push("Compiled with the Journal APC Finder, an unofficial tool:");
   lines.push(shareLink(rows.map((r) => r.id)));
   lines.push(`Its figures are automated and may be out of date (data generated ${(STATE.generated || "").slice(0, 10)}).`);
   return lines.join("\n");
