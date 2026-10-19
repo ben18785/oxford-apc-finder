@@ -3,6 +3,34 @@
 What the site said, and when it changed. Generated automatically by
 `pipeline/changelog.py` on every refresh — newest entry first.
 
+## 2026-10-19
+
+- **33** journals added, **2** removed, **21** changed.
+
+### Price changes (16)
+
+- Transport Problems (1896-0596): 350 → 400
+- Mucosal Immunology (1933-0219): 3714 → 3902
+- Pan African Medical Journal (1937-8688): 180 → 700
+- Journal of nanostructure in chemistry (2008-9244): 3136 → 1929 GBP
+- International nano letters. (2008-9295): 3052 → 1012 GBP
+- Value in Health Regional Issues (2212-1099): 2040 → 2066
+- JCI Insight (2379-3708): 4900 → 5000
+- JAMA Health Forum (2689-0186): 3000 → 4000
+- PAMJ Clinical Medicine (2707-2797): 200 → 500
+- PAMJ - One Health (2707-2800): 200 → 500
+- Psychiatry Research Case Reports (2773-0212): 808 → 1062
+- International Journal of Equine Science (2805-3109): 300 → 400
+- Journal of Medicine Surgery and Public Health (2949-916X): 1615 → 850
+- Computational Journal of Mathematical and statistical Sciences (2974-3435): 100 → 700
+- Socious Journal (3032-677X): 700000 → —
+- The Lancet Regional Health - Africa (3050-5011): — → 638 USD
+
+### Removed (2)
+
+- Frontiers of Agricultural Science and Engineering (2095-7505)
+- Naukovij vìsnik veterinarnoï medicini (2310-4902)
+
 ## 2026-10-14
 
 - **3** journals added, **0** removed, **0** changed.
