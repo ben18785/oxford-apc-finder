@@ -3,6 +3,95 @@
 What the site said, and when it changed. Generated automatically by
 `pipeline/changelog.py` on every refresh — newest entry first.
 
+## 2026-10-26
+
+- **88** journals added, **19** removed, **60** changed.
+
+### Deal status changes (7)
+
+- Sociologie du Travail (0038-0296): `none` → `discount`
+- Publications mathématiques de l IHÉS (0073-8301): `none` → `discount`
+- Journal of Arid Land (1674-6767): `none` → `discount`
+- Alter (1875-0672): `none` → `discount`
+- International journal of energy and environmental engineering (2008-9163): `none` → `discount`
+- Progress in Biomaterials (2194-0509): `none` → `discount`
+- npj Clean Energy (3059-2232): `none` → `discount`
+
+### Price changes (50)
+
+- Journal of Clinical Investigation (0021-9738): 5700 → 5800
+- Forum Geografi (0852-0682): 3000000 → 450 USD
+- Indonesian Journal of Biotechnology (0853-8654): 200 → 300
+- Journal of Epidemiology (0917-5040): 180000 → 250000
+- Marine ornithology (1018-3337): 500 → 1000
+- Wacana Jurnal Sosial dan Humaniora (1411-0199): 450000 → 1500000
+- New Medicine (1427-0994): 200 → 2400
+- Journal of Rehabilitation Medicine (1650-1977): 1750 → 2200
+- AL-Kauniyah Jurnal Biologi (1978-3736): 1000000 → 1500000
+- Jurnal Ulunnuha (2086-3721): 750000 → 800000
+- Jurnal Pembangunan dan Alam Lestari (2087-3522): 1200000 → 1500000
+- Akademik Yaklaşımlar Dergisi (2146-1740): — → 5000 TRY
+- İnönü University International Journal of Social Sciences (INIJOSS) (2147-0936): — → 5000 TRY
+- İnönü Üniversitesi Sağlık Hizmetleri Meslek Yüksek Okulu Dergisi (2147-7892): — → 10000 TRY
+- Turkish Journal of Orthodontics (2148-9505): — → 250 USD
+- Translational Pediatrics (2224-4336): — → 1900 USD
+- Journal of Aquaculture and Fish Health (2301-7309): — → 750000 IDR
+- SISTEMASI (2302-8149): — → 100 USD
+- Chinese Clinical Oncology (2304-3865): — → 1650 USD
+- HepatoBiliary Surgery and Nutrition (2304-3881): — → 1900 USD
+- Diponegoro Journal of Economics (2337-3814): — → 750000 IDR
+- Jurnal Teknoif Teknik Informatika Institut Teknologi Padang (2338-2724): 500000 → 800000
+- PEDAGOGIK Jurnal Pendidikan (2354-7960): — → 5000000 IDR
+- Babcock University Medical Journal (2465-6666): 200 → 300
+- Collabra Psychology (2474-7394): 975 → 1450
+- İNİF E - Dergi (2528-9519): — → 5000 TRY
+- International Journal of Health Sciences and Pharmacy (2581-6411): — → 3000 INR
+- AgroEnvironmental Sustainability (2583-942X): 30 → 35
+- Automotive Experiences (2615-6202): 275 → 350
+- افکار (2616-8588): — → 50 USD
+- International Journal of Modern Education Studies (2618-6209): — → 250 USD
+- JCIS Open (2666-934X): — → 1946 USD
+- Tetrahedron Chem (2666-951X): — → 2304 USD
+- Jurnal Ilmu Ekonomi dan Bisnis Islam (2686-6633): 500000 → 2500000
+- Online Learning In Educational Research (OLER) (2798-2351): 150 → 750
+- Lentera Perawat (2830-1846): 650000 → 750000
+- International Journal of Advanced Business Studies (2940-2735): 100 → 150
+- Artificial Intelligence Chemistry (2949-7477): — → 1284 USD
+- International Journal of Emerging Engineering and Technology (2958-3764): — → 250 USD
+- Journal of Technology Informatics and Engineering (2961-8215): 20 → —
+- International Journal of Graphic Design (2987-9434): 25 → —
+- Neurology Open Access (2998-7601): — → 2300 USD
+- Discover Imaging. (3004-9776): 1139 → 842 GBP
+- al-Turāṯ al-adabī (3005-7426): — → 13000 PKR
+- AI Thermal Fluids (3050-5852): 2125 → —
+- Glycoscience & Therapy (3050-6085): 0 → 595
+- Geopsychiatry (3050-7138): 2125 → —
+- Women Education and Social Welfare (3064-2469): — → 300 USD
+- International Journal of Studies in Sexuality Education (3079-5710): 400 → 500
+- International Journal of Studies in Systematic Reviews (3135-2391): 400 → 500
+
+### Removed (19)
+
+- Proceedings - International Computer Software & Applications Conference (0730-3157)
+- ITI ... (1330-1012)
+- Jurnal Keperawatan Indonesia (1410-4490)
+- Proceedings (1550-4093)
+- Proceedings (1550-4794)
+- Proceedings (1550-4808)
+- Proceedings (1550-6185)
+- Proceedings (1550-6215)
+- Technical digest -- IEEE Compound Semiconductor Integrated Circuit Symposium (1550-8781)
+- Reciis (1981-6278)
+- dObra[s] – revista da Associação Brasileira de Estudos de Pesquisas em Moda (1982-0313)
+- Rumores (1982-677X)
+- Revista de Gestão e Negócios do Esporte (2448-3052)
+- SocioEconomic Challenges (2520-6214)
+- Business Ethics and Leadership (2520-6311)
+- Financial Markets Institutions and Risks (2521-1242)
+- Diálogo com a Economia Criativa (2525-2828)
+- Interexpo GEO-Siberia (2618-981X)
+- Health Economics and Management Review (2786-4626)
+
 ## 2026-10-19
 
 - **33** journals added, **2** removed, **21** changed.
