@@ -3,6 +3,63 @@
 What the site said, and when it changed. Generated automatically by
 `pipeline/changelog.py` on every refresh — newest entry first.
 
+## 2026-11-02
+
+- **52** journals added, **22** removed, **35** changed.
+
+### Deal status changes (4)
+
+- Geomatica (0008-5103): `none` → `discount`
+- International Journal of Anthropology (0393-9383): `discount` → `none`
+- Société Internationale d’Urologie Journal (2563-6499): `discount` → `none`
+- Sustainable Cities and Society Advances (3051-052X): `none` → `discount`
+
+### Price changes (18)
+
+- Pravo - teorija i praksa (0352-3713): 25000 → 250 EUR
+- Current The Journal of Marine Education (0889-5546): 860 → 923
+- Hangkong cailiao xuebao (1005-5053): 1500 → 3000
+- Journal of agricultural and resource economics (1068-5502): 1691 → 2215
+- The Journal of venomous animals and toxins including tropical diseases (1678-9180): 425 → 765
+- Journal of Kinesiology and Exercise Sciences (1731-0652): — → 250 EUR
+- International Journal of the Commons (1875-0281): 740 → 815
+- Journal of Open Humanities Data (2059-481X): 760 → 1070
+- Stability International Journal of Security and Development (2165-2627): 250 → 350
+- Journal of Daylighting (2383-8701): — → 1000 USD
+- ARENA Journal of Architectural Research (2397-0820): — → 130 GBP
+- International Journal of Medical Sciences and Academic Research (2582-7197): 100 → 250
+- International Transactions on Electrical Engineering and Computer Science (2583-6471): — → 50 USD
+- Heritage Memory and Conflict (2666-5050): 750 → 1000
+- Studies in Engineering Education (2690-5450): 1000 → —
+- Advances in Rehabilitation Science and Practice (2753-6351): 2120 → 2560
+- RSC Applied Polymers (2755-371X): — → 2200 GBP
+- GIornale Italiano di Psicologia e Medicina del Lavoro (2785-1338): 49 → —
+
+### Removed (22)
+
+- Digest of papers - IEEE Symposium on Mass Storage Systems (1051-9173)
+- Proceedings (1074-6005)
+- Ambiente Construído (1415-8876)
+- Proceedings - International Workshop on Advance Issues of E-Commerce and Web-Based Information Systems/Proceedings (1530-1354)
+- Proceedings (1550-4441)
+- Economics and Law (1681-6277)
+- Volume graphics ... (1727-8376)
+- International Siberian workshops and tutorials on electron devices and materials (1815-3712)
+- Proceedings of the VLDB Endowment (2150-8097)
+- AtoZ novas práticas em informação e conhecimento (2237-826X)
+- Exploratory Animal and Medical Research (2277-470X)
+- GI_Forum (2308-1708)
+- Proceedings of the International Symposium on Human Factors and Ergonomics in Health Care (2327-8579)
+- Journal of Law and Regulation (2446-5259)
+- Proceeding of Mulawarman Pharmaceuticals Conferences (2614-4778)
+- Food Frontiers (2643-8429)
+- eFood (2666-3066)
+- Herald of Kiev Institute of Business and Technology (2707-1820)
+- Turkish Journal of Science and Health (2717-7173)
+- Food Safety and Health (2835-1096)
+- Future Postharvest and Food (2837-6846)
+- Proceedings of the international conference of contemporary affairs in architecture and urbanism-ICCAUA. (3023-7009)
+
 ## 2026-10-26
 
 - **88** journals added, **19** removed, **60** changed.
