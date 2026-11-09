@@ -3,6 +3,33 @@
 What the site said, and when it changed. Generated automatically by
 `pipeline/changelog.py` on every refresh — newest entry first.
 
+## 2026-11-09
+
+- **1365** journals added, **3** removed, **24** changed.
+
+### Deal status changes (4)
+
+- Allergologia et Immunopathologia (0301-0546): `discount` → `none`
+- Heterocycles (0385-5414): `discount` → `none`
+- Veterinary Anaesthesia and Analgesia (1467-2987): `none` → `discount`
+- Mathematical sciences (2008-1359): `none` → `discount`
+
+### Price changes (7)
+
+- Utrecht Journal of International and European Law (0927-460X): 450 → —
+- International Journal of Research in Pharmaceutical Sciences (0975-7538): — → 100 USD
+- Psychotherapie-Wissenschaft (1664-9583): — → 1500 CHF
+- Journal of the Belgian Society of Radiology (1780-2393): 483 → —
+- JOURNAL OF RESEARCH IN TRADITIONAL MEDICINE (2455-3166): 50 → 80 EUR
+- Trends in Pediatrics (2718-0085): — → 250 USD
+- IEEE Transactions on Privacy (2836-208X): 1050 → 2160
+
+### Removed (3)
+
+- DiLEF (2785-7980)
+- Worldwide Journal of Physics (3006-0486)
+- Journal of Precision Medicine and Health Research (3106-9495)
+
 ## 2026-11-02
 
 - **52** journals added, **22** removed, **35** changed.
